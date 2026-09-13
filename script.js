@@ -7,7 +7,7 @@
    ========================================================================= */
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
    Shown as "Last updated: ..." in the footer of all 8 pages. */
-var LAST_UPDATED = "11 September 2026";
+var LAST_UPDATED = "13 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");
