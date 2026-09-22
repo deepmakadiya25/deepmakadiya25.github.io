@@ -613,9 +613,9 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 .swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
 
 /* =========================================================================
-   THE DARK MODE SWITCH (just under the colour circles)
-   A pill in the current scheme's accent colour, with a sun at one end and a
-   moon at the other, and a round knob that slides between them. Whichever
+   THE DARK MODE SWITCH (at the top of the appearance block)
+   A pill in the current scheme's accent colour, sitting above the colour
+   circles, with a sun at one end and a moon at the other, and a round knob that slides between them. Whichever
    icon the knob is sitting on is drawn in white on the dark knob; the other
    stays dim on the coloured pill. Because the pill is --accent, the switch
    re-colours with every scheme, light and dark, and no scheme needs its own
@@ -624,7 +624,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
    script.js) is what tells a screen reader whether it is on.
    To make the switch bigger, scale the four numbers marked "size".
    ========================================================================= */
-.mode-picker{ margin-top:1.6rem; text-align:left; }
+.mode-picker{ margin:0 0 1.7rem; text-align:left; }
 .mode-toggle{
   display:inline-block; padding:0; border:0; background:none;
   line-height:0; cursor:pointer;

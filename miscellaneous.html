@@ -69,15 +69,45 @@
       <a href="miscellaneous.html" class="active">Miscellaneous</a>
     </nav>
 
-    <!-- COLOUR PICKER — clicking a circle re-colours the whole site, and the
-         choice is remembered in the visitor's browser. Each circle's LEFT half
-         is that scheme's accent (--sw-a), its RIGHT half the paper colour
-         (--sw-b); "title" is the hover tooltip. They appear in the order
-         listed, five per row. This block is repeated on all 8 pages — change
-         it everywhere if you add, remove or re-order a circle. The colours
-         themselves live in styles.css under "COLOUR SCHEMES".
+    <!-- APPEARANCE — the dark mode switch, then the colour circles. Both
+         blocks are repeated on all 9 pages with a sidebar, so any change
+         here has to be made on every one of them.
          =================================================================== -->
     <div class="theme-picker">
+      <!-- DARK MODE — switches between the light and dark version of
+           whichever colour is chosen below. The choice is remembered in the
+           visitor's browser; until they touch it, the site follows the
+           light/dark setting of their phone or laptop. The "Dark mode"
+           label is plain text and does nothing; only the switch is
+           clickable. The sun and moon are drawn in the page, not images —
+           whichever one the sliding knob is sitting on turns white. -->
+      <div class="mode-picker">
+        <p class="theme-picker-label">Dark mode</p>
+        <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
+          <span class="mode-track">
+            <span class="mode-ico mode-ico-sun">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                   stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="4.2"/>
+                <path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
+              </svg>
+            </span>
+            <span class="mode-ico mode-ico-moon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/>
+              </svg>
+            </span>
+            <span class="mode-knob"></span>
+          </span>
+        </button>
+      </div>
+      <!-- COLOUR PICKER — clicking a circle re-colours the whole site, and the
+           choice is remembered in the visitor's browser. Each circle's LEFT
+           half is that scheme's accent (--sw-a), its RIGHT half the paper
+           colour (--sw-b); "title" is the hover tooltip. They appear in the
+           order listed, five per row — change it everywhere if you add,
+           remove or re-order a circle. The colours themselves live in
+           styles.css under "COLOUR SCHEMES". -->
       <p class="theme-picker-label">Colour</p>
       <div class="swatches">
           <button type="button" class="swatch" data-set-theme="cream"
@@ -112,34 +142,6 @@
                   title="Dusk Blue" aria-label="Dusk Blue colour scheme"></button>
       </div>
 
-      <!-- DARK MODE — switches between the light and dark version of
-           whichever colour is chosen above. The choice is remembered in the
-           visitor's browser; until they touch it, the site follows the
-           light/dark setting of their phone or laptop. The "Dark mode"
-           label is plain text and does nothing; only the switch is
-           clickable. The sun and moon are drawn in the page, not images —
-           whichever one the sliding knob is sitting on turns white. This
-           block is repeated on all 9 pages with a sidebar. -->
-      <div class="mode-picker">
-        <p class="theme-picker-label">Dark mode</p>
-        <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
-          <span class="mode-track">
-            <span class="mode-ico mode-ico-sun">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                   stroke-linecap="round" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="12" r="4.2"/>
-                <path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
-              </svg>
-            </span>
-            <span class="mode-ico mode-ico-moon">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-                <path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/>
-              </svg>
-            </span>
-            <span class="mode-knob"></span>
-          </span>
-        </button>
-      </div>
     </div>
   </aside>
   <div class="overlay" id="overlay"></div>
