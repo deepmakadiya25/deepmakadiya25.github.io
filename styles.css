@@ -1138,12 +1138,14 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    It never touches colour (that is the ten schemes) and never touches the
    typefaces (those are the five A circles), so any style works with any
    colour in either light or dark with any typeface.
-     1  Soft Card — the page is tinted and each part floats as a rounded card
+     1  Soft Card — the page is tinted, each part floats as a rounded card,
+                    and a short rule sits under each heading
      2  Classic   — everything above this block; no [data-style] rules at all
      3  Midnight  — the panel takes the scheme's own colour, ringed
                     portraits, matching accent rules above and below the tabs
-     4  Grove     — deeper paper, darker tab row, rule under headings
-     5  Contrast  — charcoal navigation panel, accent dash beside headings
+     4  Grove     — deeper paper and a darker tab row
+     5  Contrast  — charcoal navigation panel, a tinted tab for the page you
+                    are on, accent dash beside headings
    script.js writes data-style on <html>, plus data-panel="dark" for
    the three styles that use a dark navigation panel. Nothing is written
    for Classic, which is why Classic needs no rules of its own.
@@ -1216,11 +1218,10 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   font-size:.82rem; font-weight:700; margin:.8rem 0 0;
   background:var(--nav-hover); border-radius:999px; padding:.3rem .9rem;
 }
-/* The dot sits in the text flow at the card's left edge, with the heading
-   indented past it — the template's own alignment. Leave it alone. */
-[data-style="card"] h2.section-title{ display:flex; align-items:center; gap:.7rem; }
-[data-style="card"] h2.section-title::before{
-  content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none;
+/* A short rule UNDER each heading, flush with the card's left edge. */
+[data-style="card"] h2.section-title{ position:relative; padding-bottom:.65rem; }
+[data-style="card"] h2.section-title::after{
+  content:""; position:absolute; left:0; bottom:0; width:2.2rem; height:3px; background:var(--accent-soft);
 }
 [data-style="card"] .card-panel{ background:var(--inset-bg); border:0; border-radius:16px; padding:1.5rem 1.6rem; }
 [data-style="card"] .btn{
@@ -1233,6 +1234,9 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   background:var(--card-bg); border:1px solid var(--line); border-radius:999px;
   box-shadow:var(--card-shadow); margin:1rem 0 1.1rem;
   top:calc(var(--topbar-h) + .7rem);
+  /* Round the scrolling row itself, not just the bar behind it: without this
+     a tab scrolled to either end shows through the pill's curved corners. */
+  overflow:hidden;
 }
 [data-style="card"] .page-tabs{ padding:.55rem 2.3rem; gap:.4rem; }
 [data-style="card"] .page-tabs a{ border:0; border-radius:999px; font-weight:600; }
@@ -1306,10 +1310,11 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    alongside data-style. Each style then adds its own character below.
      3  Midnight — the panel takes the scheme's colour, the portrait gets a
                    ring, and a full accent rule closes the page header
-     4  Grove    — deeper paper, a filled tab for the current page, and a
-                   short rule UNDER each heading rather than beside it
-     5  Contrast — a neutral charcoal panel, a short accent dash before each
-                   heading, the portrait in a pale rounded frame
+     4  Grove    — deeper paper and a darker tab row; the sidebar and the
+                   headings are marked as in Styles 2 and 3
+     5  Contrast — a neutral charcoal panel, a softly tinted tab for the page
+                   you are on, a short accent dash before each heading, and
+                   the portrait in a pale rounded frame
    ------------------------------------------------------------------------- */
 
 /* ---- the panel's own palette, derived from the scheme ---- */
@@ -1392,7 +1397,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="midnight"] .page-tabs-wrap{ border-bottom:2px solid var(--accent); }
 [data-style="midnight"] .page-tabs a{ background:var(--placeholder-bg); }
 
-/* ---- 4 Grove: deeper paper, a darker tab row, a rule under headings ----
+/* ---- 4 Grove: deeper paper and a darker tab row ----
    The page itself takes a deeper, faintly tinted shade rather than the usual
    pale one, and the panels on it lift back up to the normal paper colour.
    That is what separates Grove from Midnight, which share a panel family. */
@@ -1477,16 +1482,10 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="grove"] table.teach td,
 [data-style="grove"] table.teach tr{ border-color:var(--grove-rule); }
 
-[data-style="grove"] .sidebar nav a{ border-radius:10px; }
-[data-style="grove"] .sidebar nav a.active{
-  color:var(--side-ink); border-left-color:transparent;
-  background:color-mix(in srgb, var(--side-accent) 20%, transparent);
-}
+/* The page you are on is marked the same way as in Styles 2 and 3 (the shared
+   [data-panel="dark"] rule above), and the headings carry no marker of their
+   own — also as in Styles 2 and 3. Nothing to state here for either. */
 [data-style="grove"] .sidebar .avatar{ border:0; }
-[data-style="grove"] h2.section-title{ position:relative; padding-bottom:.65rem; }
-[data-style="grove"] h2.section-title::after{
-  content:""; position:absolute; left:0; bottom:0; width:2.2rem; height:3px; background:var(--accent-soft);
-}
 [data-style="grove"] .hero-photo-frame{
   border:0; padding:0; border-radius:50%; box-shadow:0 8px 22px rgba(var(--shadow-rgb),.16);
 }
@@ -1523,6 +1522,12 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="contrast"] h2.section-title{ display:flex; align-items:center; gap:.75rem; }
 [data-style="contrast"] h2.section-title::before{
   content:""; width:1.15rem; height:2px; background:var(--accent); flex:none;
+}
+/* The page you are on: a softly tinted tab rather than the shared left rule. */
+[data-style="contrast"] .sidebar nav a{ border-radius:10px; }
+[data-style="contrast"] .sidebar nav a.active{
+  color:var(--side-ink); border-left-color:transparent;
+  background:color-mix(in srgb, var(--side-accent) 20%, transparent);
 }
 [data-style="contrast"] .btn{ border-radius:8px; }
 [data-style="contrast"] .page-tabs a{ border-radius:8px; }
