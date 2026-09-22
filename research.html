@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour scheme before the page paints, so
-     the default colours never flash first. Must stay here, above the
-     stylesheet. Nothing to edit. -->
-<script>(function(){try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<!-- Re-applies the visitor's saved colour scheme AND light/dark choice
+     before the page paints, so the default colours never flash first. If
+     they have never used the dark switch, their device's own light/dark
+     setting is followed. Must stay here, above the stylesheet.
+     Nothing to edit. -->
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode");if(t){d.setAttribute("data-theme",t);}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Research — Deep H. Makadiya</title>
 
 <!-- SEARCH RESULTS AND LINK PREVIEWS
@@ -28,11 +30,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;1,400;0,600&display=swap" rel="stylesheet">
+<!-- Tells the browser the site has a light and a dark version, so its own
+     scrollbars and form controls match the page. -->
+<meta name="color-scheme" content="light dark">
+
+<!-- ICONS — the small square shown on browser tabs, bookmarks, search
+     results and phone home screens. icon.svg is what current browsers use,
+     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
+     three sit in the site's top folder; the paths start with "/" so they
+     work from any page, including those in blogs/. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
 <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" defer></script>
 </head>
 <body>
+<!-- Invisible until someone navigating by keyboard presses Tab, when it
+     appears in the top-left corner. It jumps past the sidebar straight to
+     the page's text. Must stay the first thing inside <body>. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="layout">
 
   <aside class="sidebar" id="sidebar">
@@ -40,7 +59,7 @@
     <!-- Not an <h1>: every page already has one (its title), and search
          engines expect exactly one. Styled by ".sidebar-name" in styles.css. -->
     <p class="sidebar-name">Deep H. Makadiya</p>
-    <nav>
+    <nav aria-label="Main">
       <a href="index.html">Home</a>
       <a href="academics.html">Academics</a>
       <a href="research.html" class="active">Research</a>
@@ -91,6 +110,35 @@
                   style="--sw-a:#3d5d82;--sw-b:#e9eef4"
                   title="Dusk Blue" aria-label="Dusk Blue colour scheme"></button>
       </div>
+
+      <!-- DARK MODE — switches between the light and dark version of
+           whichever colour is chosen above. The choice is remembered in the
+           visitor's browser; until they touch it, the site follows the
+           light/dark setting of their phone or laptop. The "Dark mode"
+           label is plain text and does nothing; only the switch is
+           clickable. The sun and moon are drawn in the page, not images —
+           whichever one the sliding knob is sitting on turns white. This
+           block is repeated on all 9 pages with a sidebar. -->
+      <div class="mode-picker">
+        <p class="theme-picker-label">Dark mode</p>
+        <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
+          <span class="mode-track">
+            <span class="mode-ico mode-ico-sun">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                   stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="4.2"/>
+                <path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
+              </svg>
+            </span>
+            <span class="mode-ico mode-ico-moon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/>
+              </svg>
+            </span>
+            <span class="mode-knob"></span>
+          </span>
+        </button>
+      </div>
     </div>
   </aside>
   <div class="overlay" id="overlay"></div>
@@ -102,7 +150,7 @@
     <span class="topbar-title">Deep H. Makadiya</span>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class="wrap">
 
       <div class="page-header">
@@ -112,7 +160,7 @@
 
       <div class="page-tabs-wrap">
         <button type="button" class="tabs-arrow left" aria-label="Scroll tabs left">&#8249;</button>
-        <nav class="page-tabs">
+        <nav class="page-tabs" aria-label="Sections on this page">
           <a href="#interests">Areas of Interest</a>
           <a href="#publications">List of Publications</a>
           <a href="#overview">Research Overview</a>

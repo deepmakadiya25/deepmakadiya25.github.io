@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour scheme before the page paints, so
-     the default colours never flash first. Must stay here, above the
-     stylesheet. Nothing to edit. -->
-<script>(function(){try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<!-- Re-applies the visitor's saved colour scheme AND light/dark choice
+     before the page paints, so the default colours never flash first. If
+     they have never used the dark switch, their device's own light/dark
+     setting is followed. Must stay here, above the stylesheet.
+     Nothing to edit. -->
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode");if(t){d.setAttribute("data-theme",t);}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Deep H. Makadiya — Mathematics</title>
 
 <!-- SEARCH RESULTS AND LINK PREVIEWS
@@ -28,9 +30,74 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;1,400;0,600&display=swap" rel="stylesheet">
+<!-- Tells the browser the site has a light and a dark version, so its own
+     scrollbars and form controls match the page. -->
+<meta name="color-scheme" content="light dark">
+
+<!-- ICONS — the small square shown on browser tabs, bookmarks, search
+     results and phone home screens. icon.svg is what current browsers use,
+     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
+     three sit in the site's top folder; the paths start with "/" so they
+     work from any page, including those in blogs/. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
+
+<!-- STRUCTURED DATA — the same facts as the page above, written in the form
+     search engines read directly. Its job is to tie this site, both
+     spellings of your name and all nine of your profiles together into one
+     person, so a search for your name resolves to you rather than to
+     scattered fragments. Update it whenever your position, university or
+     profile list changes. It is data only — nothing here is displayed. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Deep H. Makadiya",
+  "alternateName": "Makadiya Deepkumar Hasamukhbhai",
+  "url": "https://deepmakadiya25.github.io/",
+  "image": "https://deepmakadiya25.github.io/photo.jpg",
+  "jobTitle": "Post-doctoral Fellow",
+  "description": "Post-doctoral fellow in mathematics working on the structure and automorphisms of twisted Chevalley groups over local and commutative rings.",
+  "worksFor": {
+    "@type": "CollegeOrUniversity",
+    "name": "Bar-Ilan University",
+    "url": "https://www.biu.ac.il/"
+  },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "Indian Institute of Technology Bombay", "url": "https://www.iitb.ac.in/" },
+    { "@type": "CollegeOrUniversity", "name": "Maharaja Sayajirao University of Baroda", "url": "https://www.msubaroda.ac.in/" }
+  ],
+  "knowsAbout": [
+    "Algebraic groups",
+    "Chevalley groups and algebras",
+    "Twisted Chevalley groups",
+    "Lie groups and Lie algebras",
+    "Representation theory"
+  ],
+  "identifier": "https://orcid.org/0009-0000-8410-471X",
+  "sameAs": [
+    "https://orcid.org/0009-0000-8410-471X",
+    "https://scholar.google.com/citations?user=v7X_OhYAAAAJ",
+    "https://arxiv.org/a/makadiya_d_1",
+    "https://zbmath.org/authors/makadiya.deep-h",
+    "https://mathscinet.ams.org/mathscinet/author?authorId=1687700",
+    "https://openalex.org/authors/a5116211205",
+    "https://github.com/deepmakadiya25",
+    "https://www.semanticscholar.org/author/Deep-H.-Makadiya/2344610145",
+    "https://www.researchgate.net/profile/Deep-Makadiya",
+    "https://www.linkedin.com/in/deep-makadiya"
+  ]
+}
+</script>
 </head>
 <body>
+<!-- Invisible until someone navigating by keyboard presses Tab, when it
+     appears in the top-left corner. It jumps past the sidebar straight to
+     the page's text. Must stay the first thing inside <body>. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="layout">
 
   <!-- SIDEBAR — the same on all 8 pages: photo, name, 6 page links.
@@ -44,7 +111,7 @@
     <!-- Not an <h1>: every page already has one (its title), and search
          engines expect exactly one. Styled by ".sidebar-name" in styles.css. -->
     <p class="sidebar-name">Deep H. Makadiya</p>
-    <nav>
+    <nav aria-label="Main">
       <a href="index.html" class="active">Home</a>
       <a href="academics.html">Academics</a>
       <a href="research.html">Research</a>
@@ -95,6 +162,35 @@
                   style="--sw-a:#3d5d82;--sw-b:#e9eef4"
                   title="Dusk Blue" aria-label="Dusk Blue colour scheme"></button>
       </div>
+
+      <!-- DARK MODE — switches between the light and dark version of
+           whichever colour is chosen above. The choice is remembered in the
+           visitor's browser; until they touch it, the site follows the
+           light/dark setting of their phone or laptop. The "Dark mode"
+           label is plain text and does nothing; only the switch is
+           clickable. The sun and moon are drawn in the page, not images —
+           whichever one the sliding knob is sitting on turns white. This
+           block is repeated on all 9 pages with a sidebar. -->
+      <div class="mode-picker">
+        <p class="theme-picker-label">Dark mode</p>
+        <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
+          <span class="mode-track">
+            <span class="mode-ico mode-ico-sun">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                   stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="4.2"/>
+                <path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
+              </svg>
+            </span>
+            <span class="mode-ico mode-ico-moon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/>
+              </svg>
+            </span>
+            <span class="mode-knob"></span>
+          </span>
+        </button>
+      </div>
     </div>
   </aside>
   <div class="overlay" id="overlay"></div>
@@ -106,7 +202,7 @@
     <span class="topbar-title">Deep H. Makadiya</span>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class="wrap">
 
       <!-- HOME HERO — photo on one side, name and role on the other. To use a
@@ -169,7 +265,7 @@
                login see limited information. Normal, and out of your control. -->
           <a class="btn" href="https://mathscinet.ams.org/mathscinet/author?authorId=1687700" target="_blank" rel="noopener">MathSciNet</a>
           <a class="btn" href="https://zbmath.org/authors/makadiya.deep-h" target="_blank" rel="noopener">zbMATH</a>
-          <a class="btn" href="https://openalex.org/authors/a5116211205" target="_blank" rel="noopener">OpenAlex</a>
+          <a class="btn" href="https://github.com/deepmakadiya25" target="_blank" rel="noopener">GitHub</a>
           <!-- PLACEHOLDER: points at the Math Genealogy front page, not at you.
                Replace with your own profile URL once it exists, or delete the
                button. -->

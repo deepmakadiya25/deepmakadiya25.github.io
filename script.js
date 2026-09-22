@@ -1,13 +1,14 @@
 /* =========================================================================
    Deep H. Makadiya — academic site. Shared by every page.
    Handles the mobile sidebar toggle, the in-page section tabs, the colour
-   picker, the "Last updated" line and the Abstract toggles.
+   picker, the dark mode switch, the "Last updated" line and the Abstract
+   toggles.
    The only line you normally edit here is LAST_UPDATED, just below; all
    your text lives in the .html files.
    ========================================================================= */
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
    Shown as "Last updated: ..." in the footer of all 8 pages. */
-var LAST_UPDATED = "13 September 2026";
+var LAST_UPDATED = "22 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");
@@ -115,6 +116,51 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   markActive();
+
+  // DARK MODE SWITCH (under the colour circles). It sets data-mode="dark" on
+  // <html>; styles.css carries a dark version of every colour scheme, so the
+  // whole site flips at once and the chosen colour is kept. The choice is
+  // saved in the visitor's browser and re-applied by the small script in
+  // each page's <head>. Until they touch the switch the site follows their
+  // device's own light/dark setting — and keeps following it even if that
+  // setting changes while the page is open. Nothing here needs editing when
+  // you add a colour scheme.
+  var MODE_KEY = "site-mode";
+  var modeToggle = document.getElementById("modeToggle");
+
+  function isDark() {
+    return document.documentElement.getAttribute("data-mode") === "dark";
+  }
+  function applyMode(mode) {
+    if (mode === "dark") {
+      document.documentElement.setAttribute("data-mode", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-mode");
+    }
+    if (modeToggle) {
+      modeToggle.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+    }
+  }
+
+  // Match the switch to whatever the <head> script already decided.
+  applyMode(isDark() ? "dark" : "light");
+
+  if (modeToggle) modeToggle.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    applyMode(next);
+    try { localStorage.setItem(MODE_KEY, next); } catch (e) {}
+  });
+
+  if (window.matchMedia) {
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+    var followSystem = function (e) {
+      var chosen = null;
+      try { chosen = localStorage.getItem(MODE_KEY); } catch (err) {}
+      if (!chosen) applyMode(e.matches ? "dark" : "light");   // only while unset
+    };
+    if (systemDark.addEventListener) { systemDark.addEventListener("change", followSystem); }
+    else if (systemDark.addListener) { systemDark.addListener(followSystem); }   // older Safari
+  }
 
   // "LAST UPDATED" — written into every page's footer from LAST_UPDATED at
   // the top of this file. The line stays hidden if no date is set.

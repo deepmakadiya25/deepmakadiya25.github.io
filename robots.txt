@@ -1,0 +1,12 @@
+# Everything on this site is open to search engines.
+# The only line that matters is the last one: it tells them where the
+# sitemap is, so they can find every page without crawling blindly.
+# If you ever want a page kept OUT of search results, do NOT list it here —
+# put <meta name="robots" content="noindex"> in that page's <head> instead.
+# A page blocked here can still be listed as a bare address, and the
+# crawler is never allowed to fetch it and read the noindex.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://deepmakadiya25.github.io/sitemap.xml

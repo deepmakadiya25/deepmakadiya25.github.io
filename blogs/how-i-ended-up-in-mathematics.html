@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Re-applies the visitor's saved colour scheme before the page paints, so
-     the default colours never flash first. Must stay here, above the
-     stylesheet. Nothing to edit. -->
-<script>(function(){try{var t=localStorage.getItem("site-theme");if(t){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();</script>
+<!-- Re-applies the visitor's saved colour scheme AND light/dark choice
+     before the page paints, so the default colours never flash first. If
+     they have never used the dark switch, their device's own light/dark
+     setting is followed. Must stay here, above the stylesheet.
+     Nothing to edit. -->
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode");if(t){d.setAttribute("data-theme",t);}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 
 <title>How I Ended Up in Mathematics — Deep H. Makadiya</title>
 
@@ -27,6 +29,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;1,400;0,600&display=swap" rel="stylesheet">
+<!-- Tells the browser the site has a light and a dark version, so its own
+     scrollbars and form controls match the page. -->
+<meta name="color-scheme" content="light dark">
+
+<!-- ICONS — the small square shown on browser tabs, bookmarks, search
+     results and phone home screens. icon.svg is what current browsers use,
+     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
+     three sit in the site's top folder; the paths start with "/" so they
+     work from any page, including those in blogs/. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="../styles.css">
 
 <!-- IF THIS POST NEEDS MATHS, paste the two MathJax lines from the <head> of
@@ -49,7 +63,12 @@
      text, one <p class="lede"> per paragraph. Keep "drop-cap" on the FIRST
      paragraph only — that is what sets its opening letter large. -->
 <body style="--topbar-h:0px;">
-<main>
+<!-- Invisible until someone navigating by keyboard presses Tab, when it
+     appears in the top-left corner. It jumps past the sidebar straight to
+     the page's text. Must stay the first thing inside <body>. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main" tabindex="-1">
   <div class="wrap">
 
     <p class="see-all"><a href="../index.html">&#8592; Home</a> &middot; <a href="../blogs.html">&#8592; All blogs</a></p>

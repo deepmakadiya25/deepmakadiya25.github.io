@@ -18,11 +18,14 @@
    ========================================================================= */
 
 :root{
-  /* ============ THE ELEVEN COLOURS THE WHOLE SITE IS DRAWN FROM ============
-     These are the default scheme, "Cream & Terracotta". Every other scheme
-     further down re-states exactly these eleven values and nothing else. */
+  /* =========== THE THIRTEEN COLOURS THE WHOLE SITE IS DRAWN FROM ==========
+     These are the default scheme, "Cream & Terracotta", in its light form.
+     Every other light scheme further down re-states the first eleven and
+     nothing else; the last two are the same in every light scheme, so they
+     are set only here. The dark half of each scheme is at the very bottom
+     of this file. */
   --ink:#2a2115;             
-  --muted:#8a7c66;           
+  --muted:#726654;           
   --line:#e6dcc8;            
   --cream:#f6f0e2;           
   --cream-2:#efe6d2;         /* sidebar background, cards, tinted tags */
@@ -32,6 +35,10 @@
   --nav-hover:#e6dac0;       /* sidebar nav link hover / active fill */
   --placeholder-bg:#fbf7ee;  /* dashed "add something here" tiles */
   --shadow-rgb:42,33,21;      /* photo-frame shadow, as red,green,blue */
+  --on-accent:#fff;           /* text drawn ON the accent — white button labels */
+  --swatch-ring:rgba(0,0,0,.25); /* the hairline rim around a colour circle */
+  --switch-bg:var(--accent);  /* the dark mode pill takes the scheme's colour */
+  --switch-dim:rgba(255,255,255,.58); /* the icon the knob is NOT sitting on */
 
   /* Height of the mobile/tablet top bar. It is 0 on laptops (no bar there);
      the responsive section at the bottom of this file sets it to 52px on
@@ -58,6 +65,25 @@ a{ color:var(--accent); text-decoration:underline; text-decoration-color:var(--a
    style stuck on whatever was last tapped — a second highlight beside the
    real one. Keep new :hover rules inside that guard. -------------------- */
 @media (hover: hover){ a:hover{ text-decoration-color:var(--accent); } }
+
+/* =========================================================================
+   SKIP LINK — the first thing on every page, but invisible until someone
+   navigating by keyboard presses Tab, when it appears in the top-left
+   corner. Activating it jumps past the sidebar (six links and ten colour
+   circles) straight to the page's text. Nothing to edit.
+   ========================================================================= */
+.skip-link{
+  position:absolute; top:0; left:-9999px;
+  z-index:200;                       /* above the mobile top bar, which is 26 */
+  background:var(--accent); color:var(--on-accent);
+  padding:.7rem 1.1rem; border-radius:0 0 8px 0;
+  font-family:"Lora",Georgia,serif; font-size:.9rem; text-decoration:none;
+}
+.skip-link:focus{ left:0; }
+/* The landing point. No focus ring — the jump itself is the feedback — and a
+   scroll margin so the mobile top bar never covers the first line. */
+main:focus{ outline:none; }
+main{ scroll-margin-top:var(--topbar-h); }
 
 /* =========================================================================
    LAYOUT: sidebar (left) + main content (right)
@@ -251,7 +277,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
   border-radius:999px; color:var(--accent); font-family:"Lora",serif; font-size:.88rem;
   text-decoration:none; transition:background .15s ease, color .15s ease;
 }
-@media (hover: hover){ .btn:hover{ background:var(--accent); color:#fff; } }
+@media (hover: hover){ .btn:hover{ background:var(--accent); color:var(--on-accent); } }
 
 /* =========================================================================
    Generic content sections (used on every inner page)
@@ -486,7 +512,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Mocha & Oat ---- */
 [data-theme="mocha"]{
-  --ink:#241d16; --muted:#7f7466; --line:#e3dacb;
+  --ink:#241d16; --muted:#72685c; --line:#e3dacb;
   --cream:#faf6ef; --cream-2:#f0e9dd; --accent:#5b4636;
   --accent-soft:#cbbaa6; --photo-bg:#ece3d4; --nav-hover:#e9e0cf;
   --placeholder-bg:#f7f2e9; --shadow-rgb:36,29,22;
@@ -494,7 +520,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Olive & Flax ---- */
 [data-theme="olive"]{
-  --ink:#262718; --muted:#7c7c63; --line:#e2dfc7;
+  --ink:#262718; --muted:#6d6d57; --line:#e2dfc7;
   --cream:#faf8ee; --cream-2:#f0eedd; --accent:#64682c;
   --accent-soft:#c8c9a0; --photo-bg:#ebe8d3; --nav-hover:#e8e5ce;
   --placeholder-bg:#f6f4e7; --shadow-rgb:38,39,24;
@@ -502,7 +528,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Graphite & Chalk ---- */
 [data-theme="graphite"]{
-  --ink:#222426; --muted:#767a7e; --line:#ddd9d3;
+  --ink:#222426; --muted:#676a6e; --line:#ddd9d3;
   --cream:#f7f6f4; --cream-2:#eceae6; --accent:#3f4348;
   --accent-soft:#c2c5c8; --photo-bg:#e6e3de; --nav-hover:#e4e1db;
   --placeholder-bg:#f4f2ef; --shadow-rgb:34,36,38;
@@ -510,7 +536,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Aubergine & Oat ---- */
 [data-theme="aubergine"]{
-  --ink:#26202b; --muted:#7f7674; --line:#e2dccf;
+  --ink:#26202b; --muted:#706866; --line:#e2dccf;
   --cream:#faf8f3; --cream-2:#efeae1; --accent:#543a63;
   --accent-soft:#c6b8d1; --photo-bg:#eae4d9; --nav-hover:#e8e1d5;
   --placeholder-bg:#f6f3ec; --shadow-rgb:38,32,43;
@@ -518,7 +544,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Plum & Blush ---- */
 [data-theme="plum"]{
-  --ink:#2f2531; --muted:#8a7887; --line:#e7dce5;
+  --ink:#2f2531; --muted:#756572; --line:#e7dce5;
   --cream:#faf7f9; --cream-2:#f2e8ef; --accent:#71385a;
   --accent-soft:#d3b4c6; --photo-bg:#ecdfe7; --nav-hover:#ebdbe5;
   --placeholder-bg:#f8f2f6; --shadow-rgb:47,37,49;
@@ -526,7 +552,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Sage ---- */
 [data-theme="sage"]{
-  --ink:#2f3a2f; --muted:#7c8a76; --line:#dde5d6;
+  --ink:#2f3a2f; --muted:#667161; --line:#dde5d6;
   --cream:#fbfaf5; --cream-2:#eef2e6; --accent:#5c7a52;
   --accent-soft:#c3d3b8; --photo-bg:#e2e9d9; --nav-hover:#e3ead8;
   --placeholder-bg:#f6f9f1; --shadow-rgb:47,58,47;
@@ -534,7 +560,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Emerald & Mist ---- */
 [data-theme="emerald"]{
-  --ink:#1c2b25; --muted:#728079; --line:#d7e4de;
+  --ink:#1c2b25; --muted:#636f69; --line:#d7e4de;
   --cream:#f6faf8; --cream-2:#e7f0ec; --accent:#1f6b52;
   --accent-soft:#a7cabb; --photo-bg:#dfece6; --nav-hover:#dde9e3;
   --placeholder-bg:#f0f7f3; --shadow-rgb:28,43,37;
@@ -542,7 +568,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Indigo & Ivory ---- */
 [data-theme="indigo"]{
-  --ink:#22203a; --muted:#78748c; --line:#ddd9ea;
+  --ink:#22203a; --muted:#6c687e; --line:#ddd9ea;
   --cream:#f8f7fb; --cream-2:#eceaf4; --accent:#3a3670;
   --accent-soft:#bdb8d8; --photo-bg:#e3e0f0; --nav-hover:#e6e2f1;
   --placeholder-bg:#f3f1f9; --shadow-rgb:34,32,58;
@@ -550,7 +576,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* ---- Dusk Blue ---- */
 [data-theme="dusk"]{
-  --ink:#232b35; --muted:#78838f; --line:#dce1e8;
+  --ink:#232b35; --muted:#636d78; --line:#dce1e8;
   --cream:#f7f9fb; --cream-2:#e9eef4; --accent:#3d5d82;
   --accent-soft:#b5c6da; --photo-bg:#dde5ee; --nav-hover:#dfe7f0;
   --placeholder-bg:#f2f6fa; --shadow-rgb:35,43,53;
@@ -575,16 +601,65 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
   width:26px; height:26px; border-radius:50%; padding:0; border:0; cursor:pointer;
   background-color:var(--sw-b);
   background-image:linear-gradient(90deg, var(--sw-a) 0 50%, var(--sw-b) 50% 100%);
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
+  box-shadow:inset 0 0 0 1px var(--swatch-ring);
   transition:transform .12s ease, box-shadow .15s ease;
 }
 @media (hover: hover){ .swatch:hover{ transform:scale(1.14); } }
 .swatch.active{
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.25),
+  box-shadow:inset 0 0 0 1px var(--swatch-ring),
              0 0 0 2px var(--cream-2),
              0 0 0 3.5px var(--accent);
 }
 .swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+
+/* =========================================================================
+   THE DARK MODE SWITCH (just under the colour circles)
+   A pill in the current scheme's accent colour, with a sun at one end and a
+   moon at the other, and a round knob that slides between them. Whichever
+   icon the knob is sitting on is drawn in white on the dark knob; the other
+   stays dim on the coloured pill. Because the pill is --accent, the switch
+   re-colours with every scheme, light and dark, and no scheme needs its own
+   rule here. The wording beside it is a plain <p>, not part of the
+   button: the switch is the only clickable thing, and aria-pressed (set by
+   script.js) is what tells a screen reader whether it is on.
+   To make the switch bigger, scale the four numbers marked "size".
+   ========================================================================= */
+.mode-picker{ margin-top:1.6rem; text-align:left; }
+.mode-toggle{
+  display:inline-block; padding:0; border:0; background:none;
+  line-height:0; cursor:pointer;
+}
+.mode-track{
+  position:relative; display:block;
+  width:56px; height:30px;                      /* size */
+  border-radius:999px;
+  background:var(--switch-bg);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.28),
+             inset 0 0 0 1px rgba(0,0,0,.18);
+}
+.mode-ico{
+  position:absolute; top:50%; transform:translateY(-50%);
+  z-index:2;                                    /* sits ON the knob */
+  width:14px; height:14px; line-height:0;
+  color:var(--switch-dim);
+  transition:color .2s ease;
+}
+.mode-ico svg{ display:block; width:100%; height:100%; }
+.mode-ico-sun{ left:7px; }
+.mode-ico-moon{ right:7px; }
+.mode-toggle[aria-pressed="false"] .mode-ico-sun{ color:#fff; }
+.mode-toggle[aria-pressed="true"]  .mode-ico-moon{ color:#fff; }
+.mode-knob{
+  position:absolute; z-index:1; top:3px; left:3px;
+  width:24px; height:24px;                      /* size */
+  border-radius:50%;
+  background:rgba(0,0,0,.5);
+  box-shadow:0 1px 4px rgba(0,0,0,.45),
+             inset 0 0 0 1px rgba(255,255,255,.26);
+  transition:transform .22s ease;
+}
+.mode-toggle[aria-pressed="true"] .mode-knob{ transform:translateX(26px); }  /* size */
+.mode-toggle:focus-visible .mode-track{ outline:2px solid var(--accent); outline-offset:3px; }
 
 /* A gentle cross-fade when a new scheme is chosen (skipped for anyone whose
    system asks for reduced motion). */
@@ -617,6 +692,14 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
      3. In EVERY page's sidebar, copy a <button class="swatch"> line and set
         data-set-theme="mine", --sw-a (your --accent), --sw-b (your
         --cream-2) and the title/aria-label.
+     4. Give it a dark twin: copy a [data-mode="dark"][data-theme="..."]
+        block from the DARK MODE section at the foot of this file, rename it
+        to "mine", and darken the same way in reverse — --cream darkest,
+        --cream-2 a step lighter, --ink near-white, --accent lightened until
+        it reads on the dark background, --on-accent the same as --cream.
+        Copy its [data-mode="dark"] .swatch block at the foot of that
+        section too, so the circle previews the dark colours correctly.
+        Without a dark twin the scheme falls back to the default dark one.
    script.js needs no changes. Past ten circles, raise the 5 in ".swatches"
    above or let them wrap to a third row. To remove a scheme, delete its
    block and its button on each page — anyone who had chosen it falls back
@@ -737,4 +820,145 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 @media (max-width:960px) and (max-height:450px){
   :root{ --topbar-h:44px; }
   .sidebar{ padding-top:1.2rem; }
+}
+
+
+/* =========================================================================
+   DARK MODE
+   Every colour scheme above has a dark twin here. The sidebar toggle sets
+   data-mode="dark" on <html>; these blocks then re-state the same variables
+   in their dark form, so the whole site flips without any other change.
+   A visitor who has not touched the toggle follows their device's own
+   light/dark setting (see the small script in each page's <head>).
+   Each block is the dark counterpart of the scheme with the same name —
+   to adjust one, edit only its block.
+   ===================================================================== */
+[data-mode="dark"]{  /* Cream & Terracotta — also the default dark scheme */
+  --ink:#e8e5e3; --muted:#93867e; --line:#473c36;
+  --cream:#191512; --cream-2:#251f1b; --accent:#d6753d;
+  --accent-soft:#844926; --photo-bg:#332b26; --nav-hover:#2e2621;
+  --placeholder-bg:#1f1a17; --shadow-rgb:0,0,0;
+  --on-accent:#191512; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="mocha"]{  /* Mocha & Oat */
+  --ink:#e7e5e4; --muted:#8d8782; --line:#443e39;
+  --cream:#181513; --cream-2:#231f1d; --accent:#a88971;
+  --accent-soft:#685445; --photo-bg:#312c28; --nav-hover:#2c2725;
+  --placeholder-bg:#1e1a18; --shadow-rgb:0,0,0;
+  --on-accent:#181513; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="olive"]{  /* Olive & Flax */
+  --ink:#e7e8e3; --muted:#8c8e7c; --line:#464736;
+  --cream:#181912; --cream-2:#24251b; --accent:#999f47;
+  --accent-soft:#5b5f30; --photo-bg:#323326; --nav-hover:#313225;
+  --placeholder-bg:#1e1f17; --shadow-rgb:0,0,0;
+  --on-accent:#181912; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="graphite"]{  /* Graphite & Chalk */
+  --ink:#e5e5e6; --muted:#87898a; --line:#3d3e40;
+  --cream:#151616; --cream-2:#1f2021; --accent:#898f97;
+  --accent-soft:#54595e; --photo-bg:#2b2c2e; --nav-hover:#262728;
+  --placeholder-bg:#1a1b1b; --shadow-rgb:0,0,0;
+  --on-accent:#151616; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="aubergine"]{  /* Aubergine & Oat */
+  --ink:#e6e4e7; --muted:#8c8590; --line:#403944;
+  --cream:#161318; --cream-2:#211d23; --accent:#a182b3;
+  --accent-soft:#674d76; --photo-bg:#2e2831; --nav-hover:#29242c;
+  --placeholder-bg:#1c181e; --shadow-rgb:0,0,0;
+  --on-accent:#161318; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="plum"]{  /* Plum & Blush */
+  --ink:#e7e4e6; --muted:#91838b; --line:#463740;
+  --cream:#191316; --cream-2:#241c21; --accent:#ba79a0;
+  --accent-soft:#7b4666; --photo-bg:#33272e; --nav-hover:#2e232a;
+  --placeholder-bg:#1e171b; --shadow-rgb:0,0,0;
+  --on-accent:#191316; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="sage"]{  /* Sage */
+  --ink:#e5e6e4; --muted:#858b82; --line:#3c433a;
+  --cream:#151714; --cream-2:#1f221d; --accent:#76996a;
+  --accent-soft:#4b5e44; --photo-bg:#2b3029; --nav-hover:#252923;
+  --placeholder-bg:#1a1d19; --shadow-rgb:0,0,0;
+  --on-accent:#151714; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="emerald"]{  /* Emerald & Mist */
+  --ink:#e3e8e6; --muted:#7a9088; --line:#364741;
+  --cream:#121917; --cream-2:#1b2522; --accent:#37af87;
+  --accent-soft:#276550; --photo-bg:#26332f; --nav-hover:#273632;
+  --placeholder-bg:#171f1c; --shadow-rgb:0,0,0;
+  --on-accent:#121917; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="indigo"]{  /* Indigo & Ivory */
+  --ink:#e4e4e7; --muted:#858493; --line:#383746;
+  --cream:#131319; --cream-2:#1c1b24; --accent:#8985c2;
+  --accent-soft:#524e8c; --photo-bg:#272633; --nav-hover:#24232f;
+  --placeholder-bg:#18171f; --shadow-rgb:0,0,0;
+  --on-accent:#131319; --swatch-ring:rgba(255,255,255,.30);
+}
+[data-mode="dark"][data-theme="dusk"]{  /* Dusk Blue */
+  --ink:#e4e5e7; --muted:#828991; --line:#363e47;
+  --cream:#131519; --cream-2:#1b2024; --accent:#6e91b8;
+  --accent-soft:#415a76; --photo-bg:#262c33; --nav-hover:#21282d;
+  --placeholder-bg:#171a1f; --shadow-rgb:0,0,0;
+  --on-accent:#131519; --swatch-ring:rgba(255,255,255,.30);
+}
+
+/* The switch keeps taking the scheme's accent in dark mode. The accent is
+   light there rather than dark, so the dim icon that sits directly on the
+   pill flips from white-ish to black-ish. Set once for every dark scheme. */
+[data-mode="dark"]{ --switch-dim:rgba(0,0,0,.45); }
+
+/* The menu button on phones is a filled block of --ink, which in dark mode
+   would be a near-white square shouting from the corner. Here it becomes a
+   quiet outlined button instead. Applies to every dark scheme. */
+[data-mode="dark"] .menu-toggle{
+  background:var(--cream-2); color:var(--ink);
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+
+/* The colour circles preview the dark palette while dark mode is on, so a
+   circle always shows what you will actually get. The two halves are set
+   here rather than through --sw-a / --sw-b, because those are written into
+   each button's "style" attribute in the HTML and an inline style beats a
+   stylesheet. Painting the background directly side-steps that. */
+[data-mode="dark"] .swatch[data-set-theme="cream"]{
+  background-color:#251f1b;
+  background-image:linear-gradient(90deg, #d6753d 0 50%, #251f1b 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="mocha"]{
+  background-color:#231f1d;
+  background-image:linear-gradient(90deg, #a88971 0 50%, #231f1d 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="olive"]{
+  background-color:#24251b;
+  background-image:linear-gradient(90deg, #999f47 0 50%, #24251b 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="graphite"]{
+  background-color:#1f2021;
+  background-image:linear-gradient(90deg, #898f97 0 50%, #1f2021 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="aubergine"]{
+  background-color:#211d23;
+  background-image:linear-gradient(90deg, #a182b3 0 50%, #211d23 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="plum"]{
+  background-color:#241c21;
+  background-image:linear-gradient(90deg, #ba79a0 0 50%, #241c21 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="sage"]{
+  background-color:#1f221d;
+  background-image:linear-gradient(90deg, #76996a 0 50%, #1f221d 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="emerald"]{
+  background-color:#1b2522;
+  background-image:linear-gradient(90deg, #37af87 0 50%, #1b2522 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="indigo"]{
+  background-color:#1c1b24;
+  background-image:linear-gradient(90deg, #8985c2 0 50%, #1c1b24 50% 100%);
+}
+[data-mode="dark"] .swatch[data-set-theme="dusk"]{
+  background-color:#1b2024;
+  background-image:linear-gradient(90deg, #6e91b8 0 50%, #1b2024 50% 100%);
 }
