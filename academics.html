@@ -8,7 +8,7 @@
      they have never used the dark switch, their device's own light/dark
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode");if(t){d.setAttribute("data-theme",t);}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Academics — Deep H. Makadiya</title>
 
 <!-- SEARCH RESULTS AND LINK PREVIEWS
@@ -29,7 +29,11 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;1,400;0,600&display=swap" rel="stylesheet">
+<!-- All five typeface pairs the sidebar offers. A family listed here but
+     never chosen costs one line of CSS and nothing else: the browser only
+     downloads a font file once something on the page is actually drawn in
+     it. Remove a family here and its circle falls back to Georgia. -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
 <!-- Tells the browser the site has a light and a dark version, so its own
      scrollbars and form controls match the page. -->
 <meta name="color-scheme" content="light dark">
@@ -67,10 +71,27 @@
     </nav>
 
     <!-- APPEARANCE — the dark mode switch, then the colour circles. Both
-         blocks are repeated on all 9 pages with a sidebar, so any change
+         blocks are repeated on all 10 pages with a sidebar, so any change
          here has to be made on every one of them.
          =================================================================== -->
     <div class="theme-picker">
+      <!-- The panel starts closed. The button carries aria-expanded and
+           aria-controls so a screen reader announces the state; script.js
+           flips both and un-hides the body below. -->
+      <div class="appearance-head">
+        <button type="button" class="appearance-title" id="appearanceToggle"
+                aria-expanded="false" aria-controls="appearancePanel">
+          <span class="appearance-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h9M18.5 8H20M4 16h3.5M13 16h7"/><circle cx="15.5" cy="8" r="2.1"/><circle cx="10" cy="16" r="2.1"/></svg></span>
+          <span>Appearance</span>
+          <span class="appearance-chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M5 9l7 7 7-7"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="appearance-body" id="appearancePanel">
       <!-- DARK MODE — switches between the light and dark version of
            whichever colour is chosen below. The choice is remembered in the
            visitor's browser; until they touch it, the site follows the
@@ -78,8 +99,8 @@
            label is plain text and does nothing; only the switch is
            clickable. The sun and moon are drawn in the page, not images —
            whichever one the sliding knob is sitting on turns white. -->
-      <div class="mode-picker">
-        <p class="theme-picker-label">Dark mode</p>
+      <div class="appearance-group mode-picker">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark</p>
         <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
           <span class="mode-track">
             <span class="mode-ico mode-ico-sun">
@@ -105,40 +126,89 @@
            order listed, five per row — change it everywhere if you add,
            remove or re-order a circle. The colours themselves live in
            styles.css under "COLOUR SCHEMES". -->
-      <p class="theme-picker-label">Colour</p>
+      <div class="appearance-group">
+      <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.4c-4.8 0-8.6 3.6-8.6 8.3 0 4.5 3.5 8 8 8 1.3 0 2.2-.8 2.2-1.9 0-.6-.2-1-.6-1.4-.3-.4-.5-.8-.5-1.3 0-1 .9-1.8 2-1.8h1.5c2.6 0 4.6-2 4.6-4.5 0-3-3.7-5.4-8.6-5.4z"/><circle cx="7.6" cy="11.6" r="1" fill="currentColor" stroke="none"/><circle cx="10.4" cy="7.9" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="8.3" r="1" fill="currentColor" stroke="none"/></svg></span>Colour</p>
       <div class="swatches">
           <button type="button" class="swatch" data-set-theme="cream"
                   style="--sw-a:#a5501f;--sw-b:#efe6d2"
                   title="Cream &amp; Terracotta" aria-label="Cream and Terracotta colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="gold"
+                  style="--sw-a:#7e6825;--sw-b:#efede6"
+                  title="Antique Gold" aria-label="Antique Gold colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="mocha"
                   style="--sw-a:#5b4636;--sw-b:#f0e9dd"
                   title="Mocha &amp; Oat" aria-label="Mocha and Oat colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="olive"
-                  style="--sw-a:#64682c;--sw-b:#f0eedd"
-                  title="Olive &amp; Flax" aria-label="Olive and Flax colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="graphite"
                   style="--sw-a:#3f4348;--sw-b:#eceae6"
                   title="Graphite &amp; Chalk" aria-label="Graphite and Chalk colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="aubergine"
-                  style="--sw-a:#543a63;--sw-b:#efeae1"
-                  title="Aubergine &amp; Oat" aria-label="Aubergine and Oat colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="plum"
-                  style="--sw-a:#71385a;--sw-b:#f2e8ef"
-                  title="Plum &amp; Blush" aria-label="Plum and Blush colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="teal"
+                  style="--sw-a:#1d6472;--sw-b:#e6eeef"
+                  title="Teal &amp; Mist" aria-label="Teal and Mist colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="emerald"
+                  style="--sw-a:#1f6b52;--sw-b:#e7f0ec"
+                  title="Emerald" aria-label="Emerald colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="sage"
                   style="--sw-a:#5c7a52;--sw-b:#eef2e6"
                   title="Sage" aria-label="Sage colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="emerald"
-                  style="--sw-a:#1f6b52;--sw-b:#e7f0ec"
-                  title="Emerald &amp; Mist" aria-label="Emerald and Mist colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="indigo"
-                  style="--sw-a:#3a3670;--sw-b:#eceaf4"
-                  title="Indigo &amp; Ivory" aria-label="Indigo and Ivory colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="dusk"
                   style="--sw-a:#3d5d82;--sw-b:#e9eef4"
                   title="Dusk Blue" aria-label="Dusk Blue colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="indigo"
+                  style="--sw-a:#3a3670;--sw-b:#eceaf4"
+                  title="Indigo &amp; Ivory" aria-label="Indigo and Ivory colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="plum"
+                  style="--sw-a:#71385a;--sw-b:#f2e8ef"
+                  title="Plum &amp; Blush" aria-label="Plum and Blush colour scheme"></button>
+      </div>
       </div>
 
+      <!-- TYPEFACE — five pairs. "--fs" is the face the circle's own A is
+           drawn in, so each one previews itself; "title" is the hover
+           tooltip. The pairs live in styles.css under "TYPEFACES", and the
+           families are fetched by the <link> in this page's <head>. -->
+      <div class="appearance-group">
+      <p class="theme-picker-label"><span class="label-icon label-icon-text" aria-hidden="true">Aa</span>Typeface</p>
+      <div class="fonts">
+          <button type="button" class="font-swatch" data-set-font="playfair"
+                  style="--fs:'Playfair Display',Georgia,serif"
+                  title="Playfair Display &amp; Lora" aria-label="Playfair Display and Lora typefaces">A</button>
+          <button type="button" class="font-swatch" data-set-font="sourcenunito"
+                  style="--fs:'Source Serif 4',Georgia,serif"
+                  title="Source Serif &amp; Nunito Sans" aria-label="Source Serif and Nunito Sans typefaces">A</button>
+          <button type="button" class="font-swatch" data-set-font="bitter"
+                  style="--fs:'Bitter',Georgia,serif"
+                  title="Bitter &mdash; a sturdy slab serif" aria-label="Bitter, a sturdy slab serif">A</button>
+          <button type="button" class="font-swatch" data-set-font="atkinson"
+                  style="--fs:'Atkinson Hyperlegible',system-ui,sans-serif"
+                  title="Atkinson Hyperlegible &mdash; built for easy reading" aria-label="Atkinson Hyperlegible, a typeface built for easy reading">A</button>
+          <button type="button" class="font-swatch" data-set-font="cormorant"
+                  style="--fs:'Cormorant Garamond',Georgia,serif"
+                  title="Cormorant Garamond &amp; Lato" aria-label="Cormorant Garamond and Lato typefaces">A</button>
+      </div>
+      </div>
+
+      <!-- STYLE — the shape of the whole site, in picker order:
+           1 Soft Card, 2 Classic, 3 Midnight, 4 Grove, 5 Contrast.
+           Colour, typeface and light/dark are untouched by it, so every
+           combination works. The rules live in the "STYLES" section of
+           styles.css; "title" is the hover tooltip. -->
+      <div class="appearance-group">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="2.4"/><path d="M3.2 9.6h17.6M9.6 9.6v11.2"/></svg></span>Style</p>
+        <div class="styles">
+          <button type="button" class="style-swatch" data-set-style="card"
+                  title="Soft Card &mdash; everything floats as a rounded card" aria-label="Soft Card style">1</button>
+          <button type="button" class="style-swatch" data-set-style="classic"
+                  title="Classic &mdash; ruled and typographic" aria-label="Classic style">2</button>
+          <button type="button" class="style-swatch" data-set-style="midnight"
+                  title="Midnight &mdash; the panel takes the scheme's colour, accent rules around the tabs" aria-label="Midnight style">3</button>
+          <button type="button" class="style-swatch" data-set-style="grove"
+                  title="Grove &mdash; deeper paper, darker tab row, rule under headings" aria-label="Grove style">4</button>
+          <button type="button" class="style-swatch" data-set-style="contrast"
+                  title="Contrast &mdash; charcoal navigation panel, accent dash beside headings" aria-label="Contrast style">5</button>
+        </div>
+      </div>
+
+      </div>
     </div>
   </aside>
   <div class="overlay" id="overlay"></div>

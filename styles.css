@@ -1,20 +1,37 @@
 /* =========================================================================
-   Deep H. Makadiya — academic site — DESIGN: "Editorial, switchable colours"
-   Playfair Display headings over a Lora body, pill buttons and tags, a
-   softly rounded photo frame — with TEN colour schemes.
-   HOW IT WORKS:
-     1. ":root" below holds the ELEVEN colours the site is drawn from, set
-        to the default scheme ("Cream & Terracotta").
-     2. Under "COLOUR SCHEMES" further down, each other scheme re-states
-        those same eleven values in a [data-theme="..."] block. Nothing
-        else about the design changes.
-     3. script.js writes data-theme="..." on <html> when a circle is
-        clicked; a script in each page's <head> re-applies the saved choice
-        before the page paints.
-   To change the DEFAULT, swap ":root" for another scheme's values. To add
-   one of your own, see the note at the bottom of this file.
-   One stylesheet for all 8 pages — change a colour or font here and every
-   page follows.
+   Deep H. Makadiya — academic site
+   ONE STYLESHEET, READ TOP TO BOTTOM. Later sections override earlier ones,
+   so the order below is deliberate: neutral rules first, then the things a
+   visitor can switch, then the media queries last of all.
+
+   WHAT IS IN THIS FILE, IN ORDER
+     1  COLOURS AND TYPE      the ":root" block — every value the site draws
+                              from. Change a colour here and it changes
+                              everywhere.
+     2  SKIP LINK             hidden until a keyboard user presses Tab
+     3  LAYOUT                sidebar, top bar, the content column
+     4  HOME PAGE             the split hero
+     5  CONTENT               sections, lists, tables, tags, gallery, footer
+     6  LANGUAGE CHIPS        the hover/tap bubbles on Miscellaneous
+     7  NEWS CARDS            the three cards on the home page
+     8  APPEARANCE PANEL      the colour, typeface and style pickers
+     9  COLOUR SCHEMES        the other nine palettes
+    10  TYPEFACES             the five pairs
+    11  DARK MODE             a dark twin of every palette
+    12  STYLES                the five layouts
+    13  RESPONSIVE            phones and tablets — LAST, on purpose
+
+   THE FOUR THINGS A VISITOR CAN SWITCH, and the attribute each one sets on
+   <html>. script.js writes them; the small script in every page's <head>
+   re-applies them before the page paints.
+     data-mode="dark"          light / dark
+     data-theme="emerald"      one of ten colours   (absent = the first one)
+     data-font="bitter"        one of five typefaces (absent = the first one)
+     data-style="card"         one of five styles    (absent = Classic)
+     data-panel="dark"         set with data-style for the three styles that
+                               use a dark navigation panel
+   They are independent: any colour works with any typeface, style and mode.
+   TO ADD ONE OF ANYTHING, see the "HOW TO ADD" note in the matching section.
    ========================================================================= */
 
 :root{
@@ -36,6 +53,8 @@
   --placeholder-bg:#fbf7ee;  /* dashed "add something here" tiles */
   --shadow-rgb:42,33,21;      /* photo-frame shadow, as red,green,blue */
   --on-accent:#fff;           /* text drawn ON the accent — white button labels */
+  --font-head:"Playfair Display",Georgia,serif;  /* headings */
+  --font-body:"Lora",Georgia,serif;              /* everything else */
   --swatch-ring:rgba(0,0,0,.25); /* the hairline rim around a colour circle */
   --switch-bg:var(--accent);  /* the dark mode pill takes the scheme's colour */
   --switch-dim:rgba(255,255,255,.58); /* the icon the knob is NOT sitting on */
@@ -53,11 +72,11 @@ body{
   overflow-wrap:break-word;   /* long words wrap instead of widening the page */
   background:var(--cream);
   color:var(--ink);
-  font-family:"Lora",Georgia,serif;
+  font-family:var(--font-body);
   line-height:1.7;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3{ font-family:"Playfair Display",Georgia,serif; }
+h1,h2,h3{ font-family:var(--font-head); }
 a{ color:var(--accent); text-decoration:underline; text-decoration-color:var(--accent-soft); }
 /* ---- HOVER STATES ARE FOR MICE AND TRACKPADS ONLY ----------------------
    Every ":hover" rule here is wrapped in "@media (hover: hover)". A
@@ -77,7 +96,7 @@ a{ color:var(--accent); text-decoration:underline; text-decoration-color:var(--a
   z-index:200;                       /* above the mobile top bar, which is 26 */
   background:var(--accent); color:var(--on-accent);
   padding:.7rem 1.1rem; border-radius:0 0 8px 0;
-  font-family:"Lora",Georgia,serif; font-size:.9rem; text-decoration:none;
+  font-family:var(--font-body); font-size:.9rem; text-decoration:none;
 }
 .skip-link:focus{ left:0; }
 /* The landing point. No focus ring — the jump itself is the feedback — and a
@@ -110,7 +129,7 @@ main{ scroll-margin-top:var(--topbar-h); }
    paragraph (so each page has exactly one <h1>, its own title), which means
    the heading font has to be named here explicitly. */
 .sidebar-name{
-  font-family:"Playfair Display",Georgia,serif;
+  font-family:var(--font-head);
   font-size:1.25rem; margin:0 0 1.8rem; font-weight:800; color:var(--ink);
 }
 
@@ -138,7 +157,7 @@ main{ scroll-margin-top:var(--topbar-h); }
   border-bottom:1px solid var(--line);
 }
 .topbar-title{
-  font-family:"Playfair Display",Georgia,serif; font-weight:800;
+  font-family:var(--font-head); font-weight:800;
   font-size:1.02rem; line-height:1.2; color:var(--ink);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
@@ -254,7 +273,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 @media (hover: hover){ .hero-photo-frame a:hover .home-photo{ opacity:.82; } }
 .hero-text .eyebrow{
   text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
-  color:var(--accent); margin:.5rem 0 0; font-family:"Lora",serif;
+  color:var(--accent); margin:.5rem 0 0; font-family:var(--font-body);
 }
 .home-name{ font-size:clamp(1.85rem, 7.5vw, 2.6rem); margin:0; font-weight:800; line-height:1.12; }
 
@@ -274,7 +293,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 .btn-row{ display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.4rem; }
 .btn{
   display:inline-block; padding:.6rem 1.3rem; border:1px solid var(--accent);
-  border-radius:999px; color:var(--accent); font-family:"Lora",serif; font-size:.88rem;
+  border-radius:999px; color:var(--accent); font-family:var(--font-body); font-size:.88rem;
   text-decoration:none; transition:background .15s ease, color .15s ease;
 }
 @media (hover: hover){ .btn:hover{ background:var(--accent); color:var(--on-accent); } }
@@ -283,6 +302,10 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
    Generic content sections (used on every inner page)
    ========================================================================= */
 section{ padding:2.4rem 0; border-bottom:1px solid var(--line); }
+/* Sits directly under the home page hero. A style whose sections carry their
+   own padding overrides this on its own, because "[data-style] section" is
+   the more specific selector. */
+.section-flush{ padding-top:0; }
 section:last-of-type{ border-bottom:none; }
 /* The tabs jump to the HEADING, not the section box; "scroll-margin-top"
    below is what clears the frozen tabs bar plus a small gap. Change that
@@ -311,11 +334,11 @@ h2.section-title{ font-size:clamp(1.22rem, 4.4vw, 1.5rem); margin:0 0 1.5rem;
 .pub-list li{ padding:1.2rem 0; border-top:1px solid var(--line); display:flex; gap:.9rem; }
 .pub-list li:first-child{ border-top:none; }
 .pub-num{
-  font-family:"Playfair Display",serif; font-weight:700; color:var(--accent);
+  font-family:var(--font-head); font-weight:700; color:var(--accent);
   flex:none; min-width:2.2rem;
 }
 .pub-body{ flex:1; }
-.pub-title{ font-family:"Playfair Display",serif; font-weight:700; font-size:1.06rem; display:block; }
+.pub-title{ font-family:var(--font-head); font-weight:700; font-size:1.06rem; display:block; }
 .pub-meta{ font-size:.88rem; color:var(--muted); font-style:italic; display:block; margin-top:.3rem; }
 .pub-links{ font-size:.85rem; margin-top:.45rem; display:block; }
 .pub-links a{ margin-right:1.1rem; }
@@ -342,7 +365,7 @@ h2.section-title{ font-size:clamp(1.22rem, 4.4vw, 1.5rem); margin:0 0 1.5rem;
    around it. Only the first paragraph should carry the class. ---- */
 .drop-cap::first-letter{
   float:left;
-  font-family:"Playfair Display", Georgia, serif;
+  font-family:var(--font-head);
   font-weight:700; color:var(--accent);
   font-size:3.1em; line-height:.8;
   padding:.06em .1em 0 0;
@@ -382,7 +405,7 @@ table.teach td:first-child{ font-weight:600; width:48%; }
 ul.plain{ list-style:none; margin:0; padding:0; }
 ul.plain li{ padding:.95rem 0; border-top:1px solid var(--line); font-size:.97rem; display:flex; gap:.9rem; }
 ul.plain li:first-child{ border-top:none; }
-ul.plain .item-num{ font-family:"Playfair Display",serif; font-weight:700; color:var(--accent); flex:none; min-width:2.2rem; }
+ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--accent); flex:none; min-width:2.2rem; }
 
 /* ---- Research Overview: numbered project entries -----------------------
    Built on the same numbered "ul.plain" list as the talks and seminars, but
@@ -391,7 +414,7 @@ ul.plain .item-num{ font-family:"Playfair Display",serif; font-weight:700; color
 .overview-list li{ align-items:flex-start; }
 .overview-body{ flex:1; min-width:0; }
 .overview-title{
-  display:block; font-family:"Playfair Display",Georgia,serif;
+  display:block; font-family:var(--font-head);
   font-weight:700; font-size:1.08rem; margin-bottom:.45rem;
 }
 .overview-body p{ margin:0 0 .75rem; }
@@ -402,6 +425,133 @@ ul.plain .item-num{ font-family:"Playfair Display",serif; font-weight:700; color
 /* ---- Tags: Skills and Hobbies (Miscellaneous) and Areas of Interest
    (Research). One rule for both, so they cannot drift apart. ---- */
 .skills-list, .interest-list{ display:flex; flex-wrap:wrap; gap:.6rem; list-style:none; margin:0; padding:0; }
+/* =========================================================================
+   SPOKEN LANGUAGE CHIPS AND THEIR BUBBLES (Miscellaneous)
+   The chip is a <button>; the bubble is the <span> right after it. It shows
+   on hover with a mouse, on focus from the keyboard, and on tap on a phone
+   (script.js flips aria-expanded for that last one). Everything here is
+   drawn from the current colour scheme, so it follows every theme.
+   ========================================================================= */
+.skills-list.lang-list li{ position:relative; border:0; border-radius:0; padding:0; background:none; }
+.lang-chip{
+  font:inherit; font-size:.92rem; color:var(--ink);
+  border:2px solid var(--line); border-radius:10px;
+  padding:.45rem 1.05rem; background:transparent; cursor:pointer;
+}
+@media (hover: hover){ .lang-chip:hover{ border-color:var(--accent); color:var(--accent); } }
+.lang-chip[aria-expanded="true"]{ border-color:var(--accent); color:var(--accent); }
+.lang-chip:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.lang-tip{
+  position:absolute; z-index:30;
+  bottom:calc(100% + .6rem); left:0;
+  width:max-content; max-width:15rem;
+  background:var(--ink); color:var(--cream);
+  padding:.55rem .8rem; border-radius:9px;
+  font-size:.82rem; font-style:normal; line-height:1.45;
+  box-shadow:0 6px 18px rgba(var(--shadow-rgb),.28);
+  opacity:0; visibility:hidden; transform:translateY(4px);
+  transition:opacity .16s ease, transform .16s ease, visibility 0s linear .16s;
+}
+/* the little tail underneath, pointing at the chip */
+.lang-tip::after{
+  content:""; position:absolute; top:100%; left:1.4rem;
+  border:6px solid transparent; border-top-color:var(--ink);
+}
+@media (hover: hover){ .lang-chip:hover + .lang-tip{ opacity:1; visibility:visible; transform:none; transition-delay:0s; } }
+.lang-chip:focus-visible + .lang-tip,
+.lang-chip[aria-expanded="true"] + .lang-tip{
+  opacity:1; visibility:visible; transform:none; transition-delay:0s;
+}
+
+/* =========================================================================
+   LATEST NEWS & UPDATES — the three cards on the home page
+   Each card is an outer panel holding a heading, an inset panel, and a link
+   along the bottom. The first two put a rotating list inside the inset
+   panel; the third puts three link bars there instead. The cards stretch to
+   match the tallest of the three, and drop to one per row on a phone.
+   ========================================================================= */
+.news-grid{
+  display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:1rem; align-items:stretch;
+}
+.news-card{
+  display:flex; flex-direction:column;
+  background:var(--cream-2); border:1px solid var(--line); border-radius:14px;
+  padding:1rem .55rem .4rem;
+  box-shadow:0 4px 14px rgba(var(--shadow-rgb),.10);
+}
+.news-card-title{
+  margin:0 0 .75rem; text-align:center;
+  font-family:var(--font-head); font-weight:700;
+  font-size:.95rem; line-height:1.25; color:var(--ink);
+}
+/* the inset panel — the paper colour, so it reads as recessed into the card */
+.news-inner{
+  flex:1; display:flex;
+  background:var(--cream); border:1px solid var(--line); border-radius:10px;
+  padding:.85rem .8rem .7rem;
+  min-height:9.5rem;
+}
+/* The gap above this line matches the card's bottom padding below it, so the
+   link sits dead centre in the strip under the inset panel. Change the two
+   together (.4rem here and in .news-card's padding) to move it. */
+.news-more{
+  display:block; margin-top:.4rem; text-align:center;
+  font-size:.82rem; line-height:1.25;
+  color:var(--accent); text-decoration:none;
+}
+@media (hover: hover){ .news-more:hover{ text-decoration:underline; } }
+.news-more:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:6px; }
+
+/* ---- the rotating list itself ---- */
+.carousel{ display:flex; flex-direction:column; width:100%; }
+.carousel-track{ list-style:none; margin:0; padding:0; display:grid; flex:1; }
+.carousel-item{
+  grid-area:1 / 1;                 /* every item stacked in one cell, so the
+                                      panel is as tall as the longest one */
+  font-size:.86rem; line-height:1.5;
+  opacity:0; visibility:hidden;
+  transition:opacity .4s ease, visibility 0s linear .4s;
+}
+.carousel-item.is-current{ opacity:1; visibility:visible; transition-delay:0s; }
+.carousel-item .news-date{ display:block; margin-bottom:.3rem; }
+.carousel-dots{ display:flex; justify-content:center; gap:.4rem; padding-top:.8rem; }
+.carousel-dot{
+  width:9px; height:9px; padding:0; border-radius:50%; cursor:pointer;
+  border:1px solid var(--accent); background:transparent;
+  transition:background-color .18s ease;
+}
+.carousel-dot[aria-selected="true"]{ background:var(--accent); }
+@media (hover: hover){ .carousel-dot:hover{ background:var(--accent-soft); } }
+.carousel-dot:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* ---- the third card: three link bars ---- */
+/* The bars stretch to fill the card. The small bottom padding makes the gap
+   under the last one match the gap at the sides — the card's own bottom
+   padding is smaller, because on the other two cards it sits under the
+   "see all" line instead. */
+.quick-links{
+  list-style:none; margin:0; padding:0 0 .15rem;
+  flex:1; display:flex; flex-direction:column; gap:.6rem;
+}
+.quick-links li{ flex:1; display:flex; }
+.quick-links a{
+  flex:1; display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+  background:var(--cream); border:1px solid var(--line); border-radius:10px;
+  padding:.7rem .85rem; font-size:.86rem;
+  color:var(--ink); text-decoration:none;
+}
+@media (hover: hover){ .quick-links a:hover{ border-color:var(--accent); color:var(--accent); } }
+.quick-links a:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+/* ---- the date column, shared with the full lists on news.html ---- */
+.news-date{
+  font-size:.76rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--accent); font-style:normal;
+}
+.news-list li{ align-items:baseline; }
+.news-list .news-date{ flex:none; min-width:6.4rem; }
+
 .skills-list li, .interest-list li{
   border:2px solid var(--line); border-radius:10px; padding:.45rem 1.05rem;
   font-size:.92rem; background:transparent;
@@ -518,12 +668,12 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
   --placeholder-bg:#f7f2e9; --shadow-rgb:36,29,22;
 }
 
-/* ---- Olive & Flax ---- */
-[data-theme="olive"]{
-  --ink:#262718; --muted:#6d6d57; --line:#e2dfc7;
-  --cream:#faf8ee; --cream-2:#f0eedd; --accent:#64682c;
-  --accent-soft:#c8c9a0; --photo-bg:#ebe8d3; --nav-hover:#e8e5ce;
-  --placeholder-bg:#f6f4e7; --shadow-rgb:38,39,24;
+/* ---- Antique Gold ---- */
+[data-theme="gold"]{
+  --ink:#29261c; --muted:#6f6b5d; --line:#e5e1d7;
+  --cream:#faf9f5; --cream-2:#efede6; --accent:#7e6825;
+  --accent-soft:#cbc1a4; --photo-bg:#ebe8e0; --nav-hover:#e8e5db;
+  --placeholder-bg:#f6f4f0; --shadow-rgb:41,38,28;
 }
 
 /* ---- Graphite & Chalk ---- */
@@ -534,12 +684,12 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
   --placeholder-bg:#f4f2ef; --shadow-rgb:34,36,38;
 }
 
-/* ---- Aubergine & Oat ---- */
-[data-theme="aubergine"]{
-  --ink:#26202b; --muted:#706866; --line:#e2dccf;
-  --cream:#faf8f3; --cream-2:#efeae1; --accent:#543a63;
-  --accent-soft:#c6b8d1; --photo-bg:#eae4d9; --nav-hover:#e8e1d5;
-  --placeholder-bg:#f6f3ec; --shadow-rgb:38,32,43;
+/* ---- Teal & Mist ---- */
+[data-theme="teal"]{
+  --ink:#1c2729; --muted:#5e6d70; --line:#d7e3e5;
+  --cream:#f5f9fa; --cream-2:#e6eeef; --accent:#1d6472;
+  --accent-soft:#a4c5cb; --photo-bg:#e0e9eb; --nav-hover:#dbe6e8;
+  --placeholder-bg:#f0f5f6; --shadow-rgb:28,39,41;
 }
 
 /* ---- Plum & Blush ---- */
@@ -590,15 +740,85 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
    rim is an inset shadow, so the two colours reach the very edge. The
    selected circle wears a ring in the current accent.
    ========================================================================= */
-.theme-picker{ margin-top:2.2rem; padding-top:1.2rem; border-top:1px solid var(--line); text-align:left; }
-.theme-picker-label{
-  font-size:.66rem; text-transform:uppercase; letter-spacing:.15em;
-  color:var(--muted); margin:0 0 .8rem; font-family:"Lora",serif;
+.theme-picker{ margin-top:2.2rem; padding-top:.7rem; border-top:1px solid var(--line); text-align:left; }
+
+/* The panel's heading is a button that opens and closes it: centred over
+   the controls, with a chevron that turns as it opens. Whether it is open
+   is remembered in the browser and re-applied by the small script in each
+   page's <head>, so it survives a refresh and following a link. The gap
+   above the row and the gap below it are equal, open or shut. */
+.appearance-title{
+  display:flex; align-items:center; justify-content:center; gap:.45rem;
+  width:100%; margin:0; padding:.45rem .7rem;
+  background:none; cursor:pointer; text-align:center;
+  border:0; border-radius:8px;
+  font-family:var(--font-body); font-size:.92rem; font-weight:400;
+  color:var(--ink); line-height:1.7;
+  transition:background-color .18s ease, color .18s ease;
 }
-/* Five per row; change the 5 below to fit more or fewer on a line. */
-.swatches{ display:grid; grid-template-columns:repeat(5, 26px); gap:.6rem; }
+@media (hover: hover){ .appearance-title:hover{ background:var(--nav-hover); color:var(--accent); } }
+.appearance-title:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.appearance-chev{
+  display:flex; width:13px; height:13px; flex:none;
+  transition:transform .22s ease;
+}
+.appearance-chev svg{ width:100%; height:100%; display:block; }
+.appearance-title[aria-expanded="true"]{ color:var(--accent); }
+.appearance-title[aria-expanded="true"] .appearance-chev{ transform:rotate(180deg); }
+
+/* The rule under the row is on this wrapper, not on the controls, so it is
+   there whether the panel is open or shut. */
+.appearance-head{ padding-bottom:.7rem; border-bottom:1px solid var(--line); }
+/* Open: the row wears a soft box, and the rule moves from under the row to
+   the foot of the whole panel, so the panel reads as one block. */
+[data-appearance="open"] .appearance-head{ border-bottom:0; }
+[data-appearance="open"] .theme-picker{ padding-bottom:1.25rem; border-bottom:1px solid var(--line); }
+[data-appearance="open"] .appearance-title{ background:var(--nav-hover); }
+/* Shown only once <html> carries data-appearance="open". Done with an
+   attribute rather than the "hidden" property so the panel is already open
+   on the first paint — no flicker when a page loads with it expanded. */
+.appearance-body{ display:none; padding-top:1.1rem; }
+[data-appearance="open"] .appearance-body{ display:block; }
+.theme-picker-label{
+  display:flex; align-items:center; gap:.4rem;
+  font-size:.66rem; text-transform:uppercase; letter-spacing:.15em;
+  color:var(--muted); margin:0 0 .8rem; font-family:var(--font-body);
+}
+
+/* ---- The small marks in front of "Appearance" and the four group labels.
+   They are inline SVG drawn in currentColor, so they follow the colour
+   scheme, dark mode and the dark navigation panel with no rules of their own.
+   Sized in "em" so they grow and shrink with whichever typeface is chosen.
+   To change one, swap the <svg> in the HTML — on all 10 pages with a sidebar.
+   "label-icon-text" is for the "Aa" in front of Typeface: the label itself is
+   uppercased and letter-spaced, which would turn "Aa" into "A A", so both are
+   switched off again just for that mark. ---- */
+.appearance-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:none; width:1.05em; height:1.05em;
+}
+.label-icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  flex:none; width:1.25em; height:1.25em;
+}
+.label-icon svg{ width:100%; height:100%; }
+.appearance-icon svg{ width:100%; height:100%; }
+.label-icon-text{
+  width:auto; text-transform:none; letter-spacing:0;
+  font-size:1.2em; line-height:1;
+}
+/* Five per row; change the 5 below to fit more or fewer on a line. The
+   typeface and style rows use the same five-column grid, so all three rows
+   of circles line up down the left edge. */
+/* Five to a row, each column an equal share of whatever the sidebar gives us
+   ("1fr", not a pixel size), so the row always ends flush with the rule above
+   "Appearance" however wide the panel is. "aspect-ratio:1" keeps them circles
+   and "align-items:start" stops the grid stretching them into ovals. If you
+   ever show more than five per row, change the 5 here and in ".fonts,.styles"
+   below — the circles resize themselves to fit. */
+.swatches{ display:grid; grid-template-columns:repeat(5, 1fr); align-items:start; gap:.6rem; }
 .swatch{
-  width:26px; height:26px; border-radius:50%; padding:0; border:0; cursor:pointer;
+  width:100%; aspect-ratio:1; border-radius:50%; padding:0; border:0; cursor:pointer;
   background-color:var(--sw-b);
   background-image:linear-gradient(90deg, var(--sw-a) 0 50%, var(--sw-b) 50% 100%);
   box-shadow:inset 0 0 0 1px var(--swatch-ring);
@@ -613,6 +833,30 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 .swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
 
 /* =========================================================================
+   THE TYPEFACE CIRCLES
+   Five buttons, the same size as the colour circles. Each shows a capital A
+   drawn in its own pair's heading face, passed in from the HTML as "--fs",
+   so a circle always previews the typeface it will switch to — whichever
+   one is currently in use. The pairs themselves are defined near the foot
+   of this file under "TYPEFACES"; "title" is the hover tooltip.
+   ========================================================================= */
+.fonts, .styles{ display:grid; grid-template-columns:repeat(5, 1fr); align-items:start; gap:.6rem; }
+.font-swatch, .style-swatch{
+  width:100%; aspect-ratio:1; border-radius:50%; padding:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--cream); color:var(--ink);
+  border:1px solid var(--line);
+  font-family:var(--fs); font-size:.98rem; line-height:1;
+  transition:transform .12s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.style-swatch{ font-family:var(--font-body); font-weight:600; font-size:.88rem; }
+@media (hover: hover){ .font-swatch:hover, .style-swatch:hover{ transform:scale(1.14); border-color:var(--accent); } }
+.font-swatch.active, .style-swatch.active{
+  background:var(--accent); color:var(--on-accent); border-color:var(--accent);
+}
+.font-swatch:focus-visible, .style-swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+
+/* =========================================================================
    THE DARK MODE SWITCH (at the top of the appearance block)
    A pill in the current scheme's accent colour, sitting on one line with its
    label above the colour circles, with a sun at one end and a moon at the other, and a round knob that slides between them. Whichever
@@ -624,15 +868,14 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
    script.js) is what tells a screen reader whether it is on.
    To make the switch bigger, scale the four numbers marked "size".
    ========================================================================= */
-/* The label and the switch share one line: label left, switch hard right.
-   The rule underneath separates this row from the colour circles below. */
-.mode-picker{
-  display:flex; align-items:center; justify-content:space-between; gap:.8rem;
-  margin:0 0 1.3rem; padding-bottom:1.3rem;
-  border-bottom:1px solid var(--line);
-  text-align:left;
-}
-.mode-picker .theme-picker-label{ margin:0; }   /* on the row, not above it */
+/* Four groups of the same shape: a small label, then its control. Even
+   spacing and no rules between them — with four of them, rules would read
+   as a form rather than a panel. */
+.appearance-group{ margin:0 0 1.35rem; text-align:left; }
+.appearance-group:last-child{ margin-bottom:0; }
+/* Light / Dark is the one group whose control sits beside its label. */
+.mode-picker{ display:flex; align-items:center; justify-content:space-between; gap:.8rem; }
+.mode-picker .theme-picker-label{ margin:0; }
 .mode-toggle{
   display:inline-block; padding:0; border:0; background:none;
   line-height:0; cursor:pointer;
@@ -672,8 +915,8 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 /* A gentle cross-fade when a new scheme is chosen (skipped for anyone whose
    system asks for reduced motion). */
 body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
-.btn, .skills-list li, .interest-list li, .placeholder, .gallery-placeholder,
-.menu-toggle, .theme-picker{
+.btn, .skills-list li, .interest-list li, .gallery-placeholder,
+.menu-toggle, .theme-picker, .font-swatch, .style-swatch{
   transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
 @media (prefers-reduced-motion: reduce){
@@ -715,121 +958,39 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    ========================================================================= */
 
 /* =========================================================================
-   RESPONSIVE — three sizes
-     961px and up: sidebar always on screen.
-     960px and below (includes iPads in portrait): sidebar hidden behind a
-       slim fixed top bar with the menu button; it slides in when tapped.
-     560px and below: extra tweaks — tighter numbered lists, stacked
-       teaching table, smaller gallery tiles.
-   Change the 960 below to move the point where the sidebar collapses.
+   TYPEFACES — one block per pair, chosen by the five "A" circles in the
+   sidebar. Each block re-states just two values: the face for headings and
+   the face for everything else. The default pair lives in ":root" above.
+   The families themselves are fetched from Google Fonts by the <link> in
+   every page's <head> — add a family there before naming it here, or it
+   will silently fall back to Georgia.
+   TO ADD A PAIR: copy a block, give it a new one-word name, add its
+   families to the <link> on every page, and copy one <button class="font">
+   in every sidebar with data-set-font set to that name.
    ========================================================================= */
-
-/* ---- Narrower laptops / tablets in landscape: keep the sidebar, but stop
-        the page feeling cramped beside it. ---- */
-@media (max-width:1100px) and (min-width:961px){
-  main{ padding:2.6rem 1.7rem; }
+[data-font="sourcenunito"]{
+  --font-head:"Source Serif 4",Georgia,serif;
+  --font-body:"Nunito Sans",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
 }
-
-/* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
-@media (max-width:960px){
-  :root{ --topbar-h:52px; }
-
-  .layout{ grid-template-columns:minmax(0,1fr); }
-
-  .topbar{ display:flex; }
-  .menu-toggle{ display:flex; }
-  .overlay.open{ display:block; }
-
-  /* The panel sits directly under the fixed top bar, so the menu button
-     stays visible and tappable while the panel is open (tap it again, tap
-     the dimmed page, or press Escape to close). */
-  .sidebar{
-    position:fixed; top:var(--topbar-h); left:0;
-    height:calc(100dvh - var(--topbar-h)); width:min(84vw, 280px);
-    padding:1.6rem 1.5rem 2.5rem;
-    transform:translateX(-100%);
-    /* visibility, not just the transform: without it the closed panel stays
-       in the tab order, so a keyboard user on a phone tabs through six
-       off-screen links and ten colour circles before reaching the page. The
-       delay lets it finish sliding out before it disappears. */
-    visibility:hidden;
-    transition:transform .25s ease, visibility 0s linear .25s;
-    box-shadow:2px 0 20px rgba(0,0,0,.22);
-    overscroll-behavior:contain;   /* scrolling the panel doesn't scroll the page */
-  }
-  .sidebar.open{ transform:translateX(0); visibility:visible; transition-delay:0s; }
-
-  /* Stop the page behind the panel from scrolling while it is open
-     (script.js adds this class to <body>). */
-  body.menu-open{ overflow:hidden; }
-
-  /* Clear the fixed top bar. The tabs row sticks directly beneath it, so it
-     no longer needs the old left indent that kept it clear of a floating
-     button. */
-  main{ padding:calc(var(--topbar-h) + 1.6rem) 1.25rem 2rem; }
-  .page-tabs{ padding:.85rem 1.25rem; }
-  .tabs-fade{ width:1.6rem; }
-
-  .hero-split{ padding:.4rem 0 2.2rem; gap:1.6rem; }
-  .card-panel{ padding:1.3rem 1.2rem; }
-  .contact-block h2{ font-size:1.25rem; }
-  section{ padding:2rem 0; }
-
-  /* Comfortable tap targets for the colour circles. */
-  .swatches{ grid-template-columns:repeat(5, 30px); gap:.55rem; }
-  .swatch{ width:30px; height:30px; }
+/* The sturdy one: a slab serif with thick, even strokes that stay solid at
+   small sizes and on a dark panel. */
+[data-font="bitter"]{
+  --font-head:"Bitter",Georgia,serif;
+  --font-body:"Bitter",Georgia,serif;
 }
-
-/* ---- Phones ---- */
-@media (max-width:560px){
-  main{ padding:calc(var(--topbar-h) + 1.2rem) 1.1rem 1.5rem; }
-  .page-tabs{ padding:.8rem 1.1rem; }
-
-  /* The hero stacks and centres (this also used to happen at 640px). */
-  .hero-split{ grid-template-columns:minmax(0,1fr); text-align:center; }
-  .hero-photo-frame{ margin:0 auto; }
-  .hero-text .eyebrow{ letter-spacing:.11em; }
-
-  .lede, .item p{ font-size:1rem; }
-  .page-header{ padding-bottom:1.2rem; }
-
-  /* Numbered lists: give the text more of the width. */
-  .pub-list li, ul.plain li{ gap:.55rem; }
-  .pub-num, ul.plain .item-num{ min-width:1.5rem; }
-  .pub-title{ font-size:1rem; }
-
-  /* Buttons and tags go full-width-ish so they are easy to hit. */
-  .btn{ padding:.6rem 1.1rem; font-size:.85rem; }
-  .btn-row{ gap:.6rem; }
-  .skills-list li, .interest-list li{ font-size:.88rem; padding:.45rem .9rem; }
-
-  /* The teaching table becomes one stacked block per course — two columns
-     is too narrow to read on a phone. */
-  table.teach, table.teach tbody, table.teach tr, table.teach td{ display:block; width:auto; }
-  table.teach tr{ border-top:1px solid var(--line); padding:.75rem 0; }
-  table.teach tr:first-child{ border-top:none; padding-top:0; }
-  table.teach td{ border-top:none; padding:0; }
-  table.teach td:first-child{ width:auto; font-weight:600; }
-  table.teach td:last-child{ font-size:.88rem; color:var(--muted); font-style:italic; }
-
-  /* Two gallery tiles per row instead of one. */
-  .gallery-grid{ grid-template-columns:repeat(auto-fill, minmax(min(132px,100%), 1fr)); gap:.75rem; }
+/* Purpose-built for low vision: unusually large x-height, and letters that
+   cannot be mistaken for one another (I / l / 1, O / 0). Kept in the set on
+   purpose so a reader who struggles with the serifs has somewhere to go. */
+[data-font="atkinson"]{
+  --font-head:"Atkinson Hyperlegible",system-ui,sans-serif;
+  --font-body:"Atkinson Hyperlegible",system-ui,sans-serif;
 }
-
-/* ---- Very small phones (iPhone SE and similar) ---- */
-@media (max-width:380px){
-  main{ padding-left:.95rem; padding-right:.95rem; }
-  .page-tabs{ padding-left:.95rem; padding-right:.95rem; }
-  .swatches{ grid-template-columns:repeat(5, 28px); gap:.45rem; }
-  .swatch{ width:28px; height:28px; }
+/* The dressy one: a high-contrast display serif for headings, over a plain
+   humanist sans that keeps the body text easy. */
+[data-font="cormorant"]{
+  --font-head:"Cormorant Garamond",Georgia,serif;
+  --font-body:"Lato",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
 }
-
-/* ---- Landscape phones: the top bar would eat too much of a short screen ---- */
-@media (max-width:960px) and (max-height:450px){
-  :root{ --topbar-h:44px; }
-  .sidebar{ padding-top:1.2rem; }
-}
-
 
 /* =========================================================================
    DARK MODE
@@ -855,12 +1016,12 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --placeholder-bg:#1e1a18; --shadow-rgb:0,0,0;
   --on-accent:#181513; --swatch-ring:rgba(255,255,255,.30);
 }
-[data-mode="dark"][data-theme="olive"]{  /* Olive & Flax */
-  --ink:#e7e8e3; --muted:#8c8e7c; --line:#464736;
-  --cream:#181912; --cream-2:#24251b; --accent:#999f47;
-  --accent-soft:#5b5f30; --photo-bg:#323326; --nav-hover:#313225;
-  --placeholder-bg:#1e1f17; --shadow-rgb:0,0,0;
-  --on-accent:#181912; --swatch-ring:rgba(255,255,255,.30);
+[data-mode="dark"][data-theme="gold"]{  /* Antique Gold */
+  --ink:#e8e7e3; --muted:#908a7a; --line:#474336;
+  --cream:#191712; --cream-2:#25221b; --accent:#ae9137;
+  --accent-soft:#685928; --photo-bg:#333026; --nav-hover:#2f2c23;
+  --placeholder-bg:#1f1d17; --shadow-rgb:0,0,0;
+  --on-accent:#191712; --swatch-ring:rgba(255,255,255,.30);
 }
 [data-mode="dark"][data-theme="graphite"]{  /* Graphite & Chalk */
   --ink:#e5e5e6; --muted:#87898a; --line:#3d3e40;
@@ -869,12 +1030,12 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --placeholder-bg:#1a1b1b; --shadow-rgb:0,0,0;
   --on-accent:#151616; --swatch-ring:rgba(255,255,255,.30);
 }
-[data-mode="dark"][data-theme="aubergine"]{  /* Aubergine & Oat */
-  --ink:#e6e4e7; --muted:#8c8590; --line:#403944;
-  --cream:#161318; --cream-2:#211d23; --accent:#a182b3;
-  --accent-soft:#674d76; --photo-bg:#2e2831; --nav-hover:#29242c;
-  --placeholder-bg:#1c181e; --shadow-rgb:0,0,0;
-  --on-accent:#161318; --swatch-ring:rgba(255,255,255,.30);
+[data-mode="dark"][data-theme="teal"]{  /* Teal & Mist */
+  --ink:#e3e7e8; --muted:#7b8d91; --line:#364447;
+  --cream:#121819; --cream-2:#1b2325; --accent:#329eb4;
+  --accent-soft:#26616d; --photo-bg:#263133; --nav-hover:#222c2e;
+  --placeholder-bg:#171d1f; --shadow-rgb:0,0,0;
+  --on-accent:#121819; --swatch-ring:rgba(255,255,255,.30);
 }
 [data-mode="dark"][data-theme="plum"]{  /* Plum & Blush */
   --ink:#e7e4e6; --muted:#91838b; --line:#463740;
@@ -938,17 +1099,17 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   background-color:#231f1d;
   background-image:linear-gradient(90deg, #a88971 0 50%, #231f1d 50% 100%);
 }
-[data-mode="dark"] .swatch[data-set-theme="olive"]{
-  background-color:#24251b;
-  background-image:linear-gradient(90deg, #999f47 0 50%, #24251b 50% 100%);
+[data-mode="dark"] .swatch[data-set-theme="gold"]{
+  background-color:#25221b;
+  background-image:linear-gradient(90deg, #ae9137 0 50%, #25221b 50% 100%);
 }
 [data-mode="dark"] .swatch[data-set-theme="graphite"]{
   background-color:#1f2021;
   background-image:linear-gradient(90deg, #898f97 0 50%, #1f2021 50% 100%);
 }
-[data-mode="dark"] .swatch[data-set-theme="aubergine"]{
-  background-color:#211d23;
-  background-image:linear-gradient(90deg, #a182b3 0 50%, #211d23 50% 100%);
+[data-mode="dark"] .swatch[data-set-theme="teal"]{
+  background-color:#1b2325;
+  background-image:linear-gradient(90deg, #329eb4 0 50%, #1b2325 50% 100%);
 }
 [data-mode="dark"] .swatch[data-set-theme="plum"]{
   background-color:#241c21;
@@ -969,4 +1130,584 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-mode="dark"] .swatch[data-set-theme="dusk"]{
   background-color:#1b2024;
   background-image:linear-gradient(90deg, #6e91b8 0 50%, #1b2024 50% 100%);
+}
+
+/* =========================================================================
+   STYLES — the five "1 2 3 4 5" circles in the sidebar
+   A style changes SHAPE only: fills, borders, corners, shadows, spacing.
+   It never touches colour (that is the ten schemes) and never touches the
+   typefaces (those are the five A circles), so any style works with any
+   colour in either light or dark with any typeface.
+     1  Soft Card — the page is tinted and each part floats as a rounded card
+     2  Classic   — everything above this block; no [data-style] rules at all
+     3  Midnight  — the panel takes the scheme's own colour, ringed
+                    portraits, matching accent rules above and below the tabs
+     4  Grove     — deeper paper, darker tab row, rule under headings
+     5  Contrast  — charcoal navigation panel, accent dash beside headings
+   script.js writes data-style on <html>, plus data-panel="dark" for
+   the three styles that use a dark navigation panel. Nothing is written
+   for Classic, which is why Classic needs no rules of its own.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1 — SOFT CARD
+   Two variables do most of the work: --page-bg behind everything, --card-bg
+   for the things that float on it. In light mode the page is the tinted
+   colour and the cards are the lighter one; in dark mode that swaps, so the
+   cards always LIFT off the page rather than sinking into it.
+   ------------------------------------------------------------------------- */
+[data-style="card"]{
+  --card-r:20px;
+  --page-bg:var(--cream-2);
+  --card-bg:var(--cream);
+  --inset-bg:var(--cream-2);
+  --card-shadow:0 4px 18px rgba(var(--shadow-rgb),.09);
+}
+[data-style="card"][data-mode="dark"]{
+  --page-bg:var(--cream);
+  --card-bg:var(--cream-2);
+  --inset-bg:var(--cream);
+  --card-shadow:0 6px 20px rgba(0,0,0,.45);
+}
+[data-style="card"] body{ background:var(--page-bg); line-height:1.75; }
+[data-style="card"] .layout{ grid-template-columns:288px minmax(0,1fr); }
+
+/* ---- the sidebar becomes a floating card ---- */
+[data-style="card"] .sidebar{
+  background:var(--card-bg);
+  border:1px solid var(--line); border-right:1px solid var(--line);
+  border-radius:var(--card-r); box-shadow:var(--card-shadow);
+  margin:1.2rem 0 1.2rem 1.2rem; padding:2.2rem 1.5rem;
+  top:1.2rem; height:calc(100vh - 2.4rem);
+}
+[data-style="card"] .sidebar .avatar{
+  width:98px; height:98px; border:0;
+  box-shadow:0 0 0 5px var(--page-bg), 0 6px 16px rgba(var(--shadow-rgb),.12);
+}
+[data-style="card"] .sidebar-name{ font-weight:700; }
+[data-style="card"] .sidebar nav{ gap:.3rem; }
+[data-style="card"] .sidebar nav a{
+  border:0; border-left:0; border-radius:12px;
+  padding:.65rem .9rem; font-weight:600;
+}
+[data-style="card"] .sidebar nav a.active{
+  color:var(--on-accent); background:var(--accent); border-left-color:transparent;
+}
+[data-style="card"] .menu-toggle{ background:var(--accent); color:var(--on-accent); border-radius:12px; }
+[data-style="card"] .topbar{ background:var(--card-bg); }
+
+/* ---- content: every part is its own card ---- */
+[data-style="card"] main{ padding:1.2rem 1.6rem 0; }
+[data-style="card"] .wrap{ max-width:760px; }
+[data-style="card"] .page-header,
+[data-style="card"] .hero-split,
+[data-style="card"] section{
+  background:var(--card-bg); border:1px solid var(--line);
+  border-radius:var(--card-r); box-shadow:var(--card-shadow);
+  padding:1.9rem 2.1rem; margin-bottom:1.1rem;
+}
+[data-style="card"] .page-header{ padding:2rem 2.1rem; }
+[data-style="card"] section:last-of-type{ border-bottom:1px solid var(--line); }
+[data-style="card"] .hero-split{ padding:2.2rem 2.1rem; gap:2.2rem; }
+[data-style="card"] .hero-photo-frame{ border:0; padding:0; border-radius:26px; box-shadow:0 12px 28px rgba(var(--shadow-rgb),.16); }
+[data-style="card"] .home-photo{ border-radius:26px; }
+[data-style="card"] .hero-text .eyebrow{
+  display:inline-block; text-transform:none; letter-spacing:.01em;
+  font-size:.82rem; font-weight:700; margin:.8rem 0 0;
+  background:var(--nav-hover); border-radius:999px; padding:.3rem .9rem;
+}
+/* The dot sits in the text flow at the card's left edge, with the heading
+   indented past it — the template's own alignment. Leave it alone. */
+[data-style="card"] h2.section-title{ display:flex; align-items:center; gap:.7rem; }
+[data-style="card"] h2.section-title::before{
+  content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none;
+}
+[data-style="card"] .card-panel{ background:var(--inset-bg); border:0; border-radius:16px; padding:1.5rem 1.6rem; }
+[data-style="card"] .btn{
+  border:0; background:var(--inset-bg); color:var(--ink); font-weight:700; border-radius:999px;
+}
+@media (hover: hover){ [data-style="card"] .btn:hover{ background:var(--accent); color:var(--on-accent); } }
+
+/* ---- the in-page tab row becomes a floating pill bar ---- */
+[data-style="card"] .page-tabs-wrap{
+  background:var(--card-bg); border:1px solid var(--line); border-radius:999px;
+  box-shadow:var(--card-shadow); margin:1rem 0 1.1rem;
+  top:calc(var(--topbar-h) + .7rem);
+}
+[data-style="card"] .page-tabs{ padding:.55rem 2.3rem; gap:.4rem; }
+[data-style="card"] .page-tabs a{ border:0; border-radius:999px; font-weight:600; }
+[data-style="card"] .page-tabs a.current{ color:var(--on-accent); background:var(--accent); box-shadow:none; }
+[data-style="card"] .tabs-fade{ border-radius:999px; }
+[data-style="card"] .tabs-fade.left{ background:linear-gradient(to right, var(--card-bg), transparent); }
+[data-style="card"] .tabs-fade.right{ background:linear-gradient(to left, var(--card-bg), transparent); }
+
+/* ---- numbers become soft discs; tags become pills ---- */
+[data-style="card"] .pub-num,
+[data-style="card"] ul.plain .item-num{
+  width:1.95rem; height:1.95rem; min-width:1.95rem; border-radius:50%;
+  background:var(--nav-hover); display:flex; align-items:center; justify-content:center;
+  font-size:.82rem; font-weight:800;
+}
+[data-style="card"] .pub-abstract{ border:0; border-radius:14px; background:var(--placeholder-bg); padding:1rem 1.2rem; }
+[data-style="card"] .skills-list li,
+[data-style="card"] .interest-list li{ border:0; border-radius:999px; background:var(--inset-bg); font-weight:600; }
+[data-style="card"] .skills-list.lang-list li{ background:none; }
+[data-style="card"] .lang-chip{ border:0; background:var(--inset-bg); border-radius:999px; font-weight:600; }
+[data-style="card"] ul.bullets li::marker{ color:var(--accent); }
+[data-style="card"] .gallery-item,
+[data-style="card"] .gallery-item img{ border-radius:18px; border:0; }
+[data-style="card"] .gallery-placeholder{ border:2px dashed var(--line); border-radius:18px; }
+
+/* ---- the home page news cards, in card style ---- */
+[data-style="card"] .news-card{ background:var(--card-bg); border-radius:16px; box-shadow:var(--card-shadow); }
+[data-style="card"] .news-inner{ background:var(--inset-bg); border:0; border-radius:12px; }
+[data-style="card"] .quick-links a{ background:var(--inset-bg); border:0; border-radius:12px; font-weight:600; }
+
+/* ---- the appearance panel sits on the sidebar card ---- */
+[data-style="card"] .swatch.active{
+  box-shadow:inset 0 0 0 1px var(--swatch-ring), 0 0 0 2px var(--card-bg), 0 0 0 3.5px var(--accent);
+}
+/* ":not(.active)" so the selected circle keeps its filled accent — without
+   it these rules would sit later in the file and win. */
+[data-style="card"] .font-swatch:not(.active),
+[data-style="card"] .style-swatch:not(.active){ background:var(--inset-bg); border-color:transparent; }
+
+@media (max-width:1100px) and (min-width:961px){
+  [data-style="card"] .layout{ grid-template-columns:250px minmax(0,1fr); }
+  [data-style="card"] main{ padding:1.2rem 1.2rem 0; }
+  [data-style="card"] section,
+  [data-style="card"] .page-header,
+  [data-style="card"] .hero-split{ padding-left:1.6rem; padding-right:1.6rem; }
+}
+@media (max-width:960px){
+  [data-style="card"]{ --card-r:18px; }
+  [data-style="card"] .layout{ grid-template-columns:minmax(0,1fr); }
+  [data-style="card"] .sidebar{
+    margin:0; border-radius:0 18px 18px 0; border:0; border-right:1px solid var(--line);
+    width:min(84vw, 288px); padding:1.8rem 1.4rem 2.5rem; top:var(--topbar-h);
+    height:calc(100dvh - var(--topbar-h));
+  }
+  [data-style="card"] main{ padding:calc(var(--topbar-h) + 1rem) 1rem 0; }
+  [data-style="card"] section,
+  [data-style="card"] .page-header{ padding:1.5rem 1.3rem; }
+  [data-style="card"] .hero-split{ padding:1.6rem 1.3rem; gap:1.5rem; }
+  [data-style="card"] .card-panel{ padding:1.2rem; }
+  [data-style="card"] .page-tabs{ padding:.55rem 1.4rem; }
+}
+
+/* -------------------------------------------------------------------------
+   3, 4 and 5 — THE DARK-PANEL STYLES
+   All three set a dark navigation panel against the light page. What makes
+   them work with all ten colour schemes is that the panel colour is DERIVED
+   from the scheme rather than fixed: colour-mix takes the scheme's own
+   accent and its darkest ink and blends them, so Emerald gives a deep green
+   panel, Plum a deep wine one, and so on, in every mode.
+   The shared parts live under [data-panel="dark"], which script.js sets
+   alongside data-style. Each style then adds its own character below.
+     3  Midnight — the panel takes the scheme's colour, the portrait gets a
+                   ring, and a full accent rule closes the page header
+     4  Grove    — deeper paper, a filled tab for the current page, and a
+                   short rule UNDER each heading rather than beside it
+     5  Contrast — a neutral charcoal panel, a short accent dash before each
+                   heading, the portrait in a pale rounded frame
+   ------------------------------------------------------------------------- */
+
+/* ---- the panel's own palette, derived from the scheme ---- */
+[data-panel="dark"]{
+  --side-ink:var(--cream);                                        /* panel text */
+  --side-accent:color-mix(in srgb, var(--accent) 52%, #fff);      /* lifted so it reads on the dark panel */
+  --side-muted:color-mix(in srgb, var(--side-ink) 68%, var(--side-bg));
+  --side-line:color-mix(in srgb, var(--side-ink) 16%, transparent);
+  --side-hover:color-mix(in srgb, var(--side-ink) 9%, transparent);
+  --switch-bg:var(--side-accent);
+  --switch-dim:rgba(0,0,0,.45);
+}
+/* In dark mode the page is dark already, so the panel goes deeper still and
+   the accent is light to begin with. */
+[data-panel="dark"][data-mode="dark"]{
+  --side-ink:var(--ink);
+  --side-accent:var(--accent);
+}
+[data-style="contrast"]{ --side-bg:var(--ink); }
+[data-style="contrast"][data-mode="dark"]{ --side-bg:color-mix(in srgb, var(--cream) 62%, #000); }
+[data-style="midnight"]{ --side-bg:color-mix(in srgb, var(--accent) 22%, var(--ink)); }
+[data-style="midnight"][data-mode="dark"]{
+  --side-bg:color-mix(in srgb, var(--accent) 18%, color-mix(in srgb, var(--cream) 55%, #000));
+}
+[data-style="grove"]{ --side-bg:color-mix(in srgb, var(--accent) 26%, var(--ink)); }
+[data-style="grove"][data-mode="dark"]{
+  --side-bg:color-mix(in srgb, var(--accent) 16%, color-mix(in srgb, var(--cream) 55%, #000));
+}
+
+/* ---- the panel itself ---- */
+[data-panel="dark"] .sidebar{ background:var(--side-bg); border-right:0; }
+[data-panel="dark"] .sidebar-name{ color:var(--side-ink); }
+[data-panel="dark"] .sidebar .avatar{ background:var(--side-hover); border-color:var(--side-line); }
+[data-panel="dark"] .sidebar nav a{ color:var(--side-muted); }
+@media (hover: hover){
+  [data-panel="dark"] .sidebar nav a:hover{ background:var(--side-hover); color:var(--side-ink); }
+}
+[data-panel="dark"] .sidebar nav a.active{
+  color:var(--side-accent); background:var(--side-hover); border-left-color:var(--side-accent);
+}
+[data-panel="dark"] .topbar{ background:var(--side-bg); border-bottom-color:var(--side-line); }
+[data-panel="dark"] .topbar-title{ color:var(--side-ink); }
+[data-panel="dark"] .menu-toggle{ background:var(--side-accent); color:var(--side-bg); }
+
+/* ---- the appearance panel, now sitting on a dark ground ---- */
+[data-panel="dark"] .theme-picker{ border-top-color:var(--side-line); }
+[data-panel="dark"] .appearance-head{ border-bottom-color:var(--side-line); }
+[data-appearance="open"][data-panel="dark"] .theme-picker{ border-bottom-color:var(--side-line); }
+[data-panel="dark"] .appearance-title{ color:var(--side-ink); }
+@media (hover: hover){
+  [data-panel="dark"] .appearance-title:hover{ background:var(--side-hover); color:var(--side-accent); }
+}
+[data-panel="dark"] .appearance-title[aria-expanded="true"]{ color:var(--side-accent); }
+[data-appearance="open"][data-panel="dark"] .appearance-title{ background:var(--side-hover); }
+[data-panel="dark"] .theme-picker-label{ color:var(--side-muted); }
+[data-panel="dark"] .swatch.active{
+  box-shadow:inset 0 0 0 1px var(--swatch-ring), 0 0 0 2px var(--side-bg), 0 0 0 3.5px var(--side-accent);
+}
+[data-panel="dark"] .font-swatch:not(.active),
+[data-panel="dark"] .style-swatch:not(.active){
+  background:var(--side-hover); color:var(--side-ink); border-color:var(--side-line);
+}
+[data-panel="dark"] .font-swatch.active,
+[data-panel="dark"] .style-swatch.active{
+  background:var(--side-accent); color:var(--side-bg); border-color:var(--side-accent);
+}
+
+/* ---- 3 Midnight: rings on the portraits, matching accent rules above and
+        below the in-page tab bar ---- */
+[data-style="midnight"] .sidebar .avatar{ border:3px solid var(--side-accent); }
+[data-style="midnight"] .hero-photo-frame{
+  border:2px solid var(--accent); border-radius:50%; padding:9px; box-shadow:none;
+}
+[data-style="midnight"] .home-photo{ border-radius:50%; }
+/* The accent rule under the page heading, and the SAME rule under the in-page
+   tab bar so the row is framed by two matching lines rather than one strong
+   one and one faint one. Both are stated here; the shared 1px --line rule is
+   what they replace. */
+[data-style="midnight"] .page-header{ border-bottom:2px solid var(--accent); }
+[data-style="midnight"] .page-tabs-wrap{ border-bottom:2px solid var(--accent); }
+[data-style="midnight"] .page-tabs a{ background:var(--placeholder-bg); }
+
+/* ---- 4 Grove: deeper paper, a darker tab row, a rule under headings ----
+   The page itself takes a deeper, faintly tinted shade rather than the usual
+   pale one, and the panels on it lift back up to the normal paper colour.
+   That is what separates Grove from Midnight, which share a panel family. */
+[data-style="grove"]{
+  --grove-page:color-mix(in srgb, var(--cream-2) 90%, var(--accent));
+  /* --line is mixed for the PALE paper of the other styles; against Grove's
+     deeper page it all but disappears, which is why the rules above and below
+     the in-page tab bar had gone missing here. These three are mixed against
+     Grove's own page colour instead, so they stay visible in every scheme and
+     in both light and dark. */
+  --grove-line:color-mix(in srgb, var(--ink) 60%, var(--grove-page));
+  --grove-tab:color-mix(in srgb, var(--ink) 10%, var(--grove-page));
+  --grove-tab-line:color-mix(in srgb, var(--accent) 75%, var(--grove-page));
+  /* Panels and tag chips. Grove's page is a warm, accent-tinted cream, so a
+     near-white panel sits on it as a foreign patch. These take a little of the
+     scheme's accent themselves, which is what ties them to the page, and are
+     outlined in a deeper mix of the same accent so the edge is actually
+     visible against that page — the plain --line is mixed for the pale paper
+     the other styles use and disappears here. */
+  --grove-panel:color-mix(in srgb, var(--accent) 9%, var(--cream));
+  --grove-panel-line:color-mix(in srgb, var(--accent) 70%, var(--grove-page));
+  --grove-chip-line:color-mix(in srgb, var(--accent) 72%, var(--grove-page));
+  /* The hairlines between sections, between publications, between table rows.
+     They use the shared --line, which is invisible on Grove's deeper page.
+     Mixed a little lighter than --grove-line so the section rules stay quieter
+     than the two accent rules framing the in-page tab bar. */
+  --grove-rule:color-mix(in srgb, var(--ink) 32%, var(--grove-page));
+  /* The accent, pulled towards the body-text colour. On the chip fill the
+     accent alone is too pale to read in several schemes; --ink is dark in
+     light mode and pale in dark mode, so this always moves AWAY from the
+     fill. Used for the highlighted tab and the hovered language chip. */
+  --grove-accent-ink:color-mix(in srgb, var(--accent) 55%, var(--ink));
+}
+[data-style="grove"][data-mode="dark"]{ --grove-page:color-mix(in srgb, var(--cream) 90%, #000); }
+[data-style="grove"] body{ background:var(--grove-page); }
+[data-style="grove"] .page-tabs-wrap{ background:var(--grove-page); }
+[data-style="grove"] .tabs-fade.left{ background:linear-gradient(to right, var(--grove-page), transparent); }
+[data-style="grove"] .tabs-fade.right{ background:linear-gradient(to left, var(--grove-page), transparent); }
+[data-style="grove"] .card-panel{
+  background:var(--grove-panel); border-color:var(--grove-panel-line);
+}
+[data-style="grove"] .news-inner,
+[data-style="grove"] .quick-links a{ background:var(--grove-panel); }
+/* TAG CHIPS — Areas of Interest (Research), Skills and Hobbies and Spoken
+   Languages (Miscellaneous). No fill at all here: the page shows straight
+   through, and the chip is drawn by its outline alone — a hairline of the
+   same weight as the in-page tab buttons rather than the 2px the other styles
+   use, in an accent mix that is visible against Grove’s deeper page.
+   ":not(.lang-list)" matters: in the languages list the <li> is only a
+   positioning box for the pop-up bubble and the visible chip is the <button>
+   inside it, so the colours have to go on ".lang-chip" instead — without the
+   exclusion the <li> paints a second, square box behind every chip. */
+[data-style="grove"] .interest-list li,
+[data-style="grove"] .skills-list:not(.lang-list) li,
+[data-style="grove"] .lang-chip{
+  background:transparent; border:1px solid var(--grove-chip-line);
+}
+/* The language chips are buttons, so they highlight on hover and while their
+   bubble is open, exactly as they do in the other styles. Stated again here
+   because the fill above sits later in the file and would otherwise win. */
+/* Hover, and the open state on a touch screen. In the other styles the chip
+   goes from a pale 2px border to a 2px accent one, which is a big jump; here
+   the resting border is already an accent mix and only a hairline, so the same
+   rule would barely show. The inset shadow doubles the outline’s weight on top
+   of the accent colour, which reads as the same highlight — and because it is
+   a shadow rather than a thicker border, nothing shifts by a pixel. */
+@media (hover: hover){
+  [data-style="grove"] .lang-chip:hover{
+    border-color:var(--accent); color:var(--grove-accent-ink);
+    box-shadow:inset 0 0 0 1px var(--accent);
+  }
+}
+[data-style="grove"] .lang-chip[aria-expanded="true"]{
+  border-color:var(--accent); color:var(--grove-accent-ink);
+  box-shadow:inset 0 0 0 1px var(--accent);
+}
+
+/* The hairlines that separate sections, publications and table rows. */
+[data-style="grove"] section,
+[data-style="grove"] .pub-list li,
+[data-style="grove"] ul.plain li,
+[data-style="grove"] table.teach td,
+[data-style="grove"] table.teach tr{ border-color:var(--grove-rule); }
+
+[data-style="grove"] .sidebar nav a{ border-radius:10px; }
+[data-style="grove"] .sidebar nav a.active{
+  color:var(--side-ink); border-left-color:transparent;
+  background:color-mix(in srgb, var(--side-accent) 20%, transparent);
+}
+[data-style="grove"] .sidebar .avatar{ border:0; }
+[data-style="grove"] h2.section-title{ position:relative; padding-bottom:.65rem; }
+[data-style="grove"] h2.section-title::after{
+  content:""; position:absolute; left:0; bottom:0; width:2.2rem; height:3px; background:var(--accent-soft);
+}
+[data-style="grove"] .hero-photo-frame{
+  border:0; padding:0; border-radius:50%; box-shadow:0 8px 22px rgba(var(--shadow-rgb),.16);
+}
+[data-style="grove"] .home-photo{ border-radius:50%; }
+/* THE IN-PAGE TAB BAR. The rule under the page heading and the rule under the
+   bar itself both use Grove's own line colour so they actually show. The tabs
+   are all filled a step darker than the bar behind them, with an accent-tinted
+   outline. The tab you are ON is not filled differently — it is told apart by
+   the accent text and the doubled accent outline the shared ".current" rule
+   gives it, so the row stays one even tone. */
+[data-style="grove"] .page-header{ border-bottom-color:var(--grove-line); }
+[data-style="grove"] .page-tabs-wrap{ border-bottom-color:var(--grove-line); }
+[data-style="grove"] .page-tabs a{ background:var(--grove-tab); }
+/* ":not(.current)" matters: without it this rule sits later in the file than
+   the shared ".page-tabs a.current" rule, carries the same weight, and would
+   quietly strip the accent outline off the tab you are on. */
+[data-style="grove"] .page-tabs a:not(.current){ border-color:var(--grove-tab-line); }
+/* The label on the current tab is the scheme's accent deepened towards the
+   body-text colour. On the darker tab fill the accent on its own is too pale
+   to read in several schemes; mixing it towards --ink (which is dark in light
+   mode and pale in dark mode) keeps the hue but always moves it AWAY from the
+   fill, so every scheme clears the 4.5:1 minimum in both modes. */
+[data-style="grove"] .page-tabs a.current{ color:var(--grove-accent-ink); }
+@media (hover: hover){
+  /* the shared hover rule sits earlier in the file and would be out-ranked by
+     the fill above, so Grove states its own; ":not(.current)" keeps the filled
+     tab filled while the pointer is over it. */
+  [data-style="grove"] .page-tabs a:not(.current):hover{
+    border-color:var(--accent); color:var(--accent);
+  }
+}
+
+/* ---- 5 Contrast: a dash beside each heading, portrait in a pale frame ---- */
+[data-style="contrast"] h2.section-title{ display:flex; align-items:center; gap:.75rem; }
+[data-style="contrast"] h2.section-title::before{
+  content:""; width:1.15rem; height:2px; background:var(--accent); flex:none;
+}
+[data-style="contrast"] .btn{ border-radius:8px; }
+[data-style="contrast"] .page-tabs a{ border-radius:8px; }
+[data-style="contrast"] .sidebar .avatar{ border-radius:12px; border:2px solid var(--side-accent); }
+[data-style="contrast"] .hero-photo-frame{
+  border:0; padding:10px; border-radius:18px; background:var(--placeholder-bg);
+  box-shadow:0 10px 26px rgba(var(--shadow-rgb),.16);
+}
+[data-style="contrast"] .home-photo{ border-radius:11px; }
+
+/* =========================================================================
+   RESPONSIVE — three sizes. LAST IN THE FILE ON PURPOSE, so a media
+   query is never out-ranked by a rule of equal weight further down
+     961px and up: sidebar always on screen.
+     960px and below (includes iPads in portrait): sidebar hidden behind a
+       slim fixed top bar with the menu button; it slides in when tapped.
+     560px and below: extra tweaks — tighter numbered lists, stacked
+       teaching table, smaller gallery tiles.
+   Change the 960 below to move the point where the sidebar collapses.
+   ========================================================================= */
+
+/* ---- TOUCH-SIZED CONTROLS. Anything a finger has to hit needs to be about
+        24px across (WCAG 2.5.8). Two controls are smaller than that at their
+        desktop size, so they are given a bigger hit area here and here only —
+        the desktop look is left exactly as it was.
+          - the carousel dots: the button becomes a 24px square and the little
+            9px circle is drawn inside it, so what you SEE is unchanged but
+            what you can TAP is nearly three times wider. The gap goes to 0
+            because the squares now provide the spacing themselves.
+          - the "Abstract" and "More" buttons: padding above and below, pulled
+            straight back out again with an equal negative margin, so the hit
+            area grows without moving a single line of text. ---- */
+@media (max-width:960px){
+  .carousel-dots{ gap:0; }
+  .carousel-dot{
+    width:24px; height:24px; border:0; background:none;
+    display:grid; place-items:center;
+  }
+  .carousel-dot::before{
+    content:""; width:9px; height:9px; border-radius:50%;
+    border:1px solid var(--accent); background:transparent;
+    transition:background-color .18s ease;
+  }
+  /* the base rule fills the BUTTON; here the button is only the hit area,
+     so the fill has to move to the little circle inside it. */
+  .carousel-dot[aria-selected="true"]{ background:none; }
+  .carousel-dot[aria-selected="true"]::before{ background:var(--accent); }
+  .pub-toggle{ padding:.3rem 0; margin-top:-.3rem; margin-bottom:-.3rem; }
+}
+@media (max-width:960px) and (hover: hover){
+  .carousel-dot:hover{ background:none; }
+  .carousel-dot:hover::before{ background:var(--accent-soft); }
+}
+
+/* ---- Narrower laptops / tablets in landscape: keep the sidebar, but stop
+        the page feeling cramped beside it. ---- */
+@media (max-width:1100px) and (min-width:961px){
+  main{ padding:2.6rem 1.7rem; }
+}
+
+/* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
+@media (max-width:860px){
+  .news-grid{ grid-template-columns:minmax(0,1fr); }
+  .news-inner{ min-height:0; }
+}
+
+@media (max-width:960px){
+  :root{ --topbar-h:52px; }
+
+  .layout{ grid-template-columns:minmax(0,1fr); }
+
+  .topbar{ display:flex; }
+  .menu-toggle{ display:flex; }
+  .overlay.open{ display:block; }
+
+  /* The panel sits directly under the fixed top bar, so the menu button
+     stays visible and tappable while the panel is open (tap it again, tap
+     the dimmed page, or press Escape to close). */
+  .sidebar{
+    position:fixed; top:var(--topbar-h); left:0;
+    height:calc(100dvh - var(--topbar-h)); width:min(84vw, 280px);
+    padding:1.6rem 1.5rem 2.5rem;
+    transform:translateX(-100%);
+    /* visibility, not just the transform: without it the closed panel stays
+       in the tab order, so a keyboard user on a phone tabs through six
+       off-screen links and ten colour circles before reaching the page. The
+       delay lets it finish sliding out before it disappears. */
+    visibility:hidden;
+    transition:transform .25s ease, visibility 0s linear .25s;
+    box-shadow:2px 0 20px rgba(0,0,0,.22);
+    overscroll-behavior:contain;   /* scrolling the panel doesn't scroll the page */
+  }
+  .sidebar.open{ transform:translateX(0); visibility:visible; transition-delay:0s; }
+
+  /* Stop the page behind the panel from scrolling while it is open
+     (script.js adds this class to <body>). */
+  body.menu-open{ overflow:hidden; }
+
+  /* Clear the fixed top bar. The tabs row sticks directly beneath it, so it
+     no longer needs the old left indent that kept it clear of a floating
+     button. */
+  main{ padding:calc(var(--topbar-h) + 1.6rem) 1.25rem 2rem; }
+  .page-tabs{ padding:.85rem 1.25rem; }
+  .tabs-fade{ width:1.6rem; }
+
+  .hero-split{ padding:.4rem 0 2.2rem; gap:1.6rem; }
+  .card-panel{ padding:1.3rem 1.2rem; }
+  .contact-block h2{ font-size:1.25rem; }
+  section{ padding:2rem 0; }
+
+  /* Comfortable tap targets for the colour circles. */
+  /* the circles size themselves from the grid, so only the gap and the type
+     inside them need saying here. */
+  .swatches{ gap:.55rem; }
+  .fonts, .styles{ gap:.55rem; }
+  .font-swatch, .style-swatch{ font-size:1.15rem; }
+  .style-swatch{ font-size:1.02rem; }
+}
+
+/* ---- Narrow screens: the spoken-language bubble spans the whole chip row
+        instead of hanging off its own chip. On a wide screen the bubble opens
+        beneath the chip you pointed at and there is room for it; on a phone a
+        chip near the right edge would push its bubble past the edge of the
+        page and make the whole page scroll sideways. Anchoring the bubble to
+        the list rather than to one chip removes that for good. The little
+        tail is hidden here because it would no longer point at anything. ---- */
+@media (max-width:640px){
+  .skills-list.lang-list{ position:relative; }
+  .skills-list.lang-list li{ position:static; }
+  .lang-tip{ left:0; right:0; width:auto; max-width:none; }
+  .lang-tip::after{ display:none; }
+}
+
+/* ---- Phones ---- */
+@media (max-width:560px){
+  main{ padding:calc(var(--topbar-h) + 1.2rem) 1.1rem 1.5rem; }
+  .page-tabs{ padding:.8rem 1.1rem; }
+
+  /* The hero stacks and centres (this also used to happen at 640px). */
+  .hero-split{ grid-template-columns:minmax(0,1fr); text-align:center; }
+  .hero-photo-frame{ margin:0 auto; }
+  .hero-text .eyebrow{ letter-spacing:.11em; }
+
+  .lede, .item p{ font-size:1rem; }
+  .page-header{ padding-bottom:1.2rem; }
+
+  /* Numbered lists: give the text more of the width. */
+  .pub-list li, ul.plain li{ gap:.55rem; }
+  .pub-num, ul.plain .item-num{ min-width:1.5rem; }
+  .pub-title{ font-size:1rem; }
+
+  /* Buttons and tags go full-width-ish so they are easy to hit. */
+  .btn{ padding:.6rem 1.1rem; font-size:.85rem; }
+  .btn-row{ gap:.6rem; }
+  .skills-list li, .interest-list li{ font-size:.88rem; padding:.45rem .9rem; }
+
+  /* The teaching table becomes one stacked block per course — two columns
+     is too narrow to read on a phone. */
+  table.teach, table.teach tbody, table.teach tr, table.teach td{ display:block; width:auto; }
+  table.teach tr{ border-top:1px solid var(--line); padding:.75rem 0; }
+  table.teach tr:first-child{ border-top:none; padding-top:0; }
+  table.teach td{ border-top:none; padding:0; }
+  table.teach td:first-child{ width:auto; font-weight:600; }
+  table.teach td:last-child{ font-size:.88rem; color:var(--muted); font-style:italic; }
+
+  /* Two gallery tiles per row instead of one. */
+  .gallery-grid{ grid-template-columns:repeat(auto-fill, minmax(min(132px,100%), 1fr)); gap:.75rem; }
+
+  /* the three news cards go one per row, and the date column in the full
+     lists sits above its item rather than beside it */
+  .news-list li{ flex-direction:column; gap:.2rem; }
+}
+
+/* ---- Very small phones (iPhone SE and similar) ---- */
+@media (max-width:380px){
+  main{ padding-left:.95rem; padding-right:.95rem; }
+  .page-tabs{ padding-left:.95rem; padding-right:.95rem; }
+  .swatches{ gap:.45rem; }
+  .fonts, .styles{ gap:.45rem; }
+  .font-swatch, .style-swatch{ font-size:1.05rem; }
+  .style-swatch{ font-size:.95rem; }
+}
+
+/* ---- Landscape phones: the top bar would eat too much of a short screen ---- */
+@media (max-width:960px) and (max-height:450px){
+  :root{ --topbar-h:44px; }
+  .sidebar{ padding-top:1.2rem; }
 }

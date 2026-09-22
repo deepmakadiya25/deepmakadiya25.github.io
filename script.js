@@ -1,13 +1,50 @@
 /* =========================================================================
-   Deep H. Makadiya — academic site. Shared by every page.
-   Handles the mobile sidebar toggle, the in-page section tabs, the colour
-   picker, the dark mode switch, the "Last updated" line and the Abstract
-   toggles.
-   The only line you normally edit here is LAST_UPDATED, just below; all
-   your text lives in the .html files.
+   Deep H. Makadiya — academic site. One script, shared by every page.
+
+   WHAT IS IN HERE, in the order it appears. Each block below carries its
+   own note explaining what it does and what (if anything) you must edit
+   when you add content.
+
+     1  LAST_UPDATED          the one line you normally change (just below)
+     2  Mobile sidebar        the menu button, overlay and Escape key
+     3  Section tabs          the scrolling tab row, fades and arrows
+     4  Colour picker         sets data-theme on <html>
+     5  Appearance panel      opens/closes the four pickers, remembers it
+     6  Typeface picker       sets data-font on <html>
+     7  Style picker          sets data-style (and data-panel) on <html>
+     8  Dark mode switch      sets data-mode on <html>
+     9  "Last updated"        writes LAST_UPDATED into every footer
+    10  Gallery lightbox      gallery.html
+    11  More / Less blocks    Miscellaneous > Some Useful Links
+    12  Language bubbles      Miscellaneous, touch screens only
+    13  Rotating news cards   home page
+    14  Abstract toggles      Research
+    15  Scrollspy             marks the tab of the section you are reading
+
+   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 8). Each picker writes one
+   attribute on the <html> element and saves the choice in the visitor's
+   browser (localStorage). styles.css does all the actual re-colouring and
+   re-shaping from those attributes:
+
+     data-theme="sage"      colour scheme          key "site-theme"
+     data-font="bitter"     typeface pair          key "site-font"
+     data-style="midnight"  layout style           key "site-style"
+     data-mode="dark"       dark mode              key "site-mode"
+     data-appearance="open" panel left open        key "site-appearance"
+
+   The four axes are independent — any colour works with any typeface, any
+   style, in light or dark. A small script in every page's <head> re-applies
+   the saved attributes BEFORE the page paints, so nothing flickers. If you
+   ever add a page, copy that <head> script across too or the visitor's
+   choices will be ignored on it.
+
+   Nearly every block finds its own elements with querySelectorAll, so
+   adding one more publication, photo, link, news card or tab is an HTML
+   edit only — this file needs no change.
    ========================================================================= */
+
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
-   Shown as "Last updated: ..." in the footer of all 8 pages. */
+   Shown as "Last updated: ..." in the footer of every page. */
 var LAST_UPDATED = "22 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -116,6 +153,104 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   markActive();
+
+  // APPEARANCE PANEL. The row in the sidebar opens and closes the four
+  // controls beneath it, and the state is remembered: open it once and it
+  // stays open as you move around the site and after a refresh. The panel
+  // is shown by data-appearance="open" on <html>, which the script in each
+  // page's <head> sets before the page paints, so an open panel never
+  // flickers shut on load. This code only keeps the button in step and
+  // writes the choice down.
+  var APPEARANCE_KEY = "site-appearance";
+  var appearanceToggle = document.getElementById("appearanceToggle");
+  if (appearanceToggle) {
+    var setAppearance = function (open) {
+      if (open) { document.documentElement.setAttribute("data-appearance", "open"); }
+      else { document.documentElement.removeAttribute("data-appearance"); }
+      appearanceToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    setAppearance(document.documentElement.getAttribute("data-appearance") === "open");
+    appearanceToggle.addEventListener("click", function () {
+      var open = this.getAttribute("aria-expanded") !== "true";
+      setAppearance(open);
+      try { localStorage.setItem(APPEARANCE_KEY, open ? "open" : "shut"); } catch (e) {}
+    });
+  }
+
+  // TYPEFACE PICKER (the five "A" circles). Clicking one sets
+  // data-font="..." on <html>; styles.css names a heading face and a body
+  // face per pair, so the whole site re-sets at once. The choice is saved in
+  // the browser and re-applied by the small script in each page's <head>.
+  // Works with whatever circles it finds — adding a pair is HTML + CSS only.
+  var FONT_KEY = "site-font";
+  var fontSwatches = document.querySelectorAll("[data-set-font]");
+
+  function currentFont() {
+    return document.documentElement.getAttribute("data-font") || "playfair";
+  }
+  function markFont() {
+    var now = currentFont();
+    for (var i = 0; i < fontSwatches.length; i++) {
+      var on = fontSwatches[i].getAttribute("data-set-font") === now;
+      fontSwatches[i].classList.toggle("active", on);
+      fontSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+  for (var fz = 0; fz < fontSwatches.length; fz++) {
+    fontSwatches[fz].addEventListener("click", function () {
+      var picked = this.getAttribute("data-set-font");
+      document.documentElement.setAttribute("data-font", picked);
+      try { localStorage.setItem(FONT_KEY, picked); } catch (e) {}
+      markFont();
+    });
+  }
+  markFont();
+
+  // STYLE PICKER (the "1 2 3 4 5" circles). Clicking one sets data-style on
+  // <html>; the STYLES section of styles.css re-shapes the site to match.
+  // Classic (circle 2) is the plain site with no [data-style] rules of its
+  // own, so nothing breaks if the attribute is missing or holds a name this
+  // version of the stylesheet does not know.
+  var STYLE_KEY = "site-style";
+  var styleSwatches = document.querySelectorAll("[data-set-style]");
+
+  function currentStyle() {
+    return document.documentElement.getAttribute("data-style") || "classic";
+  }
+  function markStyle() {
+    var now = currentStyle();
+    for (var i = 0; i < styleSwatches.length; i++) {
+      var on = styleSwatches[i].getAttribute("data-set-style") === now;
+      styleSwatches[i].classList.toggle("active", on);
+      styleSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+  // These three put a dark navigation panel against the light page. They
+  // share every rule under [data-panel="dark"] in styles.css, so the
+  // attribute goes on alongside data-style. Add a style to this list and it
+  // inherits the whole dark panel for free.
+  var DARK_PANEL_STYLES = ["contrast", "midnight", "grove"];
+
+  function applyStyle(picked) {
+    var d = document.documentElement;
+    d.setAttribute("data-style", picked);
+    var dark = false;
+    for (var i = 0; i < DARK_PANEL_STYLES.length; i++) {
+      if (DARK_PANEL_STYLES[i] === picked) { dark = true; }
+    }
+    if (dark) { d.setAttribute("data-panel", "dark"); }
+    else { d.removeAttribute("data-panel"); }
+  }
+
+  for (var sy = 0; sy < styleSwatches.length; sy++) {
+    styleSwatches[sy].addEventListener("click", function () {
+      var picked = this.getAttribute("data-set-style");
+      applyStyle(picked);
+      try { localStorage.setItem(STYLE_KEY, picked); } catch (e) {}
+      markStyle();
+    });
+  }
+  markStyle();
 
   // DARK MODE SWITCH (under the colour circles). It sets data-mode="dark" on
   // <html>; styles.css carries a dark version of every colour scheme, so the
@@ -328,6 +463,97 @@ document.addEventListener("DOMContentLoaded", function () {
     })(linkBlocks[b]);
   }
 
+  // SPOKEN LANGUAGE BUBBLES (Miscellaneous). With a mouse or a keyboard the
+  // bubble appears on its own, from CSS. This is only for touch screens,
+  // where a tap has to open and close it. Tapping a second chip closes the
+  // first, and a tap anywhere else, or Escape, closes whichever is open.
+  var langChips = document.querySelectorAll(".lang-chip");
+  if (langChips.length) {
+    var closeLangs = function (except) {
+      for (var i = 0; i < langChips.length; i++) {
+        if (langChips[i] !== except) langChips[i].setAttribute("aria-expanded", "false");
+      }
+    };
+    for (var L = 0; L < langChips.length; L++) {
+      langChips[L].addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = this.getAttribute("aria-expanded") === "true";
+        closeLangs(this);
+        this.setAttribute("aria-expanded", open ? "false" : "true");
+      });
+    }
+    document.addEventListener("click", function () { closeLangs(null); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLangs(null);
+    });
+  }
+
+  // ROTATING NEWS CARDS (home page). Any ".carousel" shows one
+  // ".carousel-item" at a time and moves to the next every five seconds. The
+  // row of dots is built here from however many items are present, so adding
+  // or removing an item in the HTML needs no change in this file.
+  //   - rotation pauses while the pointer is over the card, or while the
+  //     keyboard focus is inside it, and picks up again afterwards;
+  //   - clicking a dot stops the rotation for good, on the assumption that
+  //     the visitor now wants to read at their own pace;
+  //   - a visitor whose system asks for reduced motion never gets rotation at
+  //     all, only the dots.
+  // Change the 5000 below to speed it up or slow it down (milliseconds).
+  var CAROUSEL_MS = 5000;
+  var carousels = document.querySelectorAll("[data-carousel]");
+  for (var c = 0; c < carousels.length; c++) {
+    (function (box) {
+      var items = box.querySelectorAll(".carousel-item");
+      if (items.length === 0) return;
+
+      var dots = document.createElement("div");
+      dots.className = "carousel-dots";
+      box.appendChild(dots);
+
+      var index = 0, timer = null, paused = false, stopped = false;
+      var buttons = [];
+
+      function show(n) {
+        index = (n + items.length) % items.length;
+        for (var i = 0; i < items.length; i++) {
+          items[i].classList.toggle("is-current", i === index);
+          buttons[i].setAttribute("aria-selected", i === index ? "true" : "false");
+        }
+      }
+      function tick() { if (!paused && !stopped) show(index + 1); }
+      function start() {
+        if (timer || stopped || items.length < 2) return;
+        timer = window.setInterval(tick, CAROUSEL_MS);
+      }
+      function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
+
+      for (var i = 0; i < items.length; i++) {
+        (function (n) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "carousel-dot";
+          b.setAttribute("aria-label", "Item " + (n + 1) + " of " + items.length);
+          b.setAttribute("aria-selected", "false");
+          b.addEventListener("click", function () { stopped = true; stop(); show(n); });
+          dots.appendChild(b);
+          buttons.push(b);
+        })(i);
+      }
+
+      show(0);
+
+      // Only rotate on its own when the visitor has not asked for less motion.
+      var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!calm) {
+        box.addEventListener("mouseenter", function () { paused = true; });
+        box.addEventListener("mouseleave", function () { paused = false; });
+        box.addEventListener("focusin", function () { paused = true; });
+        box.addEventListener("focusout", function () { paused = false; });
+        start();
+      }
+    })(carousels[c]);
+  }
+
   // ABSTRACTS — each "Abstract" button opens the panel whose id matches its
   // aria-controls. Works for any number of buttons; no edits when you add a
   // paper.
@@ -381,15 +607,24 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!active) return;
       active.link.classList.add("current");
 
-      // Keep the highlighted tab visible when the row is scrollable.
+      // Keep the highlighted tab visible when the row is scrollable. The
+      // arrows and the fades sit ON TOP of the row's own left and right
+      // padding, so a tab parked any closer than that padding ends up behind
+      // one of them. Measuring the padding rather than assuming a number also
+      // keeps this right at the widths where styles.css changes it.
       if (tabs.scrollWidth > tabs.clientWidth + 1) {
         var t = active.link;
+        var pad = window.getComputedStyle(tabs);
+        var padLeft = parseFloat(pad.paddingLeft) || 0;
+        var padRight = parseFloat(pad.paddingRight) || 0;
         var left = t.offsetLeft - tabs.offsetLeft;
         var right = left + t.offsetWidth;
-        if (left < tabs.scrollLeft + 8) {
-          tabs.scrollTo({ left: Math.max(0, left - 16), behavior: "smooth" });
-        } else if (right > tabs.scrollLeft + tabs.clientWidth - 8) {
-          tabs.scrollTo({ left: right - tabs.clientWidth + 16, behavior: "smooth" });
+        if (left < tabs.scrollLeft + padLeft) {
+          tabs.scrollTo({ left: Math.max(0, left - padLeft), behavior: "smooth" });
+        } else if (right > tabs.scrollLeft + tabs.clientWidth - padRight) {
+          // For the last tab this lands exactly at the end of the row, which
+          // is also what hides the right-hand arrow and fade.
+          tabs.scrollTo({ left: right - tabs.clientWidth + padRight, behavior: "smooth" });
         }
       }
     }

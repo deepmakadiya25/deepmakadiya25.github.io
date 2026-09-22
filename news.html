@@ -9,21 +9,29 @@
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
-<title>Page Not Found — Deep H. Makadiya</title>
+<title>Latest News and Updates — Deep H. Makadiya</title>
 
-<!-- GitHub Pages shows this file whenever someone asks for an address that
-     does not exist — a mistyped link, or a page that has since been renamed.
-     Because it can be served from any address, every link and file here
-     starts with "/" rather than being relative. "noindex" keeps it out of
-     search results. Nothing to edit unless you move the site. -->
+<!-- SEARCH RESULTS AND LINK PREVIEWS
+     "description" is the grey line Google shows under the page title; the
+     og:/twitter: lines are what chat apps read when the link is pasted.
+     IF THE SITE ADDRESS EVER CHANGES, update canonical, og:url and og:image
+     on EVERY page. They all begin https://deepmakadiya25.github.io
+     =================================================================== -->
+<!-- Kept out of search results while the "Latest News & Updates" section on
+     the home page is switched off — nothing links here, and the entries are
+     still placeholders. DELETE THE NEXT LINE when you switch that section
+     back on (and un-comment this page's block in sitemap.xml). -->
 <meta name="robots" content="noindex">
-<meta name="description" content="That page does not exist on this site.">
-
-<meta name="color-scheme" content="light dark">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
+<meta name="description" content="Latest news and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
+<link rel="canonical" href="https://deepmakadiya25.github.io/news.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Deep H. Makadiya">
+<meta property="og:title" content="Latest News and Updates — Deep H. Makadiya">
+<meta property="og:description" content="Latest news and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
+<meta property="og:url" content="https://deepmakadiya25.github.io/news.html">
+<meta property="og:image" content="https://deepmakadiya25.github.io/photo.jpg">
+<meta property="og:image:alt" content="Deep H. Makadiya">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- All five typeface pairs the sidebar offers. A family listed here but
@@ -31,7 +39,19 @@
      downloads a font file once something on the page is actually drawn in
      it. Remove a family here and its circle falls back to Georgia. -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<!-- Tells the browser the site has a light and a dark version, so its own
+     scrollbars and form controls match the page. -->
+<meta name="color-scheme" content="light dark">
+
+<!-- ICONS — the small square shown on browser tabs, bookmarks, search
+     results and phone home screens. icon.svg is what current browsers use,
+     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
+     three sit in the site's top folder; the paths start with "/" so they
+     work from any page, including those in blogs/. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <!-- Invisible until someone navigating by keyboard presses Tab, when it
@@ -41,24 +61,22 @@
 
 <div class="layout">
 
-  <!-- SIDEBAR — the same on all 8 pages: photo, name, 6 page links.
-       To rename a page everywhere, change the link text in every page's copy.
-       File names need not match labels (academics.html shows as "Academics").
-       gallery.html and blogs.html carry the sidebar too, but are deliberately
-       left out of the 6 links — see the note at the top of each.
+  <!-- Blogs is deliberately NOT one of the 6 sidebar links — it is reached
+       from the Blogs section of Miscellaneous. The sidebar still shows so
+       visitors can get back, just with no link marked "active".
        ===================================================================== -->
   <aside class="sidebar" id="sidebar">
-    <img class="avatar" src="/photo.jpg" alt="">
+    <img class="avatar" src="photo.jpg" alt="">
     <!-- Not an <h1>: every page already has one (its title), and search
          engines expect exactly one. Styled by ".sidebar-name" in styles.css. -->
     <p class="sidebar-name">Deep H. Makadiya</p>
     <nav aria-label="Main">
-      <a href="/index.html">Home</a>
-      <a href="/academics.html">Academics</a>
-      <a href="/research.html">Research</a>
-      <a href="/teaching.html">Teaching</a>
-      <a href="/professional-activities.html">Professional Activities</a>
-      <a href="/miscellaneous.html">Miscellaneous</a>
+      <a href="index.html">Home</a>
+      <a href="academics.html">Academics</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="professional-activities.html">Professional Activities</a>
+      <a href="miscellaneous.html">Miscellaneous</a>
     </nav>
 
     <!-- APPEARANCE — the dark mode switch, then the colour circles. Both
@@ -215,23 +233,45 @@
     <div class="wrap">
 
       <div class="page-header">
-        <h1>Page Not Found</h1>
-        <p class="page-desc">The address you followed does not exist on this site &mdash;
-        it may have been mistyped, or the page may have been renamed.</p>
+        <h1>Latest News and Updates</h1>
+        <p class="page-desc">Everything the three cards on the home page cycle through, in full &mdash;
+        news first, then announcements.</p>
       </div>
 
-      <section style="padding-top:2rem;">
-        <h2 class="section-title">Try one of these</h2>
-        <div class="btn-row">
-          <a class="btn" href="/index.html">Home</a>
-          <a class="btn" href="/academics.html">Academics</a>
-          <a class="btn" href="/research.html">Research</a>
-          <a class="btn" href="/teaching.html">Teaching</a>
-          <a class="btn" href="/professional-activities.html">Professional Activities</a>
-          <a class="btn" href="/miscellaneous.html">Miscellaneous</a>
-        </div>
-        <p class="see-all">If you reached this from a link elsewhere and think it should work,
-        do let me know at <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>.</p>
+      <div class="page-tabs-wrap">
+        <button type="button" class="tabs-arrow left" aria-label="Scroll tabs left">&#8249;</button>
+        <nav class="page-tabs" aria-label="Sections on this page">
+          <a href="#latest-news">Latest News</a>
+          <a href="#announcements">Important Announcements</a>
+        </nav>
+        <button type="button" class="tabs-arrow right" aria-label="Scroll tabs right">&#8250;</button>
+        <div class="tabs-fade left" aria-hidden="true" hidden></div>
+        <div class="tabs-fade right" aria-hidden="true" hidden></div>
+      </div>
+
+      <!-- NEWEST FIRST in both lists. An entry is one <li>: the date in the
+           first span, the item itself in the second. The home page shows the
+           first few of these; keep the two in step when you add one.
+           =================================================================== -->
+      <section>
+        <h2 id="latest-news" class="section-title">Latest News</h2>
+        <ul class="plain news-list">
+          <li><span class="news-date">[Month Year]</span><span>[A paper accepted or published, with a link to it.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A new preprint posted on arXiv.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A talk given &mdash; the title, the event and the place.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A conference or workshop attended.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A new position, visit, award or grant.]</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="announcements" class="section-title">Important Announcements</h2>
+        <ul class="plain news-list">
+          <li><span class="news-date">[Month Year]</span><span>[Office hours for the semester, or a change to them.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A seminar you are organising, with date and venue.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A deadline or call for participation worth flagging.]</span></li>
+          <li><span class="news-date">[Month Year]</span><span>[A course announcement, once you are teaching one.]</span></li>
+        </ul>
       </section>
 
     </div>
@@ -242,6 +282,6 @@
   </main>
 
 </div>
-<script src="/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

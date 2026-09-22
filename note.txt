@@ -1,0 +1,105 @@
+NOTE FOR ANYONE (OR ANY AI) EDITING THIS SITE
+Deep H. Makadiya - deepmakadiya25.github.io
+Last revised: 22 September 2026
+
+WHAT THIS SITE IS
+  Plain static HTML/CSS/JS served by GitHub Pages from the repository root.
+  No build step, no framework, no package manager. Edit a file, commit, done.
+
+FILES
+  *.html              one file per page. All the text lives here.
+  blogs/*.html        one file per blog post (no sidebar, no script.js).
+  styles.css          ALL styling, including all ten colour schemes, five
+                      typeface pairs, five styles and dark mode.
+  script.js           ALL behaviour. Numbered map of its blocks at the top.
+  note.txt            this file.
+  robots.txt, sitemap.xml, 404.html, icon.svg, favicon.ico,
+  apple-touch-icon.png, Deep_CV.pdf, photo.jpg, gallery/, slides/
+  google6f4968af0aa3ceef.html   <- Google Search Console. NEVER DELETE.
+
+  Every file already carries comments saying what to edit and how. Read the
+  comment above a block before changing it.
+
+HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
+  The sidebar "Appearance" panel offers four INDEPENDENT axes. Each one is a
+  single attribute written on the <html> element and remembered in the
+  visitor's browser (localStorage):
+
+    attribute              values                                    storage key
+    data-theme    cream gold mocha graphite teal emerald sage
+                  dusk indigo plum                                   site-theme
+    data-font     playfair sourcenunito bitter atkinson cormorant    site-font
+    data-style    card classic midnight grove contrast               site-style
+    data-mode     dark   (absent = light)                            site-mode
+    data-appearance  open  (absent = closed)                  site-appearance
+
+  Plus one attribute the site sets for itself, never the visitor:
+    data-panel="dark"  goes on automatically alongside data-style when the
+                       style is midnight, grove or contrast. It is what gives
+                       those three a dark navigation panel. The list lives in
+                       DARK_PANEL_STYLES in script.js and must match the
+                       [data-panel="dark"] rules in styles.css.
+
+  How a change actually happens:
+    1. A button in the sidebar carries data-set-theme / data-set-font /
+       data-set-style. script.js writes the matching attribute on <html> and
+       saves the value.
+    2. styles.css re-states its CSS custom properties under that attribute,
+       e.g. [data-theme="teal"]{ --accent: ...; }. Nothing is hard-coded to a
+       colour anywhere else, so one attribute recolours the whole site.
+    3. A tiny inline <script> in EVERY page's <head> re-reads localStorage and
+       re-applies the attributes BEFORE the page paints, so there is no flash
+       of the wrong theme.
+
+  All 4 axes combine freely: any colour x any typeface x any style x light or
+  dark must look right. If you add or change one, check the others still work.
+
+THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
+  * Adding a new page: copy an existing page as the starting point. It must
+    keep (a) the inline <head> script, (b) the Google Fonts <link>s, (c) the
+    whole sidebar block including the Appearance panel, (d) styles.css and
+    script.js. Miss the <head> script and the visitor's saved choices are
+    ignored on that page only - a confusing bug to chase. Add the new page to
+    sitemap.xml too.
+  * Adding a colour scheme: add the [data-theme="..."] block in styles.css
+    (light) AND its twin under the dark-mode section, then one more button in
+    the sidebar of EVERY page. script.js needs no change.
+  * Adding a typeface pair: add the font to the Google Fonts <link> on every
+    page, add [data-font="..."] in styles.css, add one button per page.
+  * Adding a style: add [data-style="..."] rules, one button per page, and if
+    it wants a dark panel add its name to DARK_PANEL_STYLES in script.js.
+  * Contrast: keep normal text at 4.5:1 or better against its background, in
+    BOTH light and dark, for every scheme. The muted grey (--muted) is the one
+    that usually fails - check it if you change it.
+  * The RESPONSIVE section is the LAST thing in styles.css on purpose. Do not
+    add rules after it; a later rule of equal weight would beat the media
+    queries and break the phone layout.
+  * script.js finds its elements with querySelectorAll, so adding one more
+    publication, photo, link, news card or tab is an HTML edit ONLY. If an AI
+    proposes editing script.js to add a list item, it has misread the code.
+  * Do not introduce a build step, a framework, or npm. The site must stay
+    openable by double-clicking an .html file.
+
+TURNED OFF ON PURPOSE - DO NOT "FIX" THESE
+  * "Latest News & Updates" on the home page is COMMENTED OUT. Deep will
+    switch it on later. The markup is still in index.html inside a comment,
+    with a note above it saying exactly which two marker lines to delete.
+    Leave it alone unless he asks for it back. It has three knock-on effects,
+    all of them deliberate and all reversible together:
+      - news.html is now unreachable (those "See all ..." links were the only
+        way in). The file is still there, untouched.
+      - news.html carries <meta name="robots" content="noindex"> so an
+        orphaned page of placeholders does not turn up in search.
+      - news.html's block in sitemap.xml is commented out.
+    Switching the section back on means undoing all of them: the two marker
+    lines in index.html, the noindex line in news.html, and the sitemap block.
+  * script.js needs NO change either way. It drives the rotating cards from
+    whatever it finds on the page, so with the section absent it does nothing.
+
+ROUTINE EDITS
+  Intro / About Me        index.html, the "About Me" section
+  A publication           research.html, "LIST OF PUBLICATIONS" comment
+  News                    currently switched off - see the section above
+  A blog post             copy a file in blogs/, then link it from blogs.html
+  Photos                  gallery.html, plus the image in gallery/
+  The "Last updated" date LAST_UPDATED at the top of script.js

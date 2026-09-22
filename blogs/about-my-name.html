@@ -9,7 +9,7 @@
      they have never used the dark switch, their device's own light/dark
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode");if(t){d.setAttribute("data-theme",t);}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 
 <title>About My Name — Deep H. Makadiya</title>
 
@@ -28,7 +28,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;1,400;0,600&display=swap" rel="stylesheet">
+<!-- All five typeface pairs the sidebar offers. A family listed here but
+     never chosen costs one line of CSS and nothing else: the browser only
+     downloads a font file once something on the page is actually drawn in
+     it. Remove a family here and its circle falls back to Georgia. -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
 <!-- Tells the browser the site has a light and a dark version, so its own
      scrollbars and form controls match the page. -->
 <meta name="color-scheme" content="light dark">
