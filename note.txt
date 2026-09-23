@@ -33,6 +33,21 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
     data-mode     dark   (absent = light)                            site-mode
     data-appearance  open  (absent = closed)                  site-appearance
 
+  The five styles, in picker order: 1 Classic, 2 Midnight, 3 Parchment,
+  4 Sticker, 5 Cards. Those are the names and the order a visitor sees; the
+  values stored in data-style never changed, so "grove" is still Parchment,
+  "contrast" is still Sticker and "card" is still Cards in the CSS. The
+  order lives in the HTML of every page with a sidebar - the CSS blocks stay
+  in the order they were written, because the cascade depends on it. Sticker is the bold one - thick
+  outlines and a hard accent shadow under anything you can click; its whole
+  look is tuned by two variables, --sticker-drop and --sticker-shadow.
+
+  The ten colours are named after their accent alone (Terracotta, Mocha,
+  Gold, Sage, Emerald, Teal, Blue, Indigo, Plum, Graphite) and sit in the
+  sidebar in palette order: warm, green, blue, plum, then the neutral grey.
+  Their data-theme values are unchanged too - Terracotta is still "cream"
+  and Blue is still "dusk".
+
   Plus one attribute the site sets for itself, never the visitor:
     data-panel="dark"  goes on automatically alongside data-style when the
                        style is midnight, grove or contrast. It is what gives

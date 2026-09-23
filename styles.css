@@ -59,6 +59,53 @@
   --switch-bg:var(--accent);  /* the dark mode pill takes the scheme's colour */
   --switch-dim:rgba(255,255,255,.58); /* the icon the knob is NOT sitting on */
 
+  /* ===================== THE THREE RULE WEIGHTS ==========================
+     Every horizontal line on a page is one of three, and they step down in
+     weight so the eye can tell them apart at a glance:
+       1  the two lines that frame the in-page tab bar  — heaviest
+       2  the line that closes each section             — lighter, thinner
+       3  the line between publications, talks, rows    — lightest
+     Each is one width and one colour, stated once here and used everywhere,
+     so no page and no style can drift. Cards and Sticker re-state them below
+     for their own paper; Classic, Midnight and Parchment share these.
+     The colours are mixed from the scheme's own ink against its paper, so
+     they follow every colour scheme and both light and dark by themselves. */
+  --rule-1-w:1px;
+  --rule-1:color-mix(in srgb, var(--ink) 62%, var(--cream));
+  --rule-2-w:1px;
+  --rule-2:color-mix(in srgb, var(--ink) 22%, var(--cream));
+  --rule-3-w:1px;
+  --rule-3:var(--line);
+
+  /* =============== THE BUTTONS IN THE IN-PAGE TAB BAR ====================
+     One set of rules for all the styles, in three states. The outline is the
+     scheme's accent in all three; only its weight and the fill change:
+       resting  — a 1px accent outline, no fill (the page shows through),
+                  plain text
+       hover    — the same 1px outline, the fill appears, the text takes the
+                  accent
+       current  — the outline doubles to 2px, the fill stays, and the text is
+                  bold and accented
+     The doubling is done with an inset shadow rather than a thicker border,
+     so the tab keeps its size and the row never shifts as you scroll.
+     The fill is the very colour the sidebar uses for the page you are on.
+     A style only re-states these variables; the rules themselves never
+     change, which is what keeps the three styles in step. */
+  --tab-border-w:1px;
+  --tab-line:var(--accent);
+  --tab-fill:transparent;
+  --tab-fill-active:var(--nav-hover);
+  --tab-line-hover:var(--tab-line);
+  --tab-ink:var(--ink);
+  /* The accent, pulled a little towards the body-text colour. On the faint
+     fill a hovered or current tab carries, the accent alone drops just under
+     4.5:1 in the palest three schemes; --ink is dark in light mode and pale
+     in dark mode, so this always moves AWAY from the fill and keeps every
+     scheme above the minimum in both modes. */
+  --tab-ink-active:color-mix(in srgb, var(--accent) 78%, var(--ink));
+  --tab-line-active:var(--accent);
+  --tab-weight-active:700;
+
   /* Height of the mobile/tablet top bar. It is 0 on laptops (no bar there);
      the responsive section at the bottom of this file sets it to 52px on
      smaller screens. Everything that has to sit clear of the bar refers to
@@ -180,7 +227,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 /* ---- Inner-page header: title + one descriptive line beneath it ----
    (No colored "kicker" text above the title anymore — just the title
    and, right under it, a plain sentence describing what's on the page.) */
-.page-header{ padding-bottom:1.6rem; margin-bottom:0; border-bottom:1px solid var(--line); text-align:left; }
+.page-header{ padding-bottom:1.6rem; margin-bottom:0; border-bottom:var(--rule-1-w) solid var(--rule-1); text-align:left; }
 .page-header h1{ font-size:clamp(1.65rem, 6vw, 2.1rem); margin:0 0 .5rem; font-weight:800; }
 .page-header .page-desc{ max-width:60ch; color:var(--muted); font-style:italic; font-size:1rem; margin:0; }
 
@@ -192,7 +239,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 .page-tabs-wrap{
   position:sticky; top:var(--topbar-h); z-index:10;
   background:var(--cream);
-  border-bottom:1px solid var(--line);
+  border-bottom:var(--rule-1-w) solid var(--rule-1);
   margin-bottom:2.4rem;
   /* No shadow on purpose — it should feel like a seamless part of the page,
      not a floating bar, even once it's stuck to the top while scrolling.
@@ -204,23 +251,32 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
   overflow-x:auto;
   scrollbar-width:none;      /* Firefox: hide the scrollbar itself */
   -ms-overflow-style:none;   /* old Edge */
-  padding:1rem 2.2rem;
+  /* The same space above and below, so the row of tabs sits centred between
+     the line above it and the line below it. Change both together. */
+  padding:.72rem 2.2rem;
 }
 .page-tabs::-webkit-scrollbar{ display:none; } /* Chrome/Safari: hide the scrollbar */
 .page-tabs a{
-  text-decoration:none; color:var(--ink); font-size:.85rem;
-  padding:.4rem .9rem; border:1px solid var(--line); border-radius:999px;
+  text-decoration:none; color:var(--tab-ink); font-size:.85rem;
+  padding:.4rem .9rem; border:var(--tab-border-w) solid var(--tab-line); border-radius:999px;
+  background:var(--tab-fill);
   white-space:nowrap; flex:none;
 }
-@media (hover: hover){ .page-tabs a:hover{ border-color:var(--accent); color:var(--accent); } }
+@media (hover: hover){
+  .page-tabs a:hover{
+    color:var(--tab-ink-active); background:var(--tab-fill-active);
+    border-color:var(--tab-line-hover);
+  }
+}
 
 /* The tab for the section currently on screen. script.js adds and removes
    this class as you scroll — see "SECTION HIGHLIGHTING" there. The inset
    shadow thickens the outline without changing the tab's size, so nothing
    shifts sideways as the highlight moves along the row. */
 .page-tabs a.current{
-  color:var(--accent); border-color:var(--accent); font-weight:600;
-  box-shadow:inset 0 0 0 1px var(--accent);
+  color:var(--tab-ink-active); border-color:var(--tab-line-active); font-weight:var(--tab-weight-active);
+  background:var(--tab-fill-active);
+  box-shadow:inset 0 0 0 1px var(--tab-line-active);
 }
 
 /* Fade hints — a soft gradient over the edge that has more tabs hidden.
@@ -288,8 +344,22 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
    effect — "h2.section-title" further down is written with the same weight
    and comes later, so it always won. The only surviving override is the
    narrow-screen one in the RESPONSIVE section at the bottom. */
-.contact-line{ font-size:1.02rem; margin:0 0 .5rem; overflow-wrap:anywhere; }
+/* Each detail is an icon plus the text beside it. The icon keeps its size
+   ("flex:none") and is nudged down a hair so it sits on the first line of
+   text; everything else wraps as one block under the text, not under the
+   icon. The icon takes the scheme's accent colour, like the ones in the
+   sidebar, and is hidden from screen readers — the label beside it already
+   says "Email", "Office" or "Office Hours". */
+.contact-line{
+  font-size:1.02rem; margin:0 0 .7rem; overflow-wrap:anywhere;
+  display:flex; align-items:flex-start; gap:.65rem;
+}
 .contact-line a{ font-weight:600; }
+.contact-icon{
+  flex:none; width:1.15em; height:1.15em; margin-top:.28em;
+  color:var(--accent); display:inline-flex;
+}
+.contact-icon svg{ width:100%; height:100%; }
 .btn-row{ display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.4rem; }
 .btn{
   display:inline-block; padding:.6rem 1.3rem; border:1px solid var(--accent);
@@ -301,7 +371,7 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 /* =========================================================================
    Generic content sections (used on every inner page)
    ========================================================================= */
-section{ padding:2.4rem 0; border-bottom:1px solid var(--line); }
+section{ padding:2.4rem 0; border-bottom:var(--rule-2-w) solid var(--rule-2); }
 /* Sits directly under the home page hero. A style whose sections carry their
    own padding overrides this on its own, because "[data-style] section" is
    the more specific selector. */
@@ -331,7 +401,7 @@ h2.section-title{ font-size:clamp(1.22rem, 4.4vw, 1.5rem); margin:0 0 1.5rem;
    runs the other way, oldest first, numbers rising down the page. Each page's
    comments give the exact steps. */
 .pub-list{ list-style:none; margin:0; padding:0; }
-.pub-list li{ padding:1.2rem 0; border-top:1px solid var(--line); display:flex; gap:.9rem; }
+.pub-list li{ padding:1.2rem 0; border-top:var(--rule-3-w) solid var(--rule-3); display:flex; gap:.9rem; }
 .pub-list li:first-child{ border-top:none; }
 .pub-num{
   font-family:var(--font-head); font-weight:700; color:var(--accent);
@@ -398,12 +468,12 @@ h2.section-title{ font-size:clamp(1.22rem, 4.4vw, 1.5rem); margin:0 0 1.5rem;
 .pub-abstract p:last-child{ margin-bottom:0; }
 
 table.teach{ width:100%; border-collapse:collapse; font-size:.94rem; }
-table.teach td{ padding:.7rem 0; border-top:1px solid var(--line); }
+table.teach td{ padding:.7rem 0; border-top:var(--rule-3-w) solid var(--rule-3); }
 table.teach tr:first-child td{ border-top:none; }
 table.teach td:first-child{ font-weight:600; width:48%; }
 
 ul.plain{ list-style:none; margin:0; padding:0; }
-ul.plain li{ padding:.95rem 0; border-top:1px solid var(--line); font-size:.97rem; display:flex; gap:.9rem; }
+ul.plain li{ padding:.95rem 0; border-top:var(--rule-3-w) solid var(--rule-3); font-size:.97rem; display:flex; gap:.9rem; }
 ul.plain li:first-child{ border-top:none; }
 ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--accent); flex:none; min-width:2.2rem; }
 
@@ -790,9 +860,8 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
    scheme, dark mode and the dark navigation panel with no rules of their own.
    Sized in "em" so they grow and shrink with whichever typeface is chosen.
    To change one, swap the <svg> in the HTML — on all 10 pages with a sidebar.
-   "label-icon-text" is for the "Aa" in front of Typeface: the label itself is
-   uppercased and letter-spaced, which would turn "Aa" into "A A", so both are
-   switched off again just for that mark. ---- */
+   All three marks are drawn the same way, as a small inline SVG on a 24x24
+   grid that takes its colour from the text beside it. ---- */
 .appearance-icon{
   display:inline-flex; align-items:center; justify-content:center;
   flex:none; width:1.05em; height:1.05em;
@@ -803,10 +872,6 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 }
 .label-icon svg{ width:100%; height:100%; }
 .appearance-icon svg{ width:100%; height:100%; }
-.label-icon-text{
-  width:auto; text-transform:none; letter-spacing:0;
-  font-size:1.2em; line-height:1;
-}
 /* Five per row; change the 5 below to fit more or fewer on a line. The
    typeface and style rows use the same five-column grid, so all three rows
    of circles line up down the left edge. */
@@ -1138,21 +1203,27 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    It never touches colour (that is the ten schemes) and never touches the
    typefaces (those are the five A circles), so any style works with any
    colour in either light or dark with any typeface.
-     1  Soft Card — the page is tinted, each part floats as a rounded card,
-                    and a short rule sits under each heading
-     2  Classic   — everything above this block; no [data-style] rules at all
-     3  Midnight  — the panel takes the scheme's own colour, ringed
-                    portraits, matching accent rules above and below the tabs
-     4  Grove     — deeper paper and a darker tab row
-     5  Contrast  — charcoal navigation panel, a tinted tab for the page you
-                    are on, accent dash beside headings
+   IN PICKER ORDER (the number on each circle), with the data-style value
+   each one writes — the values are unchanged, only the order and the names:
+     1  Classic   ("classic") everything above this block; no rules at all
+     2  Midnight  ("midnight") the panel takes the scheme's own colour and
+                   the home portrait is an octagon
+     3  Parchment ("grove") deeper, faintly tinted paper
+     4  Sticker   ("contrast") a brighter page, charcoal navigation panel,
+                   thick outlines and a hard accent shadow under everything
+                   you can click
+     5  Cards     ("card") the page is tinted, each part floats as a rounded
+                   card, and a short rule sits under each heading
+   The blocks below are in the order they were written, NOT picker order:
+   the cascade decides which rule wins, and re-ordering them would change
+   that. The picker order lives in the HTML alone.
    script.js writes data-style on <html>, plus data-panel="dark" for
    the three styles that use a dark navigation panel. Nothing is written
    for Classic, which is why Classic needs no rules of its own.
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
-   1 — SOFT CARD
+   CARDS — circle 5 (data-style="card")
    Two variables do most of the work: --page-bg behind everything, --card-bg
    for the things that float on it. In light mode the page is the tinted
    colour and the cards are the lighter one; in dark mode that swaps, so the
@@ -1164,6 +1235,15 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --card-bg:var(--cream);
   --inset-bg:var(--cream-2);
   --card-shadow:0 4px 18px rgba(var(--shadow-rgb),.09);
+  /* Cards draws its edges with card borders and shadows, so the three
+     shared rule weights stay at the light hairline this style has always
+     used, and its tabs stay filled pills with no outline and no hover fill. */
+  --rule-1-w:1px; --rule-1:var(--line);
+  --rule-2-w:1px; --rule-2:var(--line);
+  --rule-3-w:1px; --rule-3:var(--line);
+  --tab-border-w:0; --tab-line:transparent; --tab-line-hover:var(--accent);
+  --tab-fill:transparent; --tab-fill-active:transparent; --tab-weight-active:600;
+  --tab-ink-active:var(--accent);
 }
 [data-style="card"][data-mode="dark"]{
   --page-bg:var(--cream);
@@ -1300,7 +1380,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 }
 
 /* -------------------------------------------------------------------------
-   3, 4 and 5 — THE DARK-PANEL STYLES
+   MIDNIGHT, PARCHMENT AND STICKER — THE DARK-PANEL STYLES
    All three set a dark navigation panel against the light page. What makes
    them work with all ten colour schemes is that the panel colour is DERIVED
    from the scheme rather than fixed: colour-mix takes the scheme's own
@@ -1308,13 +1388,14 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    panel, Plum a deep wine one, and so on, in every mode.
    The shared parts live under [data-panel="dark"], which script.js sets
    alongside data-style. Each style then adds its own character below.
-     3  Midnight — the panel takes the scheme's colour, the portrait gets a
-                   ring, and a full accent rule closes the page header
-     4  Grove    — deeper paper and a darker tab row; the sidebar and the
-                   headings are marked as in Styles 2 and 3
-     5  Contrast — a neutral charcoal panel, a softly tinted tab for the page
-                   you are on, a short accent dash before each heading, and
-                   the portrait in a pale rounded frame
+     Midnight  (circle 2) the panel takes the scheme's colour and the home
+                          portrait is an octagon
+     Parchment (circle 3) deeper, faintly tinted paper and a darker tab row;
+                          the sidebar and the headings are marked as in
+                          Classic and Midnight
+     Sticker   (circle 4) a brighter page under the charcoal panel, thick
+                          outlines and a hard, blurless accent shadow under
+                          the tabs, buttons, chips, panels and portraits
    ------------------------------------------------------------------------- */
 
 /* ---- the panel's own palette, derived from the scheme ---- */
@@ -1333,7 +1414,32 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --side-ink:var(--ink);
   --side-accent:var(--accent);
 }
-[data-style="contrast"]{ --side-bg:var(--ink); }
+[data-style="contrast"]{
+  --side-bg:var(--ink);
+  /* ---- the paper. A shade brighter than the other styles, so the heavy
+     outlines below have the most to push against. ---- */
+  --sticker-page:color-mix(in srgb, var(--cream) 45%, #fff);
+  /* The outline every sticker is drawn with: the body-text colour, softened
+     just enough not to read as pure black on a white page. */
+  --sticker-line:color-mix(in srgb, var(--ink) 86%, var(--sticker-page));
+  /* The hard shadow — no blur, always down and to the right by this much. */
+  --sticker-drop:3px;
+  --sticker-shadow:var(--accent);
+  /* Rules: heavier than the other styles, in the same three steps. */
+  --rule-1-w:2px; --rule-1:var(--sticker-line);
+  --rule-2-w:1px; --rule-2:color-mix(in srgb, var(--ink) 34%, var(--sticker-page));
+  --rule-3-w:1px; --rule-3:color-mix(in srgb, var(--ink) 18%, var(--sticker-page));
+  /* Tabs: thick outlines, the current one lifted on its own hard shadow. */
+  --tab-border-w:2px; --tab-line:var(--sticker-line); --tab-line-hover:var(--sticker-line);
+  --tab-fill:transparent;
+  --tab-fill-active:color-mix(in srgb, var(--accent) 16%, var(--sticker-page));
+  --tab-weight-active:700;
+  --tab-ink-active:color-mix(in srgb, var(--accent) 72%, var(--ink));
+}
+[data-style="contrast"][data-mode="dark"]{
+  --sticker-page:color-mix(in srgb, var(--cream) 88%, #000);
+  --sticker-line:color-mix(in srgb, var(--ink) 78%, var(--sticker-page));
+}
 [data-style="contrast"][data-mode="dark"]{ --side-bg:color-mix(in srgb, var(--cream) 62%, #000); }
 [data-style="midnight"]{ --side-bg:color-mix(in srgb, var(--accent) 22%, var(--ink)); }
 [data-style="midnight"][data-mode="dark"]{
@@ -1382,36 +1488,52 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   background:var(--side-accent); color:var(--side-bg); border-color:var(--side-accent);
 }
 
-/* ---- 3 Midnight: rings on the portraits, matching accent rules above and
+/* ---- MIDNIGHT — circle 2: rings on the portraits, matching accent rules above and
         below the in-page tab bar ---- */
 [data-style="midnight"] .sidebar .avatar{ border:3px solid var(--side-accent); }
-[data-style="midnight"] .hero-photo-frame{
-  border:2px solid var(--accent); border-radius:50%; padding:9px; box-shadow:none;
+/* THE HOME-PAGE PORTRAIT, AS AN OCTAGON. Everything is as in the other
+   styles — a thin accent outline, a gap of page colour, then the photo — only
+   the shape changes from a square or a circle to an eight-sided one.
+   A border cannot follow an eight-sided shape, so the outline is drawn with
+   two stacked layers behind the photo: "::before" fills the whole frame with
+   the accent and cuts it to the octagon, and "::after" lays the page colour
+   back over it 2px in, which leaves exactly a 2px edge showing. The photo
+   sits on top, cut to the same octagon. All three use the one --octagon value
+   below, so the shapes can never drift apart: change the 29.29% to move every
+   corner, and the 2px in "::after" to make the outline thicker or thinner. */
+[data-style="midnight"]{
+  --octagon:polygon(29.29% 0%, 70.71% 0%, 100% 29.29%, 100% 70.71%,
+                    70.71% 100%, 29.29% 100%, 0% 70.71%, 0% 29.29%);
 }
-[data-style="midnight"] .home-photo{ border-radius:50%; }
-/* The accent rule under the page heading, and the SAME rule under the in-page
-   tab bar so the row is framed by two matching lines rather than one strong
-   one and one faint one. Both are stated here; the shared 1px --line rule is
-   what they replace. */
-[data-style="midnight"] .page-header{ border-bottom:2px solid var(--accent); }
-[data-style="midnight"] .page-tabs-wrap{ border-bottom:2px solid var(--accent); }
-[data-style="midnight"] .page-tabs a{ background:var(--placeholder-bg); }
+[data-style="midnight"] .hero-photo-frame{
+  position:relative; border:0; border-radius:0; box-shadow:none;
+  background:transparent; padding:11px;   /* 2px of outline + a 9px gap */
+}
+[data-style="midnight"] .hero-photo-frame::before,
+[data-style="midnight"] .hero-photo-frame::after{
+  content:""; position:absolute; clip-path:var(--octagon); pointer-events:none;
+}
+[data-style="midnight"] .hero-photo-frame::before{ inset:0; background:var(--accent); }
+[data-style="midnight"] .hero-photo-frame::after{ inset:2px; background:var(--cream); }
+/* The photo has to sit ABOVE both layers: "::after" comes last in the
+   element's order, so without this it would paint over the picture. */
+[data-style="midnight"] .hero-photo-frame a{ position:relative; z-index:1; }
+[data-style="midnight"] .home-photo{ border-radius:0; clip-path:var(--octagon); }
+/* Midnight takes all three rule weights, the tab buttons and the tab bar
+   exactly as Classic and Parchment have them — nothing of its own to state. */
 
-/* ---- 4 Grove: deeper paper and a darker tab row ----
+/* ---- PARCHMENT — circle 3 (data-style="grove"): deeper paper, darker tabs ----
    The page itself takes a deeper, faintly tinted shade rather than the usual
    pale one, and the panels on it lift back up to the normal paper colour.
-   That is what separates Grove from Midnight, which share a panel family. */
+   That is what separates Parchment from Midnight, which share a panel family. */
 [data-style="grove"]{
   --grove-page:color-mix(in srgb, var(--cream-2) 90%, var(--accent));
-  /* --line is mixed for the PALE paper of the other styles; against Grove's
-     deeper page it all but disappears, which is why the rules above and below
-     the in-page tab bar had gone missing here. These three are mixed against
-     Grove's own page colour instead, so they stay visible in every scheme and
-     in both light and dark. */
+  /* --line is mixed for the PALE paper of the other styles; against Parchment's
+     deeper page it all but disappears, so the two lines framing the in-page
+     tab bar are mixed against Parchment's own page colour instead and stay
+     visible in every scheme, in both light and dark. */
   --grove-line:color-mix(in srgb, var(--ink) 60%, var(--grove-page));
-  --grove-tab:color-mix(in srgb, var(--ink) 10%, var(--grove-page));
-  --grove-tab-line:color-mix(in srgb, var(--accent) 75%, var(--grove-page));
-  /* Panels and tag chips. Grove's page is a warm, accent-tinted cream, so a
+  /* Panels. Parchment's page is a warm, accent-tinted cream, so a
      near-white panel sits on it as a foreign patch. These take a little of the
      scheme's accent themselves, which is what ties them to the page, and are
      outlined in a deeper mix of the same accent so the edge is actually
@@ -1419,16 +1541,29 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
      the other styles use and disappears here. */
   --grove-panel:color-mix(in srgb, var(--accent) 9%, var(--cream));
   --grove-panel-line:color-mix(in srgb, var(--accent) 70%, var(--grove-page));
-  --grove-chip-line:color-mix(in srgb, var(--accent) 72%, var(--grove-page));
-  /* The hairlines between sections, between publications, between table rows.
-     They use the shared --line, which is invisible on Grove's deeper page.
-     Mixed a little lighter than --grove-line so the section rules stay quieter
-     than the two accent rules framing the in-page tab bar. */
-  --grove-rule:color-mix(in srgb, var(--ink) 32%, var(--grove-page));
+  /* The three shared rule weights, mixed against Parchment's own deeper page
+     rather than the pale paper the other styles use — the plain --line all but
+     disappears here. The same three steps as everywhere else: the lines
+     framing the tab bar, then the section lines, then the item lines. */
+  --rule-1:var(--grove-line);
+  --rule-2:color-mix(in srgb, var(--ink) 26%, var(--grove-page));
+  --rule-3:color-mix(in srgb, var(--ink) 15%, var(--grove-page));
+  /* The tab buttons: the same three states and the same accent outline as the
+     other styles. Only the fill is Parchment's own: the sidebar's selected colour
+     is mixed for pale paper and barely shows on this deeper page, so the fill
+     is the page itself taken a step towards the text colour instead — a shade
+     apart from the page, as --nav-hover is in Classic and Midnight. */
+  --tab-fill-active:color-mix(in srgb, var(--ink) 12%, var(--grove-page));
+  --tab-ink-active:var(--grove-accent-ink);
+  --tab-line-active:var(--accent);
+  /* The tag chips are outlined at the same weight as in Classic and Midnight, in a
+     mix that is as quiet against this page as --line is against pale paper. */
+  --grove-chip-rule:color-mix(in srgb, var(--ink) 20%, var(--grove-page));
   /* The accent, pulled towards the body-text colour. On the chip fill the
      accent alone is too pale to read in several schemes; --ink is dark in
      light mode and pale in dark mode, so this always moves AWAY from the
-     fill. Used for the highlighted tab and the hovered language chip. */
+     page. Used for the hovered and current tab, and the hovered language
+     chip. */
   --grove-accent-ink:color-mix(in srgb, var(--accent) 55%, var(--ink));
 }
 [data-style="grove"][data-mode="dark"]{ --grove-page:color-mix(in srgb, var(--cream) 90%, #000); }
@@ -1445,7 +1580,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    Languages (Miscellaneous). No fill at all here: the page shows straight
    through, and the chip is drawn by its outline alone — a hairline of the
    same weight as the in-page tab buttons rather than the 2px the other styles
-   use, in an accent mix that is visible against Grove’s deeper page.
+   use, in an accent mix that is visible against Parchment’s deeper page.
    ":not(.lang-list)" matters: in the languages list the <li> is only a
    positioning box for the pop-up bubble and the visible chip is the <button>
    inside it, so the colours have to go on ".lang-chip" instead — without the
@@ -1453,90 +1588,145 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="grove"] .interest-list li,
 [data-style="grove"] .skills-list:not(.lang-list) li,
 [data-style="grove"] .lang-chip{
-  background:transparent; border:1px solid var(--grove-chip-line);
+  background:transparent; border:2px solid var(--grove-chip-rule);
 }
 /* The language chips are buttons, so they highlight on hover and while their
    bubble is open, exactly as they do in the other styles. Stated again here
    because the fill above sits later in the file and would otherwise win. */
-/* Hover, and the open state on a touch screen. In the other styles the chip
-   goes from a pale 2px border to a 2px accent one, which is a big jump; here
-   the resting border is already an accent mix and only a hairline, so the same
-   rule would barely show. The inset shadow doubles the outline’s weight on top
-   of the accent colour, which reads as the same highlight — and because it is
-   a shadow rather than a thicker border, nothing shifts by a pixel. */
+/* Hover, and the open state on a touch screen: the outline takes the accent
+   and so does the label, exactly as in the other styles. Stated again here
+   only because the resting colour above sits later in the file and would
+   otherwise win. */
 @media (hover: hover){
   [data-style="grove"] .lang-chip:hover{
     border-color:var(--accent); color:var(--grove-accent-ink);
-    box-shadow:inset 0 0 0 1px var(--accent);
   }
 }
 [data-style="grove"] .lang-chip[aria-expanded="true"]{
   border-color:var(--accent); color:var(--grove-accent-ink);
-  box-shadow:inset 0 0 0 1px var(--accent);
 }
 
-/* The hairlines that separate sections, publications and table rows. */
-[data-style="grove"] section,
-[data-style="grove"] .pub-list li,
-[data-style="grove"] ul.plain li,
-[data-style="grove"] table.teach td,
-[data-style="grove"] table.teach tr{ border-color:var(--grove-rule); }
-
-/* The page you are on is marked the same way as in Styles 2 and 3 (the shared
+/* The page you are on is marked the same way as in Classic and Midnight (the shared
    [data-panel="dark"] rule above), and the headings carry no marker of their
-   own — also as in Styles 2 and 3. Nothing to state here for either. */
+   own — also as in Classic and Midnight. Nothing to state here for either. */
 [data-style="grove"] .sidebar .avatar{ border:0; }
+/* The same ring around the home-page portrait that Midnight draws. */
 [data-style="grove"] .hero-photo-frame{
-  border:0; padding:0; border-radius:50%; box-shadow:0 8px 22px rgba(var(--shadow-rgb),.16);
+  border:2px solid var(--accent); border-radius:50%; padding:9px; box-shadow:none;
 }
 [data-style="grove"] .home-photo{ border-radius:50%; }
-/* THE IN-PAGE TAB BAR. The rule under the page heading and the rule under the
-   bar itself both use Grove's own line colour so they actually show. The tabs
-   are all filled a step darker than the bar behind them, with an accent-tinted
-   outline. The tab you are ON is not filled differently — it is told apart by
-   the accent text and the doubled accent outline the shared ".current" rule
-   gives it, so the row stays one even tone. */
-[data-style="grove"] .page-header{ border-bottom-color:var(--grove-line); }
-[data-style="grove"] .page-tabs-wrap{ border-bottom-color:var(--grove-line); }
-[data-style="grove"] .page-tabs a{ background:var(--grove-tab); }
-/* ":not(.current)" matters: without it this rule sits later in the file than
-   the shared ".page-tabs a.current" rule, carries the same weight, and would
-   quietly strip the accent outline off the tab you are on. */
-[data-style="grove"] .page-tabs a:not(.current){ border-color:var(--grove-tab-line); }
-/* The label on the current tab is the scheme's accent deepened towards the
-   body-text colour. On the darker tab fill the accent on its own is too pale
-   to read in several schemes; mixing it towards --ink (which is dark in light
-   mode and pale in dark mode) keeps the hue but always moves it AWAY from the
-   fill, so every scheme clears the 4.5:1 minimum in both modes. */
-[data-style="grove"] .page-tabs a.current{ color:var(--grove-accent-ink); }
-@media (hover: hover){
-  /* the shared hover rule sits earlier in the file and would be out-ranked by
-     the fill above, so Grove states its own; ":not(.current)" keeps the filled
-     tab filled while the pointer is over it. */
-  [data-style="grove"] .page-tabs a:not(.current):hover{
-    border-color:var(--accent); color:var(--accent);
-  }
-}
+/* THE IN-PAGE TAB BAR is the shared one; Parchment only supplies its colours, in
+   the token block at the top of this style. The label on a hovered or current
+   tab is the scheme's accent deepened towards the body-text colour: on this
+   page the accent alone is too pale to read in several schemes, and mixing it
+   towards --ink (dark in light mode, pale in dark mode) keeps the hue while
+   always moving it AWAY from the page, so every scheme clears 4.5:1 in both
+   modes. */
 
-/* ---- 5 Contrast: a dash beside each heading, portrait in a pale frame ---- */
+/* =========================================================================
+   STICKER — circle 4 (data-style="contrast"): a bright page, thick outlines, and a hard shadow
+   with no blur under anything you can click or that holds content, as though
+   each piece were a cut-out card laid on the paper.
+   THE ONE IDEA, three parts, and everything below is just it applied:
+     1. a 2px outline in --sticker-line (the body-text colour)
+     2. an offset shadow of --sticker-drop in the scheme's accent, no blur
+     3. on hover the piece lifts towards you: it shifts up and left by 1px
+        and the shadow grows by the same, so nothing around it moves
+   TO TUNE THE WHOLE STYLE, change --sticker-drop (how far the shadow falls)
+   or --sticker-shadow (its colour) in the token block above. Anyone who has
+   asked their system for less motion gets the lift without the movement,
+   through the shared reduced-motion rule at the top of this file.
+   ========================================================================= */
+[data-style="contrast"] body{ background:var(--sticker-page); }
+[data-style="contrast"] .page-tabs-wrap{ background:var(--sticker-page); }
+[data-style="contrast"] .tabs-fade.left{ background:linear-gradient(to right, var(--sticker-page), transparent); }
+[data-style="contrast"] .tabs-fade.right{ background:linear-gradient(to left, var(--sticker-page), transparent); }
+
+/* Section headings keep their dash, thicker and squared off. */
 [data-style="contrast"] h2.section-title{ display:flex; align-items:center; gap:.75rem; }
 [data-style="contrast"] h2.section-title::before{
-  content:""; width:1.15rem; height:2px; background:var(--accent); flex:none;
+  content:""; width:1.4rem; height:4px; background:var(--accent); flex:none;
 }
-/* The page you are on: a softly tinted tab rather than the shared left rule. */
-[data-style="contrast"] .sidebar nav a{ border-radius:10px; }
-[data-style="contrast"] .sidebar nav a.active{
-  color:var(--side-ink); border-left-color:transparent;
-  background:color-mix(in srgb, var(--side-accent) 20%, transparent);
+
+/* THE STICKERS. The in-page tabs, the profile buttons, the tag chips and the
+   language chips are all the same object: outline, shadow, lift on hover. */
+[data-style="contrast"] .page-tabs a,
+[data-style="contrast"] .btn,
+[data-style="contrast"] .interest-list li,
+[data-style="contrast"] .skills-list:not(.lang-list) li,
+[data-style="contrast"] .lang-chip{
+  border-radius:9px;
+  box-shadow:var(--sticker-drop) var(--sticker-drop) 0 var(--sticker-shadow);
 }
-[data-style="contrast"] .btn{ border-radius:8px; }
-[data-style="contrast"] .page-tabs a{ border-radius:8px; }
-[data-style="contrast"] .sidebar .avatar{ border-radius:12px; border:2px solid var(--side-accent); }
+[data-style="contrast"] .btn,
+[data-style="contrast"] .interest-list li,
+[data-style="contrast"] .skills-list:not(.lang-list) li,
+[data-style="contrast"] .lang-chip{
+  border:2px solid var(--sticker-line); color:var(--ink); background:var(--sticker-page);
+}
+/* The tabs already carry the shared 2px outline; only the current one is
+   restated, so its shadow keeps up with its accent outline. */
+[data-style="contrast"] .page-tabs a.current{
+  box-shadow:var(--sticker-drop) var(--sticker-drop) 0 var(--sticker-shadow),
+             inset 0 0 0 1px var(--tab-line-active);
+}
+@media (hover: hover){
+  [data-style="contrast"] .page-tabs a:hover,
+  [data-style="contrast"] .btn:hover,
+  [data-style="contrast"] .lang-chip:hover{
+    transform:translate(-1px,-1px);
+    box-shadow:calc(var(--sticker-drop) + 1px) calc(var(--sticker-drop) + 1px) 0 var(--sticker-shadow);
+  }
+  [data-style="contrast"] .page-tabs a.current:hover{
+    box-shadow:calc(var(--sticker-drop) + 1px) calc(var(--sticker-drop) + 1px) 0 var(--sticker-shadow),
+               inset 0 0 0 1px var(--tab-line-active);
+  }
+  [data-style="contrast"] .btn:hover{ background:var(--accent); color:var(--on-accent); }
+  [data-style="contrast"] .lang-chip:hover{ border-color:var(--accent); color:var(--accent); }
+}
+[data-style="contrast"] .lang-chip[aria-expanded="true"]{ border-color:var(--accent); color:var(--accent); }
+
+/* Panels — the contact card, the news cards, the quick links, the abstracts:
+   the same object at a larger size, with a deeper drop. */
+[data-style="contrast"] .card-panel,
+[data-style="contrast"] .news-card,
+[data-style="contrast"] .quick-links a,
+[data-style="contrast"] .pub-abstract{
+  background:var(--sticker-page); border:2px solid var(--sticker-line); border-radius:12px;
+  box-shadow:calc(var(--sticker-drop) + 2px) calc(var(--sticker-drop) + 2px) 0 var(--sticker-shadow);
+}
+[data-style="contrast"] .news-inner{ background:transparent; border:0; }
+
+/* The numbers beside publications and talks: each one its own little sticker.
+   "min-width" keeps two-digit numbers on one line as the lists grow. */
+[data-style="contrast"] .pub-num,
+[data-style="contrast"] ul.plain .item-num{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:2rem; height:1.75rem; padding:0 .35rem;
+  background:var(--accent); color:var(--on-accent); border-radius:7px;
+  font-size:.9rem;
+}
+
+/* The portraits, on the same principle: a thick outline and a hard drop. */
+[data-style="contrast"] .sidebar .avatar{
+  border-radius:12px; border:2px solid var(--side-accent);
+  box-shadow:var(--sticker-drop) var(--sticker-drop) 0 var(--side-accent);
+}
 [data-style="contrast"] .hero-photo-frame{
-  border:0; padding:10px; border-radius:18px; background:var(--placeholder-bg);
-  box-shadow:0 10px 26px rgba(var(--shadow-rgb),.16);
+  border:3px solid var(--sticker-line); padding:10px; border-radius:16px;
+  background:var(--sticker-page);
+  box-shadow:8px 8px 0 var(--sticker-shadow);
 }
-[data-style="contrast"] .home-photo{ border-radius:11px; }
+[data-style="contrast"] .home-photo{ border-radius:8px; }
+
+/* Gallery tiles and the "add a photo" placeholders, likewise. */
+[data-style="contrast"] .gallery-item{
+  border:2px solid var(--sticker-line); border-radius:12px;
+  box-shadow:var(--sticker-drop) var(--sticker-drop) 0 var(--sticker-shadow);
+}
+[data-style="contrast"] .gallery-placeholder{
+  border:2px dashed var(--sticker-line); border-radius:12px;
+}
 
 /* =========================================================================
    RESPONSIVE — three sizes. LAST IN THE FILE ON PURPOSE, so a media
@@ -1630,7 +1820,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
      no longer needs the old left indent that kept it clear of a floating
      button. */
   main{ padding:calc(var(--topbar-h) + 1.6rem) 1.25rem 2rem; }
-  .page-tabs{ padding:.85rem 1.25rem; }
+  .page-tabs{ padding:.62rem 1.25rem; }
   .tabs-fade{ width:1.6rem; }
 
   .hero-split{ padding:.4rem 0 2.2rem; gap:1.6rem; }
@@ -1664,7 +1854,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 /* ---- Phones ---- */
 @media (max-width:560px){
   main{ padding:calc(var(--topbar-h) + 1.2rem) 1.1rem 1.5rem; }
-  .page-tabs{ padding:.8rem 1.1rem; }
+  .page-tabs{ padding:.58rem 1.1rem; }
 
   /* The hero stacks and centres (this also used to happen at 640px). */
   .hero-split{ grid-template-columns:minmax(0,1fr); text-align:center; }
@@ -1687,7 +1877,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   /* The teaching table becomes one stacked block per course — two columns
      is too narrow to read on a phone. */
   table.teach, table.teach tbody, table.teach tr, table.teach td{ display:block; width:auto; }
-  table.teach tr{ border-top:1px solid var(--line); padding:.75rem 0; }
+  table.teach tr{ border-top:var(--rule-3-w) solid var(--rule-3); padding:.75rem 0; }
   table.teach tr:first-child{ border-top:none; padding-top:0; }
   table.teach td{ border-top:none; padding:0; }
   table.teach td:first-child{ width:auto; font-weight:600; }

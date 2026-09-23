@@ -132,42 +132,43 @@
            choice is remembered in the visitor's browser. Each circle's LEFT
            half is that scheme's accent (--sw-a), its RIGHT half the paper
            colour (--sw-b); "title" is the hover tooltip. They appear in the
-           order listed, five per row — change it everywhere if you add,
-           remove or re-order a circle. The colours themselves live in
+           order listed, five per row — warm first, then green, then blue,
+           then plum, with the neutral grey last. Change it everywhere if you
+           add, remove or re-order a circle. The colours themselves live in
            styles.css under "COLOUR SCHEMES". -->
       <div class="appearance-group">
       <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.4c-4.8 0-8.6 3.6-8.6 8.3 0 4.5 3.5 8 8 8 1.3 0 2.2-.8 2.2-1.9 0-.6-.2-1-.6-1.4-.3-.4-.5-.8-.5-1.3 0-1 .9-1.8 2-1.8h1.5c2.6 0 4.6-2 4.6-4.5 0-3-3.7-5.4-8.6-5.4z"/><circle cx="7.6" cy="11.6" r="1" fill="currentColor" stroke="none"/><circle cx="10.4" cy="7.9" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="8.3" r="1" fill="currentColor" stroke="none"/></svg></span>Colour</p>
       <div class="swatches">
           <button type="button" class="swatch" data-set-theme="cream"
                   style="--sw-a:#a5501f;--sw-b:#efe6d2"
-                  title="Cream &amp; Terracotta" aria-label="Cream and Terracotta colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="gold"
-                  style="--sw-a:#7e6825;--sw-b:#efede6"
-                  title="Antique Gold" aria-label="Antique Gold colour scheme"></button>
+                  title="Terracotta" aria-label="Terracotta colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="mocha"
                   style="--sw-a:#5b4636;--sw-b:#f0e9dd"
-                  title="Mocha &amp; Oat" aria-label="Mocha and Oat colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="graphite"
-                  style="--sw-a:#3f4348;--sw-b:#eceae6"
-                  title="Graphite &amp; Chalk" aria-label="Graphite and Chalk colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="teal"
-                  style="--sw-a:#1d6472;--sw-b:#e6eeef"
-                  title="Teal &amp; Mist" aria-label="Teal and Mist colour scheme"></button>
-          <button type="button" class="swatch" data-set-theme="emerald"
-                  style="--sw-a:#1f6b52;--sw-b:#e7f0ec"
-                  title="Emerald" aria-label="Emerald colour scheme"></button>
+                  title="Mocha" aria-label="Mocha colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="gold"
+                  style="--sw-a:#7e6825;--sw-b:#efede6"
+                  title="Gold" aria-label="Gold colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="sage"
                   style="--sw-a:#5c7a52;--sw-b:#eef2e6"
                   title="Sage" aria-label="Sage colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="emerald"
+                  style="--sw-a:#1f6b52;--sw-b:#e7f0ec"
+                  title="Emerald" aria-label="Emerald colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="teal"
+                  style="--sw-a:#1d6472;--sw-b:#e6eeef"
+                  title="Teal" aria-label="Teal colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="dusk"
                   style="--sw-a:#3d5d82;--sw-b:#e9eef4"
-                  title="Dusk Blue" aria-label="Dusk Blue colour scheme"></button>
+                  title="Blue" aria-label="Blue colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="indigo"
                   style="--sw-a:#3a3670;--sw-b:#eceaf4"
-                  title="Indigo &amp; Ivory" aria-label="Indigo and Ivory colour scheme"></button>
+                  title="Indigo" aria-label="Indigo colour scheme"></button>
           <button type="button" class="swatch" data-set-theme="plum"
                   style="--sw-a:#71385a;--sw-b:#f2e8ef"
-                  title="Plum &amp; Blush" aria-label="Plum and Blush colour scheme"></button>
+                  title="Plum" aria-label="Plum colour scheme"></button>
+          <button type="button" class="swatch" data-set-theme="graphite"
+                  style="--sw-a:#3f4348;--sw-b:#eceae6"
+                  title="Graphite" aria-label="Graphite colour scheme"></button>
       </div>
       </div>
 
@@ -176,45 +177,45 @@
            tooltip. The pairs live in styles.css under "TYPEFACES", and the
            families are fetched by the <link> in this page's <head>. -->
       <div class="appearance-group">
-      <p class="theme-picker-label"><span class="label-icon label-icon-text" aria-hidden="true">Aa</span>Typeface</p>
+      <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="1.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><path d="M7.4 3.5h9.2M7.4 20.5h9.2M3.5 7.4v9.2M20.5 7.4v9.2"/><path d="M8.3 17.4 12 6.9l3.7 10.5M9.7 14.1h4.6"/></svg></span>Typeface</p>
       <div class="fonts">
           <button type="button" class="font-swatch" data-set-font="playfair"
                   style="--fs:'Playfair Display',Georgia,serif"
-                  title="Playfair Display &amp; Lora" aria-label="Playfair Display and Lora typefaces">A</button>
+                  title="Playfair Display &amp; Lora" aria-label="Playfair Display and Lora typeface">A</button>
           <button type="button" class="font-swatch" data-set-font="sourcenunito"
                   style="--fs:'Source Serif 4',Georgia,serif"
-                  title="Source Serif &amp; Nunito Sans" aria-label="Source Serif and Nunito Sans typefaces">A</button>
+                  title="Source Serif &amp; Nunito Sans" aria-label="Source Serif and Nunito Sans typeface">A</button>
           <button type="button" class="font-swatch" data-set-font="bitter"
                   style="--fs:'Bitter',Georgia,serif"
-                  title="Bitter &mdash; a sturdy slab serif" aria-label="Bitter, a sturdy slab serif">A</button>
+                  title="Bitter" aria-label="Bitter typeface">A</button>
           <button type="button" class="font-swatch" data-set-font="atkinson"
                   style="--fs:'Atkinson Hyperlegible',system-ui,sans-serif"
-                  title="Atkinson Hyperlegible &mdash; built for easy reading" aria-label="Atkinson Hyperlegible, a typeface built for easy reading">A</button>
+                  title="Atkinson Hyperlegible" aria-label="Atkinson Hyperlegible typeface">A</button>
           <button type="button" class="font-swatch" data-set-font="cormorant"
                   style="--fs:'Cormorant Garamond',Georgia,serif"
-                  title="Cormorant Garamond &amp; Lato" aria-label="Cormorant Garamond and Lato typefaces">A</button>
+                  title="Cormorant Garamond &amp; Lato" aria-label="Cormorant Garamond and Lato typeface">A</button>
       </div>
       </div>
 
       <!-- STYLE — the shape of the whole site, in picker order:
-           1 Soft Card, 2 Classic, 3 Midnight, 4 Grove, 5 Contrast.
+           1 Classic, 2 Midnight, 3 Parchment, 4 Sticker, 5 Cards.
            Colour, typeface and light/dark are untouched by it, so every
            combination works. The rules live in the "STYLES" section of
            styles.css; "title" is the hover tooltip. -->
       <div class="appearance-group">
         <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="2.4"/><path d="M3.2 9.6h17.6M9.6 9.6v11.2"/></svg></span>Style</p>
         <div class="styles">
-          <button type="button" class="style-swatch" data-set-style="card"
-                  title="Soft Card &mdash; everything floats as a rounded card" aria-label="Soft Card style">1</button>
           <button type="button" class="style-swatch" data-set-style="classic"
-                  title="Classic &mdash; ruled and typographic" aria-label="Classic style">2</button>
+                  title="Classic" aria-label="Classic style">1</button>
           <button type="button" class="style-swatch" data-set-style="midnight"
-                  title="Midnight &mdash; the panel takes the scheme's colour, accent rules around the tabs" aria-label="Midnight style">3</button>
+                  title="Midnight" aria-label="Midnight style">2</button>
           <button type="button" class="style-swatch" data-set-style="grove"
-                  title="Grove &mdash; deeper paper, darker tab row, rule under headings" aria-label="Grove style">4</button>
+                  title="Parchment" aria-label="Parchment style">3</button>
           <button type="button" class="style-swatch" data-set-style="contrast"
-                  title="Contrast &mdash; charcoal navigation panel, accent dash beside headings" aria-label="Contrast style">5</button>
-        </div>
+                  title="Sticker" aria-label="Sticker style">4</button>
+          <button type="button" class="style-swatch" data-set-style="card"
+                  title="Cards" aria-label="Cards style">5</button>
+      </div>
       </div>
 
       </div>
