@@ -103,10 +103,10 @@ THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
 PAGES THAT ARE NOT IN THE MENU
   * blogs.html, gallery.html and news.html carry the sidebar but are left out
     of its six links on purpose. They are reached like this:
-      - blogs.html    from the "Jump to:" bar in the "News & Updates" section
+      - blogs.html    from the "Jump to" bar in the "News & Updates" section
                       of the home page
       - gallery.html  by clicking the photo on the home page, and from the
-                      "Jump to:" bar
+                      "Jump to" bar
       - news.html     from the two "See all ..." links in the "News & Updates"
                       section of the home page
     If you ever switch the news section off again, news.html becomes

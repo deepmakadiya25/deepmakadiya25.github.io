@@ -674,15 +674,17 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
    AFTER ".news-card" and ".quick-links" on purpose — both set a column
    direction, and the later rule of equal weight is the one that wins. ---- */
 .news-jump{
+  /* The label always takes a line of its own across the top and the links sit
+     underneath it, at every window size. */
   flex-direction:row; align-items:center; flex-wrap:wrap; gap:.75rem;
   margin-top:1rem;
-  /* Top, bottom and right match the .75rem the two cards above leave around
-     their panel, so the three boxes line up; the left keeps its original
-     deeper inset so the "Jump to:" label is not crammed against the edge. */
-  padding:.75rem .75rem .75rem 1.3rem;
+  /* The same .75rem the two cards above leave around their panel, on all four
+     sides, so the boxes line up down the page. */
+  padding:.75rem;
 }
 .news-jump-label{
-  flex:none; margin:0; font-family:var(--font-head); font-weight:700;
+  width:100%; margin:0; text-align:center;
+  font-family:var(--font-head); font-weight:700;
   font-size:.95rem; color:var(--ink);
 }
 /* The links share the space left beside the label and WRAP when there is not
@@ -691,6 +693,19 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
    before it wraps instead. */
 .quick-links-row{ flex:1; flex-direction:row; flex-wrap:wrap; gap:.6rem; padding-bottom:0; }
 .quick-links-row li{ flex:1 1 10.5rem; }
+
+/* ---- "Did you know?": the same bar again, carrying one panel of text in
+   place of the three links. The panel is drawn like a link box so the two
+   bars read as a pair. ---- */
+.news-tip-text{
+  flex:1; margin:0;
+  background:var(--cream); border:1px solid var(--line); border-radius:10px;
+  padding:.7rem .85rem; font-size:.86rem; line-height:1.5; color:var(--ink);
+}
+/* The name of a control quoted in running text — "Appearance" — set in the
+   same face and weight the menu itself uses for it, so the reader sees the
+   word exactly as it appears down the side of the page. */
+.ui-name{ font-family:var(--font-body); font-weight:700; font-style:normal; }
 
 /* ---- the date column, shared with the full lists on news.html ---- */
 .news-date{
@@ -1423,7 +1438,9 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 /* ---- the home page news cards, in card style ---- */
 [data-style="card"] .news-card{ background:var(--card-bg); border-radius:16px; box-shadow:var(--card-shadow); }
 [data-style="card"] .news-inner{ background:var(--inset-bg); border:0; border-radius:12px; }
-[data-style="card"] .quick-links a{ background:var(--inset-bg); border:0; border-radius:12px; font-weight:600; }
+[data-style="card"] .quick-links a,
+[data-style="card"] .news-tip-text{ background:var(--inset-bg); border:0; border-radius:12px; }
+[data-style="card"] .quick-links a{ font-weight:600; }
 
 /* ---- the appearance panel sits on the sidebar card ---- */
 [data-style="card"] .swatch.active{
@@ -1653,6 +1670,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   background:var(--grove-panel); border-color:var(--grove-panel-line);
 }
 [data-style="grove"] .news-inner,
+[data-style="grove"] .news-tip-text,
 [data-style="grove"] .quick-links a{ background:var(--grove-panel); }
 /* TAG CHIPS — Areas of Interest (Research), Skills and Hobbies and Spoken
    Languages (Miscellaneous). No fill at all here: the page shows straight
@@ -1769,6 +1787,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="contrast"] .card-panel,
 [data-style="contrast"] .news-card,
 [data-style="contrast"] .quick-links a,
+[data-style="contrast"] .news-tip-text,
 [data-style="contrast"] .pub-abstract{
   background:var(--sticker-page); border:2px solid var(--sticker-line); border-radius:12px;
   box-shadow:calc(var(--sticker-drop) + 2px) calc(var(--sticker-drop) + 2px) 0 var(--sticker-shadow);
@@ -1868,12 +1887,6 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 }
 
 /* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
-@media (max-width:860px){
-  /* the label sits on its own line and the links take the width beneath it */
-  .news-jump{ align-items:stretch; }
-  .news-jump-label{ width:100%; }
-}
-
 @media (max-width:960px){
   :root{ --topbar-h:52px; }
 
@@ -2001,7 +2014,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    laptop window — the type and the padding inside them step down a notch so a
    line of news still fits inside the square. */
 @media (max-width:1010px) and (min-width:701px){
-  .news-card{ padding:.7rem .6rem .45rem; }
+  .news-grid > .news-card{ padding:.7rem .6rem .45rem; }
   .news-card-title{ font-size:.88rem; min-height:2.2em; margin-bottom:.5rem; }
   .news-inner{ padding:.65rem .6rem .5rem; }
   .carousel-item{ font-size:.78rem; line-height:1.4; }
@@ -2013,7 +2026,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   /* On the narrowest phones a square card is only about 290px across, and the
      longest news item no longer fits in it at the usual size. A touch smaller
      and tighter, and the cards stay square instead of growing into oblongs. */
-  .news-card{ padding:.8rem .6rem .5rem; }
+  .news-grid > .news-card{ padding:.8rem .6rem .5rem; }
   .news-card-title{ font-size:.9rem; margin-bottom:.55rem; }
   .news-inner{ padding:.7rem .65rem .55rem; }
   .carousel-item{ font-size:.8rem; line-height:1.45; }
@@ -2023,7 +2036,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    little more margin) leave the card barely 250px across; one more step down
    in type and padding keeps it square there too. */
 @media (max-width:365px){
-  .news-card{ padding:.65rem .5rem .4rem; }
+  .news-grid > .news-card{ padding:.65rem .5rem .4rem; }
   .news-card-title{ font-size:.85rem; min-height:2.2em; margin-bottom:.45rem; }
   .news-inner{ padding:.6rem .55rem .45rem; }
   .carousel-item{ font-size:.73rem; line-height:1.38; }
