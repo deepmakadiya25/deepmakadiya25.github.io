@@ -2,7 +2,7 @@
 <!-- The list of pages you want search engines to index, with the date each
      was last changed. Submit it once in Google Search Console, then simply
      update <lastmod> when you revise a page, and add a <url> block when you
-     add a page. The three blog posts are left out on purpose while they are
+     add a page. The four blog posts are left out on purpose while they are
      still placeholders — add them here once they are written. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -35,15 +35,11 @@
     <lastmod>2026-09-22</lastmod>
     <priority>0.6</priority>
   </url>
-  <!-- news.html is switched off for now: the "Latest News & Updates" section
-       on the home page is commented out, and those two "See all ..." links
-       were the only way in. Uncomment this block when you switch it back on.
   <url>
     <loc>https://deepmakadiya25.github.io/news.html</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <priority>0.7</priority>
   </url>
-  -->
   <url>
     <loc>https://deepmakadiya25.github.io/blogs.html</loc>
     <lastmod>2026-09-22</lastmod>

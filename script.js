@@ -45,7 +45,7 @@
 
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
    Shown as "Last updated: ..." in the footer of every page. */
-var LAST_UPDATED = "23 September 2026";
+var LAST_UPDATED = "24 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");

@@ -9,7 +9,7 @@
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
-<title>Latest News and Updates — Deep H. Makadiya</title>
+<title>News &amp; Updates — Deep H. Makadiya</title>
 
 <!-- SEARCH RESULTS AND LINK PREVIEWS
      "description" is the grey line Google shows under the page title; the
@@ -17,17 +17,16 @@
      IF THE SITE ADDRESS EVER CHANGES, update canonical, og:url and og:image
      on EVERY page. They all begin https://deepmakadiya25.github.io
      =================================================================== -->
-<!-- Kept out of search results while the "Latest News & Updates" section on
+<!-- Kept out of search results while the "News & Updates" section on
      the home page is switched off — nothing links here, and the entries are
      still placeholders. DELETE THE NEXT LINE when you switch that section
      back on (and un-comment this page's block in sitemap.xml). -->
-<meta name="robots" content="noindex">
-<meta name="description" content="Latest news and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
+<meta name="description" content="News and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
 <link rel="canonical" href="https://deepmakadiya25.github.io/news.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Deep H. Makadiya">
-<meta property="og:title" content="Latest News and Updates — Deep H. Makadiya">
-<meta property="og:description" content="Latest news and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
+<meta property="og:title" content="News &amp; Updates — Deep H. Makadiya">
+<meta property="og:description" content="News and important announcements from Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
 <meta property="og:url" content="https://deepmakadiya25.github.io/news.html">
 <meta property="og:image" content="https://deepmakadiya25.github.io/photo.jpg">
 <meta property="og:image:alt" content="Deep H. Makadiya">
@@ -234,16 +233,16 @@
     <div class="wrap">
 
       <div class="page-header">
-        <h1>Latest News and Updates</h1>
-        <p class="page-desc">Everything the three cards on the home page cycle through, in full &mdash;
-        news first, then announcements.</p>
+        <h1>News &amp; Updates</h1>
+        <p class="page-desc">Here I keep track of all the news, updates, and important
+        announcements &mdash; this page is a work in progress.</p>
       </div>
 
       <div class="page-tabs-wrap">
         <button type="button" class="tabs-arrow left" aria-label="Scroll tabs left">&#8249;</button>
         <nav class="page-tabs" aria-label="Sections on this page">
-          <a href="#latest-news">Latest News</a>
           <a href="#announcements">Important Announcements</a>
+          <a href="#news">News &amp; Updates</a>
         </nav>
         <button type="button" class="tabs-arrow right" aria-label="Scroll tabs right">&#8250;</button>
         <div class="tabs-fade left" aria-hidden="true" hidden></div>
@@ -251,20 +250,13 @@
       </div>
 
       <!-- NEWEST FIRST in both lists. An entry is one <li>: the date in the
-           first span, the item itself in the second. The home page shows the
-           first few of these; keep the two in step when you add one.
+           first span, the item itself in the second. The home page's rotating
+           card shows the FIVE newest of the News list — when you add one here,
+           add it there too and drop the oldest of the five.
+           Every entry below is drawn from another page of this site (Academics,
+           Research, Professional Activities), so when you add a paper, a talk
+           or a position there, add the matching line here.
            =================================================================== -->
-      <section>
-        <h2 id="latest-news" class="section-title">Latest News</h2>
-        <ul class="plain news-list">
-          <li><span class="news-date">[Month Year]</span><span>[A paper accepted or published, with a link to it.]</span></li>
-          <li><span class="news-date">[Month Year]</span><span>[A new preprint posted on arXiv.]</span></li>
-          <li><span class="news-date">[Month Year]</span><span>[A talk given &mdash; the title, the event and the place.]</span></li>
-          <li><span class="news-date">[Month Year]</span><span>[A conference or workshop attended.]</span></li>
-          <li><span class="news-date">[Month Year]</span><span>[A new position, visit, award or grant.]</span></li>
-        </ul>
-      </section>
-
       <section>
         <h2 id="announcements" class="section-title">Important Announcements</h2>
         <ul class="plain news-list">
@@ -272,6 +264,52 @@
           <li><span class="news-date">[Month Year]</span><span>[A seminar you are organising, with date and venue.]</span></li>
           <li><span class="news-date">[Month Year]</span><span>[A deadline or call for participation worth flagging.]</span></li>
           <li><span class="news-date">[Month Year]</span><span>[A course announcement, once you are teaching one.]</span></li>
+        </ul>
+
+        <!-- THE ARCHIVE. When an announcement above stops applying — the
+             semester ends, the deadline passes, the seminar happens — move its
+             whole <li> down into this second list rather than deleting it.
+             The button is the same one the abstracts on the Research page use,
+             so it needs no code of its own: it opens the panel whose id
+             matches its aria-controls. -->
+        <p class="news-archive-line">
+          <span>Only the announcements that still apply are listed above; the rest are kept, not deleted.</span>
+          <button type="button" class="pub-toggle" aria-expanded="false"
+                  aria-controls="past-announcements">Show past announcements <span class="caret" aria-hidden="true">&#9656;</span></button>
+        </p>
+
+        <div class="pub-abstract" id="past-announcements" hidden>
+          <ul class="plain news-list news-list-past">
+            <li><span class="news-date">[Month Year]</span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]</span></li>
+            <li><span class="news-date">[Month Year]</span><span>[Another one. Keep them newest first, as in the list above.]</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2 id="news" class="section-title">News &amp; Updates</h2>
+        <ul class="plain news-list">
+          <li><span class="news-date">Sep 2026</span><span>Preprint with Elena I. Bunina: &ldquo;<a href="https://doi.org/10.48550/arXiv.2609.02617" target="_blank" rel="noopener">Automorphisms of twisted Chevalley groups of type <sup>2</sup>A<sub>3</sub> and <sup>2</sup>A<sub>4</sub> over local rings</a>.&rdquo;</span></li>
+          <li><span class="news-date">Aug 2026</span><span>Invited talk, &ldquo;<a href="slides/2026-tbilisi-agmt.pdf" target="_blank" rel="noopener">Automorphisms of Twisted Chevalley Groups</a>,&rdquo; at the international workshop &ldquo;Algebraic Geometry and Model Theory of Groups and Rings IV,&rdquo; Tbilisi, Georgia (24&ndash;29 August).</span></li>
+          <li><span class="news-date">Aug 2026</span><span>Preprint with Elena I. Bunina: &ldquo;<a href="https://doi.org/10.48550/arXiv.2608.02312" target="_blank" rel="noopener">Automorphisms of twisted Chevalley groups of type <sup>2</sup>D<sub>&#8467;</sub> (&#8467; &ge; 4) over local rings</a>.&rdquo;</span></li>
+          <li><span class="news-date">Jul 2026</span><span>Preprint with Elena I. Bunina: &ldquo;<a href="https://doi.org/10.48550/arXiv.2607.22284" target="_blank" rel="noopener">Automorphisms of twisted Chevalley groups of type <sup>2</sup>A<sub>&#8467;</sub> (&#8467; &ge; 5) over local rings</a>.&rdquo;</span></li>
+          <li><span class="news-date">Jul 2026</span><span>Took part in the Annual Meeting of the Israel Mathematical Union, Bar-Ilan University (5&ndash;6 July).</span></li>
+          <li><span class="news-date">Apr 2026</span><span>Seminar on &ldquo;Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)&rdquo; at Bar-Ilan University (29 April).</span></li>
+          <li><span class="news-date">2026</span><span>&ldquo;<a href="https://doi.org/10.1016/j.jalgebra.2025.09.028" target="_blank" rel="noopener">On normal subgroups of twisted Chevalley groups over commutative rings</a>,&rdquo; with Shripad M. Garge, appeared in the <em>Journal of Algebra</em> <strong>688</strong>, 587&ndash;659.</span></li>
+          <li><span class="news-date">Nov 2025</span><span>Took part in the ISF workshop &ldquo;Algebra, Geometry, Dynamics,&rdquo; in memory of Boris I. Plotkin, at Bar-Ilan University (10&ndash;13 November).</span></li>
+          <li><span class="news-date">Oct 2025</span><span>Began a post-doctoral fellowship in the Department of Mathematics at Bar-Ilan University, working with Prof. Elena I. Bunina.</span></li>
+          <li><span class="news-date">Aug 2025</span><span>Seminar on &ldquo;Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)&rdquo; at IIT Bombay (22 August).</span></li>
+          <li><span class="news-date">Jul 2025</span><span>Visiting researcher at the Harish-Chandra Research Institute, Prayagraj, until September, hosted by Prof. Manoj Kumar Yadav &mdash; and a seminar there on 22 July.</span></li>
+          <li><span class="news-date">May 2025</span><span>Completed my Ph.D. at IIT Bombay: &ldquo;Some properties of twisted Chevalley groups,&rdquo; under Prof. Shripad M. Garge.</span></li>
+          <li><span class="news-date">May 2025</span><span>Preprint with Shripad M. Garge: &ldquo;<a href="https://doi.org/10.48550/arXiv.2505.20224" target="_blank" rel="noopener">Triangular and unitriangular factorization of twisted Chevalley groups</a>,&rdquo; since accepted by the <em>Israel Journal of Mathematics</em>.</span></li>
+          <li><span class="news-date">2025</span><span>&ldquo;<a href="https://doi.org/10.1016/j.jpaa.2025.108094" target="_blank" rel="noopener">Normalizer of twisted Chevalley groups over commutative rings</a>,&rdquo; with Shripad M. Garge, appeared in the <em>Journal of Pure and Applied Algebra</em> <strong>229</strong>, paper 108094.</span></li>
+          <li><span class="news-date">Feb 2025</span><span>Poster, &ldquo;<a href="slides/2025-imsc-poster.pdf" target="_blank" rel="noopener">On Normal Subgroups of Twisted Chevalley Groups over Commutative Rings</a>,&rdquo; at the conference &ldquo;Representations of Groups and Algebras,&rdquo; IMSc, Chennai (3&ndash;5 February).</span></li>
+          <li><span class="news-date">Jan 2025</span><span>Research Associate in the Department of Mathematics at IIT Bombay, until May, with Prof. Shripad M. Garge.</span></li>
+          <li><span class="news-date">Dec 2024</span><span>Took part in the NCM workshop &ldquo;Lie Groups and Representation Theory&rdquo; at IISER Berhampur (16&ndash;24 December).</span></li>
+          <li><span class="news-date">Jul 2023</span><span>Contributed talk, &ldquo;<a href="slides/2023-iitb-groups-and-representations.pdf" target="_blank" rel="noopener">Automorphisms of Chevalley Groups</a>,&rdquo; at the conference &ldquo;Groups and Representations,&rdquo; IIT Bombay (3&ndash;8 July).</span></li>
+          <li><span class="news-date">Mar 2023</span><span>Student seminar at IIT Bombay on the representation theory of SL<sub>2</sub>(&#8450;) (8 March).</span></li>
+          <li><span class="news-date">Sep 2022</span><span>Took part online in the conference &ldquo;Algebraic groups, their friends and relations,&rdquo; in honour of Nikolai Vavilov&rsquo;s 70th birthday, St. Petersburg (18&ndash;23 September).</span></li>
+          <li><span class="news-date">Jan 2020</span><span>Began my Ph.D. in the Department of Mathematics at IIT Bombay, under Prof. Shripad M. Garge.</span></li>
         </ul>
       </section>
 

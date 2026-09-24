@@ -477,6 +477,32 @@ ul.plain li{ padding:.95rem 0; border-top:var(--rule-3-w) solid var(--rule-3); f
 ul.plain li:first-child{ border-top:none; }
 ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--accent); flex:none; min-width:2.2rem; }
 
+/* ---- The role marker at the end of a participation entry ("Attended only",
+   "Presented"). A small shaded box sitting on the same line as the text: its
+   height is tuned to the capital letters around it, which is why the type
+   inside it is smaller than the line it sits in. The shade is mixed from the
+   page's own ink and paper, so it follows every colour scheme and dark mode
+   without a rule of its own anywhere else. ---- */
+.role{
+  display:inline-block; vertical-align:middle; white-space:nowrap;
+  /* The type is small enough that a ring of padding still leaves the box at
+     roughly the height of the capital letters beside it, and
+     "vertical-align:middle" centres it on the line rather than standing it on
+     the baseline. */
+  font-size:.6em; line-height:1;
+  padding:.2em .65em; border-radius:4px;
+  /* "middle" lines the box up with the middle of the lower-case letters; this
+     nudge lifts it to the middle of the line as the eye reads it, between the
+     top of a capital and the baseline. */
+  position:relative; top:-.16em;
+  background:color-mix(in srgb, var(--ink) 9%, var(--cream));
+  /* Quieter than the sentence it follows, but not as pale as the usual muted
+     grey: at this size the type needs to stay above 4.5:1 on its own shade in
+     every colour scheme, light and dark. */
+  color:color-mix(in srgb, var(--ink) 72%, var(--muted));
+  font-style:normal; font-weight:500;
+}
+
 /* ---- Research Overview: numbered project entries -----------------------
    Built on the same numbered "ul.plain" list as the talks and seminars, but
    each entry holds a title and one or two paragraphs rather than a single
@@ -540,33 +566,61 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
    panel; the third puts three link bars there instead. The cards stretch to
    match the tallest of the three, and drop to one per row on a phone.
    ========================================================================= */
+/* TWO cards side by side — the rotating news and the announcements. The third
+   thing in this section, the "Jump to" bar, sits full width underneath them
+   rather than as a third column; three columns made each one too narrow. */
 .news-grid{
-  display:grid; grid-template-columns:repeat(3, minmax(0,1fr));
+  display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
   gap:1rem; align-items:stretch;
+  /* Every row the same height, so the two cards match even when they are
+     stacked one above the other on a narrow screen and each is its own row. */
+  grid-auto-rows:1fr;
+}
+/* The two cards in the grid are square — the same height as their width. The
+   square is a floor, not a ceiling: if an unusually long item needs more room,
+   the row grows and BOTH cards grow with it, because they are grid items in
+   one row and stretch together. So they are always identical, whatever the
+   width and whatever is in them. The "Jump to" bar is outside the grid and
+   keeps its own height. */
+.news-grid > .news-card{
+  aspect-ratio:1;
+  /* The width is pinned to the column and the minimum released, so a card that
+     needs extra height grows DOWNWARDS only. Without these two an aspect ratio
+     works both ways: a taller card would also make itself wider, and on a
+     small phone that pushes it past the edge of the screen. */
+  width:100%; min-width:0;
 }
 .news-card{
   display:flex; flex-direction:column;
   background:var(--cream-2); border:1px solid var(--line); border-radius:14px;
-  padding:1rem .55rem .4rem;
+  /* The space around the inner panel: top, sides, bottom. Raise them together
+     to give the panel more air; the panel simply takes what is left. */
+  padding:.8rem .75rem .5rem;
   box-shadow:0 4px 14px rgba(var(--shadow-rgb),.10);
 }
+/* The title and the "See all" link are held to the height of TWO lines even
+   when they only need one. Without that, "Important Announcements" wraps at
+   some widths while "Latest News" does not, and the panels inside the two
+   cards end up different heights — which is what shows, since the cards
+   themselves are always the same size. */
 .news-card-title{
   margin:0 0 .75rem; text-align:center;
   font-family:var(--font-head); font-weight:700;
   font-size:.95rem; line-height:1.25; color:var(--ink);
+  min-height:2.5em; display:flex; align-items:center; justify-content:center;
 }
 /* the inset panel — the paper colour, so it reads as recessed into the card */
 .news-inner{
   flex:1; display:flex;
   background:var(--cream); border:1px solid var(--line); border-radius:10px;
   padding:.85rem .8rem .7rem;
-  min-height:9.5rem;
 }
 /* The gap above this line matches the card's bottom padding below it, so the
    link sits dead centre in the strip under the inset panel. Change the two
    together (.4rem here and in .news-card's padding) to move it. */
 .news-more{
-  display:block; margin-top:.4rem; text-align:center;
+  display:flex; align-items:center; justify-content:center; gap:.3rem;
+  margin-top:.5rem; text-align:center; min-height:2.5em;
   font-size:.82rem; line-height:1.25;
   color:var(--accent); text-decoration:none;
 }
@@ -613,6 +667,30 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
 }
 @media (hover: hover){ .quick-links a:hover{ border-color:var(--accent); color:var(--accent); } }
 .quick-links a:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+/* ---- THE "JUMP TO" BAR: the third thing in the news section, full width
+   under the two cards. It is a ".news-card" too, so it keeps whatever the
+   chosen style does to a card; these rules only turn it on its side. They sit
+   AFTER ".news-card" and ".quick-links" on purpose — both set a column
+   direction, and the later rule of equal weight is the one that wins. ---- */
+.news-jump{
+  flex-direction:row; align-items:center; flex-wrap:wrap; gap:.75rem;
+  margin-top:1rem;
+  /* Top, bottom and right match the .75rem the two cards above leave around
+     their panel, so the three boxes line up; the left keeps its original
+     deeper inset so the "Jump to:" label is not crammed against the edge. */
+  padding:.75rem .75rem .75rem 1.3rem;
+}
+.news-jump-label{
+  flex:none; margin:0; font-family:var(--font-head); font-weight:700;
+  font-size:.95rem; color:var(--ink);
+}
+/* The links share the space left beside the label and WRAP when there is not
+   enough of it — first onto a second line, then one per line — rather than
+   running past the edge of the bar. 10.5rem is the narrowest a link may get
+   before it wraps instead. */
+.quick-links-row{ flex:1; flex-direction:row; flex-wrap:wrap; gap:.6rem; padding-bottom:0; }
+.quick-links-row li{ flex:1 1 10.5rem; }
 
 /* ---- the date column, shared with the full lists on news.html ---- */
 .news-date{
@@ -1728,6 +1806,17 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   border:2px dashed var(--sticker-line); border-radius:12px;
 }
 
+/* ---- The archive line under Important Announcements (news.html). The button
+   itself is the shared ".pub-toggle"; only the line it sits on and the paler
+   list it opens are stated here. ---- */
+.news-archive-line{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem;
+  margin:1.4rem 0 0; font-size:.92rem; color:var(--muted);
+}
+.news-list-past{ margin:0; }
+.news-list-past li{ border-top:0; padding-top:.5rem; padding-bottom:.5rem; }
+.news-list-past li:first-child{ padding-top:0; }
+
 /* =========================================================================
    RESPONSIVE — three sizes. LAST IN THE FILE ON PURPOSE, so a media
    query is never out-ranked by a rule of equal weight further down
@@ -1780,8 +1869,9 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 
 /* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
 @media (max-width:860px){
-  .news-grid{ grid-template-columns:minmax(0,1fr); }
-  .news-inner{ min-height:0; }
+  /* the label sits on its own line and the links take the width beneath it */
+  .news-jump{ align-items:stretch; }
+  .news-jump-label{ width:100%; }
 }
 
 @media (max-width:960px){
@@ -1844,6 +1934,20 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
         page and make the whole page scroll sideways. Anchoring the bubble to
         the list rather than to one chip removes that for good. The little
         tail is hidden here because it would no longer point at anything. ---- */
+/* Between a phone and a laptop the two news cards are stacked but the column
+   is still wide, and a square card that wide is mostly empty air. Holding them
+   to a comfortable width, centred, keeps them square without the hole in the
+   middle. Below 560px the column is narrow enough already. */
+/* HOW THE TWO CARDS CHANGE SIZE AS THE WINDOW NARROWS.
+   They stay side by side — two above, the bar below — and simply shrink with
+   the window: about 22rem across on a laptop, down to about 17rem by the time
+   the window is 600px wide. Below that a square card can no longer hold the
+   longest line of news, so the two go one above the other and take the full
+   width instead. */
+@media (max-width:700px){
+  .news-grid{ grid-template-columns:minmax(0,1fr); }
+}
+
 @media (max-width:640px){
   .skills-list.lang-list{ position:relative; }
   .skills-list.lang-list li{ position:static; }
@@ -1892,8 +1996,45 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 }
 
 /* ---- Very small phones (iPhone SE and similar) ---- */
+/* Once the two cards are down to roughly 320px across — which happens both
+   just above the point where the sidebar disappears and again on a narrow
+   laptop window — the type and the padding inside them step down a notch so a
+   line of news still fits inside the square. */
+@media (max-width:1010px) and (min-width:701px){
+  .news-card{ padding:.7rem .6rem .45rem; }
+  .news-card-title{ font-size:.88rem; min-height:2.2em; margin-bottom:.5rem; }
+  .news-inner{ padding:.65rem .6rem .5rem; }
+  .carousel-item{ font-size:.78rem; line-height:1.4; }
+  .news-more{ font-size:.76rem; min-height:2em; }
+}
+
 @media (max-width:380px){
   main{ padding-left:.95rem; padding-right:.95rem; }
+  /* On the narrowest phones a square card is only about 290px across, and the
+     longest news item no longer fits in it at the usual size. A touch smaller
+     and tighter, and the cards stay square instead of growing into oblongs. */
+  .news-card{ padding:.8rem .6rem .5rem; }
+  .news-card-title{ font-size:.9rem; margin-bottom:.55rem; }
+  .news-inner{ padding:.7rem .65rem .55rem; }
+  .carousel-item{ font-size:.8rem; line-height:1.45; }
+  .news-more{ font-size:.78rem; min-height:2.2em; }
+
+/* The very narrowest phones (and the widest-set style, where the page keeps a
+   little more margin) leave the card barely 250px across; one more step down
+   in type and padding keeps it square there too. */
+@media (max-width:365px){
+  .news-card{ padding:.65rem .5rem .4rem; }
+  .news-card-title{ font-size:.85rem; min-height:2.2em; margin-bottom:.45rem; }
+  .news-inner{ padding:.6rem .55rem .45rem; }
+  .carousel-item{ font-size:.73rem; line-height:1.38; }
+  .news-more{ font-size:.72rem; min-height:1.9em; }
+}
+
+@media (max-width:330px){
+  .news-card-title{ font-size:.82rem; min-height:2em; margin-bottom:.4rem; }
+  .carousel-item{ font-size:.7rem; line-height:1.35; }
+  .news-more{ font-size:.7rem; min-height:1.7em; margin-top:.35rem; }
+}
   .page-tabs{ padding-left:.95rem; padding-right:.95rem; }
   .swatches{ gap:.45rem; }
   .fonts, .styles{ gap:.45rem; }

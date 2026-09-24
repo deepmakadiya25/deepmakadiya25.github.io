@@ -320,7 +320,6 @@
         <p class="lede">My interests include algebraic groups, Chevalley groups &amp; algebras, Lie
         groups &amp; algebras, and representation theory. Please feel free to explore my research and
         publications, or to contact me with any questions or possible collaborations.</p>
-        <p class="lede">My CV can be found <a href="Deep_CV.pdf" target="_blank" rel="noopener">here</a>.</p>
       </section>
 
       <!-- ===================================================================
@@ -328,22 +327,14 @@
            The whole section is kept below, commented out, ready for the day
            there is real news to put in it.
 
-           TO SWITCH IT BACK ON: delete the two marker lines that wrap it —
-           the one just below that starts "THE SWITCHED-OFF SECTION STARTS
-           HERE" and the one at the very end that starts "end of the
-           switched-off section". Each is a single line; delete the whole line,
-           opening and closing comment marks included.
-           Nothing else has to change — script.js drives the rotating cards
-           from whatever it finds on the page, so with the section absent it
-           simply does nothing, and with the section back it starts again.
-           Two things to do at the same time:
-             1. news.html is reached ONLY from the two "See all ..." links in
-                this section, so while the section is off that page cannot be
-                reached from anywhere. Its entry in sitemap.xml is commented
-                out to match — put it back when you put this back.
-             2. QUICK LINKS (the third card): replace the text AND the href of
-                each of the three. They can point anywhere, inside the site or
-                out; an outside link wants target="_blank" rel="noopener" too.
+           news.html is reached ONLY from the two "See all ..." links in this
+           section, so if you ever switch the section off again, that page
+           becomes unreachable — comment its entry out of sitemap.xml and put
+           the noindex line back at the top of it at the same time.
+           THE "JUMP TO" BAR under the two cards: three links that can point
+           anywhere, inside the site or out; an outside link wants
+           target="_blank" rel="noopener" too, as the CV link has. Add a fourth
+           and the row simply divides itself four ways.
 
            TO ADD A NEWS ITEM once it is live: paste a new
            <li class="carousel-item"> at the TOP of the track, keeping the same
@@ -351,9 +342,8 @@
            the top of the same list in news.html so the two stay in step.
            =================================================================== -->
 
-      <!-- ===== THE SWITCHED-OFF SECTION STARTS HERE — delete this line to switch it on =====
       <section>
-        <h2 id="news" class="section-title">Latest News &amp; Updates</h2>
+        <h2 id="news" class="section-title">News &amp; Updates</h2>
         <div class="news-grid">
 
           <div class="news-card">
@@ -361,20 +351,29 @@
             <div class="news-inner">
               <div class="carousel" data-carousel>
                 <ul class="carousel-track">
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A paper accepted or published, with a link to it.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A new preprint posted on arXiv.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A talk given &mdash; the title, the event and the place.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A conference or workshop attended.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A new position, visit, award or grant.]</span></li>
+                  <li class="carousel-item"><span class="news-date">Sep 2026</span>
+                    <span>New preprint with Elena I. Bunina, &ldquo;Automorphisms of twisted Chevalley
+                    groups of type <sup>2</sup>A<sub>3</sub> and <sup>2</sup>A<sub>4</sub> over local
+                    rings,&rdquo; now on arXiv.</span></li>
+                  <li class="carousel-item"><span class="news-date">Aug 2026</span>
+                    <span>Gave an invited talk, &ldquo;Automorphisms of Twisted Chevalley Groups,&rdquo;
+                    at the international workshop &ldquo;Algebraic Geometry and Model Theory of Groups
+                    and Rings IV&rdquo; in Tbilisi, Georgia.</span></li>
+                  <li class="carousel-item"><span class="news-date">Aug 2026</span>
+                    <span>New preprint with Elena I. Bunina, &ldquo;Automorphisms of twisted Chevalley
+                    groups of type <sup>2</sup>D<sub>&#8467;</sub> (&#8467; &ge; 4) over local
+                    rings,&rdquo; now on arXiv.</span></li>
+                  <li class="carousel-item"><span class="news-date">Jul 2026</span>
+                    <span>New preprint with Elena I. Bunina, &ldquo;Automorphisms of twisted Chevalley
+                    groups of type <sup>2</sup>A<sub>&#8467;</sub> (&#8467; &ge; 5) over local
+                    rings,&rdquo; now on arXiv.</span></li>
+                  <li class="carousel-item"><span class="news-date">Apr 2026</span>
+                    <span>Gave a seminar at Bar-Ilan University on the triangular and unitriangular
+                    factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R).</span></li>
                 </ul>
               </div>
             </div>
-            <a class="news-more" href="news.html#latest-news">See all news <span aria-hidden="true">&rsaquo;</span></a>
+            <a class="news-more" href="news.html#news">See all news <span aria-hidden="true">&rsaquo;</span></a>
           </div>
 
           <div class="news-card">
@@ -396,18 +395,20 @@
             <a class="news-more" href="news.html#announcements">See all announcements <span aria-hidden="true">&rsaquo;</span></a>
           </div>
 
-          <div class="news-card">
-            <h3 class="news-card-title">Quick Links</h3>
-            <ul class="quick-links">
-              <li><a href="#">[Link 1] <span aria-hidden="true">&rsaquo;</span></a></li>
-              <li><a href="#">[Link 2] <span aria-hidden="true">&rsaquo;</span></a></li>
-              <li><a href="#">[Link 3] <span aria-hidden="true">&rsaquo;</span></a></li>
-            </ul>
-          </div>
+        </div>
 
+        <!-- The third card is a full-width bar under the other two: the label
+             on the left, the three links in a row beside it. On a phone the
+             label moves above them and they stack. -->
+        <div class="news-card news-jump">
+          <p class="news-jump-label">Jump to:</p>
+          <ul class="quick-links quick-links-row">
+            <li><a href="blogs.html">Read My Blogs <span aria-hidden="true">&rsaquo;</span></a></li>
+            <li><a href="gallery.html">See My Photo Gallery <span aria-hidden="true">&rsaquo;</span></a></li>
+            <li><a href="Deep_CV.pdf" target="_blank" rel="noopener">Read My CV (PDF) <span aria-hidden="true">&rsaquo;</span></a></li>
+          </ul>
         </div>
       </section>
-      ===== end of the switched-off section ===== -->
 
       <!-- GET IN TOUCH — one <p class="contact-line"> per detail: a small
            icon, then the label and the detail itself wrapped in one <span>

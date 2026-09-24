@@ -70,6 +70,11 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
   dark must look right. If you add or change one, check the others still work.
 
 THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
+  * 404.html is the ONE page written with plain relative links, so it still
+    works when you open it straight from the folder. A one-line script in its
+    head adds <base href="/"> only when the browser is on the live site and
+    the address sits below the root, which is the only case a plain link would
+    resolve wrongly. Do not "tidy" either of those away.
   * Adding a new page: copy an existing page as the starting point. It must
     keep (a) the inline <head> script, (b) the Google Fonts <link>s, (c) the
     whole sidebar block including the Appearance panel, (d) styles.css and
@@ -95,26 +100,28 @@ THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
   * Do not introduce a build step, a framework, or npm. The site must stay
     openable by double-clicking an .html file.
 
-TURNED OFF ON PURPOSE - DO NOT "FIX" THESE
-  * "Latest News & Updates" on the home page is COMMENTED OUT. Deep will
-    switch it on later. The markup is still in index.html inside a comment,
-    with a note above it saying exactly which two marker lines to delete.
-    Leave it alone unless he asks for it back. It has three knock-on effects,
-    all of them deliberate and all reversible together:
-      - news.html is now unreachable (those "See all ..." links were the only
-        way in). The file is still there, untouched.
-      - news.html carries <meta name="robots" content="noindex"> so an
-        orphaned page of placeholders does not turn up in search.
-      - news.html's block in sitemap.xml is commented out.
-    Switching the section back on means undoing all of them: the two marker
-    lines in index.html, the noindex line in news.html, and the sitemap block.
-  * script.js needs NO change either way. It drives the rotating cards from
-    whatever it finds on the page, so with the section absent it does nothing.
+PAGES THAT ARE NOT IN THE MENU
+  * blogs.html, gallery.html and news.html carry the sidebar but are left out
+    of its six links on purpose. They are reached like this:
+      - blogs.html    from the "Jump to:" bar in the "News & Updates" section
+                      of the home page
+      - gallery.html  by clicking the photo on the home page, and from the
+                      "Jump to:" bar
+      - news.html     from the two "See all ..." links in the "News & Updates"
+                      section of the home page
+    If you ever switch the news section off again, news.html becomes
+    unreachable from the home page: comment its block out of sitemap.xml and
+    put <meta name="robots" content="noindex"> back at the top of it, so an
+    orphaned page does not turn up in search.
+  * script.js needs NO change either way. It drives the rotating news cards
+    from whatever it finds on the page, so with the section absent it does
+    nothing.
 
 ROUTINE EDITS
   Intro / About Me        index.html, the "About Me" section
   A publication           research.html, "LIST OF PUBLICATIONS" comment
-  News                    currently switched off - see the section above
+  News                    index.html (the three cards) AND news.html - keep
+                          the two in step
   A blog post             copy a file in blogs/, then link it from blogs.html
   Photos                  gallery.html, plus the image in gallery/
   The "Last updated" date LAST_UPDATED at the top of script.js

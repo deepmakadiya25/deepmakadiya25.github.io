@@ -9,20 +9,28 @@
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<!-- WHY THIS PAGE IS WRITTEN DIFFERENTLY FROM THE OTHERS.
+     GitHub Pages serves this file for ANY address that does not exist, so it
+     can appear at /typo.html but also at /some/deep/typo. Its links are
+     written plainly ("styles.css", not "/styles.css") so the file still works
+     when you open it straight from the folder on your own computer; the one
+     line below adds <base href="/"> only when the browser is on the live site
+     AND the address sits below the root, which is the only case a plain link
+     would resolve wrongly. Leave both as they are. -->
+<script>(function(){try{if(location.protocol!=="file:"&&location.pathname.replace(/[^/]*$/,"")!=="/"){document.write('<base href="/">');}}catch(e){}})();</script>
 <title>Page Not Found — Deep H. Makadiya</title>
 
 <!-- GitHub Pages shows this file whenever someone asks for an address that
      does not exist — a mistyped link, or a page that has since been renamed.
-     Because it can be served from any address, every link and file here
-     starts with "/" rather than being relative. "noindex" keeps it out of
-     search results. Nothing to edit unless you move the site. -->
+     "noindex" keeps it out of search results. Nothing to edit unless you move
+     the site. -->
 <meta name="robots" content="noindex">
 <meta name="description" content="That page does not exist on this site.">
 
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +39,7 @@
      downloads a font file once something on the page is actually drawn in
      it. Remove a family here and its circle falls back to Georgia. -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="styles.css" onerror="this.onerror=null;this.href='/styles.css';">
 </head>
 <body>
 <!-- Invisible until someone navigating by keyboard presses Tab, when it
@@ -48,17 +56,17 @@
        left out of the 6 links — see the note at the top of each.
        ===================================================================== -->
   <aside class="sidebar" id="sidebar">
-    <img class="avatar" src="/photo.jpg" alt="">
+    <img class="avatar" src="photo.jpg" alt="">
     <!-- Not an <h1>: every page already has one (its title), and search
          engines expect exactly one. Styled by ".sidebar-name" in styles.css. -->
     <p class="sidebar-name">Deep H. Makadiya</p>
     <nav aria-label="Main">
-      <a href="/index.html">Home</a>
-      <a href="/academics.html">Academics</a>
-      <a href="/research.html">Research</a>
-      <a href="/teaching.html">Teaching</a>
-      <a href="/professional-activities.html">Professional Activities</a>
-      <a href="/miscellaneous.html">Miscellaneous</a>
+      <a href="index.html">Home</a>
+      <a href="academics.html">Academics</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="professional-activities.html">Professional Activities</a>
+      <a href="miscellaneous.html">Miscellaneous</a>
     </nav>
 
     <!-- APPEARANCE — the dark mode switch, then the colour circles. Both
@@ -224,12 +232,12 @@
       <section style="padding-top:2rem;">
         <h2 class="section-title">Try one of these</h2>
         <div class="btn-row">
-          <a class="btn" href="/index.html">Home</a>
-          <a class="btn" href="/academics.html">Academics</a>
-          <a class="btn" href="/research.html">Research</a>
-          <a class="btn" href="/teaching.html">Teaching</a>
-          <a class="btn" href="/professional-activities.html">Professional Activities</a>
-          <a class="btn" href="/miscellaneous.html">Miscellaneous</a>
+          <a class="btn" href="index.html">Home</a>
+          <a class="btn" href="academics.html">Academics</a>
+          <a class="btn" href="research.html">Research</a>
+          <a class="btn" href="teaching.html">Teaching</a>
+          <a class="btn" href="professional-activities.html">Professional Activities</a>
+          <a class="btn" href="miscellaneous.html">Miscellaneous</a>
         </div>
         <p class="see-all">If you reached this from a link elsewhere and think it should work,
         do let me know at <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>.</p>
@@ -243,6 +251,6 @@
   </main>
 
 </div>
-<script src="/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
