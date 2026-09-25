@@ -3,99 +3,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Re-applies the visitor's saved colour scheme AND light/dark choice
-     before the page paints, so the default colours never flash first. If
-     they have never used the dark switch, their device's own light/dark
-     setting is followed. Must stay here, above the stylesheet.
-     Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
-
+<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
+     before the page paints. These pages deliberately do NOT take the five
+     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>About My Name — Deep H. Makadiya</title>
 
-<!-- Update "description" and og:description once the piece is written; they
-     are what Google and chat apps show. -->
-<meta name="description" content="A short personal piece by Deep H. Makadiya about his name.">
+<meta name="description" content="About My Name — a blog post by Deep H. Makadiya.">
 <link rel="canonical" href="https://deepmakadiya25.github.io/blogs/about-my-name.html">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:site_name" content="Deep H. Makadiya">
 <meta property="og:title" content="About My Name — Deep H. Makadiya">
-<meta property="og:description" content="A short personal piece by Deep H. Makadiya about his name.">
+<meta property="og:description" content="About My Name — a blog post by Deep H. Makadiya.">
 <meta property="og:url" content="https://deepmakadiya25.github.io/blogs/about-my-name.html">
 <meta property="og:image" content="https://deepmakadiya25.github.io/photo.jpg">
 <meta property="og:image:alt" content="Deep H. Makadiya">
 <meta name="twitter:card" content="summary">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- All five typeface pairs the sidebar offers. A family listed here but
-     never chosen costs one line of CSS and nothing else: the browser only
-     downloads a font file once something on the page is actually drawn in
-     it. Remove a family here and its circle falls back to Georgia. -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
-<!-- Tells the browser the site has a light and a dark version, so its own
-     scrollbars and form controls match the page. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Englebert&amp;family=IBM+Plex+Sans+KR:wght@400;600;700&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Playfair+Display:wght@600;700;800&amp;family=Rouge+Script&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
 <meta name="color-scheme" content="light dark">
-
-<!-- ICONS — the small square shown on browser tabs, bookmarks, search
-     results and phone home screens. icon.svg is what current browsers use,
-     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
-     three sit in the site's top folder; the paths start with "/" so they
-     work from any page, including those in blogs/. -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
+     everything this second set of pages does differently. -->
 <link rel="stylesheet" href="../styles.css">
-
-<!-- IF THIS POST NEEDS MATHS, paste the two MathJax lines from the <head> of
-     ../research.html here. Left out on purpose so a post with no maths does not
-     load the script. -->
+<link rel="stylesheet" href="../pages.css">
 </head>
-
-<!-- A BLOG POST PAGE. Deliberately different from the seven main pages: no
-     sidebar, no top bar, no section tabs — just the piece, with links back to
-     the Home page and to the blogs page at the top and bottom. It borrows the site's fonts and
-     colours from ../styles.css (this page sits one folder down, so every
-     path back to the site root starts with "../"), and the visitor's chosen colour still applies
-     (set by the small script above), though the colour circles themselves live
-     only on the main pages.
-     "--topbar-h:0px" below removes the space styles.css reserves on phones for
-     the top bar this page does not have. Leave it in.
-     script.js is NOT loaded here — it drives the sidebar and tabs, neither of
-     which exists on this page.
-     TO WRITE THE PIECE: replace the date and the two paragraphs below with your
-     text, one <p class="lede"> per paragraph. Keep "drop-cap" on the FIRST
-     paragraph only — that is what sets its opening letter large. -->
-<body style="--topbar-h:0px;">
-<!-- Invisible until someone navigating by keyboard presses Tab, when it
-     appears in the top-left corner. It jumps past the sidebar straight to
-     the page's text. Must stay the first thing inside <body>. -->
+<body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<main id="main" tabindex="-1">
-  <div class="wrap">
+<!-- THE TOP BAR — the same on every page of this set; only the page that
+     carries aria-current="page" changes. The house on the left goes back to
+     the pages with a sidebar; the name goes to the Noticeboard. The three
+     round buttons on the right open the profile links, the appearance
+     controls and the search. If you add a page here, add it to the list in
+     pages.js too, so the search reads it.
+     ===================================================================== -->
+<header class="tb">
+  <div class="tb-inner">
+    <a class="tb-home" href="../index.html">
+      <span class="tb-home-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M14.2 14.6H9.8m1.7-1.8-1.8 1.8 1.8 1.8"/></svg></span><span>Back to Home</span>
+    </a>
+    <span class="tb-div" aria-hidden="true"></span>
+    <a class="tb-name" href="../noticeboard.html">Deep H. Makadiya</a>
+    <nav class="tb-nav" id="pageNav" aria-label="Second set of pages">
+      <a href="../noticeboard.html">Noticeboard</a>
+      <a href="../bio.html">Bio</a>
+      <a href="../gallery.html">Photos</a>
+      <a href="../news.html">News</a>
+      <a href="../blogs.html" aria-current="page">Blogs</a>
+      <a href="../useful-links.html">Links</a>
+    </nav>
+    <div class="tb-tools">
+      <button type="button" class="tb-btn tb-menu" id="pageMenuButton" aria-expanded="false" aria-label="Pages" title="Pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button type="button" class="tb-btn" id="linksButton" aria-controls="linksPanel" aria-expanded="false" aria-label="Find me online" title="Find me online"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" focusable="false"><circle cx="12" cy="12" r="3.7"/><path d="M15.7 8.3v4.9a2.9 2.9 0 0 0 5.8 0v-1.2A9.5 9.5 0 1 0 17.8 19.6"/></svg></button>
+      <button type="button" class="tb-btn" id="appearanceButton" aria-controls="appearancePanel" aria-expanded="false" aria-label="Appearance" title="Appearance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 8h9M18.5 8H20M4 16h3.5M13 16h7"/><circle cx="15.5" cy="8" r="2.1"/><circle cx="10" cy="16" r="2.1"/></svg></button>
+      <button type="button" class="tb-btn" id="searchButton" aria-controls="searchPanel" aria-expanded="false" aria-label="Search the site" title="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></button>
 
-    <p class="see-all"><a href="../index.html">&#8592; Home</a> &middot; <a href="../blogs.html">&#8592; All blogs</a></p>
+      <!-- FIND ME ONLINE -->
+      <div class="tb-pop" id="linksPanel" hidden>
+        <ul class="tb-links">
+        <li><a href="http://www.linkedin.com/in/deep-makadiya" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="7.4" width="18" height="12.4" rx="2.2"/><path d="M8.8 7.4V6a2 2 0 0 1 2-2h2.4a2 2 0 0 1 2 2v1.4M3 12.6h18"/></svg></span><span class="tb-link-name">LinkedIn</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        <li><a href="https://github.com/deepmakadiya25" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.6 7.6 3.8 12l4.8 4.4M15.4 7.6 20.2 12l-4.8 4.4M13.6 4.8l-3.2 14.4"/></svg></span><span class="tb-link-name">GitHub</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        <li><a href="https://scholar.google.com/citations?user=v7X_OhYAAAAJ&amp;hl=en" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M2.8 9.2 12 5l9.2 4.2L12 13.4z"/><path d="M6.6 11v4.6c0 1.6 2.4 2.8 5.4 2.8s5.4-1.2 5.4-2.8V11"/></svg></span><span class="tb-link-name">Google Scholar</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        <li><a href="https://orcid.org/0009-0000-8410-471X" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="m8.4 12.2 2.6 2.6 4.6-5.2"/></svg></span><span class="tb-link-name">ORCID</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        <!-- X and Facebook are ready and waiting for their addresses. To switch one on:
+             put the address in place of ADDRESS-GOES-HERE, then delete this line above the
+             link and the line that closes the comment below it. -->
+        <!--
+        <li><a href="ADDRESS-GOES-HERE" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20.4 12.6c0 3.8-3.8 6.8-8.4 6.8-1 0-2-.14-2.9-.4L4 20.4l1.5-3.4a6.6 6.6 0 0 1-1.9-4.4c0-3.8 3.8-6.8 8.4-6.8s8.4 3 8.4 6.8z"/></svg></span><span class="tb-link-name">X</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        <li><a href="ADDRESS-GOES-HERE" target="_blank" rel="noopener"><span class="tb-link-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="9.2" cy="8.6" r="3.2"/><path d="M3.6 19.4a5.7 5.7 0 0 1 11.2 0"/><path d="M15.6 6.2a3.2 3.2 0 0 1 0 6.2M17 14.6a5 5 0 0 1 3.4 4.8"/></svg></span><span class="tb-link-name">Facebook</span><span class="tb-link-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8.5 15.5 15.5 8.5M9.8 8.5h5.7v5.7"/></svg></span></a></li>
+        -->
+      </ul>
+      </div>
 
-    <div class="page-header">
-      <h1>About My Name</h1>
-      <p class="page-desc">[Month Year]</p>
+      <!-- APPEARANCE — the same three controls as the sidebar pages, minus
+           the five styles, which this set does not use. The markup matches
+           the sidebar's exactly so script.js drives both. -->
+      <div class="tb-pop tb-pop-wide" id="appearancePanel" hidden>
+        <div class="appearance-group">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <div class="modes" role="group" aria-label="Light or dark mode">
+        <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
+        <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
+        <button type="button" class="mode-opt" data-set-mode="dark" aria-pressed="false" title="Dark mode" aria-label="Dark mode">
+        <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/></svg></span>Dark</button>
+        <button type="button" class="mode-opt" data-set-mode="auto" aria-pressed="false" title="Same as your device" aria-label="Same as your device">
+        <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7.8a4.2 4.2 0 0 0 0 8.4z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M1.9 12h2.5M4.9 4.9l1.8 1.8M6.7 17.3l-1.8 1.8M12 19.6v2.5"/><path d="M19.6 12h2.5M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8" opacity=".35"/></svg></span>Auto</button>
+        </div>
+        </div>
+        <div class="appearance-group">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.4c-4.8 0-8.6 3.6-8.6 8.3 0 4.5 3.5 8 8 8 1.3 0 2.2-.8 2.2-1.9 0-.6-.2-1-.6-1.4-.3-.4-.5-.8-.5-1.3 0-1 .9-1.8 2-1.8h1.5c2.6 0 4.6-2 4.6-4.5 0-3-3.7-5.4-8.6-5.4z"/><circle cx="7.6" cy="11.6" r="1" fill="currentColor" stroke="none"/><circle cx="10.4" cy="7.9" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="8.3" r="1" fill="currentColor" stroke="none"/></svg></span>Colour</p>
+        <div class="swatches">
+        <button type="button" class="swatch" data-set-theme="cream"
+        style="--sw-a:#a5501f;--sw-b:#efe6d2"
+        title="Terracotta" aria-label="Terracotta colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="mocha"
+        style="--sw-a:#5b4636;--sw-b:#f0e9dd"
+        title="Mocha" aria-label="Mocha colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="gold"
+        style="--sw-a:#7e6825;--sw-b:#efede6"
+        title="Gold" aria-label="Gold colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="sage"
+        style="--sw-a:#5c7a52;--sw-b:#eef2e6"
+        title="Sage" aria-label="Sage colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="emerald"
+        style="--sw-a:#1f6b52;--sw-b:#e7f0ec"
+        title="Emerald" aria-label="Emerald colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="teal"
+        style="--sw-a:#1d6472;--sw-b:#e6eeef"
+        title="Teal" aria-label="Teal colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="dusk"
+        style="--sw-a:#3d5d82;--sw-b:#e9eef4"
+        title="Blue" aria-label="Blue colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="indigo"
+        style="--sw-a:#3a3670;--sw-b:#eceaf4"
+        title="Indigo" aria-label="Indigo colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="plum"
+        style="--sw-a:#71385a;--sw-b:#f2e8ef"
+        title="Plum" aria-label="Plum colour scheme"></button>
+        <button type="button" class="swatch" data-set-theme="graphite"
+        style="--sw-a:#3f4348;--sw-b:#eceae6"
+        title="Graphite" aria-label="Graphite colour scheme"></button>
+        </div>
+        </div>
+        <div class="appearance-group">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="1.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><path d="M7.4 3.5h9.2M7.4 20.5h9.2M3.5 7.4v9.2M20.5 7.4v9.2"/><path d="M8.3 17.4 12 6.9l3.7 10.5M9.7 14.1h4.6"/></svg></span>Typeface</p>
+        <div class="fonts">
+          <button type="button" class="font-swatch" data-set-font="classic"
+                  style="--fs:'Playfair Display',Georgia,serif"
+                  title="Classic" aria-label="Classic typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="readable"
+                  style="--fs:'Source Serif 4',Georgia,serif"
+                  title="Readable" aria-label="Readable typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="sturdy"
+                  style="--fs:'Bitter',Georgia,serif"
+                  title="Sturdy" aria-label="Sturdy typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="bold"
+                  style="--fs:'Archivo',system-ui,sans-serif"
+                  title="Bold" aria-label="Bold typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="fancy"
+                  style="--fs:'Rouge Script',cursive"
+                  title="Fancy" aria-label="Fancy typeface">A</button>
+      </div>
+        </div>
+      </div>
     </div>
-
-    <section>
-      <p class="lede drop-cap">This blog will be completed soon. I am working on it.</p>
-      <p class="lede">In the meantime this second paragraph is here only to show how the page
-      looks with more than one paragraph of text in it. It will be replaced along with
-      everything else once the piece is written.</p>
-    </section>
-
-    <p class="see-all"><a href="../index.html">&#8592; Home</a> &middot; <a href="../blogs.html">&#8592; All blogs</a></p>
-
   </div>
+</header>
 
-  <footer>
-    <p>&copy; 2026 Deep H. Makadiya</p>
-  </footer>
+<!-- SEARCH — reads every page of the site the first time it is used. -->
+<div class="pg-search" id="searchPanel" hidden>
+  <div class="pg-search-box">
+    <label class="pg-search-field">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+      <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
+    </label>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <ul class="pg-results" id="searchResults"></ul>
+  </div>
+</div>
+
+<main class="pg-main" id="main" tabindex="-1">
+  <div class="pg-wrap">
+      <p class="pg-back"><a href="../blogs.html">&#8592; All blogs</a></p>
+
+      <div class="post-head">
+        <h1>About My Name</h1>
+        <p class="post-meta"><span>[Month Year]</span><span>&middot;</span><span>[n] min read</span>
+          <span class="post-tags"><span class="post-tag">Personal</span></span></p>
+      </div>
+
+      <div class="post-body">
+        <p>This blog will be completed soon. I am working on it.</p>
+        <p>In the meantime this second paragraph is here only to show how the page looks with more
+        than one paragraph of text in it. It will be replaced along with everything else once the
+        piece is written.</p>
+      </div>
+
+      <nav class="post-nav" aria-label="More">
+        <a href="../blogs.html">&#8592; All blogs</a>
+        <a href="../noticeboard.html">Noticeboard</a>
+        <a href="../index.html">Main site</a>
+      </nav>
+  </div>
 </main>
+
+  <footer class="pg-foot">
+    <p class="pg-foot-links">
+      <a href="../index.html">Home</a>
+      <a href="../academics.html">Academics</a>
+      <a href="../research.html">Research</a>
+      <a href="../teaching.html">Teaching</a>
+      <a href="../professional-activities.html">Professional Activities</a>
+      <span class="pg-foot-sep" aria-hidden="true">|</span>
+      <a href="../noticeboard.html">Noticeboard</a>
+      <a href="../bio.html">Bio</a>
+      <a href="../gallery.html">Photos</a>
+      <a href="../news.html">News</a>
+      <a href="../blogs.html">Blogs</a>
+      <a href="../useful-links.html">Links</a>
+    </p>
+    <p>&copy; 2026 Deep H. Makadiya</p>
+    <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
+  </footer>
+<script src="../script.js"></script>
+<script src="../pages.js"></script>
 </body>
 </html>

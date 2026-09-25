@@ -12,7 +12,7 @@
      5  Appearance panel      opens/closes the four pickers, remembers it
      6  Typeface picker       sets data-font on <html>
      7  Style picker          sets data-style (and data-panel) on <html>
-     8  Dark mode switch      sets data-mode on <html>
+     8  Light / dark mode     Light, Dark or Auto; sets data-mode on <html>
      9  "Last updated"        writes LAST_UPDATED into every footer
     10  Gallery lightbox      gallery.html
     11  More / Less blocks    Miscellaneous > Some Useful Links
@@ -20,6 +20,8 @@
     13  Rotating news cards   home page
     14  Abstract toggles      Research
     15  Scrollspy             marks the tab of the section you are reading
+    16  Page name in the bar  phones: the page's name appears beside yours
+                              once the in-page tab bar reaches the top
 
    HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 8). Each picker writes one
    attribute on the <html> element and saves the choice in the visitor's
@@ -45,7 +47,7 @@
 
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
    Shown as "Last updated: ..." in the footer of every page. */
-var LAST_UPDATED = "24 September 2026";
+var LAST_UPDATED = "25 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");
@@ -186,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var fontSwatches = document.querySelectorAll("[data-set-font]");
 
   function currentFont() {
-    return document.documentElement.getAttribute("data-font") || "playfair";
+    return document.documentElement.getAttribute("data-font") || "classic";
   }
   function markFont() {
     var now = currentFont();
@@ -252,49 +254,84 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   markStyle();
 
-  // DARK MODE SWITCH (under the colour circles). It sets data-mode="dark" on
-  // <html>; styles.css carries a dark version of every colour scheme, so the
-  // whole site flips at once and the chosen colour is kept. The choice is
-  // saved in the visitor's browser and re-applied by the small script in
-  // each page's <head>. Until they touch the switch the site follows their
-  // device's own light/dark setting — and keeps following it even if that
-  // setting changes while the page is open. Nothing here needs editing when
-  // you add a colour scheme.
+  // LIGHT / DARK MODE (the three buttons: Light, Dark, Auto). Dark sets
+  // data-mode="dark" on <html>; styles.css carries a dark version of every
+  // colour scheme, so the whole site flips at once and the chosen colour is
+  // kept. Auto — what everyone gets until they choose otherwise — follows the
+  // light/dark setting of their phone or laptop and changes with it while the
+  // page is open. The choice is saved in the browser and re-applied by the
+  // small script in every page's <head>. The same three buttons appear in the
+  // sidebar of the main pages and in the appearance menu of the second set,
+  // and this one block drives both: it works with whatever buttons carrying
+  // data-set-mode it finds, or with none at all.
   var MODE_KEY = "site-mode";
-  var modeToggle = document.getElementById("modeToggle");
+  var modeButtons = document.querySelectorAll("[data-set-mode]");
+  var systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
 
-  function isDark() {
-    return document.documentElement.getAttribute("data-mode") === "dark";
+  function storedMode() {
+    var v = null;
+    try { v = localStorage.getItem(MODE_KEY); } catch (e) {}
+    return (v === "light" || v === "dark") ? v : "auto";
   }
-  function applyMode(mode) {
-    if (mode === "dark") {
-      document.documentElement.setAttribute("data-mode", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-mode");
-    }
-    if (modeToggle) {
-      modeToggle.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+  function paint(choice) {
+    var dark = choice === "dark" || (choice === "auto" && systemDark && systemDark.matches);
+    if (dark) { document.documentElement.setAttribute("data-mode", "dark"); }
+    else { document.documentElement.removeAttribute("data-mode"); }
+    for (var i = 0; i < modeButtons.length; i++) {
+      var on = modeButtons[i].getAttribute("data-set-mode") === choice;
+      modeButtons[i].classList.toggle("active", on);
+      modeButtons[i].setAttribute("aria-pressed", on ? "true" : "false");
     }
   }
 
-  // Match the switch to whatever the <head> script already decided.
-  applyMode(isDark() ? "dark" : "light");
+  paint(storedMode());
 
-  if (modeToggle) modeToggle.addEventListener("click", function () {
-    var next = isDark() ? "light" : "dark";
-    applyMode(next);
-    try { localStorage.setItem(MODE_KEY, next); } catch (e) {}
-  });
+  for (var mb = 0; mb < modeButtons.length; mb++) {
+    modeButtons[mb].addEventListener("click", function () {
+      var picked = this.getAttribute("data-set-mode");
+      paint(picked);
+      try { localStorage.setItem(MODE_KEY, picked); } catch (e) {}
+    });
+  }
 
-  if (window.matchMedia) {
-    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-    var followSystem = function (e) {
-      var chosen = null;
-      try { chosen = localStorage.getItem(MODE_KEY); } catch (err) {}
-      if (!chosen) applyMode(e.matches ? "dark" : "light");   // only while unset
-    };
+  if (systemDark) {
+    var followSystem = function () { if (storedMode() === "auto") paint("auto"); };
     if (systemDark.addEventListener) { systemDark.addEventListener("change", followSystem); }
     else if (systemDark.addListener) { systemDark.addListener(followSystem); }   // older Safari
+  }
+
+  // THE PAGE NAME IN THE PHONE TOP BAR. While the page header is still on
+  // screen the bar carries only the site name. Once the in-page tab bar has
+  // risen to the top — the moment the header has gone by — the name of the
+  // page appears beside it, in smaller letters. Pages without a tab bar (the
+  // home page) never show it. The name is taken from whichever menu link is
+  // marked as the current one, so nothing here needs editing when a page is
+  // renamed.
+  var topbar = document.querySelector(".topbar");
+  var topbarPage = document.getElementById("topbarPage");
+  var tabsWrap = document.querySelector(".page-tabs-wrap");
+  if (topbar && topbarPage && tabsWrap) {
+    var here = document.querySelector(".sidebar nav a.active");
+    topbarPage.textContent = here ? here.textContent.trim() : "";
+
+    var barHeight = function () {
+      var v = getComputedStyle(document.documentElement).getPropertyValue("--topbar-h");
+      return parseFloat(v) || 52;
+    };
+    var ticking2 = false;
+    var checkTabs = function () {
+      // one pixel of tolerance: the sticky bar settles exactly on the line
+      var stuck = tabsWrap.getBoundingClientRect().top <= barHeight() + 1;
+      topbar.classList.toggle("with-page", stuck && !!topbarPage.textContent);
+      ticking2 = false;
+    };
+    window.addEventListener("scroll", function () {
+      if (ticking2) return;
+      ticking2 = true;
+      window.requestAnimationFrame(checkTabs);
+    }, { passive: true });
+    window.addEventListener("resize", checkTabs);
+    checkTabs();
   }
 
   // "LAST UPDATED" — written into every page's footer from LAST_UPDATED at
@@ -552,6 +589,22 @@ document.addEventListener("DOMContentLoaded", function () {
         start();
       }
     })(carousels[c]);
+  }
+
+  // FOLD-AWAY LISTS — a ".pg-toggle" button shows and hides the block named
+  // in its aria-controls (the past announcements, for one). The wording
+  // flips between "Show" and "Hide" on its own.
+  var folds = document.querySelectorAll(".pg-toggle[aria-controls]");
+  for (var g = 0; g < folds.length; g++) {
+    folds[g].addEventListener("click", function () {
+      var panel = document.getElementById(this.getAttribute("aria-controls"));
+      if (!panel) return;
+      var isOpen = this.getAttribute("aria-expanded") === "true";
+      this.setAttribute("aria-expanded", isOpen ? "false" : "true");
+      panel.hidden = isOpen;
+      this.textContent = this.textContent.replace(isOpen ? /^Hide/ : /^Show/,
+                                                  isOpen ? "Show" : "Hide");
+    });
   }
 
   // ABSTRACTS — each "Abstract" button opens the panel whose id matches its

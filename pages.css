@@ -1,0 +1,373 @@
+/* =========================================================================
+   Deep H. Makadiya — THE SECOND SET OF PAGES
+   Dashboard, Bio, Photos, News & Updates, Blogs, and every blog post.
+
+   These pages have a design of their own: no sidebar, a bar across the top
+   instead, and one narrow column of text under it. They are loaded AFTER
+   styles.css, which they use only for its colours, its typefaces and its
+   dark mode — everything a visitor can switch except the five styles, which
+   belong to the sidebar pages and are deliberately not applied here.
+
+   WHAT IS IN THIS FILE, IN ORDER
+     1  THE PAGE           body, the column, headings, the footer
+     2  THE TOP BAR        the bar, its links, and the three tool buttons
+     3  THE THREE MENUS    links, appearance, search
+     4  DASHBOARD          the panels on the landing page
+     5  BIO                the life page, its timeline and its placeholders
+     6  BLOGS              the list of posts, its filters, and a post page
+     7  PHOTOS AND NEWS    the few extras those two pages need
+     8  RESPONSIVE         phones and tablets — LAST, on purpose
+
+   EVERY CLASS HERE BEGINS "pg-" OR "tb-" so nothing can collide with the
+   sidebar pages. The controls inside the appearance menu are the exception:
+   they reuse the sidebar's own classes (.modes, .swatches, .fonts), so
+   script.js drives both sets with one piece of code.
+   ========================================================================= */
+
+/* =========================================================================
+   1  THE PAGE
+   ========================================================================= */
+body.pg{
+  background:var(--cream);
+  color:var(--ink);
+  /* the bar is sticky, so nothing needs to reserve room for it */
+  padding:0; margin:0;
+}
+
+/* The single column everything sits in. Narrower than the sidebar pages'
+   column: with no sidebar beside it, a wide measure would be tiring. */
+.pg-main{ display:block; padding:2.6rem 1.5rem 0; min-width:0; }
+/* Two pages carry no bar at all — the site map and the 404 — so their text
+   starts a little further down, where the bar would otherwise have been. */
+.pg-main.pg-plain{ padding-top:3.4rem; }
+.pg-wrap{ max-width:46rem; margin:0 auto; min-width:0; }
+
+/* The head of a page: a small accent label, the title, one line beneath. */
+.pg-head{ margin:0 0 1.8rem; }
+.pg-kicker{
+  margin:0 0 .5rem; font-family:var(--font-body);
+  font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent);
+}
+.pg-head h1{
+  margin:0 0 .6rem; font-family:var(--font-head); font-weight:800;
+  font-size:clamp(1.7rem, 6vw, 2.35rem); line-height:1.15; color:var(--ink);
+}
+.pg-lede{ margin:0; font-size:1.02rem; color:var(--muted); }
+
+/* A section and its heading. The heading carries a hairline above it rather
+   than a box around it — the whole page is built from rules, not panels. */
+.pg-section{ margin:0 0 2rem; }
+.pg-section > h2{
+  margin:0 0 .9rem; padding-top:.9rem;
+  border-top:1px solid var(--rule-2);
+  font-family:var(--font-head); font-weight:700; font-size:1.18rem; color:var(--ink);
+}
+.pg-section > h2:first-child{ padding-top:0; border-top:0; }
+.pg-section > h3{ margin:1.6rem 0 .5rem; font-family:var(--font-head); font-size:1.02rem; }
+.pg-section p{ margin:0 0 1rem; }
+.pg-section p:last-child{ margin-bottom:0; }
+
+/* A line of small print under a list or a section. */
+.pg-note{ margin:.8rem 0 0; font-size:.86rem; color:var(--muted); font-style:italic; }
+
+/* The short list under "And also" on the navigation page. */
+.nav-extras{ list-style:none; margin:0; padding:0; }
+.nav-extras li{ padding:.45rem 0; border-top:1px solid var(--rule-3); font-size:.94rem; }
+.nav-extras li:first-child{ border-top:0; }
+.nav-extras a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .nav-extras a:hover{ text-decoration:underline; } }
+
+/* "Did you know?" moved here from the home page. It keeps the shape it had
+   there — the label centred across the top, one panel of text underneath —
+   so the two sites still feel like one. */
+.nav-tip{ margin-top:2.4rem; }
+
+/* The two ways out of a page: a quiet link back, and the footer. */
+.pg-back{ margin:0 0 1.6rem; font-size:.88rem; }
+.pg-back a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .pg-back a:hover{ text-decoration:underline; } }
+
+.pg-foot{
+  max-width:46rem; margin:3.4rem auto 0; padding:1.6rem 1.5rem 2.6rem;
+  border-top:1px solid var(--rule-2);
+  font-size:.82rem; color:var(--muted); text-align:center;
+}
+.pg-foot p{ margin:0 0 .35rem; }
+.pg-foot p:last-child{ margin:0; }
+.pg-foot a{ color:var(--muted); }
+.pg-foot .pg-foot-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.2rem .9rem; margin-bottom:.6rem; }
+.pg-foot .pg-foot-links a{ color:var(--accent); text-decoration:none; }
+/* the upright between the main pages and this second set of pages */
+.pg-foot .pg-foot-links .pg-foot-sep{ color:var(--muted); opacity:.55; }
+/* eleven links need a little more room than the text column above them, so on
+   a wide screen the row alone is allowed to reach past it and stay on one line */
+@media (min-width:900px){ .pg-foot .pg-foot-links{ margin-left:-3.2rem; margin-right:-3.2rem; } }
+@media (hover: hover){ .pg-foot .pg-foot-links a:hover{ text-decoration:underline; } }
+
+/* =========================================================================
+   2  THE TOP BAR
+   It stays at the top of the window as the page scrolls. Left to right:
+   a house icon and "Back to Home" (the sidebar site), a divider, the name
+   (which leads to the Dashboard), then the five page links; and at the far
+   right the three round tool buttons — links, appearance, search.
+   ========================================================================= */
+.tb{
+  position:sticky; top:0; z-index:60;
+  background:var(--cream);
+  border-bottom:1px solid var(--rule-1);
+}
+.tb-inner{
+  max-width:72rem; margin:0 auto; padding:.55rem 1.5rem;
+  display:flex; align-items:center; gap:.9rem;
+}
+.tb-home{
+  display:inline-flex; align-items:center; gap:.4rem; flex:none;
+  color:var(--accent); text-decoration:none;
+  font-size:.86rem; font-weight:600;
+  padding:.3rem .55rem; border-radius:8px;
+}
+.tb-home-ico{ width:20px; height:20px; line-height:0; flex:none; }
+.tb-home-ico svg{ display:block; width:100%; height:100%; }
+@media (hover: hover){ .tb-home:hover{ background:color-mix(in srgb, var(--accent) 12%, transparent); } }
+
+.tb-div{ width:1px; align-self:stretch; background:var(--rule-2); flex:none; }
+
+.tb-name{
+  flex:none; font-family:var(--font-head); font-weight:700; font-size:1rem;
+  color:var(--ink); text-decoration:none; white-space:nowrap;
+}
+@media (hover: hover){ .tb-name:hover{ color:var(--accent); } }
+
+.tb-nav{ display:flex; align-items:center; gap:.15rem; flex:1 1 auto; min-width:0; flex-wrap:wrap; }
+.tb-nav a{
+  padding:.34rem .6rem; border-radius:8px;
+  color:var(--ink); text-decoration:none; font-size:.92rem; white-space:nowrap;
+}
+@media (hover: hover){ .tb-nav a:hover{ color:var(--accent); background:color-mix(in srgb, var(--accent) 10%, transparent); } }
+/* the page you are on */
+.tb-nav a[aria-current="page"]{ color:var(--accent); font-weight:700; }
+
+.tb-tools{ display:flex; align-items:center; gap:.3rem; flex:none; margin-left:auto; position:relative; }
+.tb-btn{
+  width:34px; height:34px; padding:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:none; border:1px solid transparent; border-radius:50%;
+  color:var(--ink);
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+.tb-btn svg{ display:block; width:19px; height:19px; }
+@media (hover: hover){ .tb-btn:hover{ color:var(--accent); border-color:var(--accent); } }
+.tb-btn[aria-expanded="true"]{ color:var(--accent); border-color:var(--accent); }
+.tb-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* the menu button, phones only */
+.tb-menu{ display:none; }
+
+/* =========================================================================
+   3  THE THREE MENUS that drop out of the tool buttons
+   ========================================================================= */
+.tb-pop{
+  position:absolute; top:calc(100% + .55rem); right:0; z-index:70;
+  min-width:13rem; padding:.7rem;
+  background:var(--cream-2); color:var(--ink);
+  border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 12px 30px rgba(var(--shadow-rgb), .16);
+}
+.tb-pop[hidden]{ display:none; }
+.tb-pop-wide{ min-width:17rem; }
+
+/* the list of profiles under the globe */
+.tb-links{ list-style:none; margin:0; padding:0; display:grid; gap:.1rem; }
+.tb-links a{
+  display:flex; align-items:center; gap:.5rem;
+  padding:.4rem .5rem; border-radius:8px;
+  color:var(--ink); text-decoration:none; font-size:.88rem;
+}
+@media (hover: hover){ .tb-links a:hover{ background:color-mix(in srgb, var(--accent) 12%, transparent); color:var(--accent); } }
+.tb-links .tb-link-ico{ width:15px; height:15px; line-height:0; flex:none; color:var(--accent); }
+.tb-links .tb-link-ico svg{ display:block; width:100%; height:100%; }
+/* the name takes the middle, which pushes the little arrow to the right edge */
+.tb-links .tb-link-name{ flex:1 1 auto; min-width:0; }
+.tb-links .tb-link-out{ width:12px; height:12px; line-height:0; flex:none; opacity:.5; }
+.tb-links .tb-link-out svg{ display:block; width:100%; height:100%; }
+@media (hover: hover){ .tb-links a:hover .tb-link-out{ opacity:1; } }
+
+/* the appearance menu reuses the sidebar's own controls, so it needs only
+   its own spacing and its small labels */
+.tb-pop .appearance-group{ margin:0 0 1rem; }
+.tb-pop .appearance-group:last-child{ margin-bottom:0; }
+.tb-pop .theme-picker-label{ margin:0 0 .5rem; }
+
+/* =========================================================================
+   4  DASHBOARD
+   ========================================================================= */
+.dash-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:1rem; }
+.dash-card{
+  display:flex; flex-direction:column; gap:.35rem;
+  padding:1rem 1.1rem;
+  border:1px solid var(--line); border-radius:12px;
+  background:var(--cream-2); color:var(--ink); text-decoration:none;
+  transition:border-color .18s ease, transform .18s ease;
+}
+@media (hover: hover){ .dash-card:hover{ border-color:var(--accent); transform:translateY(-2px); } }
+.dash-card h3{ margin:0; font-family:var(--font-head); font-size:1.02rem; color:var(--ink); }
+/* a shade darker than the usual muted grey: these sit on the panel colour,
+   which is itself a step away from the page, and the pair has to stay above
+   4.5:1 in all ten colour schemes. */
+.dash-card p{ margin:0; font-size:.88rem; color:color-mix(in srgb, var(--ink) 30%, var(--muted)); }
+.dash-card .dash-go{ margin-top:.3rem; font-size:.82rem; color:var(--accent); }
+
+/* the short lists of recent things */
+.dash-list{ list-style:none; margin:0; padding:0; }
+.dash-list li{ display:flex; gap:.9rem; padding:.7rem 0; border-top:1px solid var(--rule-3); }
+.dash-list li:first-child{ border-top:0; padding-top:0; }
+.dash-list .pg-when{ flex:none; width:6.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
+.dash-more{ display:inline-block; margin-top:.9rem; font-size:.86rem; color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .dash-more:hover{ text-decoration:underline; } }
+
+/* the small strip of photos */
+.dash-photos{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.7rem; }
+.dash-photo{
+  aspect-ratio:1; border-radius:10px; overflow:hidden;
+  border:1px solid var(--line); background:var(--cream-2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.76rem; color:var(--muted); text-align:center; padding:.4rem;
+}
+.dash-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* =========================================================================
+   5  BIO
+   ========================================================================= */
+.bio-top{ display:flex; gap:1.6rem; align-items:flex-start; margin-bottom:2rem; }
+.bio-photo{ flex:none; width:9.5rem; }
+.bio-photo img{ width:100%; border-radius:14px; display:block; border:1px solid var(--line); }
+.bio-facts{ list-style:none; margin:0; padding:0; font-size:.9rem; }
+.bio-facts li{ display:flex; gap:.6rem; padding:.3rem 0; }
+.bio-facts b{ flex:none; width:6.2rem; font-weight:600; color:var(--muted); font-size:.8rem; letter-spacing:.04em; text-transform:uppercase; padding-top:.1rem; }
+
+/* the dated column down the left of the life story */
+.bio-line{ list-style:none; margin:0; padding:0; }
+.bio-line li{ display:flex; gap:1rem; padding:.85rem 0; border-top:1px solid var(--rule-3); }
+.bio-line li:first-child{ border-top:0; }
+.bio-line .pg-when{ flex:none; width:6.4rem; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.15rem; }
+.bio-line b{ display:block; font-weight:600; }
+.bio-line span.bio-where{ display:block; font-size:.88rem; color:var(--muted); }
+
+/* the paragraphs Deep has still to write */
+.pg-placeholder{
+  margin:0 0 1rem; padding:.9rem 1rem;
+  border:1px dashed color-mix(in srgb, var(--ink) 26%, transparent);
+  border-radius:10px; color:var(--muted); font-size:.92rem;
+}
+
+/* =========================================================================
+   6  BLOGS — the list of posts and a post itself
+   ========================================================================= */
+/* the row of categories above the list */
+.blog-filters{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 1.4rem; }
+.blog-filter{
+  padding:.3rem .7rem; cursor:pointer;
+  background:none; color:var(--ink);
+  border:1px solid var(--line); border-radius:999px;
+  font-family:var(--font-body); font-size:.82rem;
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+@media (hover: hover){ .blog-filter:hover{ border-color:var(--accent); color:var(--accent); } }
+.blog-filter.active{ background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
+.blog-filter:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.blog-count{ opacity:.7; font-size:.76rem; }
+
+/* one line per post: title and tags on the left, date and length on the
+   right. This is the shape Deep asked for, after neeldhara.com. */
+.post-list{ list-style:none; margin:0; padding:0; }
+.post-list li{
+  display:flex; align-items:baseline; gap:1rem;
+  padding:.9rem 0; border-top:1px solid var(--rule-3);
+}
+.post-list li:first-child{ border-top:0; }
+.post-list li[hidden]{ display:none; }
+.post-main{ flex:1; min-width:0; }
+.post-list a{ color:var(--ink); text-decoration:none; font-family:var(--font-head); font-size:1.04rem; }
+@media (hover: hover){ .post-list a:hover{ color:var(--accent); text-decoration:underline; } }
+.post-tags{ display:inline-flex; flex-wrap:wrap; gap:.3rem; margin-left:.5rem; vertical-align:middle; }
+.post-tag{
+  display:inline-block; vertical-align:baseline;
+  font-size:.64em; line-height:1; padding:.2em .65em; border-radius:4px;
+  background:color-mix(in srgb, var(--ink) 9%, var(--cream));
+  color:color-mix(in srgb, var(--ink) 72%, var(--muted));
+  position:relative; top:-.16em; white-space:nowrap;
+}
+.post-when{ flex:none; text-align:right; font-size:.8rem; color:var(--muted); white-space:nowrap; }
+.post-blurb{ display:block; margin:.3rem 0 0; font-size:.9rem; color:var(--muted); }
+
+/* a post page */
+.post-head{ margin:0 0 1.8rem; padding-bottom:1.2rem; border-bottom:1px solid var(--rule-1); }
+.post-head h1{ margin:0 0 .5rem; font-family:var(--font-head); font-weight:800; font-size:clamp(1.6rem, 5.5vw, 2.15rem); line-height:1.18; }
+.post-meta{ margin:0; font-size:.84rem; color:var(--muted); display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+.post-body{ font-size:1.02rem; }
+.post-body p{ margin:0 0 1.15rem; }
+.post-body h2{ margin:2rem 0 .7rem; font-family:var(--font-head); font-size:1.24rem; }
+.post-body blockquote{
+  margin:1.4rem 0; padding:.2rem 0 .2rem 1.1rem;
+  border-left:2px solid var(--accent); color:var(--muted); font-style:italic;
+}
+.post-nav{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.4rem; padding-top:1.2rem; border-top:1px solid var(--rule-2); font-size:.9rem; }
+.post-nav a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .post-nav a:hover{ text-decoration:underline; } }
+
+/* =========================================================================
+   7  PHOTOS AND NEWS — the few things those pages add
+   ========================================================================= */
+/* The photo grid and its lightbox are the sidebar pages' own (.gallery-grid,
+   .gallery-item), so they need nothing here beyond a little more room. */
+.pg-section .gallery-grid{ margin-top:.2rem; }
+
+/* the dated list on News & Updates, and the block of past announcements */
+.pg-news{ list-style:none; margin:0; padding:0; }
+.pg-news li{ display:flex; gap:1rem; padding:.85rem 0; border-top:1px solid var(--rule-3); }
+.pg-news li:first-child{ border-top:0; }
+.pg-news .pg-when{ flex:none; width:6.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
+.pg-toggle{
+  padding:.3rem .8rem; cursor:pointer;
+  background:none; color:var(--accent);
+  border:1px solid var(--accent); border-radius:999px;
+  font-family:var(--font-body); font-size:.82rem;
+}
+@media (hover: hover){ .pg-toggle:hover{ background:var(--accent); color:var(--on-accent); } }
+.pg-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.pg-fold[hidden]{ display:none; }
+.pg-fold{ margin-top:1rem; }
+
+/* =========================================================================
+   8  RESPONSIVE — LAST IN THE FILE ON PURPOSE
+   ========================================================================= */
+@media (max-width:860px){
+  .tb-inner{ padding:.5rem 1rem; gap:.6rem; flex-wrap:wrap; }
+  .tb-home span:not(.tb-home-ico){ display:none; }      /* the house alone */
+  .tb-menu{ display:inline-flex; }
+  /* the five page links drop below the bar and open with the menu button */
+  .tb-nav{
+    order:5; flex-basis:100%; display:none;
+    flex-direction:column; align-items:stretch; gap:.1rem;
+    padding:.4rem 0 .6rem; border-top:1px solid var(--rule-3);
+  }
+  .tb-nav.open{ display:flex; }
+  .tb-nav a{ padding:.5rem .6rem; }
+  .pg-main{ padding:2rem 1.1rem 0; }
+  .dash-grid{ grid-template-columns:minmax(0,1fr); }
+  .bio-top{ flex-direction:column; gap:1.1rem; }
+  .bio-photo{ width:8rem; }
+}
+
+@media (max-width:560px){
+  .tb-name{ font-size:.94rem; }
+  .pg-head h1{ font-size:1.55rem; }
+  .post-list li{ flex-direction:column; gap:.2rem; }
+  .post-when{ text-align:left; }
+  .pg-news li, .dash-list li, .bio-line li{ flex-direction:column; gap:.15rem; }
+  .pg-news .pg-when, .dash-list .pg-when, .bio-line .pg-when{ width:auto; padding-top:0; }
+  .dash-photos{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .bio-facts li{ flex-direction:column; gap:.05rem; }
+  .bio-facts b{ width:auto; }
+}

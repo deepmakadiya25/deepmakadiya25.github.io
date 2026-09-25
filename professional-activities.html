@@ -8,7 +8,7 @@
      they have never used the dark switch, their device's own light/dark
      setting is followed. Must stay here, above the stylesheet.
      Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){m="dark";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Professional Activities — Deep H. Makadiya</title>
 
 <!-- SEARCH RESULTS AND LINK PREVIEWS
@@ -33,7 +33,7 @@
      never chosen costs one line of CSS and nothing else: the browser only
      downloads a font file once something on the page is actually drawn in
      it. Remove a family here and its circle falls back to Georgia. -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Englebert&amp;family=IBM+Plex+Sans+KR:wght@400;600;700&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Playfair+Display:wght@600;700;800&amp;family=Rouge+Script&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
 <!-- Tells the browser the site has a light and a dark version, so its own
      scrollbars and form controls match the page. -->
 <meta name="color-scheme" content="light dark">
@@ -48,8 +48,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
 <!-- No MathJax on this page: the seminar titles use plain HTML subscripts
-     (SL<sub>n</sub>). research.html and miscellaneous.html do load it —
-     don't remove it there. -->
+     (SL<sub>n</sub>). research.html does load it — don't remove it there. -->
 </head>
 <body>
 <!-- Invisible until someone navigating by keyboard presses Tab, when it
@@ -62,20 +61,37 @@
   <aside class="sidebar" id="sidebar">
     <img class="avatar" src="photo.jpg" alt="">
     <!-- Not an <h1>: every page already has one (its title), and search
-         engines expect exactly one. Styled by ".sidebar-name" in styles.css. -->
-    <p class="sidebar-name">Deep H. Makadiya</p>
+         engines expect exactly one. It is a link home, like the name at the
+         top of the pages in the second set. Styled by ".sidebar-name". -->
+    <a class="sidebar-name" href="index.html">Deep H. Makadiya</a>
     <nav aria-label="Main">
-      <a href="index.html">Home</a>
-      <a href="academics.html">Academics</a>
-      <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
-      <a href="professional-activities.html" class="active">Professional Activities</a>
-      <a href="miscellaneous.html">Miscellaneous</a>
+      <a href="index.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M10 19.8v-5.4h4v5.4"/></svg></span>Home</a>
+      <a href="academics.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 4.4 2.8 8.8 12 13.2l9.2-4.4z"/><path d="M6.6 10.8v4.6c0 1.6 2.4 2.9 5.4 2.9s5.4-1.3 5.4-2.9v-4.6"/><path d="M21.2 8.8v5"/></svg></span>Academics</a>
+      <a href="research.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M18.4 10.4V4.6a1.2 1.2 0 0 0-1.2-1.2H6.4a1.2 1.2 0 0 0-1.2 1.2v14.8a1.2 1.2 0 0 0 1.2 1.2h4.2"/><path d="M8.4 7.4h7M8.4 10.8h4.4"/><circle cx="16.2" cy="16.2" r="3.4"/><path d="m18.8 18.8 2.4 2.4"/></svg></span>Research</a>
+      <a href="teaching.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3.4" y="4.2" width="17.2" height="11.6" rx="1.6"/><path d="M7.4 8.4h6.4M7.4 11.6h4"/><path d="M12 15.8v3.2M9.2 20.6l2.8-1.6 2.8 1.6"/></svg></span>Teaching</a>
+      <a href="professional-activities.html" class="active"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 2.6 12 6.4l3-3.8"/><rect x="4.4" y="6.4" width="15.2" height="15" rx="1.8"/><path d="M8 11.4h8M8 15h5.4"/></svg></span>Professional Activities</a>
     </nav>
 
-    <!-- APPEARANCE — the dark mode switch, then the colour circles. Both
-         blocks are repeated on all 10 pages with a sidebar, so any change
-         here has to be made on every one of them.
+    <!-- A way through to the second set of pages — Noticeboard, Bio, Photos,
+         News and Blogs — which have a design of their own and no sidebar.
+         It lands on noticeboard.html, which links on to the rest. -->
+    <a class="more-pages" href="noticeboard.html">
+      <span>More to Explore</span>
+      <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4.5 12h14M13.5 6.6 18.9 12l-5.4 5.4"/></svg></span>
+    </a>
+    <!-- SEARCH — the same panel the second set of pages uses, opened from
+         here. pages.js does the work: it reads every page of the site the
+         first time the box is used, so there is no index file to rebuild. -->
+    <button type="button" class="more-pages search-btn js-search" id="searchButton"
+            aria-controls="searchPanel" aria-expanded="false">
+      <span>Search</span>
+      <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+    </button>
+
+    <!-- APPEARANCE — light/dark, then colour, typeface and style. The whole
+         block is repeated on all six main pages, and the first three of its
+         four controls appear again in the top bar of the second set of
+         pages, so any change here has to be made in all of those copies.
          =================================================================== -->
     <div class="theme-picker">
       <!-- The panel starts closed. The button carries aria-expanded and
@@ -95,33 +111,24 @@
         </button>
       </div>
       <div class="appearance-body" id="appearancePanel">
-      <!-- DARK MODE — switches between the light and dark version of
-           whichever colour is chosen below. The choice is remembered in the
-           visitor's browser; until they touch it, the site follows the
-           light/dark setting of their phone or laptop. The "Dark mode"
-           label is plain text and does nothing; only the switch is
-           clickable. The sun and moon are drawn in the page, not images —
-           whichever one the sliding knob is sitting on turns white. -->
-      <div class="appearance-group mode-picker">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark</p>
-        <button type="button" class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Dark mode">
-          <span class="mode-track">
-            <span class="mode-ico mode-ico-sun">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                   stroke-linecap="round" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="12" r="4.2"/>
-                <path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>
-              </svg>
-            </span>
-            <span class="mode-ico mode-ico-moon">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-                <path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/>
-              </svg>
-            </span>
-            <span class="mode-knob"></span>
-          </span>
-        </button>
+      <!-- LIGHT / DARK MODE — three choices rather than a switch: Light,
+           Dark, or Auto, which follows the light/dark setting of the
+           visitor's phone or laptop and changes with it. Auto is what
+           everyone gets until they pick one of the other two. The choice is
+           remembered in the browser and re-applied by the small script in
+           every page's <head>, so nothing flashes on load. -->
+      <div class="appearance-group">
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <div class="modes" role="group" aria-label="Light or dark mode">
+          <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
+            <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
+          <button type="button" class="mode-opt" data-set-mode="dark" aria-pressed="false" title="Dark mode" aria-label="Dark mode">
+            <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.4 13.4A9.3 9.3 0 1 1 10.6 2.6a7.3 7.3 0 0 0 10.8 10.8z"/></svg></span>Dark</button>
+          <button type="button" class="mode-opt" data-set-mode="auto" aria-pressed="false" title="Same as your device" aria-label="Same as your device">
+            <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7.8a4.2 4.2 0 0 0 0 8.4z" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M1.9 12h2.5M4.9 4.9l1.8 1.8M6.7 17.3l-1.8 1.8M12 19.6v2.5"/><path d="M19.6 12h2.5M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8" opacity=".35"/></svg></span>Auto</button>
+        </div>
       </div>
+
       <!-- COLOUR PICKER — clicking a circle re-colours the whole site, and the
            choice is remembered in the visitor's browser. Each circle's LEFT
            half is that scheme's accent (--sw-a), its RIGHT half the paper
@@ -173,21 +180,21 @@
       <div class="appearance-group">
       <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="1.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><path d="M7.4 3.5h9.2M7.4 20.5h9.2M3.5 7.4v9.2M20.5 7.4v9.2"/><path d="M8.3 17.4 12 6.9l3.7 10.5M9.7 14.1h4.6"/></svg></span>Typeface</p>
       <div class="fonts">
-          <button type="button" class="font-swatch" data-set-font="playfair"
+          <button type="button" class="font-swatch" data-set-font="classic"
                   style="--fs:'Playfair Display',Georgia,serif"
-                  title="Playfair Display &amp; Lora" aria-label="Playfair Display and Lora typeface">A</button>
-          <button type="button" class="font-swatch" data-set-font="sourcenunito"
+                  title="Classic" aria-label="Classic typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="readable"
                   style="--fs:'Source Serif 4',Georgia,serif"
-                  title="Source Serif &amp; Nunito Sans" aria-label="Source Serif and Nunito Sans typeface">A</button>
-          <button type="button" class="font-swatch" data-set-font="bitter"
+                  title="Readable" aria-label="Readable typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="sturdy"
                   style="--fs:'Bitter',Georgia,serif"
-                  title="Bitter" aria-label="Bitter typeface">A</button>
-          <button type="button" class="font-swatch" data-set-font="atkinson"
-                  style="--fs:'Atkinson Hyperlegible',system-ui,sans-serif"
-                  title="Atkinson Hyperlegible" aria-label="Atkinson Hyperlegible typeface">A</button>
-          <button type="button" class="font-swatch" data-set-font="cormorant"
-                  style="--fs:'Cormorant Garamond',Georgia,serif"
-                  title="Cormorant Garamond &amp; Lato" aria-label="Cormorant Garamond and Lato typeface">A</button>
+                  title="Sturdy" aria-label="Sturdy typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="bold"
+                  style="--fs:'Archivo',system-ui,sans-serif"
+                  title="Bold" aria-label="Bold typeface">A</button>
+          <button type="button" class="font-swatch" data-set-font="fancy"
+                  style="--fs:'Rouge Script',cursive"
+                  title="Fancy" aria-label="Fancy typeface">A</button>
       </div>
       </div>
 
@@ -221,7 +228,12 @@
        =================================================================== -->
   <header class="topbar">
     <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
-    <span class="topbar-title">Deep H. Makadiya</span>
+    <a class="topbar-title" href="index.html">Deep H. Makadiya</a>
+    <!-- Filled by script.js with the name of this page, and shown only once
+         the in-page tab bar has reached the top of the screen. -->
+    <span class="topbar-page" id="topbarPage" aria-hidden="true"></span>
+    <button type="button" class="topbar-search js-search" id="searchButtonTop"
+            aria-controls="searchPanel" aria-expanded="false" aria-label="Search the site" title="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></button>
   </header>
 
   <main id="main" tabindex="-1">
@@ -271,31 +283,31 @@
              (linked to its webpage)", venue, date. -->
         <p class="subhead">Conference &amp; Workshop Talks</p>
         <ul class="plain">
-          <li><span class="item-num">1.</span><span>&ldquo;<a href="slides/2023-iitb-groups-and-representations.pdf" target="_blank" rel="noopener">Automorphisms of Chevalley Groups</a>,&rdquo; contributed talk, &ldquo;<a href="https://sites.google.com/view/conf-groups-representations/home" target="_blank" rel="noopener">Groups and Representations</a>,&rdquo; IIT Bombay, Mumbai, 5 July 2023.</span></li>
-          <li><span class="item-num">2.</span><span>&ldquo;<a href="slides/2025-imsc-poster.pdf" target="_blank" rel="noopener">On Normal Subgroups of Twisted Chevalley Groups over Commutative Rings</a>,&rdquo; poster presentation, &ldquo;<a href="https://www.imsc.res.in/~svis/knrfest/" target="_blank" rel="noopener">Representations of Groups and Algebras</a>,&rdquo; IMSc, Chennai, 3&ndash;5 February 2025.</span></li>
           <li><span class="item-num">3.</span><span>&ldquo;<a href="slides/2026-tbilisi-agmt.pdf" target="_blank" rel="noopener">Automorphisms of Twisted Chevalley Groups</a>,&rdquo; invited talk, &ldquo;<a href="https://web.stevens.edu/algebraic/Georgia2026/" target="_blank" rel="noopener">Algebraic Geometry and Model Theory of Groups and Rings IV</a>,&rdquo; Tbilisi, Georgia, 27 August 2026.</span></li>
+          <li><span class="item-num">2.</span><span>&ldquo;<a href="slides/2025-imsc-poster.pdf" target="_blank" rel="noopener">On Normal Subgroups of Twisted Chevalley Groups over Commutative Rings</a>,&rdquo; poster presentation, &ldquo;<a href="https://www.imsc.res.in/~svis/knrfest/" target="_blank" rel="noopener">Representations of Groups and Algebras</a>,&rdquo; IMSc, Chennai, 3&ndash;5 February 2025.</span></li>
+          <li><span class="item-num">1.</span><span>&ldquo;<a href="slides/2023-iitb-groups-and-representations.pdf" target="_blank" rel="noopener">Automorphisms of Chevalley Groups</a>,&rdquo; contributed talk, &ldquo;<a href="https://sites.google.com/view/conf-groups-representations/home" target="_blank" rel="noopener">Groups and Representations</a>,&rdquo; IIT Bombay, Mumbai, 5 July 2023.</span></li>
         </ul>
 
         <!-- Format: [Invited] Seminar/Colloquium on "title (linked to slides)",
              venue, date. Leave the word "Invited" off when it does not apply. -->
         <p class="subhead">Seminar &amp; Colloquium Talks</p>
         <ul class="plain">
-          <li><span class="item-num">1.</span><span>Seminar on &ldquo;Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R),&rdquo; Harish-Chandra Research Institute, 22 July 2025.</span></li>
-          <li><span class="item-num">2.</span><span>Seminar on &ldquo;<a href="slides/2025-seminar-decomposition-IITB.pdf" target="_blank" rel="noopener">Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)</a>,&rdquo; IIT Bombay, 22 August 2025.</span></li>
           <li><span class="item-num">3.</span><span>Seminar on &ldquo;<a href="slides/2026-seminar-decomposition-BIU.pdf" target="_blank" rel="noopener">Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)</a>,&rdquo; Bar-Ilan University, 29 April 2026.</span></li>
+          <li><span class="item-num">2.</span><span>Seminar on &ldquo;<a href="slides/2025-seminar-decomposition-IITB.pdf" target="_blank" rel="noopener">Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)</a>,&rdquo; IIT Bombay, 22 August 2025.</span></li>
+          <li><span class="item-num">1.</span><span>Seminar on &ldquo;Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R),&rdquo; Harish-Chandra Research Institute, 22 July 2025.</span></li>
         </ul>
 
         <!-- Reading and learning seminars: series and student seminars in one
              date-ordered list, worded as on the older Google Site. -->
         <p class="subhead">Reading &amp; Learning Seminars</p>
         <ul class="plain">
-          <li><span class="item-num">1.</span><span>Gave a seminar on &ldquo;Representation theory of SL<sub>2</sub>(&#8450;),&rdquo; student seminar at IIT Bombay, 8 March 2023.</span></li>
-          <li><span class="item-num">2.</span><span>Seminars based on Steinberg&rsquo;s famous paper &ldquo;Regular elements of semi-simple algebraic groups,&rdquo; 2023.</span></li>
-          <li><span class="item-num">3.</span><span>Seminars based on the book &ldquo;Linear Algebraic Groups&rdquo; by T. A. Springer, 2023 to 2024.</span></li>
-          <li><span class="item-num">4.</span><span>Gave a seminar on &ldquo;Automorphism of local rings which fixes the maximal ideal,&rdquo; student seminar at IIT Bombay, 8 February 2024.</span></li>
-          <li><span class="item-num">5.</span><span>Gave two seminars on &ldquo;Generator relation presentation of the group SL<sub>n</sub>(F) and Steinberg groups,&rdquo; student seminar at IIT Bombay, 9 and 16 March 2024.</span></li>
-          <li><span class="item-num">6.</span><span>Seminars based on the book &ldquo;Nilpotent Orbits of Lie algebras&rdquo; by D. H. Collingwood and W. M. McGovern, 2024.</span></li>
           <li><span class="item-num">7.</span><span>Seminars based on the book &ldquo;Spherical functions on a group of p-adic type&rdquo; by I. G. Macdonald, 2025.</span></li>
+          <li><span class="item-num">6.</span><span>Seminars based on the book &ldquo;Nilpotent Orbits of Lie algebras&rdquo; by D. H. Collingwood and W. M. McGovern, 2024.</span></li>
+          <li><span class="item-num">5.</span><span>Gave two seminars on &ldquo;Generator relation presentation of the group SL<sub>n</sub>(F) and Steinberg groups,&rdquo; student seminar at IIT Bombay, 9 and 16 March 2024.</span></li>
+          <li><span class="item-num">4.</span><span>Gave a seminar on &ldquo;Automorphism of local rings which fixes the maximal ideal,&rdquo; student seminar at IIT Bombay, 8 February 2024.</span></li>
+          <li><span class="item-num">3.</span><span>Seminars based on the book &ldquo;Linear Algebraic Groups&rdquo; by T. A. Springer, 2023 to 2024.</span></li>
+          <li><span class="item-num">2.</span><span>Seminars based on Steinberg&rsquo;s famous paper &ldquo;Regular elements of semi-simple algebraic groups,&rdquo; 2023.</span></li>
+          <li><span class="item-num">1.</span><span>Gave a seminar on &ldquo;Representation theory of SL<sub>2</sub>(&#8450;),&rdquo; student seminar at IIT Bombay, 8 March 2023.</span></li>
         </ul>
       </section>
 
@@ -317,15 +329,15 @@
         chaired a session.</p>
 
         <ul class="plain">
-          <li><span class="item-num">1.</span><span>Workshop on &ldquo;Problem Solving &amp; Enrichment in Mathematics&rdquo; held at St. Xavier&rsquo;s College, Ahmedabad, 27&ndash;30 December 2016. <span class="role">Attended only</span></span></li>
-          <li><span class="item-num">2.</span><span>National Workshop on &ldquo;Problem Solving Technique in Mathematics&rdquo; (supported by UGC) held at the Faculty of Science, M.S. University of Baroda, Vadodara, 27 November &ndash; 1 December 2017. <span class="role">Attended only</span></span></li>
-          <li><span class="item-num">3.</span><span>Conference on &ldquo;<a href="https://agfr.conf-pdmi.ru/participants-list" target="_blank" rel="noopener">Algebraic groups, their friends and relations</a>&rdquo; (in honour of Nikolai Vavilov&rsquo;s 70th birthday) held at St. Petersburg, Russia, 18&ndash;23 September 2022. <span class="role">Attended online</span></span></li>
-          <li><span class="item-num">4.</span><span>Conference on &ldquo;<a href="https://sites.google.com/view/conf-groups-representations/home" target="_blank" rel="noopener">Groups and Representations</a>&rdquo; held at IIT Bombay, Mumbai, 3&ndash;8 July 2023. <span class="role">Presented</span></span></li>
-          <li><span class="item-num">5.</span><span>NCM Workshop on &ldquo;<a href="https://www.atmschools.org/school/2024/NCMW/lgrt" target="_blank" rel="noopener">Lie Groups and Representation Theory</a>&rdquo; held at IISER, Berhampur, 16&ndash;24 December 2024. <span class="role">Attended only</span></span></li>
-          <li><span class="item-num">6.</span><span>Conference on &ldquo;<a href="https://www.imsc.res.in/~svis/knrfest/" target="_blank" rel="noopener">Representations of Groups and Algebras</a>&rdquo; held at IMSc, Chennai, 3&ndash;5 February 2025. <span class="role">Presented</span></span></li>
-          <li><span class="item-num">7.</span><span>ISF Workshop on &ldquo;<a href="https://u.math.biu.ac.il/~vishneu/Conferences/DAG2025/index.html" target="_blank" rel="noopener">Algebra, Geometry, Dynamics</a>&rdquo; (in memory of Boris I. Plotkin) held at Bar-Ilan University, Ramat-Gan, Israel, 10&ndash;13 November 2025. <span class="role">Attended only</span></span></li>
-          <li><span class="item-num">8.</span><span><a href="https://www.imu.org.il/imu-meeting-2026" target="_blank" rel="noopener">IMU (Israel Mathematical Union) Annual Meeting</a> held at Bar-Ilan University, Ramat-Gan, Israel, 5&ndash;6 July 2026. <span class="role">Attended only</span></span></li>
           <li><span class="item-num">9.</span><span>International workshop on &ldquo;<a href="https://web.stevens.edu/algebraic/Georgia2026/" target="_blank" rel="noopener">Algebraic Geometry and Model Theory of Groups and Rings IV</a>&rdquo; held at Tbilisi, Georgia, 24&ndash;29 August 2026. <span class="role">Presented</span></span></li>
+          <li><span class="item-num">8.</span><span><a href="https://www.imu.org.il/imu-meeting-2026" target="_blank" rel="noopener">IMU (Israel Mathematical Union) Annual Meeting</a> held at Bar-Ilan University, Ramat-Gan, Israel, 5&ndash;6 July 2026. <span class="role">Attended only</span></span></li>
+          <li><span class="item-num">7.</span><span>ISF Workshop on &ldquo;<a href="https://u.math.biu.ac.il/~vishneu/Conferences/DAG2025/index.html" target="_blank" rel="noopener">Algebra, Geometry, Dynamics</a>&rdquo; (in memory of Boris I. Plotkin) held at Bar-Ilan University, Ramat-Gan, Israel, 10&ndash;13 November 2025. <span class="role">Attended only</span></span></li>
+          <li><span class="item-num">6.</span><span>Conference on &ldquo;<a href="https://www.imsc.res.in/~svis/knrfest/" target="_blank" rel="noopener">Representations of Groups and Algebras</a>&rdquo; held at IMSc, Chennai, 3&ndash;5 February 2025. <span class="role">Presented</span></span></li>
+          <li><span class="item-num">5.</span><span>NCM Workshop on &ldquo;<a href="https://www.atmschools.org/school/2024/NCMW/lgrt" target="_blank" rel="noopener">Lie Groups and Representation Theory</a>&rdquo; held at IISER, Berhampur, 16&ndash;24 December 2024. <span class="role">Attended only</span></span></li>
+          <li><span class="item-num">4.</span><span>Conference on &ldquo;<a href="https://sites.google.com/view/conf-groups-representations/home" target="_blank" rel="noopener">Groups and Representations</a>&rdquo; held at IIT Bombay, Mumbai, 3&ndash;8 July 2023. <span class="role">Presented</span></span></li>
+          <li><span class="item-num">3.</span><span>Conference on &ldquo;<a href="https://agfr.conf-pdmi.ru/participants-list" target="_blank" rel="noopener">Algebraic groups, their friends and relations</a>&rdquo; (in honour of Nikolai Vavilov&rsquo;s 70th birthday) held at St. Petersburg, Russia, 18&ndash;23 September 2022. <span class="role">Attended online</span></span></li>
+          <li><span class="item-num">2.</span><span>National Workshop on &ldquo;Problem Solving Technique in Mathematics&rdquo; (supported by UGC) held at the Faculty of Science, M.S. University of Baroda, Vadodara, 27 November &ndash; 1 December 2017. <span class="role">Attended only</span></span></li>
+          <li><span class="item-num">1.</span><span>Workshop on &ldquo;Problem Solving &amp; Enrichment in Mathematics&rdquo; held at St. Xavier&rsquo;s College, Ahmedabad, 27&ndash;30 December 2016. <span class="role">Attended only</span></span></li>
         </ul>
       </section>
 
@@ -396,6 +408,20 @@
   </main>
 
 </div>
+<!-- The search panel itself. It is the last thing in the page so it can sit
+     over everything else; styles.css draws it, pages.js fills it. -->
+<div class="pg-search" id="searchPanel" hidden>
+  <div class="pg-search-box">
+    <label class="pg-search-field">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+      <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
+    </label>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <ul class="pg-results" id="searchResults"></ul>
+  </div>
+</div>
+
 <script src="script.js"></script>
+<script src="pages.js"></script>
 </body>
 </html>

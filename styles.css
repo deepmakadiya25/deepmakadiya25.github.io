@@ -154,7 +154,7 @@ main{ scroll-margin-top:var(--topbar-h); }
 /* =========================================================================
    LAYOUT: sidebar (left) + main content (right)
    ========================================================================= */
-.layout{ display:grid; grid-template-columns:240px minmax(0,1fr); min-height:100vh; }
+.layout{ display:grid; grid-template-columns:280px minmax(0,1fr); min-height:100vh; }
 /* "minmax(0,1fr)" above, and "min-width:0" on main and .wrap below, stop a
    wide child (the tabs row, a long publication title) from stretching the
    page sideways on a narrow screen. */
@@ -175,16 +175,35 @@ main{ scroll-margin-top:var(--topbar-h); }
 /* Your name in the sidebar. It used to be an <h1>; it is now a plain
    paragraph (so each page has exactly one <h1>, its own title), which means
    the heading font has to be named here explicitly. */
+/* The name at the top of the sidebar. It is a link home, so it needs the
+   link properties turned off and a hover of its own; everything else is as
+   it was when it was a plain line of text. */
 .sidebar-name{
+  display:block; text-decoration:none;
   font-family:var(--font-head);
   font-size:1.25rem; margin:0 0 1.8rem; font-weight:800; color:var(--ink);
+  transition:color .18s ease;
 }
+@media (hover: hover){ .sidebar-name:hover{ color:var(--accent); } }
+.sidebar-name:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:6px; }
 
 .sidebar nav{ display:flex; flex-direction:column; gap:.15rem; text-align:left; }
 .sidebar nav a{
+  /* One line per item: the sidebar is wide enough for the longest of them
+     ("Professional Activities"), so nothing wraps under its own icon. */
+  display:flex; align-items:center; gap:.55rem; white-space:nowrap;
   color:var(--ink); text-decoration:none; font-size:.92rem; padding:.6rem .7rem;
   border-radius:6px; border-left:3px solid transparent;
 }
+/* The small mark in front of each menu link. It is an inline SVG drawn in
+   currentColor, so it follows the colour scheme, dark mode, the dark
+   navigation panel and the five styles without a rule of its own. It sits
+   back a little until its page is the one you are on.
+   TO CHANGE ONE, swap the <svg> in every page's sidebar. */
+.nav-ico{ flex:none; width:17px; height:17px; line-height:0; opacity:.72; }
+.nav-ico svg{ display:block; width:100%; height:100%; }
+.sidebar nav a.active .nav-ico{ opacity:1; }
+@media (hover: hover){ .sidebar nav a:hover .nav-ico{ opacity:1; } }
 @media (hover: hover){ .sidebar nav a:hover{ background:var(--nav-hover); color:var(--accent); } }
 .sidebar nav a.active{ color:var(--accent); font-weight:600; border-left-color:var(--accent); background:var(--nav-hover); }
 
@@ -204,10 +223,26 @@ main{ scroll-margin-top:var(--topbar-h); }
   border-bottom:1px solid var(--line);
 }
 .topbar-title{
-  font-family:var(--font-head); font-weight:800;
+  font-family:var(--font-head); font-weight:800; text-decoration:none;
   font-size:1.02rem; line-height:1.2; color:var(--ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:none;
+}
+@media (hover: hover){ .topbar-title:hover{ color:var(--accent); } }
+.topbar-title:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+/* THE PAGE NAME BESIDE IT, on phones only. It is hidden until the in-page
+   tab bar has scrolled up to the top of the screen — by then the page's own
+   title has gone past, and this is what tells you where you are. script.js
+   writes the name and adds "with-page" to the bar; the divider is drawn
+   here rather than typed into the HTML. */
+.topbar-page{
+  display:none; min-width:0;
+  font-family:var(--font-body); font-weight:400; font-size:.78rem;
+  color:var(--muted); line-height:1.2;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
+.topbar-page::before{ content:"|"; margin-right:.45rem; opacity:.55; }
+.topbar.with-page .topbar-page{ display:block; }
 .menu-toggle{
   display:none; /* shown only on narrow screens, see the responsive section */
   flex:none;
@@ -334,6 +369,10 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
 .home-name{ font-size:clamp(1.85rem, 7.5vw, 2.6rem); margin:0; font-weight:800; line-height:1.12; }
 
 .lede{ max-width:62ch; font-size:1.05rem; }
+
+/* A quiet line under a section heading — smaller than the text it introduces,
+   so it reads as a note rather than as the first paragraph. */
+.section-note{ max-width:62ch; font-size:.9rem; font-style:italic; color:var(--muted); }
 
 /* ---- "Get in Touch" tinted card panel ---- */
 .card-panel{
@@ -818,6 +857,61 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 
 /* =========================================================================
+   SEARCH — the panel that drops over the page when the search button is
+   pressed. Both sets of pages use it: the sidebar pages open it from the
+   button under the menu (and from the magnifier in the phone top bar), the
+   others from the magnifier in their top bar. pages.js does the searching
+   and is loaded by every page that has the button.
+   ========================================================================= */
+.pg-search{
+  position:fixed; inset:0; z-index:90;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding:12vh 1.2rem 2rem;
+  background:color-mix(in srgb, var(--ink) 38%, transparent);
+}
+.pg-search[hidden]{ display:none; }
+.pg-search-box{
+  width:min(38rem, 100%); max-height:74vh; overflow:auto;
+  background:var(--cream-2); border:1px solid var(--line); border-radius:14px;
+  box-shadow:0 20px 50px rgba(var(--shadow-rgb), .28);
+  padding:1rem;
+}
+.pg-search-field{ display:flex; align-items:center; gap:.6rem; }
+.pg-search-field svg{ width:18px; height:18px; color:var(--accent); flex:none; }
+.pg-search input{
+  flex:1; min-width:0; padding:.55rem .2rem;
+  background:none; border:0; border-bottom:1px solid var(--line);
+  color:var(--ink); font-family:var(--font-body); font-size:1rem;
+}
+.pg-search input:focus{ outline:none; border-bottom-color:var(--accent); }
+.pg-search-hint{ margin:.7rem 0 0; font-size:.8rem; color:var(--muted); }
+.pg-results{ list-style:none; margin:.9rem 0 0; padding:0; }
+.pg-results li{ border-top:1px solid var(--rule-3); }
+.pg-results li:first-child{ border-top:0; }
+.pg-results a{ display:block; padding:.6rem .4rem; text-decoration:none; color:var(--ink); border-radius:8px; }
+@media (hover: hover){ .pg-results a:hover{ background:color-mix(in srgb, var(--accent) 10%, transparent); } }
+.pg-results .pg-result-where{ display:block; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+.pg-results .pg-result-text{ display:block; font-size:.9rem; color:var(--muted); margin-top:.15rem; }
+.pg-results mark{ background:color-mix(in srgb, var(--accent) 28%, transparent); color:inherit; border-radius:3px; padding:0 .1em; }
+
+
+/* ---- The search button under "More to Explore". It is drawn by the same
+   ".more-pages" rules; these lines only cover what a <button> needs that a
+   link does not. ---- */
+.search-btn{ width:100%; margin-top:.5rem; cursor:pointer; }
+
+/* ---- The magnifier in the phone top bar, at the opposite end from the menu
+   button. Hidden on laptops, where the sidebar button is on screen. ---- */
+.topbar-search{
+  margin-left:auto; width:38px; height:38px; padding:0; cursor:pointer;
+  display:none; align-items:center; justify-content:center;
+  background:none; border:0; color:var(--ink);
+}
+.topbar-search svg{ display:block; width:20px; height:20px; }
+@media (hover: hover){ .topbar-search:hover{ color:var(--accent); } }
+.topbar-search:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* =========================================================================
    COLOUR SCHEMES — one block per alternative scheme, each re-stating the
    same eleven values as ":root". Nothing else about the design changes.
    The order of the circles in the sidebar is set by the HTML, not here.
@@ -1015,60 +1109,67 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 .font-swatch:focus-visible, .style-swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
 
 /* =========================================================================
-   THE DARK MODE SWITCH (at the top of the appearance block)
-   A pill in the current scheme's accent colour, sitting on one line with its
-   label above the colour circles, with a sun at one end and a moon at the other, and a round knob that slides between them. Whichever
-   icon the knob is sitting on is drawn in white on the dark knob; the other
-   stays dim on the coloured pill. Because the pill is --accent, the switch
-   re-colours with every scheme, light and dark, and no scheme needs its own
-   rule here. The wording beside it is a plain <p>, not part of the
-   button: the switch is the only clickable thing, and aria-pressed (set by
-   script.js) is what tells a screen reader whether it is on.
-   To make the switch bigger, scale the four numbers marked "size".
+   THE FOUR GROUPS IN THE APPEARANCE PANEL — light/dark, colour, typeface,
+   style. Each is a small label with its control under it, and they are set
+   the same distance apart, with no rules between them: with four of them,
+   rules would read as a form rather than as a panel.
    ========================================================================= */
-/* Four groups of the same shape: a small label, then its control. Even
-   spacing and no rules between them — with four of them, rules would read
-   as a form rather than a panel. */
 .appearance-group{ margin:0 0 1.35rem; text-align:left; }
 .appearance-group:last-child{ margin-bottom:0; }
-/* Light / Dark is the one group whose control sits beside its label. */
-.mode-picker{ display:flex; align-items:center; justify-content:space-between; gap:.8rem; }
-.mode-picker .theme-picker-label{ margin:0; }
-.mode-toggle{
-  display:inline-block; padding:0; border:0; background:none;
-  line-height:0; cursor:pointer;
+
+/* =========================================================================
+   LIGHT / DARK MODE — three buttons in a row: Light, Dark, Auto. They are
+   drawn like the typeface and style circles, only as pills wide enough for
+   a word, so the whole appearance panel reads as one family of controls.
+   The chosen one is filled with the accent; script.js gives it .active.
+   ========================================================================= */
+/* "minmax(0,1fr)" and "min-width:0" keep the three pills inside the panel:
+   without them a button whose word is wider than its share of the row grows
+   instead, and the last one hangs past the right-hand edge — out of line
+   with the colour circles and everything else. */
+.modes{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.35rem; }
+.mode-opt{
+  display:flex; align-items:center; justify-content:center; gap:.28rem;
+  min-width:0; padding:.42rem .2rem; cursor:pointer;
+  background:var(--cream); color:var(--ink);
+  border:1px solid var(--line); border-radius:999px;
+  font-family:var(--font-body); font-size:.76rem; font-weight:600; line-height:1;
+  transition:transform .12s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
 }
-.mode-track{
-  position:relative; display:block;
-  width:56px; height:30px;                      /* size */
-  border-radius:999px;
-  background:var(--switch-bg);
-  box-shadow:inset 0 1px 2px rgba(0,0,0,.28),
-             inset 0 0 0 1px rgba(0,0,0,.18);
+/* The Light and Dark marks are square; the Auto mark is the same sun and the
+   same moon side by side, in a box twice as wide. Fixing the HEIGHT and
+   letting the width follow keeps all three drawn at exactly the same size. */
+.mode-opt-ico{ height:12px; line-height:0; flex:none; }
+.mode-opt-ico svg{ display:block; height:100%; width:auto; }
+/* The same lift the colour, typeface and style circles have. A smaller step
+   than theirs (1.06 against 1.14) only because these are wide pills: on
+   screen it comes to the same few pixels, and it stays inside the gap
+   between them, so hovering one never touches the next. */
+@media (hover: hover){ .mode-opt:hover{ transform:scale(1.06); border-color:var(--accent); color:var(--accent); } }
+.mode-opt.active{ background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
+.mode-opt:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+/* =========================================================================
+   "MORE TO EXPLORE" — the way from the main pages to the second set
+   (Dashboard, Bio, Photos, News, Blogs), which have their own design and no
+   sidebar. It sits under the six menu links, above the appearance row, and
+   is deliberately a box rather than another menu line: it leaves the site's
+   main furniture rather than moving inside it.
+   ========================================================================= */
+.more-pages{
+  display:flex; align-items:center; justify-content:center; gap:.4rem;
+  margin:1rem 0 0; padding:.55rem .7rem;
+  border:1px solid var(--accent); border-radius:10px;
+  background:none; color:var(--accent); text-decoration:none;
+  font-family:var(--font-body); font-size:.86rem; font-weight:600; letter-spacing:.01em;
+  transition:background-color .2s ease, color .2s ease, border-color .2s ease;
 }
-.mode-ico{
-  position:absolute; top:50%; transform:translateY(-50%);
-  z-index:2;                                    /* sits ON the knob */
-  width:14px; height:14px; line-height:0;
-  color:var(--switch-dim);
-  transition:color .2s ease;
+.more-pages-ico{ width:15px; height:15px; line-height:0; flex:none; }
+.more-pages-ico svg{ display:block; width:100%; height:100%; }
+@media (hover: hover){
+  .more-pages:hover{ background:var(--accent); color:var(--on-accent); }
 }
-.mode-ico svg{ display:block; width:100%; height:100%; }
-.mode-ico-sun{ left:7px; }
-.mode-ico-moon{ right:7px; }
-.mode-toggle[aria-pressed="false"] .mode-ico-sun{ color:#fff; }
-.mode-toggle[aria-pressed="true"]  .mode-ico-moon{ color:#fff; }
-.mode-knob{
-  position:absolute; z-index:1; top:3px; left:3px;
-  width:24px; height:24px;                      /* size */
-  border-radius:50%;
-  background:rgba(0,0,0,.5);
-  box-shadow:0 1px 4px rgba(0,0,0,.45),
-             inset 0 0 0 1px rgba(255,255,255,.26);
-  transition:transform .22s ease;
-}
-.mode-toggle[aria-pressed="true"] .mode-knob{ transform:translateX(26px); }  /* size */
-.mode-toggle:focus-visible .mode-track{ outline:2px solid var(--accent); outline-offset:3px; }
+.more-pages:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 
 /* A gentle cross-fade when a new scheme is chosen (skipped for anyone whose
    system asks for reduced motion). */
@@ -1126,29 +1227,58 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    families to the <link> on every page, and copy one <button class="font">
    in every sidebar with data-set-font set to that name.
    ========================================================================= */
-[data-font="sourcenunito"]{
+/* 1 CLASSIC — the pair the site opens with: a high-contrast display serif
+   over a quiet book serif. Stated here as well as in ":root" so the circle
+   can be marked as the chosen one. */
+[data-font="classic"]{
+  --font-head:"Playfair Display",Georgia,serif;
+  --font-body:"Lora",Georgia,serif;
+}
+/* 2 READABLE — a serif drawn for text over a humanist sans. The most
+   comfortable of the five for a long page. */
+[data-font="readable"]{
   --font-head:"Source Serif 4",Georgia,serif;
   --font-body:"Nunito Sans",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
 }
-/* The sturdy one: a slab serif with thick, even strokes that stay solid at
-   small sizes and on a dark panel. */
-[data-font="bitter"]{
+/* 3 STURDY — one slab serif for everything: thick, even strokes that stay
+   solid at small sizes and on a dark panel. */
+[data-font="sturdy"]{
   --font-head:"Bitter",Georgia,serif;
   --font-body:"Bitter",Georgia,serif;
 }
-/* Purpose-built for low vision: unusually large x-height, and letters that
-   cannot be mistaken for one another (I / l / 1, O / 0). Kept in the set on
-   purpose so a reader who struggles with the serifs has somewhere to go. */
-[data-font="atkinson"]{
-  --font-head:"Atkinson Hyperlegible",system-ui,sans-serif;
+/* 4 BOLD — for visibility: wide, heavy headings over Atkinson Hyperlegible,
+   which was drawn for low vision (large x-height, and letters that cannot be
+   mistaken for one another — I / l / 1, O / 0). */
+[data-font="bold"]{
+  --font-head:"Archivo",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
   --font-body:"Atkinson Hyperlegible",system-ui,sans-serif;
 }
-/* The dressy one: a high-contrast display serif for headings, over a plain
-   humanist sans that keeps the body text easy. */
-[data-font="cormorant"]{
-  --font-head:"Cormorant Garamond",Georgia,serif;
-  --font-body:"Lato",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+/* 5 FANCY — the dressy one: a fine copperplate script for the headings over
+   IBM Plex Sans KR, a plain workhorse sans that keeps the text itself sober.
+   Rouge Script comes in one weight only, so "font-synthesis-weight:none"
+   stops the browser thickening it for the 700 and 800 headings — a faked
+   bold on a script is what makes handwriting look printed and wrong.
+   Headings are set noticeably larger and looser here: this script's letters
+   are small on the line and its loops need room above and below. */
+[data-font="fancy"]{
+  --font-head:"Englebert",cursive;
+  --font-body:"IBM Plex Sans KR",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-synthesis-weight:none;
 }
+/* Rouge Script is saved for the two places a flourish belongs: your name and
+   the title at the top of a page. Everything else that would be set in the
+   heading face — section headings, item titles, card labels — is Englebert,
+   which is upright and much easier to read at small sizes.
+   ":root[...]" rather than "[...]" so these sizes also beat the ones
+   pages.css sets for the second set of pages. */
+:root[data-font="fancy"] h1,
+:root[data-font="fancy"] .sidebar-name,
+:root[data-font="fancy"] .tb-name{ font-family:"Rouge Script",cursive; }
+:root[data-font="fancy"] h1{ font-size:clamp(2.2rem, 8vw, 3rem); line-height:1.25; }
+:root[data-font="fancy"] .sidebar-name{ font-size:1.75rem; line-height:1.3; }
+:root[data-font="fancy"] .tb-name{ font-size:1.35rem; }
+:root[data-font="fancy"] h2{ font-size:1.3rem; line-height:1.35; }
+:root[data-font="fancy"] h3{ font-size:1.1rem; }
 
 /* =========================================================================
    DARK MODE
@@ -1345,7 +1475,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --card-shadow:0 6px 20px rgba(0,0,0,.45);
 }
 [data-style="card"] body{ background:var(--page-bg); line-height:1.75; }
-[data-style="card"] .layout{ grid-template-columns:288px minmax(0,1fr); }
+[data-style="card"] .layout{ grid-template-columns:312px minmax(0,1fr); }
 
 /* ---- the sidebar becomes a floating card ---- */
 [data-style="card"] .sidebar{
@@ -1450,9 +1580,19 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
    it these rules would sit later in the file and win. */
 [data-style="card"] .font-swatch:not(.active),
 [data-style="card"] .style-swatch:not(.active){ background:var(--inset-bg); border-color:transparent; }
+[data-style="card"] .mode-opt:not(.active){ background:var(--inset-bg); border-color:transparent; }
+[data-style="card"] .more-pages{ border:0; background:var(--inset-bg); color:var(--accent); border-radius:12px; }
+/* Cards gives the button a filled panel instead of an outline, and that rule
+   would otherwise also win over the shared hover rule — they carry the same
+   weight, and this one comes later in the file — leaving the button the only
+   control in this style that did nothing under the pointer. Stated again
+   here, so it fills with the accent like everywhere else. */
+@media (hover: hover){
+  [data-style="card"] .more-pages:hover{ background:var(--accent); color:var(--on-accent); }
+}
 
 @media (max-width:1100px) and (min-width:961px){
-  [data-style="card"] .layout{ grid-template-columns:250px minmax(0,1fr); }
+  [data-style="card"] .layout{ grid-template-columns:278px minmax(0,1fr); }
   [data-style="card"] main{ padding:1.2rem 1.2rem 0; }
   [data-style="card"] section,
   [data-style="card"] .page-header,
@@ -1558,6 +1698,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 }
 [data-panel="dark"] .topbar{ background:var(--side-bg); border-bottom-color:var(--side-line); }
 [data-panel="dark"] .topbar-title{ color:var(--side-ink); }
+[data-panel="dark"] .topbar-page{ color:var(--side-muted); }
 [data-panel="dark"] .menu-toggle{ background:var(--side-accent); color:var(--side-bg); }
 
 /* ---- the appearance panel, now sitting on a dark ground ---- */
@@ -1575,12 +1716,18 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   box-shadow:inset 0 0 0 1px var(--swatch-ring), 0 0 0 2px var(--side-bg), 0 0 0 3.5px var(--side-accent);
 }
 [data-panel="dark"] .font-swatch:not(.active),
-[data-panel="dark"] .style-swatch:not(.active){
+[data-panel="dark"] .style-swatch:not(.active),
+[data-panel="dark"] .mode-opt:not(.active){
   background:var(--side-hover); color:var(--side-ink); border-color:var(--side-line);
 }
 [data-panel="dark"] .font-swatch.active,
-[data-panel="dark"] .style-swatch.active{
+[data-panel="dark"] .style-swatch.active,
+[data-panel="dark"] .mode-opt.active{
   background:var(--side-accent); color:var(--side-bg); border-color:var(--side-accent);
+}
+[data-panel="dark"] .more-pages{ border-color:var(--side-accent); color:var(--side-accent); }
+@media (hover: hover){
+  [data-panel="dark"] .more-pages:hover{ background:var(--side-accent); color:var(--side-bg); }
 }
 
 /* ---- MIDNIGHT — circle 2: rings on the portraits, matching accent rules above and
@@ -1886,9 +2033,17 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   main{ padding:2.6rem 1.7rem; }
 }
 
+@media (max-width:560px){
+  .pg-search{ padding:8vh .8rem 1rem; }
+}
+
 /* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
 @media (max-width:960px){
   :root{ --topbar-h:52px; }
+  /* the magnifier appears at the far end of the top bar, and the button in
+     the sidebar steps aside so the same panel is never offered twice */
+  .topbar-search{ display:inline-flex; }
+  .search-btn{ display:none; }
 
   .layout{ grid-template-columns:minmax(0,1fr); }
 

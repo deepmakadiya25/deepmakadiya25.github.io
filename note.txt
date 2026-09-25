@@ -6,12 +6,55 @@ WHAT THIS SITE IS
   Plain static HTML/CSS/JS served by GitHub Pages from the repository root.
   No build step, no framework, no package manager. Edit a file, commit, done.
 
+TWO SETS OF PAGES
+  The site is in two halves, which look different on purpose.
+
+  SET A - the main pages, with the sidebar down the left:
+    index.html, academics.html, research.html, teaching.html,
+    professional-activities.html
+  They offer all four appearance controls: light/dark, colour, typeface,
+  style. The sidebar also carries a "More to Explore" button, which is
+  the way through to:
+
+  SET B - the second set, with a bar across the top and no sidebar:
+    noticeboard.html (the Noticeboard), bio.html, gallery.html, news.html,
+    blogs.html, useful-links.html
+
+  SET C - no bar at all: navigation.html (the Site Map), announcements.html
+  and 404.html. They use the same design, only with a plain "back to the
+  home page" link where the bar would be, and they do not load pages.js.
+  They use the same colours, typefaces and dark mode, but NOT the five
+  styles: those are built around a sidebar these pages do not have. Their
+  layout lives in pages.css and their top bar in pages.js.
+
+WHAT WE CALL THE PAGES
+  Set A   the main pages, with the sidebar:
+          Home, Academics, Research, Teaching, Professional Activities.
+  Set B   the second set, with the bar across the top:
+          Noticeboard, Bio, Photos, News, Blogs, Links.
+          (The Noticeboard's file is still called noticeboard.html, so that no
+          link to it ever breaks. Everywhere a visitor reads it, it says
+          Noticeboard.)
+  Set C   the pages with no bar at all:
+          Site Map (navigation.html), Announcements, Error 404.
+  Set D   the file Google asked for - google6f4968af0aa3ceef.html. Never edit
+          it, never link to it; it only proves the site is yours.
+  Blog pages    one per post, in blogs/. Built like Set B.
+  Course pages  one per course, for later. Not written yet.
+
 FILES
   *.html              one file per page. All the text lives here.
-  blogs/*.html        one file per blog post (no sidebar, no script.js).
-  styles.css          ALL styling, including all ten colour schemes, five
-                      typeface pairs, five styles and dark mode.
-  script.js           ALL behaviour. Numbered map of its blocks at the top.
+  blogs/*.html        one file per blog post (Set B design).
+  styles.css          ALL styling of Set A, plus the ten colour schemes,
+                      five typeface pairs, five styles and dark mode that
+                      BOTH sets draw from.
+  pages.css           the layout of Set B only (every class starts "pg-"
+                      or "tb-", so the two can never collide).
+  script.js           behaviour shared by both sets: the appearance
+                      controls, the gallery lightbox, the "last updated"
+                      line. Numbered map of its blocks at the top.
+  pages.js            the top bar of Set B: its menus, the search, and the
+                      category buttons on the Blogs page.
   note.txt            this file.
   robots.txt, sitemap.xml, 404.html, icon.svg, favicon.ico,
   apple-touch-icon.png, Deep_CV.pdf, photo.jpg, gallery/, slides/
@@ -28,10 +71,27 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
     attribute              values                                    storage key
     data-theme    cream gold mocha graphite teal emerald sage
                   dusk indigo plum                                   site-theme
-    data-font     playfair sourcenunito bitter atkinson cormorant    site-font
+    data-font     classic clean readable bold fancy                 site-font
     data-style    card classic midnight grove contrast               site-style
-    data-mode     dark   (absent = light)                            site-mode
+    data-mode     light | dark | auto  (auto = follow the device)      site-mode
     data-appearance  open  (absent = closed)                  site-appearance
+
+  The five typeface pairs, in picker order, are named for how they read
+  rather than for their fonts. Each sets a face for headings and one for
+  everything else:
+    1 Classic  - Playfair Display over Lora (the pair the site opens with)
+    2 Readable - Source Serif over Nunito Sans
+    3 Sturdy   - Bitter, one slab serif for everything
+    4 Bold     - Archivo over Atkinson Hyperlegible, for visibility
+    5 Fancy    - three faces, not two: Rouge Script for your name and the
+                 title at the top of a page, Englebert for every other
+                 heading, and IBM Plex Sans KR for the text. Both scripts
+                 come in one weight, so this pair sets
+                 font-synthesis-weight:none (which stops the browser faking a
+                 bold script) and its own heading sizes
+  The name is what the circle shows on hover. Change a pair in the TYPEFACES
+  section of styles.css, and add its families to the <link> in EVERY page's
+  <head> or it will quietly fall back to Georgia.
 
   The five styles, in picker order: 1 Classic, 2 Midnight, 3 Parchment,
   4 Sticker, 5 Cards. Those are the names and the order a visitor sees; the
@@ -100,28 +160,85 @@ THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
   * Do not introduce a build step, a framework, or npm. The site must stay
     openable by double-clicking an .html file.
 
-PAGES THAT ARE NOT IN THE MENU
-  * blogs.html, gallery.html and news.html carry the sidebar but are left out
-    of its six links on purpose. They are reached like this:
-      - blogs.html    from the "Jump to" bar in the "News & Updates" section
-                      of the home page
-      - gallery.html  by clicking the photo on the home page, and from the
-                      "Jump to" bar
-      - news.html     from the two "See all ..." links in the "News & Updates"
-                      section of the home page
-    If you ever switch the news section off again, news.html becomes
-    unreachable from the home page: comment its block out of sitemap.xml and
-    put <meta name="robots" content="noindex"> back at the top of it, so an
-    orphaned page does not turn up in search.
-  * script.js needs NO change either way. It drives the rotating news cards
-    from whatever it finds on the page, so with the section absent it does
-    nothing.
+HOW THE TWO SETS ARE REACHED FROM EACH OTHER
+  * From Set A: the "More to Explore" button under the five menu links goes
+    to noticeboard.html, which links on to the rest. The home page also links
+    straight to blogs.html, gallery.html and news.html from the "Jump to"
+    bar, the photo, and the two "See all ..." links.
+  * From Set B: the house at the top left of every page goes back to
+    index.html, and the footer repeats the links.
+  * Your name is a link home in both halves: in the sidebar, and in the phone
+    top bar of the main pages. On a phone that bar also picks up the name of
+    the page you are on, in smaller letters after a divider, as soon as the
+    in-page tab bar reaches the top of the screen (block 16 of script.js).
+    The home page has no tab bar, so it never shows one.
+  * THE NOTICEBOARD (noticeboard.html) opens the second set. It says why these
+    pages exist, then the announcements that still apply, the newest news and
+    the newest posts - each a short list with a link to the full page. The
+    announcements live in full on announcements.html; the News page carries
+    only news now, and starts straight into its list without a heading of its
+    own, since the page is already called News & Updates.
+  * ONLY SET C AND THE BLOG POSTS carry a small line above the title. Set B
+    pages start with the title itself.
+  * navigation.html is the SITE MAP - the file keeps its old name so no link
+    to it ever breaks, but everywhere a visitor can read it, it is called
+    "Site Map". It lists every page of both sets and carries the "Did you
+    know?" note that used to sit on the home page. The home page's "Jump to"
+    bar links to it, along with five other places.
+  * THE @ BUTTON in the second set's top bar holds "Find me online": LinkedIn,
+    GitHub, Google Scholar and ORCID, each with a small mark on the left and
+    an arrow on the right to say the link leaves the site. X and Facebook are
+    written out directly below them but commented out, waiting for their
+    addresses; the comment above them says what to do. The same list is
+    repeated in every page of the second set, so a change there is a change in
+    ten files.
+  * THE FOOT of every page in the second set lists the five main pages, then
+    an upright bar, then the six pages of the second set.
+  * SEARCH is on every page now: the button under "More to Explore" in the
+    sidebar (a magnifier in the top bar on a phone), and the magnifier in the
+    second set's top bar. All of them open the same panel, drawn by
+    styles.css and filled by pages.js, which every page loads. It reads the
+    pages listed in PAGES near the top of the search block in pages.js.
+    IT ONLY WORKS ON THE LIVE SITE (or any real server): a browser will not
+    let one local file read another, so a page opened straight from a folder
+    finds nothing and says so in the box. Nothing is broken when that
+    happens. THERE IS NO INDEX FILE TO REBUILD -
+    it fetches the pages themselves the first time it is used - but a NEW
+    page has to be added to that list by hand, or it will not be searched.
+  * Blog posts sit one folder down, so their links begin "../". Everything
+    else on them is the same as the other Set B pages.
+
+  404.html is built from the Set B design too, and lists every page of both
+  sets. It is written differently from every other page on purpose: plain
+  relative links, a one-line script that sets <base href="/"> only on the
+  live site, and a fallback on each stylesheet and script, so the file also
+  works when it is opened straight from a folder. Do not "tidy" that away.
 
 ROUTINE EDITS
   Intro / About Me        index.html, the "About Me" section
-  A publication           research.html, "LIST OF PUBLICATIONS" comment
-  News                    index.html (the three cards) AND news.html - keep
+  A publication           research.html, "LIST OF PUBLICATIONS" comment.
+                          Every numbered list on the site runs NEWEST first,
+                          with the highest number at the top: publications,
+                          the research overview, talks, seminars and the
+                          conference list
+  News                    index.html (the two cards) AND news.html - keep
                           the two in step
-  A blog post             copy a file in blogs/, then link it from blogs.html
+  A blog post             copy a file in blogs/, then copy one <li> in
+                          blogs.html and point it at the new file
   Photos                  gallery.html, plus the image in gallery/
+  The biography           bio.html - replace the dashed boxes with ordinary
+                          paragraphs. Technical Skills, Spoken Languages and
+                          Hobbies & Interests live at the foot of this page
+                          now; the Miscellaneous page is gone.
+  A useful link           useful-links.html - paste another <div class="item">
+                          into the right group
+  The Noticeboard         noticeboard.html repeats the announcements, the
+                          newest few news items and the newest posts; refresh
+                          it when they change
   The "Last updated" date LAST_UPDATED at the top of script.js
+
+  LIGHT / DARK is now three choices, not a switch: Light, Dark and Auto,
+  where Auto follows the reader's own device. It is stored as "light",
+  "dark" or "auto" under site-mode, and the small script in every page's
+  <head> reads it before the page paints. Change that script on one page and
+  you must change it on all of them.

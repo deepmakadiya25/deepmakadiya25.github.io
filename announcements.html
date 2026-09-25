@@ -7,19 +7,18 @@
      before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
-<script>(function(){try{if(location.protocol!=="file:"&&location.pathname.replace(/[^/]*$/,"")!=="/"){document.write('<base href="/">');}}catch(e){}})();</script>
-<title>Page not found — Deep H. Makadiya</title>
+<title>Important Announcements — Deep H. Makadiya</title>
 
-<meta name="description" content="The page you asked for does not exist on this site. Every page the site has is listed here.">
+<meta name="description" content="Announcements from Deep H. Makadiya — office hours, seminars, deadlines and course notices.">
+<link rel="canonical" href="https://deepmakadiya25.github.io/announcements.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Deep H. Makadiya">
-<meta property="og:title" content="Page not found — Deep H. Makadiya">
-<meta property="og:description" content="The page you asked for does not exist on this site. Every page the site has is listed here.">
-<meta property="og:url" content="https://deepmakadiya25.github.io/404.html">
+<meta property="og:title" content="Important Announcements — Deep H. Makadiya">
+<meta property="og:description" content="Announcements from Deep H. Makadiya — office hours, seminars, deadlines and course notices.">
+<meta property="og:url" content="https://deepmakadiya25.github.io/announcements.html">
 <meta property="og:image" content="https://deepmakadiya25.github.io/photo.jpg">
 <meta property="og:image:alt" content="Deep H. Makadiya">
 <meta name="twitter:card" content="summary">
-<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Englebert&amp;family=IBM+Plex+Sans+KR:wght@400;600;700&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Playfair+Display:wght@600;700;800&amp;family=Rouge+Script&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
@@ -29,43 +28,44 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <!-- styles.css for the colours, the typefaces and dark mode; pages.css for
      everything this second set of pages does differently. -->
-<link rel="stylesheet" href="styles.css" onerror="this.onerror=null;this.href='/styles.css';">
-<link rel="stylesheet" href="pages.css" onerror="this.onerror=null;this.href='/pages.css';">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="pages.css">
 </head>
 <body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
+<!-- ANNOUNCEMENTS. Like the site map and the 404 page, this one carries no
+     bar of its own: just the way back, the heading, and the lists. The
+     Noticeboard shows the first few of these and links here for the rest.
+
+     TO ADD ONE: copy a line, put it at the TOP of the first list, and write
+     the month and year in the first span. When it no longer applies, move
+     the whole line down into the folded list rather than deleting it. -->
 <main class="pg-main pg-plain" id="main" tabindex="-1">
   <div class="pg-wrap">
-      <p class="pg-back"><a href="index.html">&#8592; Back to the home page</a></p>
+      <p class="pg-back"><a href="noticeboard.html">&#8592; Back to the Noticeboard</a></p>
 
       <div class="pg-head">
-        <p class="pg-kicker">Error 404</p>
-        <h1>This page does not exist</h1>
-        <p class="pg-lede">The address you followed is not part of this site &mdash; it may have been mistyped,
-        or the page may have been renamed. Everything the site has is listed below.</p>
+        <p class="pg-kicker">Announcements</p>
+        <h1>Important Announcements</h1>
+        <p class="pg-lede">Office hours, seminars, deadlines and course notices &mdash; whatever is worth
+        flagging at the moment, newest first.</p>
       </div>
 
       <section class="pg-section">
-        <h2>The main pages</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="index.html"><h3>Home</h3><p>Who I am, how to reach me, and where to find me online.</p></a>
-          <a class="dash-card" href="academics.html"><h3>Academics</h3><p>Degrees, positions, awards and examinations.</p></a>
-          <a class="dash-card" href="research.html"><h3>Research</h3><p>Publications, preprints and what they are about.</p></a>
-          <a class="dash-card" href="teaching.html"><h3>Teaching</h3><p>Courses taught and teaching experience.</p></a>
-          <a class="dash-card" href="professional-activities.html"><h3>Professional Activities</h3><p>Talks, conferences, workshops and service.</p></a>
-        </div>
-      </section>
-
-      <section class="pg-section">
-        <h2>The second set</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="noticeboard.html"><h3>Noticeboard</h3><p>The way into the pages below.</p></a>
-          <a class="dash-card" href="bio.html"><h3>Biography</h3><p>The longer story.</p></a>
-          <a class="dash-card" href="gallery.html"><h3>Photos</h3><p>The photo gallery.</p></a>
-          <a class="dash-card" href="news.html"><h3>News &amp; Updates</h3><p>Everything, newest first.</p></a>
-          <a class="dash-card" href="blogs.html"><h3>Blogs</h3><p>The writing.</p></a>
-          <a class="dash-card" href="useful-links.html"><h3>Useful Links</h3><p>Literature, seminars and tools.</p></a>
+        <ul class="pg-news">
+          <li><span class="pg-when">[Month Year]</span><span>[Office hours for the semester, or a change to them.]</span></li>
+          <li><span class="pg-when">[Month Year]</span><span>[A seminar you are organising, with date and venue.]</span></li>
+          <li><span class="pg-when">[Month Year]</span><span>[A deadline or call for participation worth flagging.]</span></li>
+          <li><span class="pg-when">[Month Year]</span><span>[A course announcement, once you are teaching one.]</span></li>
+        </ul>
+        <p class="pg-note">Only the announcements that still apply are listed above; the rest are kept, not deleted.</p>
+        <p><button type="button" class="pg-toggle" aria-expanded="false" aria-controls="past-announcements">Show past announcements</button></p>
+        <div class="pg-fold" id="past-announcements" hidden>
+          <ul class="pg-news">
+            <li><span class="pg-when">[Month Year]</span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]</span></li>
+            <li><span class="pg-when">[Month Year]</span><span>[Another one. Keep them newest first, as in the list above.]</span></li>
+          </ul>
         </div>
       </section>
   </div>
@@ -89,6 +89,6 @@
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
-<script src="script.js" onerror="this.onerror=null;this.src='/script.js';"></script>
+<script src="script.js"></script>
 </body>
 </html>
