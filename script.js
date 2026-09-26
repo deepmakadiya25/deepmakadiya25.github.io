@@ -454,18 +454,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // "MORE / LESS" LINK BLOCKS (useful-links.html).
-  // Each ".links-block" shows its first three ".item" links; anything beyond
-  // that is hidden behind a "More" button added here, which turns into "Less"
-  // once expanded. The arrow is the same glyph in both states, turned down or
-  // up by styles.css, so the two can never differ in size. Blocks with three
-  // links or fewer get no button at all, so adding a link is just pasting
-  // another ".item" into the HTML.
+  // "MORE / LESS" BLOCKS (useful-links.html, and the past announcements).
+  // Each ".links-block" shows its first three ".item" links, and each
+  // ".fold-list" the first three of its own rows; anything beyond that is
+  // hidden behind a "More" button added here, which turns into "Less" once
+  // expanded. The arrow is the same glyph in both states, turned down or up
+  // by styles.css, so the two can never differ in size. A block with three
+  // items or fewer gets no button at all, so adding one is just pasting
+  // another ".item" (or another row) into the HTML and nothing else.
   var VISIBLE_LINKS = 3;
-  var linkBlocks = document.querySelectorAll(".links-block");
+  var linkBlocks = document.querySelectorAll(".links-block, .fold-list");
   for (var b = 0; b < linkBlocks.length; b++) {
     (function (block) {
-      var items = block.querySelectorAll(".item");
+      // a list folds its own rows; a links block folds the ".item" links in it
+      var isList = block.classList.contains("fold-list");
+      var items = isList ? block.children : block.querySelectorAll(".item");
       if (items.length <= VISIBLE_LINKS) return;
 
       function setExtras(hide) {
@@ -482,7 +485,9 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.className = "pub-toggle links-more";
       btn.setAttribute("aria-expanded", "false");
       label("More");
-      block.appendChild(btn);
+      // a <button> may not live inside a <ul>, so a list's button goes just
+      // after the list rather than inside it
+      (isList ? block.parentNode : block).appendChild(btn);
 
       btn.addEventListener("click", function () {
         var isOpen = btn.getAttribute("aria-expanded") === "true";

@@ -18,7 +18,10 @@ TWO SETS OF PAGES
 
   SET B - the second set, with a bar across the top and no sidebar:
     noticeboard.html (the Noticeboard), bio.html, gallery.html, news.html,
-    blogs.html, useful-links.html
+    blogs.html, useful-links.html, and announcements.html.
+    The first six are the six links IN the bar. Announcements is built exactly
+    like them and carries the same bar, but is deliberately NOT one of its
+    links: it is reached from the Noticeboard, the home page and the Site Map.
   Each opens with a small line above the title (the "kicker"), the title, and
   then a hairline: the Set B pages carry NO tagline under the title, and the
   line does the separating instead. The Set C pages still have their tagline
@@ -32,9 +35,9 @@ TWO SETS OF PAGES
   in the RESPONSIVE section of pages.css. A new Set B page needs that span
   too, or its bar will go on saying his name on a phone.
 
-  SET C - no bar at all: navigation.html (the Site Map), announcements.html
-  and 404.html. They use the same design, only with a plain "back to the
-  home page" link where the bar would be, and they do not load pages.js.
+  SET C - no bar at all: navigation.html (the Site Map) and 404.html. They
+  use the same design, only with a plain "back to the home page" link where
+  the bar would be, and they do not load pages.js.
   They use the same colours, typefaces and dark mode, but NOT the five
   styles: those are built around a sidebar these pages do not have. Their
   layout lives in pages.css and their top bar in pages.js.
@@ -43,12 +46,13 @@ WHAT WE CALL THE PAGES
   Set A   the main pages, with the sidebar:
           Home, Academics, Research, Teaching, Professional Activities.
   Set B   the second set, with the bar across the top:
-          Noticeboard, Bio, Photos, News, Blogs, Links.
+          Noticeboard, Bio, Photos, News, Blogs, Links - and Announcements,
+          which has the bar but no link in it.
           (The Noticeboard's file is still called noticeboard.html, so that no
           link to it ever breaks. Everywhere a visitor reads it, it says
           Noticeboard.)
   Set C   the pages with no bar at all:
-          Site Map (navigation.html), Announcements, Error 404.
+          Site Map (navigation.html) and Error 404.
   Set D   the file Google asked for - google6f4968af0aa3ceef.html. Never edit
           it, never link to it; it only proves the site is yours.
   Blog pages    one per post, in blogs/. Built like Set B.
@@ -193,7 +197,7 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
     own, since the page is already called News & Updates.
   * ONLY SET C AND THE BLOG POSTS carry a small line above the title. Set B
     pages start with the title itself.
-  * THE THREE SET C PAGES are deliberately plain.
+  * THE TWO SET C PAGES are deliberately plain.
       - navigation.html holds five things and nothing else: a panel saying
         what the site is, one section called Site Map (three lists), and the
         "Did you know?", "Like the design?" and "Found a bug?" panels. Each fact there is its own
@@ -202,15 +206,19 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
         page; change one and change the other.
       - 404.html holds one section with three buttons - Home, Noticeboard,
         Site Map - and no lists.
-      - announcements.html carries a stand-in line - N/A, "There are no active
-        announcements at this time." - a plain line, not a dated entry, in place
-        of the list, which is kept just below it inside an HTML comment. The same stand-in line is written
-        on the Noticeboard and in the home page's announcements card; when a
-        real announcement goes up, all three want changing. It keeps the
-        current announcements, then a quiet
-        "Show past announcements" line with a caret (the same look as the
-        Abstract lines on Research). script.js opens it and flips the word
-        between Show and Hide.
+  * ANNOUNCEMENTS has two sections of its own: Current Announcements and Past
+    Announcements. An announcement that has run its course moves from the
+    first into the second rather than being deleted. Each section carries a
+    stand-in line while it is empty - "There are no current announcements at
+    this time." and "Any past announcements will be displayed here." - with
+    the real list kept just below it inside an HTML comment. THE FIRST OF
+    THOSE LINES IS ALSO WRITTEN on the Noticeboard and in the home page's
+    announcements card; when a real announcement goes up, all three want
+    changing.
+    The past list carries class "fold-list": script.js then shows its first
+    three entries and hides the rest behind a More / Less button, the same one
+    the Useful Links page uses. Three entries or fewer and there is no button
+    at all, so the list needs no attention as it grows.
   * navigation.html is the SITE MAP - the file keeps its old name so no link
     to it ever breaks, but everywhere a visitor can read it, it is called
     "Site Map". It lists every page of both sets and carries the "Did you
