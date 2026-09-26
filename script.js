@@ -13,18 +13,17 @@
      6  Typeface picker       sets data-font on <html>
      7  Style picker          sets data-style (and data-panel) on <html>
      8  Light / dark mode     Light, Dark or Auto; sets data-mode on <html>
-     9  Background picker     sets data-bg on <html>; second set of pages only
-    10  "Last updated"        writes LAST_UPDATED into every footer
-    11  Gallery lightbox      gallery.html
-    12  More / Less blocks    Useful Links
-    13  Language bubbles      Biography, touch screens only
-    14  Rotating news cards   home page
-    15  Abstract toggles      Research
-    16  Scrollspy             marks the tab of the section you are reading
-    17  Page name in the bar  phones: the page's name appears beside yours
+     9  "Last updated"        writes LAST_UPDATED into every footer
+    10  Gallery lightbox      gallery.html
+    11  More / Less blocks    Useful Links
+    12  Language bubbles      Biography, touch screens only
+    13  Rotating news cards   home page
+    14  Abstract toggles      Research
+    15  Scrollspy             marks the tab of the section you are reading
+    16  Page name in the bar  phones: the page's name appears beside yours
                               once the in-page tab bar reaches the top
 
-   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 9). Each picker writes one
+   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 8). Each picker writes one
    attribute on the <html> element and saves the choice in the visitor's
    browser (localStorage). styles.css does all the actual re-colouring and
    re-shaping from those attributes:
@@ -33,7 +32,6 @@
      data-font="bitter"     typeface pair          key "site-font"
      data-style="midnight"  layout style           key "site-style"
      data-mode="dark"       dark mode              key "site-mode"
-     data-bg="roots"        background drawing     key "site-bg"
      data-appearance="open" panel left open        key "site-appearance"
 
    The four axes are independent — any colour works with any typeface, any
@@ -209,39 +207,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   markFont();
-
-  // BACKGROUND PICKER (the five circles under "Background"). Clicking one
-  // sets data-bg="..." on <html>; section 8 of pages.css draws the chosen
-  // drawing on a single layer fixed behind the page. THE BUTTONS ONLY EXIST
-  // ON THE SECOND SET OF PAGES, and the stylesheet only draws anything on
-  // those pages, so the sidebar pages are unaffected either way — but the
-  // choice is stored for the whole site, so a reader who picks one keeps it
-  // as they move about. "none" is the plain page and is the default.
-  // Adding a sixth drawing is one button here-and-there plus one rule in
-  // pages.css; this block needs no change.
-  var BG_KEY = "site-bg";
-  var bgSwatches = document.querySelectorAll("[data-set-bg]");
-
-  function currentBg() {
-    return document.documentElement.getAttribute("data-bg") || "none";
-  }
-  function markBg() {
-    var now = currentBg();
-    for (var i = 0; i < bgSwatches.length; i++) {
-      var on = bgSwatches[i].getAttribute("data-set-bg") === now;
-      bgSwatches[i].classList.toggle("active", on);
-      bgSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-  for (var bz = 0; bz < bgSwatches.length; bz++) {
-    bgSwatches[bz].addEventListener("click", function () {
-      var picked = this.getAttribute("data-set-bg");
-      document.documentElement.setAttribute("data-bg", picked);
-      try { localStorage.setItem(BG_KEY, picked); } catch (e) {}
-      markBg();
-    });
-  }
-  markBg();
 
   // STYLE PICKER (the "1 2 3 4 5" circles). Clicking one sets data-style on
   // <html>; the STYLES section of styles.css re-shapes the site to match.

@@ -844,8 +844,9 @@ body.lightbox-open{ overflow:hidden; }
 footer{ text-align:center; font-size:.8rem; color:var(--muted); padding:2rem 1.5rem; font-style:italic; }
 /* the one line that offers the site map, the same on both halves of the site */
 footer .pg-foot-find{ margin:0 0 .5rem; font-style:normal; }
-footer .pg-foot-find a{ color:var(--accent); text-decoration:none; }
-@media (hover: hover){ footer .pg-foot-find a:hover{ text-decoration:underline; } }
+footer .pg-foot-find a{ color:var(--accent); text-decoration:underline;
+                        text-decoration-color:var(--accent-soft); text-underline-offset:2px; }
+@media (hover: hover){ footer .pg-foot-find a:hover{ text-decoration-color:var(--accent); } }
 footer p{ margin:0; }
 footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
@@ -912,10 +913,17 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
    as the page opens, and glows for a moment so the eye finds it. ---- */
 mark.find-hit{
   background:color-mix(in srgb, var(--accent) 22%, transparent);
-  color:inherit; border-radius:3px; padding:0 .12em;
+  color:inherit; border-radius:3px;
+  /* The padding is what gives the colour a little room around the word. The
+     equal and opposite margin takes that room back out of the LAYOUT, so the
+     highlight paints wider without shoving the next word along the line. */
+  padding:0 .12em; margin:0 -.12em;
   transition:background-color .5s ease;
 }
 mark.find-hit.lit{ background:color-mix(in srgb, var(--accent) 52%, transparent); }
+/* pages.js adds this when the highlight has done its job; it fades out and is
+   then taken off the page altogether, leaving the words as they were. */
+mark.find-hit.gone{ background:transparent; }
 @media (prefers-reduced-motion: reduce){ mark.find-hit{ transition:none; } }
 
 

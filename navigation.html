@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface, background and light/dark
-     choice before the page paints. These pages deliberately do NOT take the five
+<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
+     before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),b=localStorage.getItem("site-bg");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(b){d.setAttribute("data-bg",b);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Site Map — Deep H. Makadiya</title>
 
 <meta name="description" content="Every page on the site of Deep H. Makadiya, in one list.">
@@ -118,6 +118,18 @@
           <p>If you like the design and would like to build something similar, feel free to use this site as
           a starting point. The complete template is available in my GitHub repository and is free to adapt
           for your own academic website.</p>
+        </div>
+      </div>
+
+      <!-- FOUND A BUG? The address is the same one as on the home page; if you
+           ever change it there, change it here too. -->
+      <div class="news-card news-jump news-tip nav-tip">
+        <p class="news-jump-label">Found a bug?</p>
+        <div class="news-tip-text">
+          <p>A link that leads nowhere, a page that refuses to open, a line that has clearly gone wrong &mdash;
+          if something here is broken, I would far rather hear about it than not. Write to me at
+          <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>, tell me what you were
+          doing at the time, and I will put it right.</p>
         </div>
       </div>
   </div>

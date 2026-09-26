@@ -478,8 +478,43 @@
       if (lit) {
         lit.classList.add("lit");
         window.setTimeout(function () { lit.classList.remove("lit"); }, 2200);
+        armTheFade(lit);
       }
     }, 120);
+
+    // THE HIGHLIGHT DOES NOT STAY FOR EVER. It has one job — to show the eye
+    // where the word is — and once that is done it goes: after six seconds on
+    // its own, or at once if the reader clicks, taps or presses a key, which
+    // means they have found it and moved on. It fades first (half a second,
+    // the same as the glow), and is then taken off the page completely: the
+    // <mark> is replaced by the plain words it was wrapped around, so nothing
+    // of it is left in the writing, not even an empty tag.
+    function armTheFade(hit) {
+      var done = false, timer = null;
+      function stopListening() {
+        document.removeEventListener("click", clear, true);
+        document.removeEventListener("keydown", clear, true);
+        document.removeEventListener("touchstart", clear, true);
+      }
+      function clear() {
+        if (done) return;
+        done = true;
+        window.clearTimeout(timer);
+        stopListening();
+        hit.classList.remove("lit");
+        hit.classList.add("gone");
+        window.setTimeout(function () {
+          var parent = hit.parentNode;
+          if (!parent) return;
+          parent.replaceChild(document.createTextNode(hit.textContent), hit);
+          parent.normalize();          // re-joins the split text either side
+        }, 600);
+      }
+      timer = window.setTimeout(clear, 6000);
+      document.addEventListener("click", clear, true);
+      document.addEventListener("keydown", clear, true);
+      document.addEventListener("touchstart", clear, true);
+    }
 
     // leave the address bar clean, so a reload does not jump again
     if (window.history && history.replaceState) {

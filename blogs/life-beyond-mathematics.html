@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface, background and light/dark
-     choice before the page paints. These pages deliberately do NOT take the five
+<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
+     before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),b=localStorage.getItem("site-bg");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(b){d.setAttribute("data-bg",b);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Life Beyond Mathematics — Deep H. Makadiya</title>
 
 <meta name="description" content="Life Beyond Mathematics — a blog post by Deep H. Makadiya.">
@@ -148,21 +148,6 @@
                   style="--fs:'Rouge Script',cursive"
                   title="Fancy" aria-label="Fancy typeface">A</button>
       </div>
-        </div>
-        <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.8" y="4.6" width="18.4" height="14.8" rx="2.4"/><path d="M3.4 16.6 8.9 11l4.1 4.1 2.6-2.5 4.9 4.6"/><circle cx="15.6" cy="9" r="1.6"/></svg></span>Background</p>
-        <div class="bgs">
-          <button type="button" class="bg-swatch" data-set-bg="none"
-                  title="No background" aria-label="No background background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.6"/><path d="M6.1 17.9 17.9 6.1"/></svg></button>
-          <button type="button" class="bg-swatch" data-set-bg="wash"
-                  title="Wash" aria-label="Wash background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.6 14.2c3.2-3.4 6.1-3.4 9.3-.7 3.2 2.7 6.2 2.3 8.2-.8"/><path d="M2.6 19c3.2-3.4 6.1-3.4 9.3-.7 3.2 2.7 6.2 2.3 8.2-.8"/><path d="M2.6 9.3c3.2-3.4 6.1-3.4 9.3-.7 3.2 2.7 6.2 2.3 8.2-.8" opacity=".45"/></svg></button>
-          <button type="button" class="bg-swatch" data-set-bg="contours"
-                  title="Contours" aria-label="Contours background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="6.2" opacity=".72"/><circle cx="12" cy="12" r="9.3" opacity=".42"/></svg></button>
-          <button type="button" class="bg-swatch" data-set-bg="roots"
-                  title="Root system" aria-label="Root system background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 12L19.4 12.0M12 12L15.7 5.6M12 12L8.3 5.6M12 12L4.6 12.0M12 12L8.3 18.4M12 12L15.7 18.4"/><circle cx="20.4" cy="12.0" r="1.25" fill="currentColor" stroke="none"/><circle cx="16.2" cy="4.7" r="1.25" fill="currentColor" stroke="none"/><circle cx="7.8" cy="4.7" r="1.25" fill="currentColor" stroke="none"/><circle cx="3.6" cy="12.0" r="1.25" fill="currentColor" stroke="none"/><circle cx="7.8" cy="19.3" r="1.25" fill="currentColor" stroke="none"/><circle cx="16.2" cy="19.3" r="1.25" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></button>
-          <button type="button" class="bg-swatch" data-set-bg="sunflower"
-                  title="Sunflower" aria-label="Sunflower background"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10.1" cy="13.7" r="1.1" fill="currentColor" stroke="none"/><circle cx="12.3" cy="8.4" r="1.2" fill="currentColor" stroke="none"/><circle cx="14.7" cy="15.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="7.0" cy="11.1" r="1.3" fill="currentColor" stroke="none"/><circle cx="16.8" cy="8.9" r="1.4" fill="currentColor" stroke="none"/><circle cx="10.4" cy="18.0" r="1.4" fill="currentColor" stroke="none"/><circle cx="8.9" cy="6.0" r="1.5" fill="currentColor" stroke="none"/><circle cx="18.8" cy="14.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="4.9" cy="14.9" r="1.6" fill="currentColor" stroke="none"/><circle cx="15.4" cy="4.7" r="1.6" fill="currentColor" stroke="none"/></svg></button>
-        </div>
         </div>
       </div>
     </div>

@@ -19,8 +19,18 @@ TWO SETS OF PAGES
   SET B - the second set, with a bar across the top and no sidebar:
     noticeboard.html (the Noticeboard), bio.html, gallery.html, news.html,
     blogs.html, useful-links.html
-  Their Appearance panel has a fifth control the sidebar pages do not have:
-  BACKGROUND - a drawing behind the page. See "THE BACKGROUND" below.
+  Each opens with a small line above the title (the "kicker"), the title, and
+  then a hairline: the Set B pages carry NO tagline under the title, and the
+  line does the separating instead. The Set C pages still have their tagline
+  and no line.
+  ON A NARROW SCREEN (860px and below) those six pages move their title INTO
+  the top bar, in place of "Deep H. Makadiya", and take the kicker, the title
+  AND the hairline off the screen, so the page starts straight away. The title is only
+  hidden from sight, never removed: screen readers, search engines and the
+  site's own search still read it. Each page carries its own title in the bar
+  as <span class="tb-page-name">, just before the name; the switch itself is
+  in the RESPONSIVE section of pages.css. A new Set B page needs that span
+  too, or its bar will go on saying his name on a phone.
 
   SET C - no bar at all: navigation.html (the Site Map), announcements.html
   and 404.html. They use the same design, only with a plain "back to the
@@ -77,7 +87,6 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
     data-font     classic clean readable bold fancy                 site-font
     data-style    card classic midnight grove contrast               site-style
     data-mode     light | dark | auto  (auto = follow the device)      site-mode
-    data-bg       none wash contours roots sunflower               site-bg
     data-appearance  open  (absent = closed)                  site-appearance
 
   The five typeface pairs, in picker order, are named for how they read
@@ -130,41 +139,8 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
        re-applies the attributes BEFORE the page paints, so there is no flash
        of the wrong theme.
 
-  All the axes combine freely: any colour x any typeface x any style x any
-  background x light or dark must look right. If you add or change one, check
-  the others still work.
-
-THE BACKGROUND  (Set B and Set C only - never the sidebar pages)
-  The fifth control, at the foot of the Appearance panel on every page with
-  the top bar. Five circles: no background, and four drawings.
-
-    none        the plain page. This is what a first-time visitor sees.
-    wash        a soft curve rising from the foot of the window
-    contours    rings spreading from the top corner, the innermost one the
-                strongest and each one after it paler, until they fade out
-    roots       the twelve roots of the group G2, drawn as arrows
-    sunflower   seeds set at the golden angle, as a sunflower packs its head
-
-  HOW IT IS BUILT. The choice is one attribute, data-bg, on <html>, saved as
-  "site-bg". Section 8 of pages.css draws the chosen one on a SINGLE layer
-  fixed to the window behind everything (body.pg::before, z-index -1), so the
-  writing scrolls over a picture that stays still. No page's own markup is
-  involved. Nothing has a colour of its own: every drawing is painted in the
-  reader's own accent colour, heavily diluted, which is how one rule covers
-  all ten colours and the dark mode. The dilution never passes an eighth of
-  the accent in daylight, which costs the writing about a tenth of its
-  contrast at the very strongest point and nothing at all elsewhere.
-
-  Wash and Contours are drawn by the browser out of gradients. Roots and
-  Sunflower are real drawings, kept as bg/roots.svg and bg/sunflower.svg, and
-  written into pages.css a second time as text: a browser refuses to load a
-  drawing used as a mask from a separate file when the page is opened straight
-  off the disk, and this site has to survive being double-clicked. The files
-  in bg/ are there to be looked at and replaced; if you change one, say so and
-  the copy in the stylesheet will be refreshed to match.
-
-  A visitor whose computer asks for less on-screen clutter (the "reduce
-  transparency" setting) is shown the plain page whatever is saved.
+  All 4 axes combine freely: any colour x any typeface x any style x light or
+  dark must look right. If you add or change one, check the others still work.
 
 THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
   * 404.html is the ONE page written with plain relative links, so it still
@@ -218,10 +194,12 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
   * ONLY SET C AND THE BLOG POSTS carry a small line above the title. Set B
     pages start with the title itself.
   * THE THREE SET C PAGES are deliberately plain.
-      - navigation.html holds four things and nothing else: a panel saying
+      - navigation.html holds five things and nothing else: a panel saying
         what the site is, one section called Site Map (three lists), and the
-        "Did you know?" and "Like the design?" panels. Each fact there is its own paragraph inside the
-        panel; add or drop one and the box re-arranges itself.
+        "Did you know?", "Like the design?" and "Found a bug?" panels. Each fact there is its own
+        paragraph inside the panel; add or drop one and the box re-arranges itself.
+        The "Found a bug?" panel carries the same email address as the home
+        page; change one and change the other.
       - 404.html holds one section with three buttons - Home, Noticeboard,
         Site Map - and no lists.
       - announcements.html carries a stand-in line - N/A, "There are no active
@@ -330,10 +308,22 @@ ROUTINE EDITS
                           ...) so that a photo can be slipped in between two
                           existing ones later as, say, evolution-15, without
                           renaming anything else.
-  The biography           bio.html - replace the dashed boxes with ordinary
-                          paragraphs. Technical Skills, Spoken Languages and
-                          Hobbies & Interests live at the foot of this page
-                          now; the Miscellaneous page is gone.
+  The biography           bio.html - replace the dashed boxes that are left
+                          with ordinary paragraphs. It opens with the photo
+                          and the name, drawn like the home page's but in a
+                          DOTTED frame and with the home page's own line under
+                          the name; then a box of facts - official name (which
+                          links to the blog post "About My Name"), hometown,
+                          where he lives, nationality, languages, hobbies -
+                          built from the SAME three classes as "Get in Touch"
+                          on the home page (.card-panel, .contact-line,
+                          .contact-icon in styles.css), so the two boxes
+                          cannot drift apart, but filled with the Noticeboard
+                          quote card's paper colour. Add a fact by copying a
+                          whole line. Technical Skills lives at the foot of
+                          the page; the Miscellaneous page is gone, and the
+                          Spoken Languages and Hobbies & Interests sections
+                          have both been folded into the box of facts.
   A useful link           useful-links.html - paste another <div class="item">
                           into the right group
   The Noticeboard         noticeboard.html repeats the announcements, the
