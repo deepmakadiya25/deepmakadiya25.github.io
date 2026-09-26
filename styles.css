@@ -12,7 +12,7 @@
      3  LAYOUT                sidebar, top bar, the content column
      4  HOME PAGE             the split hero
      5  CONTENT               sections, lists, tables, tags, gallery, footer
-     6  LANGUAGE CHIPS        the hover/tap bubbles on Miscellaneous
+     6  LANGUAGE CHIPS        the hover/tap bubbles on the Biography page
      7  NEWS CARDS            the three cards on the home page
      8  APPEARANCE PANEL      the colour, typeface and style pickers
      9  COLOUR SCHEMES        the other nine palettes
@@ -56,8 +56,6 @@
   --font-head:"Playfair Display",Georgia,serif;  /* headings */
   --font-body:"Lora",Georgia,serif;              /* everything else */
   --swatch-ring:rgba(0,0,0,.25); /* the hairline rim around a colour circle */
-  --switch-bg:var(--accent);  /* the dark mode pill takes the scheme's colour */
-  --switch-dim:rgba(255,255,255,.58); /* the icon the knob is NOT sitting on */
 
   /* ===================== THE THREE RULE WEIGHTS ==========================
      Every horizontal line on a page is one of three, and they step down in
@@ -485,16 +483,11 @@ h2.section-title{ font-size:clamp(1.22rem, 4.4vw, 1.5rem); margin:0 0 1.5rem;
    fully contained and this rule does nothing. */
 .drop-cap + *{ clear:left; }
 
-/* ---- "More / Less" under a links block (Miscellaneous > Useful Links).
-   Sits on its own line, centred under the text column and close under the
-   group it belongs to, so it reads as that group's control rather than as the
-   next heading. The pull-up is on the button rather than on the last link,
-   because while the block is collapsed that last link is hidden and so
-   contributes no margin of its own.
-   The arrow is the same glyph as the Abstract buttons use, turned down for
-   "More" and up for "Less" — turning one glyph rather than swapping in a
-   different character keeps both arrows exactly the same size. ---- */
-.links-more{ display:block; width:100%; margin-top:-.9rem; margin-right:0; text-align:center; }
+
+/* ---- "More / Less" under a links block (Useful Links). The button is built
+   by script.js, not written into the HTML. The arrow is the same glyph the
+   Abstract buttons use, turned down for "More" and up for "Less", so the two
+   can never differ in size. ---- */
 .pub-toggle.links-more .caret{ transform:rotate(90deg); }
 .pub-toggle.links-more[aria-expanded="true"] .caret{ transform:rotate(-90deg); }
 
@@ -555,13 +548,12 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
 .overview-body p{ margin:0 0 .75rem; }
 .overview-body p:last-child{ margin-bottom:0; }
 
-.see-all{ margin:1.5rem 0 0; font-size:.95rem; }
 
-/* ---- Tags: Skills and Hobbies (Miscellaneous) and Areas of Interest
+/* ---- Tags: Skills and Hobbies (Biography) and Areas of Interest
    (Research). One rule for both, so they cannot drift apart. ---- */
 .skills-list, .interest-list{ display:flex; flex-wrap:wrap; gap:.6rem; list-style:none; margin:0; padding:0; }
 /* =========================================================================
-   SPOKEN LANGUAGE CHIPS AND THEIR BUBBLES (Miscellaneous)
+   SPOKEN LANGUAGE CHIPS AND THEIR BUBBLES (Biography)
    The chip is a <button>; the bubble is the <span> right after it. It shows
    on hover with a mouse, on focus from the keyboard, and on tap on a phone
    (script.js flips aria-expanded for that last one). Everything here is
@@ -751,8 +743,6 @@ ul.plain .item-num{ font-family:var(--font-head); font-weight:700; color:var(--a
   font-size:.76rem; letter-spacing:.06em; text-transform:uppercase;
   color:var(--accent); font-style:normal;
 }
-.news-list li{ align-items:baseline; }
-.news-list .news-date{ flex:none; min-width:6.4rem; }
 
 .skills-list li, .interest-list li{
   border:2px solid var(--line); border-radius:10px; padding:.45rem 1.05rem;
@@ -852,6 +842,10 @@ body.lightbox-open{ overflow:hidden; }
 @media (hover: hover){ .lightbox-close:hover{ opacity:.7; } }
 
 footer{ text-align:center; font-size:.8rem; color:var(--muted); padding:2rem 1.5rem; font-style:italic; }
+/* the one line that offers the site map, the same on both halves of the site */
+footer .pg-foot-find{ margin:0 0 .5rem; font-style:normal; }
+footer .pg-foot-find a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ footer .pg-foot-find a:hover{ text-decoration:underline; } }
 footer p{ margin:0; }
 footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
@@ -885,14 +879,44 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 }
 .pg-search input:focus{ outline:none; border-bottom-color:var(--accent); }
 .pg-search-hint{ margin:.7rem 0 0; font-size:.8rem; color:var(--muted); }
+/* ---- the row of tags under the box: what the matches are filed under,
+   busiest first. Tapping one narrows the search to it; tapping it again
+   lets go. Typing # in the box turns the row into a list of every tag whose
+   name carries what you typed. ---- */
+.pg-tags{ display:flex; flex-wrap:wrap; gap:.35rem; margin:.7rem 0 0; }
+.pg-tags[hidden]{ display:none; }
+.pg-tag{
+  padding:.22rem .6rem; cursor:pointer;
+  background:none; color:var(--muted);
+  border:1px solid var(--line); border-radius:999px;
+  font-family:var(--font-body); font-size:.74rem; letter-spacing:.02em;
+  transition:background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+@media (hover: hover){ .pg-tag:hover{ border-color:var(--accent); color:var(--accent); } }
+.pg-tag.on{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+.pg-tag:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
 .pg-results{ list-style:none; margin:.9rem 0 0; padding:0; }
+.pg-results .pg-none{ padding:.9rem .4rem; font-size:.88rem; color:var(--muted); font-style:italic; }
 .pg-results li{ border-top:1px solid var(--rule-3); }
 .pg-results li:first-child{ border-top:0; }
 .pg-results a{ display:block; padding:.6rem .4rem; text-decoration:none; color:var(--ink); border-radius:8px; }
 @media (hover: hover){ .pg-results a:hover{ background:color-mix(in srgb, var(--accent) 10%, transparent); } }
 .pg-results .pg-result-where{ display:block; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+/* the "›" between page, section and sub-section sits quieter than the names */
+.pg-results .pg-result-arrow{ opacity:.55; margin:0 .1rem; }
 .pg-results .pg-result-text{ display:block; font-size:.9rem; color:var(--muted); margin-top:.15rem; }
 .pg-results mark{ background:color-mix(in srgb, var(--accent) 28%, transparent); color:inherit; border-radius:3px; padding:0 .1em; }
+
+/* ---- ARRIVING FROM A RESULT. The word you searched for is wrapped in this
+   as the page opens, and glows for a moment so the eye finds it. ---- */
+mark.find-hit{
+  background:color-mix(in srgb, var(--accent) 22%, transparent);
+  color:inherit; border-radius:3px; padding:0 .12em;
+  transition:background-color .5s ease;
+}
+mark.find-hit.lit{ background:color-mix(in srgb, var(--accent) 52%, transparent); }
+@media (prefers-reduced-motion: reduce){ mark.find-hit{ transition:none; } }
 
 
 /* ---- The search button under "More to Explore". It is drawn by the same
@@ -1151,7 +1175,7 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 
 /* =========================================================================
    "MORE TO EXPLORE" — the way from the main pages to the second set
-   (Dashboard, Bio, Photos, News, Blogs), which have their own design and no
+   (Noticeboard, Bio, Photos, News, Blogs, Links), which have their own design and no
    sidebar. It sits under the six menu links, above the appearance row, and
    is deliberately a box rather than another menu line: it leaves the site's
    main furniture rather than moving inside it.
@@ -1364,7 +1388,6 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 /* The switch keeps taking the scheme's accent in dark mode. The accent is
    light there rather than dark, so the dim icon that sits directly on the
    pill flips from white-ish to black-ish. Set once for every dark scheme. */
-[data-mode="dark"]{ --switch-dim:rgba(0,0,0,.45); }
 
 /* The menu button on phones is a filled block of --ink, which in dark mode
    would be a near-white square shouting from the corner. Here it becomes a
@@ -1640,8 +1663,6 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   --side-muted:color-mix(in srgb, var(--side-ink) 68%, var(--side-bg));
   --side-line:color-mix(in srgb, var(--side-ink) 16%, transparent);
   --side-hover:color-mix(in srgb, var(--side-ink) 9%, transparent);
-  --switch-bg:var(--side-accent);
-  --switch-dim:rgba(0,0,0,.45);
 }
 /* In dark mode the page is dark already, so the panel goes deeper still and
    the accent is light to begin with. */
@@ -1820,7 +1841,7 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-style="grove"] .news-tip-text,
 [data-style="grove"] .quick-links a{ background:var(--grove-panel); }
 /* TAG CHIPS — Areas of Interest (Research), Skills and Hobbies and Spoken
-   Languages (Miscellaneous). No fill at all here: the page shows straight
+   Languages (Biography). No fill at all here: the page shows straight
    through, and the chip is drawn by its outline alone — a hairline of the
    same weight as the in-page tab buttons rather than the 2px the other styles
    use, in an accent mix that is visible against Parchment’s deeper page.
@@ -1972,16 +1993,6 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   border:2px dashed var(--sticker-line); border-radius:12px;
 }
 
-/* ---- The archive line under Important Announcements (news.html). The button
-   itself is the shared ".pub-toggle"; only the line it sits on and the paler
-   list it opens are stated here. ---- */
-.news-archive-line{
-  display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem;
-  margin:1.4rem 0 0; font-size:.92rem; color:var(--muted);
-}
-.news-list-past{ margin:0; }
-.news-list-past li{ border-top:0; padding-top:.5rem; padding-bottom:.5rem; }
-.news-list-past li:first-child{ padding-top:0; }
 
 /* =========================================================================
    RESPONSIVE — three sizes. LAST IN THE FILE ON PURPOSE, so a media
@@ -2158,9 +2169,6 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
   /* Two gallery tiles per row instead of one. */
   .gallery-grid{ grid-template-columns:repeat(auto-fill, minmax(min(132px,100%), 1fr)); gap:.75rem; }
 
-  /* the three news cards go one per row, and the date column in the full
-     lists sits above its item rather than beside it */
-  .news-list li{ flex-direction:column; gap:.2rem; }
 }
 
 /* ---- Very small phones (iPhone SE and similar) ---- */

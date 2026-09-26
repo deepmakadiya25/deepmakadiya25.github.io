@@ -19,6 +19,8 @@ TWO SETS OF PAGES
   SET B - the second set, with a bar across the top and no sidebar:
     noticeboard.html (the Noticeboard), bio.html, gallery.html, news.html,
     blogs.html, useful-links.html
+  Their Appearance panel has a fifth control the sidebar pages do not have:
+  BACKGROUND - a drawing behind the page. See "THE BACKGROUND" below.
 
   SET C - no bar at all: navigation.html (the Site Map), announcements.html
   and 404.html. They use the same design, only with a plain "back to the
@@ -53,6 +55,7 @@ FILES
   script.js           behaviour shared by both sets: the appearance
                       controls, the gallery lightbox, the "last updated"
                       line. Numbered map of its blocks at the top.
+  quotes.js           366 quotes, one per day, read by the Noticeboard only
   pages.js            the top bar of Set B: its menus, the search, and the
                       category buttons on the Blogs page.
   note.txt            this file.
@@ -74,6 +77,7 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
     data-font     classic clean readable bold fancy                 site-font
     data-style    card classic midnight grove contrast               site-style
     data-mode     light | dark | auto  (auto = follow the device)      site-mode
+    data-bg       none wash contours roots sunflower               site-bg
     data-appearance  open  (absent = closed)                  site-appearance
 
   The five typeface pairs, in picker order, are named for how they read
@@ -126,8 +130,41 @@ HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
        re-applies the attributes BEFORE the page paints, so there is no flash
        of the wrong theme.
 
-  All 4 axes combine freely: any colour x any typeface x any style x light or
-  dark must look right. If you add or change one, check the others still work.
+  All the axes combine freely: any colour x any typeface x any style x any
+  background x light or dark must look right. If you add or change one, check
+  the others still work.
+
+THE BACKGROUND  (Set B and Set C only - never the sidebar pages)
+  The fifth control, at the foot of the Appearance panel on every page with
+  the top bar. Five circles: no background, and four drawings.
+
+    none        the plain page. This is what a first-time visitor sees.
+    wash        a soft curve rising from the foot of the window
+    contours    rings spreading from the top corner, the innermost one the
+                strongest and each one after it paler, until they fade out
+    roots       the twelve roots of the group G2, drawn as arrows
+    sunflower   seeds set at the golden angle, as a sunflower packs its head
+
+  HOW IT IS BUILT. The choice is one attribute, data-bg, on <html>, saved as
+  "site-bg". Section 8 of pages.css draws the chosen one on a SINGLE layer
+  fixed to the window behind everything (body.pg::before, z-index -1), so the
+  writing scrolls over a picture that stays still. No page's own markup is
+  involved. Nothing has a colour of its own: every drawing is painted in the
+  reader's own accent colour, heavily diluted, which is how one rule covers
+  all ten colours and the dark mode. The dilution never passes an eighth of
+  the accent in daylight, which costs the writing about a tenth of its
+  contrast at the very strongest point and nothing at all elsewhere.
+
+  Wash and Contours are drawn by the browser out of gradients. Roots and
+  Sunflower are real drawings, kept as bg/roots.svg and bg/sunflower.svg, and
+  written into pages.css a second time as text: a browser refuses to load a
+  drawing used as a mask from a separate file when the page is opened straight
+  off the disk, and this site has to survive being double-clicked. The files
+  in bg/ are there to be looked at and replaced; if you change one, say so and
+  the copy in the stylesheet will be refreshed to match.
+
+  A visitor whose computer asks for less on-screen clutter (the "reduce
+  transparency" setting) is shown the plain page whatever is saved.
 
 THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
   * 404.html is the ONE page written with plain relative links, so it still
@@ -180,11 +217,32 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
     own, since the page is already called News & Updates.
   * ONLY SET C AND THE BLOG POSTS carry a small line above the title. Set B
     pages start with the title itself.
+  * THE THREE SET C PAGES are deliberately plain.
+      - navigation.html holds four things and nothing else: a panel saying
+        what the site is, one section called Site Map (three lists), and the
+        "Did you know?" and "Like the design?" panels. Each fact there is its own paragraph inside the
+        panel; add or drop one and the box re-arranges itself.
+      - 404.html holds one section with three buttons - Home, Noticeboard,
+        Site Map - and no lists.
+      - announcements.html carries a stand-in line - N/A, "There are no active
+        announcements at this time." - a plain line, not a dated entry, in place
+        of the list, which is kept just below it inside an HTML comment. The same stand-in line is written
+        on the Noticeboard and in the home page's announcements card; when a
+        real announcement goes up, all three want changing. It keeps the
+        current announcements, then a quiet
+        "Show past announcements" line with a caret (the same look as the
+        Abstract lines on Research). script.js opens it and flips the word
+        between Show and Hide.
   * navigation.html is the SITE MAP - the file keeps its old name so no link
     to it ever breaks, but everywhere a visitor can read it, it is called
     "Site Map". It lists every page of both sets and carries the "Did you
     know?" note that used to sit on the home page. The home page's "Jump to"
     bar links to it, along with five other places.
+  * QUOTE OF THE DAY opens the Noticeboard. The words live in quotes.js - one
+    line for every day of the year, keyed "MM-DD", 29 February included - and
+    that file is loaded by the Noticeboard alone. To change a day, edit its one
+    line there; the page itself only holds the frame. Block 6 of pages.js picks
+    today's line out. If the date has no line the panel simply does not appear.
   * THE @ BUTTON in the second set's top bar holds "Find me online": LinkedIn,
     GitHub, Google Scholar and ORCID, each with a small mark on the left and
     an arrow on the right to say the link leaves the site. X and Facebook are
@@ -192,13 +250,50 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
     addresses; the comment above them says what to do. The same list is
     repeated in every page of the second set, so a change there is a change in
     ten files.
-  * THE FOOT of every page in the second set lists the five main pages, then
-    an upright bar, then the six pages of the second set.
+  * THE FOOT of every page carries one line - "Can't find what you're looking
+    for? Try the Site Map." - in place of the row of links it used to hold. The
+    Site Map itself is the one page without it.
+  * THE SEARCH keeps only the innermost block of text: a list item that holds
+    paragraphs is their container, not a line of its own, so a passage is never
+    listed twice. A line break counts as a space, or the words on either side
+    of it run together in the result.
+  * TAGS. Every section of every page may carry data-tags="..." in its opening
+    <section> tag - publication, talk, news, photo, award and so on, comma
+    separated for more than one. The search reads them, offers them as the row
+    of small ovals under the box, and filters by them. Tagging a NEW section is
+    one attribute in the HTML and nothing else; the page's own tag (research,
+    biography, blog...) comes from the PAGES list in pages.js.
+  * DATES are written the same way everywhere they appear: 25 Jul 2026 - day,
+    short month, year. Where a day is not known yet an entry carries the month
+    and the year alone. The places that hold one are the News page, the
+    Announcements page (and its commented-out examples), the two cards on the
+    home page, the Latest news and Latest posts lists on the Noticeboard, and
+    the Blogs list. A blog post itself carries two: "Posted on" and "Last
+    updated on", under its title. The date column is set in small capitals by
+    styles.css; that is styling, not the date itself.
+  * THE NEWS PAGE, like the Blogs page, has a row of tag buttons above its
+    list. Each item carries data-cats with its own tags, space separated - an
+    item may hold several (a pre-synopsis seminar is both a milestone and a
+    talk) - and each button carries data-filter with one tag, or "all". The
+    tags in use are preprint, publication, talk, conference, position and
+    milestone. Each item also SHOWS its tags, as small chips at the end of the
+    line, drawn by the same rules as the tags on the Blogs page - so a tag must
+    be written twice for a new item: once in data-cats, and once as a chip.
+    The counts in brackets are typed into the buttons, so update them when the
+    list grows. Block 7 of pages.js does the filtering for both pages.
   * SEARCH is on every page now: the button under "More to Explore" in the
     sidebar (a magnifier in the top bar on a phone), and the magnifier in the
     second set's top bar. All of them open the same panel, drawn by
-    styles.css and filled by pages.js, which every page loads. It reads the
-    pages listed in PAGES near the top of the search block in pages.js.
+    styles.css and filled by pages.js, which EVERY page now loads - the three
+    plain pages included, so that the / key works there too. It reads the pages
+    listed in PAGES near the top of the search block in pages.js.
+    A result shows the trail it came from (page, then section, then
+    sub-section) and carries ?at= and ?find= in its link: the last block of
+    pages.js reads those when the page opens, scrolls to that exact line and
+    lights up the word, then tidies the address bar. The two places that count
+    blocks - the search and the finder - share the BLOCKS selector at the top
+    of the search block; if you ever change it, change it once.
+    Pressing / opens the search anywhere; typing # in it lists the tags.
     IT ONLY WORKS ON THE LIVE SITE (or any real server): a browser will not
     let one local file read another, so a page opened straight from a folder
     finds nothing and says so in the box. Nothing is broken when that
@@ -225,7 +320,16 @@ ROUTINE EDITS
                           the two in step
   A blog post             copy a file in blogs/, then copy one <li> in
                           blogs.html and point it at the new file
-  Photos                  gallery.html, plus the image in gallery/
+  Photos                  gallery.html, plus the image files in gallery/.
+                          Six sections, in this order: Profile Pics, General
+                          Photos, Evolution, B.Sc., M.Sc., Ph.D. Journey. A
+                          section with fewer than three photos is padded out
+                          with dashed [Add a photo here] tiles, so no section
+                          ever looks half-built. File names count up in TENS
+                          (profile-10, profile-20, evolution-10, evolution-20,
+                          ...) so that a photo can be slipped in between two
+                          existing ones later as, say, evolution-15, without
+                          renaming anything else.
   The biography           bio.html - replace the dashed boxes with ordinary
                           paragraphs. Technical Skills, Spoken Languages and
                           Hobbies & Interests live at the foot of this page

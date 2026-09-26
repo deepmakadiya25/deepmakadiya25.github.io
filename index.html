@@ -315,7 +315,7 @@
       <!-- "section-flush" pulls this section up under the hero. It is a class
            rather than an inline style so a style that gives sections their own
            padding (Cards, say) can still win. -->
-      <section class="section-flush">
+      <section class="section-flush" data-tags="about">
         <h2 id="about-me" class="section-title">About Me</h2>
         <!-- EDIT YOUR INTRO HERE — one <p class="lede"> per paragraph; keep the
              class or the type comes out smaller. Three paragraphs is about the
@@ -334,29 +334,27 @@
         <p class="lede">My interests include algebraic groups, Chevalley groups &amp; algebras, Lie
         groups &amp; algebras, and representation theory. Please feel free to explore my research and
         publications, or to contact me with any questions or possible collaborations.</p>
+        <p class="lede">You can find out more about me <a href="bio.html">here</a>.</p>
       </section>
 
       <!-- ===================================================================
-           LATEST NEWS & UPDATES — SWITCHED OFF FOR NOW.
-           The whole section is kept below, commented out, ready for the day
-           there is real news to put in it.
+           NEWS & UPDATES — the two cards, and the "Jump to" bar under them.
 
-           news.html is reached ONLY from the two "See all ..." links in this
-           section, so if you ever switch the section off again, that page
-           becomes unreachable — comment its entry out of sitemap.xml and put
-           the noindex line back at the top of it at the same time.
-           THE "JUMP TO" BAR under the two cards: three links that can point
-           anywhere, inside the site or out; an outside link wants
-           target="_blank" rel="noopener" too, as the CV link has. Add a fourth
-           and the row simply divides itself four ways.
+           The cards repeat the newest few items from news.html and the
+           announcements from announcements.html. TO ADD A NEWS ITEM: paste a
+           new <li class="carousel-item"> at the TOP of the track, keeping the
+           same two spans (the date, then the item), and paste the matching
+           <li> at the top of the same list in news.html so the two stay in
+           step. One item on its own does not rotate; from two upwards the card
+           turns itself into a carousel with dots.
 
-           TO ADD A NEWS ITEM once it is live: paste a new
-           <li class="carousel-item"> at the TOP of the track, keeping the same
-           two spans (the date, then the item), and paste the matching <li> at
-           the top of the same list in news.html so the two stay in step.
+           THE "JUMP TO" BAR: six links that can point anywhere, inside the
+           site or out; an outside link wants target="_blank" rel="noopener"
+           too, as the CV link has. Add a seventh and the row simply divides
+           itself again.
            =================================================================== -->
 
-      <section>
+      <section data-tags="news">
         <h2 id="news" class="section-title">News &amp; Updates</h2>
         <div class="news-grid">
 
@@ -369,7 +367,7 @@
                     <span>New preprint with Elena I. Bunina, &ldquo;Automorphisms of twisted Chevalley
                     groups of type <sup>2</sup>A<sub>3</sub> and <sup>2</sup>A<sub>4</sub> over local
                     rings,&rdquo; now on arXiv.</span></li>
-                  <li class="carousel-item"><span class="news-date">Aug 2026</span>
+                  <li class="carousel-item"><span class="news-date">27 Aug 2026</span>
                     <span>Gave an invited talk, &ldquo;Automorphisms of Twisted Chevalley Groups,&rdquo;
                     at the international workshop &ldquo;Algebraic Geometry and Model Theory of Groups
                     and Rings IV&rdquo; in Tbilisi, Georgia.</span></li>
@@ -381,7 +379,7 @@
                     <span>New preprint with Elena I. Bunina, &ldquo;Automorphisms of twisted Chevalley
                     groups of type <sup>2</sup>A<sub>&#8467;</sub> (&#8467; &ge; 5) over local
                     rings,&rdquo; now on arXiv.</span></li>
-                  <li class="carousel-item"><span class="news-date">Apr 2026</span>
+                  <li class="carousel-item"><span class="news-date">29 Apr 2026</span>
                     <span>Gave a seminar at Bar-Ilan University on the triangular and unitriangular
                     factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R).</span></li>
                 </ul>
@@ -395,14 +393,14 @@
             <div class="news-inner">
               <div class="carousel" data-carousel>
                 <ul class="carousel-track">
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
+                  <li class="carousel-item"><span>There are no active announcements at this time.</span></li>
+                  <!-- The live announcements are repeated here from
+                       announcements.html. Delete the line above and copy the
+                       newest ones in; with two or more the card turns itself
+                       into a carousel again.
+                  <li class="carousel-item"><span class="news-date">[25 Jul 2026]</span>
                     <span>[Office hours for the semester, or a change to them.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A seminar you are organising, with date and venue.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A deadline or call for participation worth flagging.]</span></li>
-                  <li class="carousel-item"><span class="news-date">[Month Year]</span>
-                    <span>[A course announcement, once you are teaching one.]</span></li>
+                  -->
                 </ul>
               </div>
             </div>
@@ -418,11 +416,11 @@
         <div class="news-card news-jump">
           <p class="news-jump-label">Jump to</p>
           <ul class="quick-links quick-links-row">
-            <li><a href="noticeboard.html">Open The Noticeboard <span aria-hidden="true">&rsaquo;</span></a></li>
-            <li><a href="bio.html">Know More About Me <span aria-hidden="true">&rsaquo;</span></a></li>
-            <li><a href="gallery.html">See My Photo Gallery <span aria-hidden="true">&rsaquo;</span></a></li>
+            <li><a href="noticeboard.html">The Noticeboard <span aria-hidden="true">&rsaquo;</span></a></li>
             <li><a href="blogs.html">Read My Blogs <span aria-hidden="true">&rsaquo;</span></a></li>
+            <li><a href="gallery.html">See My Photos <span aria-hidden="true">&rsaquo;</span></a></li>
             <li><a href="Deep_CV.pdf" target="_blank" rel="noopener">Read My CV (PDF) <span aria-hidden="true">&rsaquo;</span></a></li>
+            <li><a href="useful-links.html">Some Useful Links <span aria-hidden="true">&rsaquo;</span></a></li>
             <li><a href="navigation.html">Site Map <span aria-hidden="true">&rsaquo;</span></a></li>
           </ul>
         </div>
@@ -435,7 +433,7 @@
            To add another detail (a phone number, say), copy a whole line and
            swap the paths inside its <svg> for another icon drawn on the same
            24x24 grid. -->
-      <section class="contact-block">
+      <section class="contact-block" data-tags="contact">
         <h2 id="contact" class="section-title">Get in Touch</h2>
         <div class="card-panel">
           <p class="contact-line"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.8" y="5" width="18.4" height="14" rx="2.4"/><path d="m3.4 7.3 7.3 5.2a2.2 2.2 0 0 0 2.6 0l7.3-5.2"/></svg></span><span><strong>Email:</strong> <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a></span></p>
@@ -449,7 +447,7 @@
            here leaves the site, so each carries target="_blank" rel="noopener"
            (internal links, like the sidebar, deliberately do not).
            =================================================================== -->
-      <section>
+      <section data-tags="profile">
         <h2 id="profiles" class="section-title">Find Me Online</h2>
         <div class="btn-row">
           <a class="btn" href="https://www.researchgate.net/profile/Deep-Makadiya" target="_blank" rel="noopener">ResearchGate</a>
@@ -475,6 +473,7 @@
          date lives in exactly one place for all 8 pages. With JavaScript off
          the line stays hidden rather than showing a stale date. -->
     <footer>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
@@ -489,7 +488,8 @@
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

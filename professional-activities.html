@@ -256,11 +256,11 @@
         <div class="tabs-fade right" aria-hidden="true" hidden></div>
       </div>
 
-      <!-- NUMBERING ON THIS PAGE runs OLDEST FIRST: entry 1. is the oldest, at
-           the top, and the numbers rise as you go down. (The publication list on
-           research.html is the other way round — newest first — so don't copy
-           the convention across.) TO ADD AN ENTRY, copy a whole <li>...</li>,
-           paste it at the BOTTOM of that list, and give it (current last + 1).
+      <!-- NUMBERING ON THIS PAGE runs NEWEST FIRST: the entry at the top of a
+           list carries the highest number and they count down, the same way as
+           the publication list on research.html. TO ADD AN ENTRY, copy a whole
+           <li>...</li>, paste it at the TOP of that list, and give it
+           (current top + 1).
            Each list numbers independently.
            Anything still in square brackets is a placeholder for you to fill
            in or delete.
@@ -276,7 +276,7 @@
            Each subsection is a <p class="subhead"> line plus its own
            <ul class="plain">; copy that pair to add a fourth.
            =================================================================== -->
-      <section>
+      <section data-tags="talk">
         <h2 id="talks" class="section-title">Talks</h2>
 
         <!-- Format: "title (linked to slides)", kind of talk, "conference
@@ -321,7 +321,7 @@
            Events where you gave a talk also appear in the Talks section — that
            repetition is normal and saves re-filing entries later.
            =================================================================== -->
-      <section>
+      <section data-tags="conference">
         <h2 id="conferences" class="section-title">Conference &amp; Workshop Participation</h2>
 
         <p class="pub-meta">*This list covers every conference, workshop and summer school I have
@@ -365,7 +365,7 @@
            =================================================================== -->
 
       <!-- START of the hidden section
-      <section>
+      <section data-tags="service">
         <h2 id="service" class="section-title">Professional Service</h2>
 
         <p class="subhead">Editorial Work</p>
@@ -402,6 +402,7 @@
          date lives in exactly one place for all 8 pages. With JavaScript off
          the line stays hidden rather than showing a stale date. -->
     <footer>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
@@ -416,7 +417,8 @@
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
+<!-- Re-applies the visitor's saved colour, typeface, background and light/dark
+     choice before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),b=localStorage.getItem("site-bg");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(b){d.setAttribute("data-bg",b);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <script>(function(){try{if(location.protocol!=="file:"&&location.pathname.replace(/[^/]*$/,"")!=="/"){document.write('<base href="/">');}}catch(e){}})();</script>
 <title>Page not found — Deep H. Makadiya</title>
 
@@ -37,58 +37,44 @@
 
 <main class="pg-main pg-plain" id="main" tabindex="-1">
   <div class="pg-wrap">
-      <p class="pg-back"><a href="index.html">&#8592; Back to the home page</a></p>
 
       <div class="pg-head">
         <p class="pg-kicker">Error 404</p>
         <h1>This page does not exist</h1>
-        <p class="pg-lede">The address you followed is not part of this site &mdash; it may have been mistyped,
-        or the page may have been renamed. Everything the site has is listed below.</p>
+        <p class="pg-lede">The address you followed is not part of this site &mdash; it may have been
+        mistyped, or the page may since have been renamed, moved or taken down.</p>
       </div>
 
       <section class="pg-section">
-        <h2>The main pages</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="index.html"><h3>Home</h3><p>Who I am, how to reach me, and where to find me online.</p></a>
-          <a class="dash-card" href="academics.html"><h3>Academics</h3><p>Degrees, positions, awards and examinations.</p></a>
-          <a class="dash-card" href="research.html"><h3>Research</h3><p>Publications, preprints and what they are about.</p></a>
-          <a class="dash-card" href="teaching.html"><h3>Teaching</h3><p>Courses taught and teaching experience.</p></a>
-          <a class="dash-card" href="professional-activities.html"><h3>Professional Activities</h3><p>Talks, conferences, workshops and service.</p></a>
-        </div>
-      </section>
-
-      <section class="pg-section">
-        <h2>The second set</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="noticeboard.html"><h3>Noticeboard</h3><p>The way into the pages below.</p></a>
-          <a class="dash-card" href="bio.html"><h3>Biography</h3><p>The longer story.</p></a>
-          <a class="dash-card" href="gallery.html"><h3>Photos</h3><p>The photo gallery.</p></a>
-          <a class="dash-card" href="news.html"><h3>News &amp; Updates</h3><p>Everything, newest first.</p></a>
-          <a class="dash-card" href="blogs.html"><h3>Blogs</h3><p>The writing.</p></a>
-          <a class="dash-card" href="useful-links.html"><h3>Useful Links</h3><p>Literature, seminars and tools.</p></a>
-        </div>
+        <h2>Where would you like to go?</h2>
+        <p class="pg-choices">
+          <a class="pg-choice" href="index.html">Home Page</a>
+          <a class="pg-choice" href="noticeboard.html">Noticeboard</a>
+          <a class="pg-choice" href="navigation.html">Site Map</a>
+        </p>
       </section>
   </div>
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-links">
-      <a href="index.html">Home</a>
-      <a href="academics.html">Academics</a>
-      <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
-      <a href="professional-activities.html">Professional Activities</a>
-      <span class="pg-foot-sep" aria-hidden="true">|</span>
-      <a href="noticeboard.html">Noticeboard</a>
-      <a href="bio.html">Bio</a>
-      <a href="gallery.html">Photos</a>
-      <a href="news.html">News</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="useful-links.html">Links</a>
-    </p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
+<!-- THE SEARCH SHEET. The same on every page; pages.js fills it. It opens
+     from a magnifier where there is one, and from the "/" key anywhere. -->
+<div class="pg-search" id="searchPanel" hidden>
+  <div class="pg-search-box">
+    <label class="pg-search-field">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+      <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
+    </label>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <ul class="pg-results" id="searchResults"></ul>
+  </div>
+</div>
 <script src="script.js" onerror="this.onerror=null;this.src='/script.js';"></script>
+<script src="pages.js" onerror="this.onerror=null;this.src='/pages.js';"></script>
 </body>
 </html>

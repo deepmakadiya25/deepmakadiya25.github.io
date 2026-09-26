@@ -257,9 +257,9 @@
       </div>
 
       <!-- AREAS OF INTEREST — one <li> per topic. Uses the "interest-list"
-           style, which is separate from the "skills-list" used on Beyond
-           Mathematics, so changing one does not affect the other. -->
-      <section>
+           style, which is separate from the "skills-list" used on the
+           Biography page, so changing one does not affect the other. -->
+      <section data-tags="interest">
         <h2 id="interests" class="section-title">Areas of Interest</h2>
         <ul class="interest-list">
           <li>Lie Groups &amp; Algebras</li>
@@ -291,7 +291,7 @@
            <div class="pub-abstract"> under it and give BOTH a new matching id
            (the button's aria-controls must equal the div's id). No script
            changes needed. -->
-      <section>
+      <section data-tags="publication">
         <h2 id="publications" class="section-title">List of Publications</h2>
 
   <!--
@@ -426,7 +426,7 @@
 
       <!-- RESEARCH OVERVIEW — per project: a short title, then a paragraph or
            two on what the question was and what the work established. -->
-      <section>
+      <section data-tags="project">
         <h2 id="overview" class="section-title">Research Overview</h2>
 
         <p class="section-note">Here I provide an overview of my research, organized project by project.</p>
@@ -508,6 +508,7 @@
          date lives in exactly one place for all 8 pages. With JavaScript off
          the line stays hidden rather than showing a stale date. -->
     <footer>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
@@ -522,7 +523,8 @@
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

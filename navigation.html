@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
+<!-- Re-applies the visitor's saved colour, typeface, background and light/dark
+     choice before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),b=localStorage.getItem("site-bg");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(b){d.setAttribute("data-bg",b);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Site Map — Deep H. Makadiya</title>
 
 <meta name="description" content="Every page on the site of Deep H. Makadiya, in one list.">
@@ -36,112 +36,111 @@
 
 <main class="pg-main pg-plain" id="main" tabindex="-1">
   <div class="pg-wrap">
-      <p class="pg-back"><a href="index.html">&#8592; Back to the home page</a></p>
 
       <div class="pg-head">
         <p class="pg-kicker">Site map</p>
         <h1>Everything on this site</h1>
-        <p class="pg-lede">Two sets of pages, one map. The main pages carry a sidebar; the second set has
-        a bar across the top instead, and the two are one click from each other at any time.</p>
+        <p class="pg-lede">A guide to what is here and how to find your way around it.</p>
       </div>
 
-      <section class="pg-section">
-        <h2>The main pages</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="index.html">
-            <h3>Home</h3>
-            <p>Who I am, how to reach me, and where to find me online.</p>
-          </a>
-          <a class="dash-card" href="academics.html">
-            <h3>Academics</h3>
-            <p>Degrees, positions, awards and examinations.</p>
-          </a>
-          <a class="dash-card" href="research.html">
-            <h3>Research</h3>
-            <p>Publications, preprints, and what they are about.</p>
-          </a>
-          <a class="dash-card" href="teaching.html">
-            <h3>Teaching</h3>
-            <p>Courses taught and teaching experience.</p>
-          </a>
-          <a class="dash-card" href="professional-activities.html">
-            <h3>Professional Activities</h3>
-            <p>Talks, conferences, workshops, and service to the field.</p>
-          </a>
+      <!-- WHAT THIS SITE IS. Ordinary prose in a panel — rewrite it whenever
+           you like; nothing else depends on it. -->
+      <div class="news-card news-jump news-tip nav-intro">
+        <p class="news-jump-label">What is this site?</p>
+        <div class="news-tip-text">
+          <p>This is the academic website of <strong>Deep H. Makadiya</strong>.</p>
+          <p>The site is divided into two main parts. The first highlights my academic profile and
+          professional background, including my education, positions, research interests, publications,
+          teaching, and other academic activities. It is designed to provide colleagues and collaborators
+          with a clear, concise overview of my scholarly work.</p>
+          <p>The second part provides a broader perspective beyond my formal academic record. It features a
+          more personal introduction, photographs, news and announcements, selected writings, and other
+          interests and activities that fall outside the scope of a traditional CV.</p>
+          <p>Together, these two parts provide both a structured account of my academic work and a broader
+          perspective on the person behind it. They also share the same look and rhythm, and each is always
+          just a click away from the other.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="pg-section">
-        <h2>The second set</h2>
-        <div class="dash-grid">
-          <a class="dash-card" href="noticeboard.html">
-            <h3>Noticeboard</h3>
-            <p>The way into the pages below.</p>
-          </a>
-          <a class="dash-card" href="bio.html">
-            <h3>Biography</h3>
-            <p>The longer story, plus skills, languages and interests.</p>
-          </a>
-          <a class="dash-card" href="gallery.html">
-            <h3>Photos</h3>
-            <p>Portraits, conferences, and a few years of Ph.D. life.</p>
-          </a>
-          <a class="dash-card" href="news.html">
-            <h3>News &amp; Updates</h3>
-            <p>Everything that has happened since January 2020.</p>
-          </a>
-          <a class="dash-card" href="blogs.html">
-            <h3>Blogs</h3>
-            <p>Writing on mathematics and the life around it.</p>
-          </a>
-          <a class="dash-card" href="useful-links.html">
-            <h3>Useful Links</h3>
-            <p>Literature, seminars, tools and references.</p>
-          </a>
-          <a class="dash-card" href="announcements.html">
-            <h3>Important Announcements</h3>
-            <p>Office hours, seminars, deadlines and course notices — whatever applies just now.</p>
-          </a>
-        </div>
-      </section>
+      <section class="pg-section" data-tags="site map">
+        <h2>Site Map</h2>
 
-      <section class="pg-section">
-        <h2>And also</h2>
+        <h3 class="nav-group">The first part &mdash; my curriculum vitae</h3>
         <ul class="nav-extras">
-          <li><a href="Deep_CV.pdf" target="_blank" rel="noopener">My CV (PDF)</a> &mdash; the whole record on two pages.</li>
-          <li><a href="sitemap.xml">sitemap.xml</a> &mdash; the same list, for search engines.</li>
+          <li><a href="index.html">Home</a> &mdash; who I am, how to reach me, where to find me online.</li>
+          <li><a href="academics.html">Academics</a> &mdash; degrees, positions, awards and grants.</li>
+          <li><a href="research.html">Research</a> &mdash; research overview, and the list of publications and preprints.</li>
+          <li><a href="teaching.html">Teaching</a> &mdash; courses taught and teaching experience.</li>
+          <li><a href="professional-activities.html">Professional Activities</a> &mdash; talks, conferences, workshops and academic services.</li>
+        </ul>
+
+        <h3 class="nav-group">The second part &mdash; everything around it</h3>
+        <ul class="nav-extras">
+          <li><a href="noticeboard.html">Noticeboard</a> &mdash; an overview of what has changed lately.</li>
+          <li><a href="bio.html">Biography</a> &mdash; the longer story about me.</li>
+          <li><a href="gallery.html">Photo Gallery</a> &mdash; a collection of memories from my academic journey.</li>
+          <li><a href="announcements.html">Important Announcements</a> &mdash; practical information, upcoming dates, and announcements worth noting.</li>
+          <li><a href="news.html">News &amp; Updates</a> &mdash; highlights from my academic career.</li>
+          <li><a href="blogs.html">Blogs</a> &mdash; a curated collection of my writing.</li>
+          <li><a href="useful-links.html">Useful Links</a> &mdash; a collection of resources I find handy.</li>
+        </ul>
+
+        <h3 class="nav-group">And also</h3>
+        <ul class="nav-extras">
+          <li>Site Map &mdash; this page.</li>
+          <li><a href="Deep_CV.pdf" target="_blank" rel="noopener">My CV (PDF)</a> &mdash; a comprehensive record of my academic and professional background.</li>
         </ul>
       </section>
 
-      <!-- The "Did you know?" note, which used to sit on the home page. -->
-      <div class="news-card news-jump news-tip nav-tip">
+      <!-- "Did you know?" — three things about the site itself. Each panel is
+           one fact; add or remove a panel and the row re-arranges itself. -->
+      <div class="news-card news-jump news-tip news-tip-multi nav-tip">
         <p class="news-jump-label">Did you know?</p>
-        <p class="news-tip-text">You can customize how this site looks. Open
-        <span class="ui-name">Appearance</span> at the bottom of the menu to try a new colour, change the
-        typeface, switch to a different layout, or turn on dark mode. The site will remember your choices
-        the next time you visit.</p>
+        <p class="news-tip-text">You can customize the site&rsquo;s appearance using the
+        <span class="ui-name"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 8h9M18.5 8H20M4 16h3.5M13 16h7"/><circle cx="15.5" cy="8" r="2.1"/><circle cx="10" cy="16" r="2.1"/></svg></span> Appearance</span> button, at the bottom of the side menu or
+        on the right of the top menu. It lets you change the colour, the typeface and the theme (light or
+        dark), as well as the overall layout on the main pages. The site remembers your preferences.</p>
+        <p class="news-tip-text">You can also reach the <a href="gallery.html">photo gallery</a> by clicking
+        the photograph on the home page.</p>
+        <p class="news-tip-text">Pressing the <kbd>/</kbd> key on any page opens the search. Typing
+        <kbd>#</kbd> in the search brings up the available tags&mdash;publication, talk, news, photo, and
+        the rest&mdash;so you can narrow the search to a particular type of content.</p>
+      </div>
+
+      <!-- LIKE THE DESIGN? Ordinary prose in a panel, like the two above it.
+           The GitHub sentence has no link on it yet; put one on the words
+           "my GitHub repository" once the template repository exists. -->
+      <div class="news-card news-jump news-tip nav-tip">
+        <p class="news-jump-label">Like the design?</p>
+        <div class="news-tip-text">
+          <p>This website was designed by Deep Makadiya, with the help of Claude AI, which also wrote much
+          of the code.</p>
+          <p>If you like the design and would like to build something similar, feel free to use this site as
+          a starting point. The complete template is available in my GitHub repository and is free to adapt
+          for your own academic website.</p>
+        </div>
       </div>
   </div>
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-links">
-      <a href="index.html">Home</a>
-      <a href="academics.html">Academics</a>
-      <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
-      <a href="professional-activities.html">Professional Activities</a>
-      <span class="pg-foot-sep" aria-hidden="true">|</span>
-      <a href="noticeboard.html">Noticeboard</a>
-      <a href="bio.html">Bio</a>
-      <a href="gallery.html">Photos</a>
-      <a href="news.html">News</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="useful-links.html">Links</a>
-    </p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
+<!-- THE SEARCH SHEET. The same on every page; pages.js fills it. It opens
+     from a magnifier where there is one, and from the "/" key anywhere. -->
+<div class="pg-search" id="searchPanel" hidden>
+  <div class="pg-search-box">
+    <label class="pg-search-field">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+      <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
+    </label>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <ul class="pg-results" id="searchResults"></ul>
+  </div>
+</div>
 <script src="script.js"></script>
+<script src="pages.js"></script>
 </body>
 </html>

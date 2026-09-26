@@ -1,6 +1,7 @@
 /* =========================================================================
    Deep H. Makadiya — THE SECOND SET OF PAGES
-   Dashboard, Bio, Photos, News & Updates, Blogs, and every blog post.
+   Noticeboard, Bio, Photos, News & Updates, Blogs, Useful Links, and every
+   blog post.
 
    These pages have a design of their own: no sidebar, a bar across the top
    instead, and one narrow column of text under it. They are loaded AFTER
@@ -16,7 +17,8 @@
      5  BIO                the life page, its timeline and its placeholders
      6  BLOGS              the list of posts, its filters, and a post page
      7  PHOTOS AND NEWS    the few extras those two pages need
-     8  RESPONSIVE         phones and tablets — LAST, on purpose
+     8  THE BACKGROUND     the four background drawings behind these pages
+     9  RESPONSIVE         phones and tablets — LAST, on purpose
 
    EVERY CLASS HERE BEGINS "pg-" OR "tb-" so nothing can collide with the
    sidebar pages. The controls inside the appearance menu are the exception:
@@ -57,6 +59,13 @@ body.pg{
 
 /* A section and its heading. The heading carries a hairline above it rather
    than a box around it — the whole page is built from rules, not panels. */
+/* An element the scripts hide carries the "hidden" attribute, and the browser
+   turns that into display:none — but only at the weakest strength, so any
+   rule here that sets a display wins and the element stays on screen. That is
+   what happened to the News filters: the items were marked hidden and went on
+   showing. This settles it once for the whole site. */
+[hidden]{ display:none !important; }
+
 .pg-section{ margin:0 0 2rem; }
 .pg-section > h2{
   margin:0 0 .9rem; padding-top:.9rem;
@@ -78,6 +87,38 @@ body.pg{
 .nav-extras a{ color:var(--accent); text-decoration:none; }
 @media (hover: hover){ .nav-extras a:hover{ text-decoration:underline; } }
 
+/* The three ways on from the 404 page. Same box and the same fill on hover as
+   the buttons in the sidebar, so it is plainly the site's own. */
+.pg-choices{ display:flex; flex-wrap:wrap; gap:.7rem; margin:0; }
+.pg-choice{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.62rem 1.2rem; border:1px solid var(--accent); border-radius:10px;
+  color:var(--accent); text-decoration:none; font-size:.92rem; font-weight:600;
+  transition:background-color .18s ease, color .18s ease;
+}
+@media (hover: hover){ .pg-choice:hover{ background:var(--accent); color:var(--on-accent); } }
+.pg-choice:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* The sub-headings inside the site map's one section. */
+.nav-group{ margin:1.6rem 0 .5rem; font-size:1rem; }
+.nav-group:first-of-type{ margin-top:.2rem; }
+
+/* "What is this site?" sits at the top of the site map, drawn like the
+   "Did you know?" panel at the foot of it so the two frame the page. */
+.nav-intro{ margin-bottom:2.4rem; }
+/* A tip box holding several panels rather than one: each takes its own line,
+   which reads better than three narrow columns of unequal text. */
+.news-tip-multi .news-tip-text{ flex:1 1 100%; }
+.ui-ico{ display:inline-block; width:1em; height:1em; vertical-align:-.12em; }
+.ui-ico svg{ display:block; width:100%; height:100%; }
+/* several paragraphs inside one panel, rather than a single block of text */
+.news-tip-text p{ margin:0 0 .65rem; }
+.news-tip-text p:last-child{ margin:0; }
+.news-tip-text kbd{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.9em;
+  border:1px solid var(--line); border-radius:4px; padding:0 .3em;
+}
+
 /* "Did you know?" moved here from the home page. It keeps the shape it had
    there — the label centred across the top, one panel of text underneath —
    so the two sites still feel like one. */
@@ -96,21 +137,19 @@ body.pg{
 .pg-foot p{ margin:0 0 .35rem; }
 .pg-foot p:last-child{ margin:0; }
 .pg-foot a{ color:var(--muted); }
-.pg-foot .pg-foot-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.2rem .9rem; margin-bottom:.6rem; }
-.pg-foot .pg-foot-links a{ color:var(--accent); text-decoration:none; }
-/* the upright between the main pages and this second set of pages */
-.pg-foot .pg-foot-links .pg-foot-sep{ color:var(--muted); opacity:.55; }
-/* eleven links need a little more room than the text column above them, so on
-   a wide screen the row alone is allowed to reach past it and stay on one line */
-@media (min-width:900px){ .pg-foot .pg-foot-links{ margin-left:-3.2rem; margin-right:-3.2rem; } }
-@media (hover: hover){ .pg-foot .pg-foot-links a:hover{ text-decoration:underline; } }
+/* One line where the row of links used to be: the way on for a reader who has
+   not found what they came for. */
+.pg-foot .pg-foot-find{ margin-bottom:.6rem; }
+.pg-foot .pg-foot-find a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .pg-foot .pg-foot-find a:hover{ text-decoration:underline; } }
 
 /* =========================================================================
    2  THE TOP BAR
    It stays at the top of the window as the page scrolls. Left to right:
    a house icon and "Back to Home" (the sidebar site), a divider, the name
-   (which leads to the Dashboard), then the five page links; and at the far
-   right the three round tool buttons — links, appearance, search.
+   (which leads to the Noticeboard), then the six page links; and at the far
+   right the round tool buttons — find me online, appearance, search, and on a
+   phone the page menu as well.
    ========================================================================= */
 .tb{
   position:sticky; top:0; z-index:60;
@@ -200,23 +239,53 @@ body.pg{
 .tb-pop .theme-picker-label{ margin:0 0 .5rem; }
 
 /* =========================================================================
-   4  DASHBOARD
+   4  THE NOTICEBOARD
    ========================================================================= */
-.dash-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:1rem; }
-.dash-card{
-  display:flex; flex-direction:column; gap:.35rem;
-  padding:1rem 1.1rem;
-  border:1px solid var(--line); border-radius:12px;
-  background:var(--cream-2); color:var(--ink); text-decoration:none;
-  transition:border-color .18s ease, transform .18s ease;
+/* THE QUOTE OF THE DAY. A panel of its own, set apart from every list on the
+   site: the words in the heading face at reading size, an oversized opening
+   quotation mark bled into the top-left corner behind them, and the name
+   underneath after a short rule. The whole block leans on the accent colour,
+   so it takes on each colour scheme without any rule of its own per scheme. */
+.quote-card{
+  position:relative;
+  margin:0; padding:1.8rem 1.9rem 1.4rem 5rem;
+  border:1px solid var(--rule-2); border-radius:14px;
+  background:color-mix(in srgb, var(--accent) 4%, var(--cream));
 }
-@media (hover: hover){ .dash-card:hover{ border-color:var(--accent); transform:translateY(-2px); } }
-.dash-card h3{ margin:0; font-family:var(--font-head); font-size:1.02rem; color:var(--ink); }
-/* a shade darker than the usual muted grey: these sit on the panel colour,
-   which is itself a step away from the page, and the pair has to stay above
-   4.5:1 in all ten colour schemes. */
-.dash-card p{ margin:0; font-size:.88rem; color:color-mix(in srgb, var(--ink) 30%, var(--muted)); }
-.dash-card .dash-go{ margin-top:.3rem; font-size:.82rem; color:var(--accent); }
+.quote-card[hidden]{ display:none; }
+/* the opening mark stands in the margin the padding above leaves for it, at
+   the height of the first line — a pull-quote, not a watermark */
+.quote-mark{
+  position:absolute; top:1.15rem; left:1.15rem;
+  font-family:var(--font-head); font-size:4.6rem; line-height:.78;
+  color:color-mix(in srgb, var(--accent) 34%, transparent);
+  pointer-events:none; user-select:none;
+}
+.quote-card blockquote{
+  position:relative; margin:0;
+  font-family:var(--font-head); font-size:1.24rem; line-height:1.55;
+  color:var(--ink); text-wrap:pretty;
+}
+.quote-card figcaption{
+  display:flex; align-items:center; flex-wrap:wrap; gap:.6rem;
+  margin-top:1.1rem; font-size:.9rem;
+}
+.quote-rule{ width:2.2rem; height:1px; background:var(--accent); flex:none; }
+/* the name carries the accent, pulled a little way towards the page's ink so
+   that it clears 4.5:1 on the tinted panel in every colour scheme */
+.quote-card cite{
+  font-style:normal; font-weight:600;
+  color:color-mix(in srgb, var(--accent) 86%, var(--ink));
+}
+/* the date sits at the far end, quiet, so the panel says which day it belongs
+   to without competing with the words */
+.quote-when{
+  margin-left:auto; font-size:.76rem; letter-spacing:.06em;
+  /* a shade darker than the usual muted grey: the panel is tinted with the
+     accent, which costs a little contrast, and this has to clear 4.5:1 in all
+     ten colour schemes */
+  text-transform:uppercase; color:color-mix(in srgb, var(--ink) 34%, var(--muted));
+}
 
 /* the short lists of recent things */
 .dash-list{ list-style:none; margin:0; padding:0; }
@@ -224,17 +293,27 @@ body.pg{
 .dash-list li:first-child{ border-top:0; padding-top:0; }
 .dash-list .pg-when{ flex:none; width:6.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
 .dash-more{ display:inline-block; margin-top:.9rem; font-size:.86rem; color:var(--accent); text-decoration:none; }
+.dash-photos + .dash-more{ margin-top:1.5rem; }
 @media (hover: hover){ .dash-more:hover{ text-decoration:underline; } }
 
-/* the small strip of photos */
+/* the strip of three photographs at the foot of the page */
 .dash-photos{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.7rem; }
 .dash-photo{
-  aspect-ratio:1; border-radius:10px; overflow:hidden;
+  position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden;
   border:1px solid var(--line); background:var(--cream-2);
   display:flex; align-items:center; justify-content:center;
   font-size:.76rem; color:var(--muted); text-align:center; padding:.4rem;
 }
-.dash-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* The photograph fills its square and is cropped to it, whatever shape the
+   file happens to be. It is taken out of the flow so that its own proportions
+   cannot stretch the tile: the tile stays square, the picture gives way. */
+.dash-photo img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; display:block;
+  transition:opacity .15s ease;
+}
+@media (hover: hover){ a.dash-photo:hover img{ opacity:.82; } }
+a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* =========================================================================
    5  BIO
@@ -327,26 +406,168 @@ body.pg{
 .pg-news{ list-style:none; margin:0; padding:0; }
 .pg-news li{ display:flex; gap:1rem; padding:.85rem 0; border-top:1px solid var(--rule-3); }
 .pg-news li:first-child{ border-top:0; }
-.pg-news .pg-when{ flex:none; width:6.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
+/* wide enough for a day as well as a month, without wrapping */
+.pg-news .pg-when{ flex:none; width:7.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
+/* The line that opens a folded block — drawn like the "Abstract" line on the
+   Research page: quiet, underlined, with a caret that turns as it opens.
+   script.js flips the wording between "Show" and "Hide". */
+/* ".pg-section p" above sets the spacing of every paragraph in a section, so
+   these two name the section as well in order to outrank it. */
+.pg-section .pg-open, p.pg-open{ margin:2.2rem 0 0; }
+/* the hairline that closes the list of live announcements off from the line
+   that opens the past ones */
+/* the line that stands in for a list with nothing in it yet: plain running
+   text, not a dated entry, because it is not an entry */
+.pg-section .pg-empty, p.pg-empty{ margin:.2rem 0 0; }
+.pg-section .pg-rule, p.pg-rule{ margin:1.6rem 0 0; height:1px; background:var(--rule-3); }
 .pg-toggle{
-  padding:.3rem .8rem; cursor:pointer;
-  background:none; color:var(--accent);
-  border:1px solid var(--accent); border-radius:999px;
-  font-family:var(--font-body); font-size:.82rem;
+  font:inherit; font-size:.85rem; color:var(--accent);
+  background:none; border:0; padding:0;
+  cursor:pointer; text-decoration:underline;
+  text-decoration-color:var(--accent-soft); text-underline-offset:2px;
 }
-@media (hover: hover){ .pg-toggle:hover{ background:var(--accent); color:var(--on-accent); } }
+@media (hover: hover){ .pg-toggle:hover{ text-decoration-color:var(--accent); } }
+.pg-toggle .caret{
+  display:inline-block; font-size:.7em; margin-left:.3rem;
+  transition:transform .18s ease; text-decoration:none;
+}
+.pg-toggle[aria-expanded="true"] .caret{ transform:rotate(90deg); }
 .pg-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 .pg-fold[hidden]{ display:none; }
 .pg-fold{ margin-top:1rem; }
 
 /* =========================================================================
-   8  RESPONSIVE — LAST IN THE FILE ON PURPOSE
+   8  THE BACKGROUND
+   The fifth thing a visitor can choose, after colour, typeface and
+   light/dark: a drawing behind the page. It belongs to THESE pages only —
+   the sidebar pages are deliberately left plain.
+
+   HOW IT WORKS. script.js writes data-bg="..." on the <html> element and
+   remembers the choice in the browser under "site-bg"; the small script in
+   each page's <head> puts it back before the page paints. Everything below
+   hangs off that one attribute, and the drawing itself is a single layer
+   fixed to the window behind everything (z-index:-1), so the writing scrolls
+   over a picture that stays still. No page's own markup is involved: adding
+   or removing a background is this file and script.js, nothing else.
+
+   THE COLOUR. Nothing here has a colour of its own. Each drawing is painted
+   in --tint, which is the reader's OWN accent colour heavily diluted, so all
+   ten colour schemes and the dark mode are covered by these few rules. Dark
+   backgrounds swallow a pale tint, so the dark half is mixed a little
+   stronger. The tint never goes above a quarter of the accent, which is why
+   the text over it reads exactly as it did before.
+
+   WASH and CONTOURS are drawn by the browser out of gradients. ROOTS and
+   SUNFLOWER are real drawings kept in bg/ as .svg files, used here as MASKS
+   — the file supplies the shape, --tint supplies the colour — which is what
+   lets one black-and-white drawing follow ten colour schemes.
+   ========================================================================= */
+body.pg{
+  --tint:color-mix(in srgb, var(--accent) 11%, transparent);
+  --tint-soft:color-mix(in srgb, var(--accent) 9%, transparent);
+}
+[data-mode="dark"] body.pg{
+  --tint:color-mix(in srgb, var(--accent) 19%, transparent);
+  --tint-soft:color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* The layer itself. It is fixed to the window, sits behind everything, and
+   ignores the mouse. With no data-bg, or with data-bg="none", it is empty. */
+body.pg::before{
+  content:"";
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-repeat:no-repeat;
+}
+
+/* ---- WASH: one soft curve rising from the foot of the window ---------- */
+[data-bg="wash"] body.pg::before{
+  background-image:
+    radial-gradient(125% 62% at 8% 122%, var(--tint-soft) 0 62%, transparent 63%),
+    radial-gradient(95% 48% at 99% 112%, var(--tint-soft) 0 58%, transparent 59%);
+}
+
+/* ---- CONTOURS: rings from the top corner, each one paler than the last,
+   until they fade out altogether. The bands are hard stops in ONE gradient —
+   that is what gives each ring its own flat shade rather than a smear. The
+   radii are in vmin, so the rings keep their proportions on a phone. ---- */
+[data-bg="contours"] body.pg::before{
+  background-image:radial-gradient(circle at 100% 0,
+    color-mix(in srgb, var(--accent) 11%, transparent) 0 11vmin,
+    color-mix(in srgb, var(--accent)  9%, transparent) 11vmin 18vmin,
+    color-mix(in srgb, var(--accent)  8%, transparent) 18vmin 26vmin,
+    color-mix(in srgb, var(--accent)  6%, transparent) 26vmin 35vmin,
+    color-mix(in srgb, var(--accent) 4.5%, transparent) 35vmin 45vmin,
+    color-mix(in srgb, var(--accent)  3%, transparent) 45vmin 56vmin,
+    color-mix(in srgb, var(--accent)  2%, transparent) 56vmin 68vmin,
+    color-mix(in srgb, var(--accent)  1%, transparent) 68vmin 80vmin,
+    transparent 80vmin);
+}
+[data-mode="dark"][data-bg="contours"] body.pg::before{
+  background-image:radial-gradient(circle at 100% 0,
+    color-mix(in srgb, var(--accent) 19%, transparent) 0 11vmin,
+    color-mix(in srgb, var(--accent) 15%, transparent) 11vmin 18vmin,
+    color-mix(in srgb, var(--accent) 12%, transparent) 18vmin 26vmin,
+    color-mix(in srgb, var(--accent)  9%, transparent) 26vmin 35vmin,
+    color-mix(in srgb, var(--accent)  7%, transparent) 35vmin 45vmin,
+    color-mix(in srgb, var(--accent)  5%, transparent) 45vmin 56vmin,
+    color-mix(in srgb, var(--accent) 3.5%, transparent) 56vmin 68vmin,
+    color-mix(in srgb, var(--accent)  2%, transparent) 68vmin 80vmin,
+    transparent 80vmin);
+}
+
+/* ---- ROOTS and SUNFLOWER: the two drawings, used as masks -------------- */
+[data-bg="roots"] body.pg::before,
+[data-bg="sunflower"] body.pg::before{
+  background-color:var(--tint);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:100% 100%; mask-position:100% 100%;
+}
+/* The two drawings are ALSO kept as readable files in bg/ — bg/roots.svg and
+   bg/sunflower.svg — which is where to look at one or replace it. The copies
+   written out below are the ones the site actually uses: a browser refuses to
+   load a mask from a separate file when a page is opened straight off the
+   disk rather than from a web address, and this site has to survive being
+   double-clicked. They are the same two drawings, written into this file.
+   If you ever change a file in bg/, tell me and I will refresh the copy. */
+[data-bg="roots"] body.pg::before{
+  -webkit-mask-size:min(64vh, 76vw) auto; mask-size:min(64vh, 76vw) auto;
+  -webkit-mask-image:url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 1000%22><g fill=%22none%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polygon points=%22790,500 645,248 355,248 210,500 355,751 645,751%22 opacity=%22.45%22 stroke-width=%221.5%22/><polygon points=%22935,248 500,-2.3 65,248 65,751 500,1002 935,751%22 opacity=%22.45%22 stroke-width=%221.5%22/><path d=%22M500 500L790 500%22 stroke-width=%222.0%22/><path d=%22M790 500L771 491%22 stroke-width=%222.0%22/><path d=%22M790 500L771 508%22 stroke-width=%222.0%22/><path d=%22M500 500L645 248%22 stroke-width=%222.0%22/><path d=%22M645 248L628 260%22 stroke-width=%222.0%22/><path d=%22M645 248L642 268%22 stroke-width=%222.0%22/><path d=%22M500 500L355 248%22 stroke-width=%222.0%22/><path d=%22M355 248L357 268%22 stroke-width=%222.0%22/><path d=%22M355 248L371 260%22 stroke-width=%222.0%22/><path d=%22M500 500L210 500%22 stroke-width=%222.0%22/><path d=%22M210 500L228 508%22 stroke-width=%222.0%22/><path d=%22M210 500L228 491%22 stroke-width=%222.0%22/><path d=%22M500 500L355 751%22 stroke-width=%222.0%22/><path d=%22M355 751L371 739%22 stroke-width=%222.0%22/><path d=%22M355 751L357 731%22 stroke-width=%222.0%22/><path d=%22M500 500L645 751%22 stroke-width=%222.0%22/><path d=%22M645 751L642 731%22 stroke-width=%222.0%22/><path d=%22M645 751L628 739%22 stroke-width=%222.0%22/><path d=%22M500 500L935 248%22 stroke-width=%222.9%22/><path d=%22M935 248L906 251%22 stroke-width=%222.9%22/><path d=%22M935 248L918 272%22 stroke-width=%222.9%22/><path d=%22M500 500L500 -2.3%22 stroke-width=%222.9%22/><path d=%22M500 -2.3L488 24%22 stroke-width=%222.9%22/><path d=%22M500 -2.3L511 24%22 stroke-width=%222.9%22/><path d=%22M500 500L65 248%22 stroke-width=%222.9%22/><path d=%22M65 248L82 272%22 stroke-width=%222.9%22/><path d=%22M65 248L93 251%22 stroke-width=%222.9%22/><path d=%22M500 500L65 751%22 stroke-width=%222.9%22/><path d=%22M65 751L93 748%22 stroke-width=%222.9%22/><path d=%22M65 751L82 727%22 stroke-width=%222.9%22/><path d=%22M500 500L500 1002%22 stroke-width=%222.9%22/><path d=%22M500 1002L511 975%22 stroke-width=%222.9%22/><path d=%22M500 1002L488 975%22 stroke-width=%222.9%22/><path d=%22M500 500L935 751%22 stroke-width=%222.9%22/><path d=%22M935 751L918 727%22 stroke-width=%222.9%22/><path d=%22M935 751L906 748%22 stroke-width=%222.9%22/></g></svg>");
+          mask-image:url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 1000%22><g fill=%22none%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polygon points=%22790,500 645,248 355,248 210,500 355,751 645,751%22 opacity=%22.45%22 stroke-width=%221.5%22/><polygon points=%22935,248 500,-2.3 65,248 65,751 500,1002 935,751%22 opacity=%22.45%22 stroke-width=%221.5%22/><path d=%22M500 500L790 500%22 stroke-width=%222.0%22/><path d=%22M790 500L771 491%22 stroke-width=%222.0%22/><path d=%22M790 500L771 508%22 stroke-width=%222.0%22/><path d=%22M500 500L645 248%22 stroke-width=%222.0%22/><path d=%22M645 248L628 260%22 stroke-width=%222.0%22/><path d=%22M645 248L642 268%22 stroke-width=%222.0%22/><path d=%22M500 500L355 248%22 stroke-width=%222.0%22/><path d=%22M355 248L357 268%22 stroke-width=%222.0%22/><path d=%22M355 248L371 260%22 stroke-width=%222.0%22/><path d=%22M500 500L210 500%22 stroke-width=%222.0%22/><path d=%22M210 500L228 508%22 stroke-width=%222.0%22/><path d=%22M210 500L228 491%22 stroke-width=%222.0%22/><path d=%22M500 500L355 751%22 stroke-width=%222.0%22/><path d=%22M355 751L371 739%22 stroke-width=%222.0%22/><path d=%22M355 751L357 731%22 stroke-width=%222.0%22/><path d=%22M500 500L645 751%22 stroke-width=%222.0%22/><path d=%22M645 751L642 731%22 stroke-width=%222.0%22/><path d=%22M645 751L628 739%22 stroke-width=%222.0%22/><path d=%22M500 500L935 248%22 stroke-width=%222.9%22/><path d=%22M935 248L906 251%22 stroke-width=%222.9%22/><path d=%22M935 248L918 272%22 stroke-width=%222.9%22/><path d=%22M500 500L500 -2.3%22 stroke-width=%222.9%22/><path d=%22M500 -2.3L488 24%22 stroke-width=%222.9%22/><path d=%22M500 -2.3L511 24%22 stroke-width=%222.9%22/><path d=%22M500 500L65 248%22 stroke-width=%222.9%22/><path d=%22M65 248L82 272%22 stroke-width=%222.9%22/><path d=%22M65 248L93 251%22 stroke-width=%222.9%22/><path d=%22M500 500L65 751%22 stroke-width=%222.9%22/><path d=%22M65 751L93 748%22 stroke-width=%222.9%22/><path d=%22M65 751L82 727%22 stroke-width=%222.9%22/><path d=%22M500 500L500 1002%22 stroke-width=%222.9%22/><path d=%22M500 1002L511 975%22 stroke-width=%222.9%22/><path d=%22M500 1002L488 975%22 stroke-width=%222.9%22/><path d=%22M500 500L935 751%22 stroke-width=%222.9%22/><path d=%22M935 751L918 727%22 stroke-width=%222.9%22/><path d=%22M935 751L906 748%22 stroke-width=%222.9%22/></g></svg>");
+}
+[data-bg="sunflower"] body.pg::before{
+  -webkit-mask-size:min(62vh, 74vw) auto; mask-size:min(62vh, 74vw) auto;
+  -webkit-mask-image:url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 1000%22><g fill=%22%23000%22><circle cx=%22485%22 cy=%22514%22 r=%221.5%22/><circle cx=%22503%22 cy=%22471%22 r=%221.5%22/><circle cx=%22522%22 cy=%22528%22 r=%221.5%22/><circle cx=%22459%22 cy=%22493%22 r=%221.6%22/><circle cx=%22539%22 cy=%22475%22 r=%221.6%22/><circle cx=%22487%22 cy=%22549%22 r=%221.6%22/><circle cx=%22475%22 cy=%22452%22 r=%221.6%22/><circle cx=%22555%22 cy=%22520%22 r=%221.7%22/><circle cx=%22443%22 cy=%22524%22 r=%221.7%22/><circle cx=%22528%22 cy=%22441%22 r=%221.7%22/><circle cx=%22520%22 cy=%22565%22 r=%221.7%22/><circle cx=%22438%22 cy=%22464%22 r=%221.7%22/><circle cx=%22573%22 cy=%22484%22 r=%221.7%22/><circle cx=%22456%22 cy=%22563%22 r=%221.8%22/><circle cx=%22490%22 cy=%22421%22 r=%221.8%22/><circle cx=%22563%22 cy=%22553%22 r=%221.8%22/><circle cx=%22415%22 cy=%22504%22 r=%221.8%22/><circle cx=%22562%22 cy=%22438%22 r=%221.8%22/><circle cx=%22496%22 cy=%22590%22 r=%221.8%22/><circle cx=%22441%22 cy=%22429%22 r=%221.9%22/><circle cx=%22594%22 cy=%22513%22 r=%221.9%22/><circle cx=%22421%22 cy=%22555%22 r=%221.9%22/><circle cx=%22522%22 cy=%22404%22 r=%221.9%22/><circle cx=%22550%22 cy=%22588%22 r=%221.9%22/><circle cx=%22402%22 cy=%22469%22 r=%221.9%22/><circle cx=%22595%22 cy=%22456%22 r=%221.9%22/><circle cx=%22459%22 cy=%22599%22 r=%221.9%22/><circle cx=%22463%22 cy=%22397%22 r=%222.0%22/><circle cx=%22598%22 cy=%22552%22 r=%222.0%22/><circle cx=%22391%22 cy=%22529%22 r=%222.0%22/><circle cx=%22562%22 cy=%22404%22 r=%222.0%22/><circle cx=%22520%22 cy=%22615%22 r=%222.0%22/><circle cx=%22406%22 cy=%22428%22 r=%222.0%22/><circle cx=%22620%22 cy=%22490%22 r=%222.0%22/><circle cx=%22417%22 cy=%22589%22 r=%222.0%22/><circle cx=%22501%22 cy=%22376%22 r=%222.0%22/><circle cx=%22584%22 cy=%22593%22 r=%222.1%22/><circle cx=%22374%22 cy=%22488%22 r=%222.1%22/><circle cx=%22602%22 cy=%22422%22 r=%222.1%22/><circle cx=%22477%22 cy=%22628%22 r=%222.1%22/><circle cx=%22430%22 cy=%22388%22 r=%222.1%22/><circle cx=%22629%22 cy=%22535%22 r=%222.1%22/><circle cx=%22380%22 cy=%22562%22 r=%222.1%22/><circle cx=%22547%22 cy=%22372%22 r=%222.1%22/><circle cx=%22552%22 cy=%22628%22 r=%222.1%22/><circle cx=%22374%22 cy=%22440%22 r=%222.1%22/><circle cx=%22635%22 cy=%22458%22 r=%222.2%22/><circle cx=%22428%22 cy=%22623%22 r=%222.2%22/><circle cx=%22470%22 cy=%22359%22 r=%222.2%22/><circle cx=%22619%22 cy=%22584%22 r=%222.2%22/><circle cx=%22354%22 cy=%22518%22 r=%222.2%22/><circle cx=%22596%22 cy=%22387%22 r=%222.2%22/><circle cx=%22505%22 cy=%22650%22 r=%222.2%22/><circle cx=%22394%22 cy=%22392%22 r=%222.2%22/><circle cx=%22653%22 cy=%22508%22 r=%222.2%22/><circle cx=%22381%22 cy=%22598%22 r=%222.2%22/><circle cx=%22521%22 cy=%22346%22 r=%222.2%22/><circle cx=%22589%22 cy=%22629%22 r=%222.3%22/><circle cx=%22346%22 cy=%22465%22 r=%222.3%22/><circle cx=%22639%22 cy=%22421%22 r=%222.3%22/><circle cx=%22450%22 cy=%22653%22 r=%222.3%22/><circle cx=%22433%22 cy=%22352%22 r=%222.3%22/><circle cx=%22651%22 cy=%22564%22 r=%222.3%22/><circle cx=%22345%22 cy=%22555%22 r=%222.3%22/><circle cx=%22578%22 cy=%22353%22 r=%222.3%22/><circle cx=%22542%22 cy=%22662%22 r=%222.3%22/><circle cx=%22359%22 cy=%22408%22 r=%222.3%22/><circle cx=%22668%22 cy=%22472%22 r=%222.3%22/><circle cx=%22395%22 cy=%22635%22 r=%222.4%22/><circle cx=%22487%22 cy=%22328%22 r=%222.4%22/><circle cx=%22627%22 cy=%22618%22 r=%222.4%22/><circle cx=%22325%22 cy=%22498%22 r=%222.4%22/><circle cx=%22631%22 cy=%22382%22 r=%222.4%22/><circle cx=%22483%22 cy=%22676%22 r=%222.4%22/><circle cx=%22393%22 cy=%22357%22 r=%222.4%22/><circle cx=%22677%22 cy=%22533%22 r=%222.4%22/><circle cx=%22347%22 cy=%22596%22 r=%222.4%22/><circle cx=%22549%22 cy=%22325%22 r=%222.4%22/><circle cx=%22583%22 cy=%22663%22 r=%222.4%22/><circle cx=%22328%22 cy=%22435%22 r=%222.4%22/><circle cx=%22672%22 cy=%22431%22 r=%222.4%22/><circle cx=%22419%22 cy=%22668%22 r=%222.5%22/><circle cx=%22446%22 cy=%22320%22 r=%222.5%22/><circle cx=%22662%22 cy=%22596%22 r=%222.5%22/><circle cx=%22314%22 cy=%22539%22 r=%222.5%22/><circle cx=%22611%22 cy=%22345%22 r=%222.5%22/><circle cx=%22523%22 cy=%22691%22 r=%222.5%22/><circle cx=%22353%22 cy=%22374%22 r=%222.5%22/><circle cx=%22694%22 cy=%22494%22 r=%222.5%22/><circle cx=%22360%22 cy=%22637%22 r=%222.5%22/><circle cx=%22511%22 cy=%22304%22 r=%222.5%22/><circle cx=%22625%22 cy=%22653%22 r=%222.5%22/><circle cx=%22303%22 cy=%22472%22 r=%222.5%22/><circle cx=%22665%22 cy=%22388%22 r=%222.5%22/><circle cx=%22454%22 cy=%22695%22 r=%222.6%22/><circle cx=%22401%22 cy=%22324%22 r=%222.6%22/><circle cx=%22693%22 cy=%22564%22 r=%222.6%22/><circle cx=%22314%22 cy=%22584%22 r=%222.6%22/><circle cx=%22581%22 cy=%22312%22 r=%222.6%22/><circle cx=%22568%22 cy=%22695%22 r=%222.6%22/><circle cx=%22318%22 cy=%22402%22 r=%222.6%22/><circle cx=%22702%22 cy=%22449%22 r=%222.6%22/><circle cx=%22385%22 cy=%22675%22 r=%222.6%22/><circle cx=%22466%22 cy=%22293%22 r=%222.6%22/><circle cx=%22666%22 cy=%22631%22 r=%222.6%22/><circle cx=%22288%22 cy=%22515%22 r=%222.6%22/><circle cx=%22646%22 cy=%22345%22 r=%222.6%22/><circle cx=%22497%22 cy=%22714%22 r=%222.6%22/><circle cx=%22357%22 cy=%22339%22 r=%222.7%22/><circle cx=%22715%22 cy=%22522%22 r=%222.7%22/><circle cx=%22326%22 cy=%22630%22 r=%222.7%22/><circle cx=%22541%22 cy=%22286%22 r=%222.7%22/><circle cx=%22615%22 cy=%22686%22 r=%222.7%22/><circle cx=%22288%22 cy=%22440%22 r=%222.7%22/><circle cx=%22698%22 cy=%22401%22 r=%222.7%22/><circle cx=%22421%22 cy=%22707%22 r=%222.7%22/><circle cx=%22418%22 cy=%22293%22 r=%222.7%22/><circle cx=%22701%22 cy=%22598%22 r=%222.7%22/><circle cx=%22285%22 cy=%22564%22 r=%222.7%22/><circle cx=%22616%22 cy=%22306%22 r=%222.7%22/><circle cx=%22545%22 cy=%22722%22 r=%222.7%22/><circle cx=%22316%22 cy=%22366%22 r=%222.7%22/><circle cx=%22727%22 cy=%22474%22 r=%222.7%22/><circle cx=%22350%22 cy=%22673%22 r=%222.8%22/><circle cx=%22494%22 cy=%22270%22 r=%222.8%22/><circle cx=%22661%22 cy=%22666%22 r=%222.8%22/><circle cx=%22268%22 cy=%22486%22 r=%222.8%22/><circle cx=%22681%22 cy=%22353%22 r=%222.8%22/><circle cx=%22465%22 cy=%22731%22 r=%222.8%22/><circle cx=%22369%22 cy=%22305%22 r=%222.8%22/><circle cx=%22729%22 cy=%22555%22 r=%222.8%22/><circle cx=%22293%22 cy=%22615%22 r=%222.8%22/><circle cx=%22575%22 cy=%22275%22 r=%222.8%22/><circle cx=%22597%22 cy=%22718%22 r=%222.8%22/><circle cx=%22281%22 cy=%22404%22 r=%222.8%22/><circle cx=%22727%22 cy=%22422%22 r=%222.8%22/><circle cx=%22385%22 cy=%22712%22 r=%222.8%22/><circle cx=%22442%22 cy=%22265%22 r=%222.8%22/><circle cx=%22702%22 cy=%22634%22 r=%222.8%22/><circle cx=%22259%22 cy=%22538%22 r=%222.9%22/><circle cx=%22653%22 cy=%22309%22 r=%222.9%22/><circle cx=%22517%22 cy=%22745%22 r=%222.9%22/><circle cx=%22322%22 cy=%22330%22 r=%222.9%22/><circle cx=%22747%22 cy=%22505%22 r=%222.9%22/><circle cx=%22314%22 cy=%22664%22 r=%222.9%22/><circle cx=%22527%22 cy=%22253%22 r=%222.9%22/><circle cx=%22648%22 cy=%22701%22 r=%222.9%22/><circle cx=%22254%22 cy=%22452%22 r=%222.9%22/><circle cx=%22715%22 cy=%22369%22 r=%222.9%22/><circle cx=%22430%22 cy=%22742%22 r=%222.9%22/><circle cx=%22388%22 cy=%22273%22 r=%222.9%22/><circle cx=%22737%22 cy=%22592%22 r=%222.9%22/><circle cx=%22263%22 cy=%22593%22 r=%222.9%22/><circle cx=%22613%22 cy=%22271%22 r=%222.9%22/><circle cx=%22572%22 cy=%22746%22 r=%222.9%22/><circle cx=%22280%22 cy=%22367%22 r=%223.0%22/><circle cx=%22753%22 cy=%22449%22 r=%223.0%22/><circle cx=%22347%22 cy=%22709%22 r=%223.0%22/><circle cx=%22472%22 cy=%22242%22 r=%223.0%22/><circle cx=%22696%22 cy=%22672%22 r=%223.0%22/><circle cx=%22239%22 cy=%22506%22 r=%223.0%22/><circle cx=%22689%22 cy=%22319%22 r=%223.0%22/><circle cx=%22483%22 cy=%22762%22 r=%223.0%22/><circle cx=%22335%22 cy=%22294%22 r=%223.0%22/><circle cx=%22762%22 cy=%22540%22 r=%223.0%22/><circle cx=%22279%22 cy=%22647%22 r=%223.0%22/><circle cx=%22563%22 cy=%22241%22 r=%223.0%22/><circle cx=%22628%22 cy=%22734%22 r=%223.0%22/><circle cx=%22246%22 cy=%22414%22 r=%223.0%22/><circle cx=%22746%22 cy=%22392%22 r=%223.0%22/><circle cx=%22391%22 cy=%22746%22 r=%223.0%22/><circle cx=%22413%22 cy=%22244%22 r=%223.0%22/><circle cx=%22737%22 cy=%22631%22 r=%223.1%22/><circle cx=%22236%22 cy=%22564%22 r=%223.1%22/><circle cx=%22652%22 cy=%22274%22 r=%223.1%22/><circle cx=%22541%22 cy=%22770%22 r=%223.1%22/><circle cx=%22287%22 cy=%22328%22 r=%223.1%22/><circle cx=%22774%22 cy=%22483%22 r=%223.1%22/><circle cx=%22309%22 cy=%22699%22 r=%223.1%22/><circle cx=%22507%22 cy=%22224%22 r=%223.1%22/><circle cx=%22682%22 cy=%22709%22 r=%223.1%22/><circle cx=%22224%22 cy=%22469%22 r=%223.1%22/><circle cx=%22725%22 cy=%22336%22 r=%223.1%22/><circle cx=%22445%22 cy=%22774%22 r=%223.1%22/><circle cx=%22355%22 cy=%22260%22 r=%223.1%22/><circle cx=%22769%22 cy=%22579%22 r=%223.1%22/><circle cx=%22247%22 cy=%22624%22 r=%223.1%22/><circle cx=%22603%22 cy=%22237%22 r=%223.1%22/><circle cx=%22602%22 cy=%22764%22 r=%223.1%22/><circle cx=%22246%22 cy=%22373%22 r=%223.1%22/><circle cx=%22774%22 cy=%22421%22 r=%223.2%22/><circle cx=%22351%22 cy=%22743%22 r=%223.2%22/><circle cx=%22445%22 cy=%22219%22 r=%223.2%22/><circle cx=%22731%22 cy=%22671%22 r=%223.2%22/><circle cx=%22214%22 cy=%22530%22 r=%223.2%22/><circle cx=%22691%22 cy=%22284%22 r=%223.2%22/><circle cx=%22505%22 cy=%22789%22 r=%223.2%22/><circle cx=%22301%22 cy=%22290%22 r=%223.2%22/><circle cx=%22790%22 cy=%22520%22 r=%223.2%22/><circle cx=%22272%22 cy=%22681%22 r=%223.2%22/><circle cx=%22546%22 cy=%22212%22 r=%223.2%22/><circle cx=%22661%22 cy=%22744%22 r=%223.2%22/><circle cx=%22215%22 cy=%22429%22 r=%223.2%22/><circle cx=%22759%22 cy=%22360%22 r=%223.2%22/><circle cx=%22404%22 cy=%22779%22 r=%223.2%22/><circle cx=%22383%22 cy=%22229%22 r=%223.2%22/><circle cx=%22771%22 cy=%22621%22 r=%223.2%22/><circle cx=%22218%22 cy=%22594%22 r=%223.2%22/><circle cx=%22645%22 cy=%22240%22 r=%223.3%22/><circle cx=%22569%22 cy=%22790%22 r=%223.3%22/><circle cx=%22252%22 cy=%22332%22 r=%223.3%22/><circle cx=%22797%22 cy=%22456%22 r=%223.3%22/><circle cx=%22310%22 cy=%22733%22 r=%223.3%22/><circle cx=%22482%22 cy=%22199%22 r=%223.3%22/><circle cx=%22717%22 cy=%22710%22 r=%223.3%22/><circle cx=%22197%22 cy=%22491%22 r=%223.3%22/><circle cx=%22730%22 cy=%22302%22 r=%223.3%22/><circle cx=%22465%22 cy=%22802%22 r=%223.3%22/><circle cx=%22322%22 cy=%22253%22 r=%223.3%22/><circle cx=%22799%22 cy=%22562%22 r=%223.3%22/><circle cx=%22237%22 cy=%22657%22 r=%223.3%22/><circle cx=%22588%22 cy=%22206%22 r=%223.3%22/><circle cx=%22634%22 cy=%22777%22 r=%223.3%22/><circle cx=%22214%22 cy=%22386%22 r=%223.3%22/><circle cx=%22789%22 cy=%22390%22 r=%223.3%22/><circle cx=%22361%22 cy=%22777%22 r=%223.3%22/><circle cx=%22416%22 cy=%22201%22 r=%223.3%22/><circle cx=%22764%22 cy=%22664%22 r=%223.4%22/><circle cx=%22194%22 cy=%22558%22 r=%223.4%22/><circle cx=%22687%22 cy=%22250%22 r=%223.4%22/><circle cx=%22531%22 cy=%22812%22 r=%223.4%22/><circle cx=%22266%22 cy=%22291%22 r=%223.4%22/><circle cx=%22814%22 cy=%22496%22 r=%223.4%22/><circle cx=%22270%22 cy=%22716%22 r=%223.4%22/><circle cx=%22524%22 cy=%22185%22 r=%223.4%22/><circle cx=%22696%22 cy=%22749%22 r=%223.4%22/><circle cx=%22187%22 cy=%22449%22 r=%223.4%22/><circle cx=%22766%22 cy=%22326%22 r=%223.4%22/><circle cx=%22421%22 cy=%22809%22 r=%223.4%22/><circle cx=%22349%22 cy=%22219%22 r=%223.4%22/><circle cx=%22802%22 cy=%22606%22 r=%223.4%22/><circle cx=%22205%22 cy=%22626%22 r=%223.4%22/><circle cx=%22633%22 cy=%22207%22 r=%223.4%22/><circle cx=%22600%22 cy=%22806%22 r=%223.4%22/><circle cx=%22219%22 cy=%22342%22 r=%223.4%22/><circle cx=%22815%22 cy=%22427%22 r=%223.4%22/><circle cx=%22317%22 cy=%22767%22 r=%223.4%22/><circle cx=%22454%22 cy=%22179%22 r=%223.5%22/><circle cx=%22751%22 cy=%22706%22 r=%223.5%22/><circle cx=%22175%22 cy=%22517%22 r=%223.5%22/><circle cx=%22728%22 cy=%22267%22 r=%223.5%22/><circle cx=%22489%22 cy=%22827%22 r=%223.5%22/><circle cx=%22287%22 cy=%22251%22 r=%223.5%22/><circle cx=%22826%22 cy=%22540%22 r=%223.5%22/><circle cx=%22232%22 cy=%22691%22 r=%223.5%22/><circle cx=%22568%22 cy=%22178%22 r=%223.5%22/><circle cx=%22668%22 cy=%22784%22 r=%223.5%22/><circle cx=%22184%22 cy=%22403%22 r=%223.5%22/><circle cx=%22799%22 cy=%22357%22 r=%223.5%22/><circle cx=%22376%22 cy=%22808%22 r=%223.5%22/><circle cx=%22384%22 cy=%22188%22 r=%223.5%22/><circle cx=%22797%22 cy=%22651%22 r=%223.5%22/><circle cx=%22178%22 cy=%22589%22 r=%223.5%22/><circle cx=%22678%22 cy=%22216%22 r=%223.5%22/><circle cx=%22561%22 cy=%22830%22 r=%223.5%22/><circle cx=%22232%22 cy=%22298%22 r=%223.5%22/><circle cx=%22835%22 cy=%22468%22 r=%223.5%22/><circle cx=%22274%22 cy=%22750%22 r=%223.5%22/><circle cx=%22497%22 cy=%22162%22 r=%223.6%22/><circle cx=%22731%22 cy=%22748%22 r=%223.6%22/><circle cx=%22162%22 cy=%22473%22 r=%223.6%22/><circle cx=%22768%22 cy=%22291%22 r=%223.6%22/><circle cx=%22443%22 cy=%22836%22 r=%223.6%22/><circle cx=%22315%22 cy=%22214%22 r=%223.6%22/><circle cx=%22831%22 cy=%22586%22 r=%223.6%22/><circle cx=%22197%22 cy=%22660%22 r=%223.6%22/><circle cx=%22615%22 cy=%22177%22 r=%223.6%22/><circle cx=%22633%22 cy=%22816%22 r=%223.6%22/><circle cx=%22187%22 cy=%22356%22 r=%223.6%22/><circle cx=%22828%22 cy=%22394%22 r=%223.6%22/><circle cx=%22329%22 cy=%22800%22 r=%223.6%22/><circle cx=%22423%22 cy=%22163%22 r=%223.6%22/><circle cx=%22785%22 cy=%22697%22 r=%223.6%22/><circle cx=%22156%22 cy=%22547%22 r=%223.6%22/><circle cx=%22722%22 cy=%22232%22 r=%223.6%22/><circle cx=%22517%22 cy=%22848%22 r=%223.6%22/><circle cx=%22252%22 cy=%22254%22 r=%223.6%22/><circle cx=%22849%22 cy=%22514%22 r=%223.6%22/><circle cx=%22233%22 cy=%22726%22 r=%223.6%22/><circle cx=%22544%22 cy=%22152%22 r=%223.7%22/><circle cx=%22703%22 cy=%22787%22 r=%223.7%22/><circle cx=%22156%22 cy=%22425%22 r=%223.7%22/><circle cx=%22805%22 cy=%22322%22 r=%223.7%22/><circle cx=%22395%22 cy=%22837%22 r=%223.7%22/><circle cx=%22349%22 cy=%22180%22 r=%223.7%22/><circle cx=%22828%22 cy=%22634%22 r=%223.7%22/><circle cx=%22167%22 cy=%22623%22 r=%223.7%22/><circle cx=%22663%22 cy=%22184%22 r=%223.7%22/><circle cx=%22593%22 cy=%22844%22 r=%223.7%22/><circle cx=%22198%22 cy=%22309%22 r=%223.7%22/><circle cx=%22852%22 cy=%22437%22 r=%223.7%22/><circle cx=%22283%22 cy=%22785%22 r=%223.7%22/><circle cx=%22468%22 cy=%22143%22 r=%223.7%22/><circle cx=%22765%22 cy=%22742%22 r=%223.7%22/><circle cx=%22140%22 cy=%22501%22 r=%223.7%22/><circle cx=%22765%22 cy=%22256%22 r=%223.7%22/><circle cx=%22469%22 cy=%22860%22 r=%223.7%22/><circle cx=%22279%22 cy=%22214%22 r=%223.7%22/><circle cx=%22857%22 cy=%22562%22 r=%223.7%22/><circle cx=%22194%22 cy=%22695%22 r=%223.7%22/><circle cx=%22593%22 cy=%22149%22 r=%223.8%22/><circle cx=%22669%22 cy=%22822%22 r=%223.8%22/><circle cx=%22157%22 cy=%22376%22 r=%223.8%22/><circle cx=%22837%22 cy=%22360%22 r=%223.8%22/><circle cx=%22346%22 cy=%22832%22 r=%223.8%22/><circle cx=%22389%22 cy=%22151%22 r=%223.8%22/><circle cx=%22818%22 cy=%22683%22 r=%223.8%22/><circle cx=%22141%22 cy=%22580%22 r=%223.8%22/><circle cx=%22711%22 cy=%22198%22 r=%223.8%22/><circle cx=%22548%22 cy=%22865%22 r=%223.8%22/><circle cx=%22217%22 cy=%22263%22 r=%223.8%22/><circle cx=%22869%22 cy=%22484%22 r=%223.8%22/><circle cx=%22238%22 cy=%22762%22 r=%223.8%22/><circle cx=%22516%22 cy=%22130%22 r=%223.8%22/><circle cx=%22739%22 cy=%22784%22 r=%223.8%22/><circle cx=%22131%22 cy=%22451%22 r=%223.8%22/><circle cx=%22805%22 cy=%22286%22 r=%223.8%22/><circle cx=%22419%22 cy=%22864%22 r=%223.8%22/><circle cx=%22313%22 cy=%22176%22 r=%223.8%22/><circle cx=%22857%22 cy=%22613%22 r=%223.8%22/><circle cx=%22160%22 cy=%22658%22 r=%223.8%22/><circle cx=%22644%22 cy=%22153%22 r=%223.8%22/><circle cx=%22628%22 cy=%22853%22 r=%223.8%22/><circle cx=%22166%22 cy=%22326%22 r=%223.9%22/><circle cx=%22864%22 cy=%22403%22 r=%223.9%22/><circle cx=%22297%22 cy=%22818%22 r=%223.9%22/><circle cx=%22435%22 cy=%22127%22 r=%223.9%22/><circle cx=%22800%22 cy=%22731%22 r=%223.9%22/><circle cx=%22122%22 cy=%22532%22 r=%223.9%22/><circle cx=%22757%22 cy=%22220%22 r=%223.9%22/><circle cx=%22499%22 cy=%22880%22 r=%223.9%22/><circle cx=%22243%22 cy=%22219%22 r=%223.9%22/><circle cx=%22880%22 cy=%22534%22 r=%223.9%22/><circle cx=%22196%22 cy=%22732%22 r=%223.9%22/><circle cx=%22567%22 cy=%22123%22 r=%223.9%22/><circle cx=%22705%22 cy=%22824%22 r=%223.9%22/><circle cx=%22130%22 cy=%22400%22 r=%223.9%22/><circle cx=%22841%22 cy=%22324%22 r=%223.9%22/><circle cx=%22367%22 cy=%22861%22 r=%223.9%22/><circle cx=%22354%22 cy=%22143%22 r=%223.9%22/><circle cx=%22849%22 cy=%22664%22 r=%223.9%22/><circle cx=%22131%22 cy=%22615%22 r=%223.9%22/><circle cx=%22695%22 cy=%22166%22 r=%223.9%22/><circle cx=%22582%22 cy=%22879%22 r=%223.9%22/><circle cx=%22183%22 cy=%22276%22 r=%223.9%22/><circle cx=%22886%22 cy=%22451%22 r=%223.9%22/><circle cx=%22249%22 cy=%22797%22 r=%224.0%22/><circle cx=%22485%22 cy=%22111%22 r=%224.0%22/><circle cx=%22775%22 cy=%22777%22 r=%224.0%22/><circle cx=%22110%22 cy=%22481%22 r=%224.0%22/><circle cx=%22801%22 cy=%22250%22 r=%224.0%22/><circle cx=%22447%22 cy=%22888%22 r=%224.0%22/><circle cx=%22277%22 cy=%22177%22 r=%224.0%22/><circle cx=%22883%22 cy=%22587%22 r=%224.0%22/><circle cx=%22158%22 cy=%22695%22 r=%224.0%22/><circle cx=%22621%22 cy=%22125%22 r=%224.0%22/><circle cx=%22665%22 cy=%22859%22 r=%224.0%22/><circle cx=%22136%22 cy=%22347%22 r=%224.0%22/><circle cx=%22873%22 cy=%22367%22 r=%224.0%22/><circle cx=%22315%22 cy=%22850%22 r=%224.0%22/><circle cx=%22400%22 cy=%22116%22 r=%224.0%22/><circle cx=%22834%22 cy=%22716%22 r=%224.0%22/><circle cx=%22108%22 cy=%22567%22 r=%224.0%22/><circle cx=%22745%22 cy=%22186%22 r=%224.0%22/><circle cx=%22532%22 cy=%22898%22 r=%224.0%22/><circle cx=%22207%22 cy=%22228%22 r=%224.0%22/><circle cx=%22900%22 cy=%22503%22 r=%224.0%22/><circle cx=%22203%22 cy=%22768%22 r=%224.0%22/><circle cx=%22538%22 cy=%22101%22 r=%224.0%22/><circle cx=%22742%22 cy=%22820%22 r=%224.1%22/><circle cx=%22105%22 cy=%22427%22 r=%224.1%22/><circle cx=%22841%22 cy=%22286%22 r=%224.1%22/><circle cx=%22393%22 cy=%22889%22 r=%224.1%22/><circle cx=%22316%22 cy=%22140%22 r=%224.1%22/><circle cx=%22879%22 cy=%22641%22 r=%224.1%22/><circle cx=%22125%22 cy=%22652%22 r=%224.1%22/><circle cx=%22674%22 cy=%22134%22 r=%224.1%22/><circle cx=%22619%22 cy=%22888%22 r=%224.1%22/><circle cx=%22150%22 cy=%22294%22 r=%224.1%22/><circle cx=%22898%22 cy=%22415%22 r=%224.1%22/><circle cx=%22263%22 cy=%22832%22 r=%224.1%22/><circle cx=%22450%22 cy=%2295%22 r=%224.1%22/><circle cx=%22810%22 cy=%22765%22 r=%224.1%22/><circle cx=%2291%22 cy=%22514%22 r=%224.1%22/><circle cx=%22792%22 cy=%22213%22 r=%224.1%22/><circle cx=%22478%22 cy=%22909%22 r=%224.1%22/><circle cx=%22239%22 cy=%22183%22 r=%224.1%22/><circle cx=%22907%22 cy=%22558%22 r=%224.1%22/><circle cx=%22161%22 cy=%22733%22 r=%224.1%22/><circle cx=%22593%22 cy=%2299%22 r=%224.1%22/><circle cx=%22703%22 cy=%22859%22 r=%224.1%22/><circle cx=%22107%22 cy=%22372%22 r=%224.1%22/><circle cx=%22877%22 cy=%22329%22 r=%224.1%22/><circle cx=%22337%22 cy=%22881%22 r=%224.2%22/><circle cx=%22362%22 cy=%22109%22 r=%224.2%22/><circle cx=%22866%22 cy=%22696%22 r=%224.2%22/><circle cx=%2297%22 cy=%22603%22 r=%224.2%22/><circle cx=%22727%22 cy=%22152%22 r=%224.2%22/><circle cx=%22568%22 cy=%22911%22 r=%224.2%22/><circle cx=%22172%22 cy=%22242%22 r=%224.2%22/><circle cx=%22916%22 cy=%22468%22 r=%224.2%22/><circle cx=%22214%22 cy=%22805%22 r=%224.2%22/><circle cx=%22505%22 cy=%2281%22 r=%224.2%22/><circle cx=%22779%22 cy=%22812%22 r=%224.2%22/><circle cx=%2282%22 cy=%22458%22 r=%224.2%22/><circle cx=%22836%22 cy=%22248%22 r=%224.2%22/><circle cx=%22422%22 cy=%22913%22 r=%224.2%22/><circle cx=%22278%22 cy=%22142%22 r=%224.2%22/><circle cx=%22906%22 cy=%22614%22 r=%224.2%22/><circle cx=%22123%22 cy=%22690%22 r=%224.2%22/><circle cx=%22650%22 cy=%22105%22 r=%224.2%22/><circle cx=%22657%22 cy=%22893%22 r=%224.2%22/><circle cx=%22118%22 cy=%22316%22 r=%224.2%22/><circle cx=%22906%22 cy=%22378%22 r=%224.2%22/><circle cx=%22283%22 cy=%22865%22 r=%224.2%22/><circle cx=%22414%22 cy=%2284%22 r=%224.2%22/><circle cx=%22845%22 cy=%22749%22 r=%224.2%22/><circle cx=%2277%22 cy=%22550%22 r=%224.2%22/><circle cx=%22779%22 cy=%22177%22 r=%224.3%22/><circle cx=%22513%22 cy=%22927%22 r=%224.3%22/><circle cx=%22202%22 cy=%22193%22 r=%224.3%22/><circle cx=%22927%22 cy=%22525%22 r=%224.3%22/><circle cx=%22168%22 cy=%22771%22 r=%224.3%22/><circle cx=%22562%22 cy=%2275%22 r=%224.3%22/><circle cx=%22741%22 cy=%22856%22 r=%224.3%22/><circle cx=%2281%22 cy=%22401%22 r=%224.3%22/><circle cx=%22876%22 cy=%22290%22 r=%224.3%22/><circle cx=%22364%22 cy=%22909%22 r=%224.3%22/><circle cx=%22324%22 cy=%22106%22 r=%224.3%22/><circle cx=%22897%22 cy=%22672%22 r=%224.3%22/><circle cx=%2291%22 cy=%22642%22 r=%224.3%22/><circle cx=%22706%22 cy=%22119%22 r=%224.3%22/><circle cx=%22606%22 cy=%22921%22 r=%224.3%22/><circle cx=%22138%22 cy=%22261%22 r=%224.3%22/><circle cx=%22929%22 cy=%22431%22 r=%224.3%22/><circle cx=%22230%22 cy=%22841%22 r=%224.3%22/><circle cx=%22469%22 cy=%2266%22 r=%224.3%22/><circle cx=%22817%22 cy=%22800%22 r=%224.3%22/><circle cx=%2264%22 cy=%22493%22 r=%224.3%22/><circle cx=%22827%22 cy=%22210%22 r=%224.3%22/><circle cx=%22454%22 cy=%22935%22 r=%224.3%22/><circle cx=%22239%22 cy=%22148%22 r=%224.3%22/><circle cx=%22930%22 cy=%22584%22 r=%224.3%22/><circle cx=%22126%22 cy=%22729%22 r=%224.3%22/><circle cx=%22621%22 cy=%2278%22 r=%224.4%22/><circle cx=%22696%22 cy=%22894%22 r=%224.4%22/><circle cx=%2289%22 cy=%22342%22 r=%224.4%22/><circle cx=%22910%22 cy=%22339%22 r=%224.4%22/><circle cx=%22306%22 cy=%22897%22 r=%224.4%22/><circle cx=%22375%22 cy=%2276%22 r=%224.4%22/><circle cx=%22879%22 cy=%22728%22 r=%224.4%22/><circle cx=%2266%22 cy=%22588%22 r=%224.4%22/><circle cx=%22761%22 cy=%22142%22 r=%224.4%22/><circle cx=%22550%22 cy=%22941%22 r=%224.4%22/><circle cx=%22165%22 cy=%22208%22 r=%224.4%22/><circle cx=%22945%22 cy=%22489%22 r=%224.4%22/><circle cx=%22179%22 cy=%22809%22 r=%224.4%22/><circle cx=%22528%22 cy=%2255%22 r=%224.4%22/><circle cx=%22780%22 cy=%22847%22 r=%224.4%22/><circle cx=%2258%22 cy=%22433%22 r=%224.4%22/><circle cx=%22871%22 cy=%22251%22 r=%224.4%22/><circle cx=%22395%22 cy=%22935%22 r=%224.4%22/><circle cx=%22284%22 cy=%22108%22 r=%224.4%22/><circle cx=%22925%22 cy=%22643%22 r=%224.4%22/><circle cx=%2289%22 cy=%22681%22 r=%224.4%22/><circle cx=%22680%22 cy=%2288%22 r=%224.4%22/><circle cx=%22645%22 cy=%22926%22 r=%224.4%22/><circle cx=%22105%22 cy=%22284%22 r=%224.4%22/><circle cx=%22938%22 cy=%22392%22 r=%224.4%22/><circle cx=%22250%22 cy=%22875%22 r=%224.4%22/><circle cx=%22431%22 cy=%2254%22 r=%224.5%22/><circle cx=%22853%22 cy=%22783%22 r=%224.5%22/><circle cx=%2248%22 cy=%22530%22 r=%224.5%22/><circle cx=%22813%22 cy=%22172%22 r=%224.5%22/><circle cx=%22490%22 cy=%22954%22 r=%224.5%22/><circle cx=%22201%22 cy=%22159%22 r=%224.5%22/><circle cx=%22952%22 cy=%22549%22 r=%224.5%22/><circle cx=%22133%22 cy=%22769%22 r=%224.5%22/><circle cx=%22589%22 cy=%2253%22 r=%224.5%22/><circle cx=%22736%22 cy=%22890%22 r=%224.5%22/><circle cx=%2262%22 cy=%22372%22 r=%224.5%22/><circle cx=%22910%22 cy=%22298%22 r=%224.5%22/><circle cx=%22334%22 cy=%22926%22 r=%224.5%22/><circle cx=%22334%22 cy=%2273%22 r=%224.5%22/><circle cx=%22911%22 cy=%22703%22 r=%224.5%22/><circle cx=%2259%22 cy=%22628%22 r=%224.5%22/><circle cx=%22739%22 cy=%22108%22 r=%224.5%22/><circle cx=%22589%22 cy=%22951%22 r=%224.5%22/><circle cx=%22129%22 cy=%22227%22 r=%224.5%22/><circle cx=%22958%22 cy=%22451%22 r=%224.5%22/><circle cx=%22195%22 cy=%22846%22 r=%224.5%22/><circle cx=%22491%22 cy=%2239%22 r=%224.5%22/><circle cx=%22819%22 cy=%22834%22 r=%224.5%22/><circle cx=%2239%22 cy=%22469%22 r=%224.5%22/><circle cx=%22862%22 cy=%22211%22 r=%224.5%22/><circle cx=%22428%22 cy=%22958%22 r=%224.5%22/><circle cx=%22243%22 cy=%22114%22 r=%224.6%22/><circle cx=%22951%22 cy=%22612%22 r=%224.6%22/><circle cx=%2292%22 cy=%22722%22 r=%224.6%22/><circle cx=%22651%22 cy=%2260%22 r=%224.6%22/><circle cx=%22686%22 cy=%22927%22 r=%224.6%22/><circle cx=%2274%22 cy=%22311%22 r=%224.6%22/><circle cx=%22942%22 cy=%22352%22 r=%224.6%22/><circle cx=%22274%22 cy=%22909%22 r=%224.6%22/><circle cx=%22391%22 cy=%2245%22 r=%224.6%22/><circle cx=%22888%22 cy=%22761%22 r=%224.6%22/><circle cx=%2237%22 cy=%22569%22 r=%224.6%22/><circle cx=%22795%22 cy=%22136%22 r=%224.6%22/><circle cx=%22529%22 cy=%22968%22 r=%224.6%22/></g></svg>");
+          mask-image:url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 1000%22><g fill=%22%23000%22><circle cx=%22485%22 cy=%22514%22 r=%221.5%22/><circle cx=%22503%22 cy=%22471%22 r=%221.5%22/><circle cx=%22522%22 cy=%22528%22 r=%221.5%22/><circle cx=%22459%22 cy=%22493%22 r=%221.6%22/><circle cx=%22539%22 cy=%22475%22 r=%221.6%22/><circle cx=%22487%22 cy=%22549%22 r=%221.6%22/><circle cx=%22475%22 cy=%22452%22 r=%221.6%22/><circle cx=%22555%22 cy=%22520%22 r=%221.7%22/><circle cx=%22443%22 cy=%22524%22 r=%221.7%22/><circle cx=%22528%22 cy=%22441%22 r=%221.7%22/><circle cx=%22520%22 cy=%22565%22 r=%221.7%22/><circle cx=%22438%22 cy=%22464%22 r=%221.7%22/><circle cx=%22573%22 cy=%22484%22 r=%221.7%22/><circle cx=%22456%22 cy=%22563%22 r=%221.8%22/><circle cx=%22490%22 cy=%22421%22 r=%221.8%22/><circle cx=%22563%22 cy=%22553%22 r=%221.8%22/><circle cx=%22415%22 cy=%22504%22 r=%221.8%22/><circle cx=%22562%22 cy=%22438%22 r=%221.8%22/><circle cx=%22496%22 cy=%22590%22 r=%221.8%22/><circle cx=%22441%22 cy=%22429%22 r=%221.9%22/><circle cx=%22594%22 cy=%22513%22 r=%221.9%22/><circle cx=%22421%22 cy=%22555%22 r=%221.9%22/><circle cx=%22522%22 cy=%22404%22 r=%221.9%22/><circle cx=%22550%22 cy=%22588%22 r=%221.9%22/><circle cx=%22402%22 cy=%22469%22 r=%221.9%22/><circle cx=%22595%22 cy=%22456%22 r=%221.9%22/><circle cx=%22459%22 cy=%22599%22 r=%221.9%22/><circle cx=%22463%22 cy=%22397%22 r=%222.0%22/><circle cx=%22598%22 cy=%22552%22 r=%222.0%22/><circle cx=%22391%22 cy=%22529%22 r=%222.0%22/><circle cx=%22562%22 cy=%22404%22 r=%222.0%22/><circle cx=%22520%22 cy=%22615%22 r=%222.0%22/><circle cx=%22406%22 cy=%22428%22 r=%222.0%22/><circle cx=%22620%22 cy=%22490%22 r=%222.0%22/><circle cx=%22417%22 cy=%22589%22 r=%222.0%22/><circle cx=%22501%22 cy=%22376%22 r=%222.0%22/><circle cx=%22584%22 cy=%22593%22 r=%222.1%22/><circle cx=%22374%22 cy=%22488%22 r=%222.1%22/><circle cx=%22602%22 cy=%22422%22 r=%222.1%22/><circle cx=%22477%22 cy=%22628%22 r=%222.1%22/><circle cx=%22430%22 cy=%22388%22 r=%222.1%22/><circle cx=%22629%22 cy=%22535%22 r=%222.1%22/><circle cx=%22380%22 cy=%22562%22 r=%222.1%22/><circle cx=%22547%22 cy=%22372%22 r=%222.1%22/><circle cx=%22552%22 cy=%22628%22 r=%222.1%22/><circle cx=%22374%22 cy=%22440%22 r=%222.1%22/><circle cx=%22635%22 cy=%22458%22 r=%222.2%22/><circle cx=%22428%22 cy=%22623%22 r=%222.2%22/><circle cx=%22470%22 cy=%22359%22 r=%222.2%22/><circle cx=%22619%22 cy=%22584%22 r=%222.2%22/><circle cx=%22354%22 cy=%22518%22 r=%222.2%22/><circle cx=%22596%22 cy=%22387%22 r=%222.2%22/><circle cx=%22505%22 cy=%22650%22 r=%222.2%22/><circle cx=%22394%22 cy=%22392%22 r=%222.2%22/><circle cx=%22653%22 cy=%22508%22 r=%222.2%22/><circle cx=%22381%22 cy=%22598%22 r=%222.2%22/><circle cx=%22521%22 cy=%22346%22 r=%222.2%22/><circle cx=%22589%22 cy=%22629%22 r=%222.3%22/><circle cx=%22346%22 cy=%22465%22 r=%222.3%22/><circle cx=%22639%22 cy=%22421%22 r=%222.3%22/><circle cx=%22450%22 cy=%22653%22 r=%222.3%22/><circle cx=%22433%22 cy=%22352%22 r=%222.3%22/><circle cx=%22651%22 cy=%22564%22 r=%222.3%22/><circle cx=%22345%22 cy=%22555%22 r=%222.3%22/><circle cx=%22578%22 cy=%22353%22 r=%222.3%22/><circle cx=%22542%22 cy=%22662%22 r=%222.3%22/><circle cx=%22359%22 cy=%22408%22 r=%222.3%22/><circle cx=%22668%22 cy=%22472%22 r=%222.3%22/><circle cx=%22395%22 cy=%22635%22 r=%222.4%22/><circle cx=%22487%22 cy=%22328%22 r=%222.4%22/><circle cx=%22627%22 cy=%22618%22 r=%222.4%22/><circle cx=%22325%22 cy=%22498%22 r=%222.4%22/><circle cx=%22631%22 cy=%22382%22 r=%222.4%22/><circle cx=%22483%22 cy=%22676%22 r=%222.4%22/><circle cx=%22393%22 cy=%22357%22 r=%222.4%22/><circle cx=%22677%22 cy=%22533%22 r=%222.4%22/><circle cx=%22347%22 cy=%22596%22 r=%222.4%22/><circle cx=%22549%22 cy=%22325%22 r=%222.4%22/><circle cx=%22583%22 cy=%22663%22 r=%222.4%22/><circle cx=%22328%22 cy=%22435%22 r=%222.4%22/><circle cx=%22672%22 cy=%22431%22 r=%222.4%22/><circle cx=%22419%22 cy=%22668%22 r=%222.5%22/><circle cx=%22446%22 cy=%22320%22 r=%222.5%22/><circle cx=%22662%22 cy=%22596%22 r=%222.5%22/><circle cx=%22314%22 cy=%22539%22 r=%222.5%22/><circle cx=%22611%22 cy=%22345%22 r=%222.5%22/><circle cx=%22523%22 cy=%22691%22 r=%222.5%22/><circle cx=%22353%22 cy=%22374%22 r=%222.5%22/><circle cx=%22694%22 cy=%22494%22 r=%222.5%22/><circle cx=%22360%22 cy=%22637%22 r=%222.5%22/><circle cx=%22511%22 cy=%22304%22 r=%222.5%22/><circle cx=%22625%22 cy=%22653%22 r=%222.5%22/><circle cx=%22303%22 cy=%22472%22 r=%222.5%22/><circle cx=%22665%22 cy=%22388%22 r=%222.5%22/><circle cx=%22454%22 cy=%22695%22 r=%222.6%22/><circle cx=%22401%22 cy=%22324%22 r=%222.6%22/><circle cx=%22693%22 cy=%22564%22 r=%222.6%22/><circle cx=%22314%22 cy=%22584%22 r=%222.6%22/><circle cx=%22581%22 cy=%22312%22 r=%222.6%22/><circle cx=%22568%22 cy=%22695%22 r=%222.6%22/><circle cx=%22318%22 cy=%22402%22 r=%222.6%22/><circle cx=%22702%22 cy=%22449%22 r=%222.6%22/><circle cx=%22385%22 cy=%22675%22 r=%222.6%22/><circle cx=%22466%22 cy=%22293%22 r=%222.6%22/><circle cx=%22666%22 cy=%22631%22 r=%222.6%22/><circle cx=%22288%22 cy=%22515%22 r=%222.6%22/><circle cx=%22646%22 cy=%22345%22 r=%222.6%22/><circle cx=%22497%22 cy=%22714%22 r=%222.6%22/><circle cx=%22357%22 cy=%22339%22 r=%222.7%22/><circle cx=%22715%22 cy=%22522%22 r=%222.7%22/><circle cx=%22326%22 cy=%22630%22 r=%222.7%22/><circle cx=%22541%22 cy=%22286%22 r=%222.7%22/><circle cx=%22615%22 cy=%22686%22 r=%222.7%22/><circle cx=%22288%22 cy=%22440%22 r=%222.7%22/><circle cx=%22698%22 cy=%22401%22 r=%222.7%22/><circle cx=%22421%22 cy=%22707%22 r=%222.7%22/><circle cx=%22418%22 cy=%22293%22 r=%222.7%22/><circle cx=%22701%22 cy=%22598%22 r=%222.7%22/><circle cx=%22285%22 cy=%22564%22 r=%222.7%22/><circle cx=%22616%22 cy=%22306%22 r=%222.7%22/><circle cx=%22545%22 cy=%22722%22 r=%222.7%22/><circle cx=%22316%22 cy=%22366%22 r=%222.7%22/><circle cx=%22727%22 cy=%22474%22 r=%222.7%22/><circle cx=%22350%22 cy=%22673%22 r=%222.8%22/><circle cx=%22494%22 cy=%22270%22 r=%222.8%22/><circle cx=%22661%22 cy=%22666%22 r=%222.8%22/><circle cx=%22268%22 cy=%22486%22 r=%222.8%22/><circle cx=%22681%22 cy=%22353%22 r=%222.8%22/><circle cx=%22465%22 cy=%22731%22 r=%222.8%22/><circle cx=%22369%22 cy=%22305%22 r=%222.8%22/><circle cx=%22729%22 cy=%22555%22 r=%222.8%22/><circle cx=%22293%22 cy=%22615%22 r=%222.8%22/><circle cx=%22575%22 cy=%22275%22 r=%222.8%22/><circle cx=%22597%22 cy=%22718%22 r=%222.8%22/><circle cx=%22281%22 cy=%22404%22 r=%222.8%22/><circle cx=%22727%22 cy=%22422%22 r=%222.8%22/><circle cx=%22385%22 cy=%22712%22 r=%222.8%22/><circle cx=%22442%22 cy=%22265%22 r=%222.8%22/><circle cx=%22702%22 cy=%22634%22 r=%222.8%22/><circle cx=%22259%22 cy=%22538%22 r=%222.9%22/><circle cx=%22653%22 cy=%22309%22 r=%222.9%22/><circle cx=%22517%22 cy=%22745%22 r=%222.9%22/><circle cx=%22322%22 cy=%22330%22 r=%222.9%22/><circle cx=%22747%22 cy=%22505%22 r=%222.9%22/><circle cx=%22314%22 cy=%22664%22 r=%222.9%22/><circle cx=%22527%22 cy=%22253%22 r=%222.9%22/><circle cx=%22648%22 cy=%22701%22 r=%222.9%22/><circle cx=%22254%22 cy=%22452%22 r=%222.9%22/><circle cx=%22715%22 cy=%22369%22 r=%222.9%22/><circle cx=%22430%22 cy=%22742%22 r=%222.9%22/><circle cx=%22388%22 cy=%22273%22 r=%222.9%22/><circle cx=%22737%22 cy=%22592%22 r=%222.9%22/><circle cx=%22263%22 cy=%22593%22 r=%222.9%22/><circle cx=%22613%22 cy=%22271%22 r=%222.9%22/><circle cx=%22572%22 cy=%22746%22 r=%222.9%22/><circle cx=%22280%22 cy=%22367%22 r=%223.0%22/><circle cx=%22753%22 cy=%22449%22 r=%223.0%22/><circle cx=%22347%22 cy=%22709%22 r=%223.0%22/><circle cx=%22472%22 cy=%22242%22 r=%223.0%22/><circle cx=%22696%22 cy=%22672%22 r=%223.0%22/><circle cx=%22239%22 cy=%22506%22 r=%223.0%22/><circle cx=%22689%22 cy=%22319%22 r=%223.0%22/><circle cx=%22483%22 cy=%22762%22 r=%223.0%22/><circle cx=%22335%22 cy=%22294%22 r=%223.0%22/><circle cx=%22762%22 cy=%22540%22 r=%223.0%22/><circle cx=%22279%22 cy=%22647%22 r=%223.0%22/><circle cx=%22563%22 cy=%22241%22 r=%223.0%22/><circle cx=%22628%22 cy=%22734%22 r=%223.0%22/><circle cx=%22246%22 cy=%22414%22 r=%223.0%22/><circle cx=%22746%22 cy=%22392%22 r=%223.0%22/><circle cx=%22391%22 cy=%22746%22 r=%223.0%22/><circle cx=%22413%22 cy=%22244%22 r=%223.0%22/><circle cx=%22737%22 cy=%22631%22 r=%223.1%22/><circle cx=%22236%22 cy=%22564%22 r=%223.1%22/><circle cx=%22652%22 cy=%22274%22 r=%223.1%22/><circle cx=%22541%22 cy=%22770%22 r=%223.1%22/><circle cx=%22287%22 cy=%22328%22 r=%223.1%22/><circle cx=%22774%22 cy=%22483%22 r=%223.1%22/><circle cx=%22309%22 cy=%22699%22 r=%223.1%22/><circle cx=%22507%22 cy=%22224%22 r=%223.1%22/><circle cx=%22682%22 cy=%22709%22 r=%223.1%22/><circle cx=%22224%22 cy=%22469%22 r=%223.1%22/><circle cx=%22725%22 cy=%22336%22 r=%223.1%22/><circle cx=%22445%22 cy=%22774%22 r=%223.1%22/><circle cx=%22355%22 cy=%22260%22 r=%223.1%22/><circle cx=%22769%22 cy=%22579%22 r=%223.1%22/><circle cx=%22247%22 cy=%22624%22 r=%223.1%22/><circle cx=%22603%22 cy=%22237%22 r=%223.1%22/><circle cx=%22602%22 cy=%22764%22 r=%223.1%22/><circle cx=%22246%22 cy=%22373%22 r=%223.1%22/><circle cx=%22774%22 cy=%22421%22 r=%223.2%22/><circle cx=%22351%22 cy=%22743%22 r=%223.2%22/><circle cx=%22445%22 cy=%22219%22 r=%223.2%22/><circle cx=%22731%22 cy=%22671%22 r=%223.2%22/><circle cx=%22214%22 cy=%22530%22 r=%223.2%22/><circle cx=%22691%22 cy=%22284%22 r=%223.2%22/><circle cx=%22505%22 cy=%22789%22 r=%223.2%22/><circle cx=%22301%22 cy=%22290%22 r=%223.2%22/><circle cx=%22790%22 cy=%22520%22 r=%223.2%22/><circle cx=%22272%22 cy=%22681%22 r=%223.2%22/><circle cx=%22546%22 cy=%22212%22 r=%223.2%22/><circle cx=%22661%22 cy=%22744%22 r=%223.2%22/><circle cx=%22215%22 cy=%22429%22 r=%223.2%22/><circle cx=%22759%22 cy=%22360%22 r=%223.2%22/><circle cx=%22404%22 cy=%22779%22 r=%223.2%22/><circle cx=%22383%22 cy=%22229%22 r=%223.2%22/><circle cx=%22771%22 cy=%22621%22 r=%223.2%22/><circle cx=%22218%22 cy=%22594%22 r=%223.2%22/><circle cx=%22645%22 cy=%22240%22 r=%223.3%22/><circle cx=%22569%22 cy=%22790%22 r=%223.3%22/><circle cx=%22252%22 cy=%22332%22 r=%223.3%22/><circle cx=%22797%22 cy=%22456%22 r=%223.3%22/><circle cx=%22310%22 cy=%22733%22 r=%223.3%22/><circle cx=%22482%22 cy=%22199%22 r=%223.3%22/><circle cx=%22717%22 cy=%22710%22 r=%223.3%22/><circle cx=%22197%22 cy=%22491%22 r=%223.3%22/><circle cx=%22730%22 cy=%22302%22 r=%223.3%22/><circle cx=%22465%22 cy=%22802%22 r=%223.3%22/><circle cx=%22322%22 cy=%22253%22 r=%223.3%22/><circle cx=%22799%22 cy=%22562%22 r=%223.3%22/><circle cx=%22237%22 cy=%22657%22 r=%223.3%22/><circle cx=%22588%22 cy=%22206%22 r=%223.3%22/><circle cx=%22634%22 cy=%22777%22 r=%223.3%22/><circle cx=%22214%22 cy=%22386%22 r=%223.3%22/><circle cx=%22789%22 cy=%22390%22 r=%223.3%22/><circle cx=%22361%22 cy=%22777%22 r=%223.3%22/><circle cx=%22416%22 cy=%22201%22 r=%223.3%22/><circle cx=%22764%22 cy=%22664%22 r=%223.4%22/><circle cx=%22194%22 cy=%22558%22 r=%223.4%22/><circle cx=%22687%22 cy=%22250%22 r=%223.4%22/><circle cx=%22531%22 cy=%22812%22 r=%223.4%22/><circle cx=%22266%22 cy=%22291%22 r=%223.4%22/><circle cx=%22814%22 cy=%22496%22 r=%223.4%22/><circle cx=%22270%22 cy=%22716%22 r=%223.4%22/><circle cx=%22524%22 cy=%22185%22 r=%223.4%22/><circle cx=%22696%22 cy=%22749%22 r=%223.4%22/><circle cx=%22187%22 cy=%22449%22 r=%223.4%22/><circle cx=%22766%22 cy=%22326%22 r=%223.4%22/><circle cx=%22421%22 cy=%22809%22 r=%223.4%22/><circle cx=%22349%22 cy=%22219%22 r=%223.4%22/><circle cx=%22802%22 cy=%22606%22 r=%223.4%22/><circle cx=%22205%22 cy=%22626%22 r=%223.4%22/><circle cx=%22633%22 cy=%22207%22 r=%223.4%22/><circle cx=%22600%22 cy=%22806%22 r=%223.4%22/><circle cx=%22219%22 cy=%22342%22 r=%223.4%22/><circle cx=%22815%22 cy=%22427%22 r=%223.4%22/><circle cx=%22317%22 cy=%22767%22 r=%223.4%22/><circle cx=%22454%22 cy=%22179%22 r=%223.5%22/><circle cx=%22751%22 cy=%22706%22 r=%223.5%22/><circle cx=%22175%22 cy=%22517%22 r=%223.5%22/><circle cx=%22728%22 cy=%22267%22 r=%223.5%22/><circle cx=%22489%22 cy=%22827%22 r=%223.5%22/><circle cx=%22287%22 cy=%22251%22 r=%223.5%22/><circle cx=%22826%22 cy=%22540%22 r=%223.5%22/><circle cx=%22232%22 cy=%22691%22 r=%223.5%22/><circle cx=%22568%22 cy=%22178%22 r=%223.5%22/><circle cx=%22668%22 cy=%22784%22 r=%223.5%22/><circle cx=%22184%22 cy=%22403%22 r=%223.5%22/><circle cx=%22799%22 cy=%22357%22 r=%223.5%22/><circle cx=%22376%22 cy=%22808%22 r=%223.5%22/><circle cx=%22384%22 cy=%22188%22 r=%223.5%22/><circle cx=%22797%22 cy=%22651%22 r=%223.5%22/><circle cx=%22178%22 cy=%22589%22 r=%223.5%22/><circle cx=%22678%22 cy=%22216%22 r=%223.5%22/><circle cx=%22561%22 cy=%22830%22 r=%223.5%22/><circle cx=%22232%22 cy=%22298%22 r=%223.5%22/><circle cx=%22835%22 cy=%22468%22 r=%223.5%22/><circle cx=%22274%22 cy=%22750%22 r=%223.5%22/><circle cx=%22497%22 cy=%22162%22 r=%223.6%22/><circle cx=%22731%22 cy=%22748%22 r=%223.6%22/><circle cx=%22162%22 cy=%22473%22 r=%223.6%22/><circle cx=%22768%22 cy=%22291%22 r=%223.6%22/><circle cx=%22443%22 cy=%22836%22 r=%223.6%22/><circle cx=%22315%22 cy=%22214%22 r=%223.6%22/><circle cx=%22831%22 cy=%22586%22 r=%223.6%22/><circle cx=%22197%22 cy=%22660%22 r=%223.6%22/><circle cx=%22615%22 cy=%22177%22 r=%223.6%22/><circle cx=%22633%22 cy=%22816%22 r=%223.6%22/><circle cx=%22187%22 cy=%22356%22 r=%223.6%22/><circle cx=%22828%22 cy=%22394%22 r=%223.6%22/><circle cx=%22329%22 cy=%22800%22 r=%223.6%22/><circle cx=%22423%22 cy=%22163%22 r=%223.6%22/><circle cx=%22785%22 cy=%22697%22 r=%223.6%22/><circle cx=%22156%22 cy=%22547%22 r=%223.6%22/><circle cx=%22722%22 cy=%22232%22 r=%223.6%22/><circle cx=%22517%22 cy=%22848%22 r=%223.6%22/><circle cx=%22252%22 cy=%22254%22 r=%223.6%22/><circle cx=%22849%22 cy=%22514%22 r=%223.6%22/><circle cx=%22233%22 cy=%22726%22 r=%223.6%22/><circle cx=%22544%22 cy=%22152%22 r=%223.7%22/><circle cx=%22703%22 cy=%22787%22 r=%223.7%22/><circle cx=%22156%22 cy=%22425%22 r=%223.7%22/><circle cx=%22805%22 cy=%22322%22 r=%223.7%22/><circle cx=%22395%22 cy=%22837%22 r=%223.7%22/><circle cx=%22349%22 cy=%22180%22 r=%223.7%22/><circle cx=%22828%22 cy=%22634%22 r=%223.7%22/><circle cx=%22167%22 cy=%22623%22 r=%223.7%22/><circle cx=%22663%22 cy=%22184%22 r=%223.7%22/><circle cx=%22593%22 cy=%22844%22 r=%223.7%22/><circle cx=%22198%22 cy=%22309%22 r=%223.7%22/><circle cx=%22852%22 cy=%22437%22 r=%223.7%22/><circle cx=%22283%22 cy=%22785%22 r=%223.7%22/><circle cx=%22468%22 cy=%22143%22 r=%223.7%22/><circle cx=%22765%22 cy=%22742%22 r=%223.7%22/><circle cx=%22140%22 cy=%22501%22 r=%223.7%22/><circle cx=%22765%22 cy=%22256%22 r=%223.7%22/><circle cx=%22469%22 cy=%22860%22 r=%223.7%22/><circle cx=%22279%22 cy=%22214%22 r=%223.7%22/><circle cx=%22857%22 cy=%22562%22 r=%223.7%22/><circle cx=%22194%22 cy=%22695%22 r=%223.7%22/><circle cx=%22593%22 cy=%22149%22 r=%223.8%22/><circle cx=%22669%22 cy=%22822%22 r=%223.8%22/><circle cx=%22157%22 cy=%22376%22 r=%223.8%22/><circle cx=%22837%22 cy=%22360%22 r=%223.8%22/><circle cx=%22346%22 cy=%22832%22 r=%223.8%22/><circle cx=%22389%22 cy=%22151%22 r=%223.8%22/><circle cx=%22818%22 cy=%22683%22 r=%223.8%22/><circle cx=%22141%22 cy=%22580%22 r=%223.8%22/><circle cx=%22711%22 cy=%22198%22 r=%223.8%22/><circle cx=%22548%22 cy=%22865%22 r=%223.8%22/><circle cx=%22217%22 cy=%22263%22 r=%223.8%22/><circle cx=%22869%22 cy=%22484%22 r=%223.8%22/><circle cx=%22238%22 cy=%22762%22 r=%223.8%22/><circle cx=%22516%22 cy=%22130%22 r=%223.8%22/><circle cx=%22739%22 cy=%22784%22 r=%223.8%22/><circle cx=%22131%22 cy=%22451%22 r=%223.8%22/><circle cx=%22805%22 cy=%22286%22 r=%223.8%22/><circle cx=%22419%22 cy=%22864%22 r=%223.8%22/><circle cx=%22313%22 cy=%22176%22 r=%223.8%22/><circle cx=%22857%22 cy=%22613%22 r=%223.8%22/><circle cx=%22160%22 cy=%22658%22 r=%223.8%22/><circle cx=%22644%22 cy=%22153%22 r=%223.8%22/><circle cx=%22628%22 cy=%22853%22 r=%223.8%22/><circle cx=%22166%22 cy=%22326%22 r=%223.9%22/><circle cx=%22864%22 cy=%22403%22 r=%223.9%22/><circle cx=%22297%22 cy=%22818%22 r=%223.9%22/><circle cx=%22435%22 cy=%22127%22 r=%223.9%22/><circle cx=%22800%22 cy=%22731%22 r=%223.9%22/><circle cx=%22122%22 cy=%22532%22 r=%223.9%22/><circle cx=%22757%22 cy=%22220%22 r=%223.9%22/><circle cx=%22499%22 cy=%22880%22 r=%223.9%22/><circle cx=%22243%22 cy=%22219%22 r=%223.9%22/><circle cx=%22880%22 cy=%22534%22 r=%223.9%22/><circle cx=%22196%22 cy=%22732%22 r=%223.9%22/><circle cx=%22567%22 cy=%22123%22 r=%223.9%22/><circle cx=%22705%22 cy=%22824%22 r=%223.9%22/><circle cx=%22130%22 cy=%22400%22 r=%223.9%22/><circle cx=%22841%22 cy=%22324%22 r=%223.9%22/><circle cx=%22367%22 cy=%22861%22 r=%223.9%22/><circle cx=%22354%22 cy=%22143%22 r=%223.9%22/><circle cx=%22849%22 cy=%22664%22 r=%223.9%22/><circle cx=%22131%22 cy=%22615%22 r=%223.9%22/><circle cx=%22695%22 cy=%22166%22 r=%223.9%22/><circle cx=%22582%22 cy=%22879%22 r=%223.9%22/><circle cx=%22183%22 cy=%22276%22 r=%223.9%22/><circle cx=%22886%22 cy=%22451%22 r=%223.9%22/><circle cx=%22249%22 cy=%22797%22 r=%224.0%22/><circle cx=%22485%22 cy=%22111%22 r=%224.0%22/><circle cx=%22775%22 cy=%22777%22 r=%224.0%22/><circle cx=%22110%22 cy=%22481%22 r=%224.0%22/><circle cx=%22801%22 cy=%22250%22 r=%224.0%22/><circle cx=%22447%22 cy=%22888%22 r=%224.0%22/><circle cx=%22277%22 cy=%22177%22 r=%224.0%22/><circle cx=%22883%22 cy=%22587%22 r=%224.0%22/><circle cx=%22158%22 cy=%22695%22 r=%224.0%22/><circle cx=%22621%22 cy=%22125%22 r=%224.0%22/><circle cx=%22665%22 cy=%22859%22 r=%224.0%22/><circle cx=%22136%22 cy=%22347%22 r=%224.0%22/><circle cx=%22873%22 cy=%22367%22 r=%224.0%22/><circle cx=%22315%22 cy=%22850%22 r=%224.0%22/><circle cx=%22400%22 cy=%22116%22 r=%224.0%22/><circle cx=%22834%22 cy=%22716%22 r=%224.0%22/><circle cx=%22108%22 cy=%22567%22 r=%224.0%22/><circle cx=%22745%22 cy=%22186%22 r=%224.0%22/><circle cx=%22532%22 cy=%22898%22 r=%224.0%22/><circle cx=%22207%22 cy=%22228%22 r=%224.0%22/><circle cx=%22900%22 cy=%22503%22 r=%224.0%22/><circle cx=%22203%22 cy=%22768%22 r=%224.0%22/><circle cx=%22538%22 cy=%22101%22 r=%224.0%22/><circle cx=%22742%22 cy=%22820%22 r=%224.1%22/><circle cx=%22105%22 cy=%22427%22 r=%224.1%22/><circle cx=%22841%22 cy=%22286%22 r=%224.1%22/><circle cx=%22393%22 cy=%22889%22 r=%224.1%22/><circle cx=%22316%22 cy=%22140%22 r=%224.1%22/><circle cx=%22879%22 cy=%22641%22 r=%224.1%22/><circle cx=%22125%22 cy=%22652%22 r=%224.1%22/><circle cx=%22674%22 cy=%22134%22 r=%224.1%22/><circle cx=%22619%22 cy=%22888%22 r=%224.1%22/><circle cx=%22150%22 cy=%22294%22 r=%224.1%22/><circle cx=%22898%22 cy=%22415%22 r=%224.1%22/><circle cx=%22263%22 cy=%22832%22 r=%224.1%22/><circle cx=%22450%22 cy=%2295%22 r=%224.1%22/><circle cx=%22810%22 cy=%22765%22 r=%224.1%22/><circle cx=%2291%22 cy=%22514%22 r=%224.1%22/><circle cx=%22792%22 cy=%22213%22 r=%224.1%22/><circle cx=%22478%22 cy=%22909%22 r=%224.1%22/><circle cx=%22239%22 cy=%22183%22 r=%224.1%22/><circle cx=%22907%22 cy=%22558%22 r=%224.1%22/><circle cx=%22161%22 cy=%22733%22 r=%224.1%22/><circle cx=%22593%22 cy=%2299%22 r=%224.1%22/><circle cx=%22703%22 cy=%22859%22 r=%224.1%22/><circle cx=%22107%22 cy=%22372%22 r=%224.1%22/><circle cx=%22877%22 cy=%22329%22 r=%224.1%22/><circle cx=%22337%22 cy=%22881%22 r=%224.2%22/><circle cx=%22362%22 cy=%22109%22 r=%224.2%22/><circle cx=%22866%22 cy=%22696%22 r=%224.2%22/><circle cx=%2297%22 cy=%22603%22 r=%224.2%22/><circle cx=%22727%22 cy=%22152%22 r=%224.2%22/><circle cx=%22568%22 cy=%22911%22 r=%224.2%22/><circle cx=%22172%22 cy=%22242%22 r=%224.2%22/><circle cx=%22916%22 cy=%22468%22 r=%224.2%22/><circle cx=%22214%22 cy=%22805%22 r=%224.2%22/><circle cx=%22505%22 cy=%2281%22 r=%224.2%22/><circle cx=%22779%22 cy=%22812%22 r=%224.2%22/><circle cx=%2282%22 cy=%22458%22 r=%224.2%22/><circle cx=%22836%22 cy=%22248%22 r=%224.2%22/><circle cx=%22422%22 cy=%22913%22 r=%224.2%22/><circle cx=%22278%22 cy=%22142%22 r=%224.2%22/><circle cx=%22906%22 cy=%22614%22 r=%224.2%22/><circle cx=%22123%22 cy=%22690%22 r=%224.2%22/><circle cx=%22650%22 cy=%22105%22 r=%224.2%22/><circle cx=%22657%22 cy=%22893%22 r=%224.2%22/><circle cx=%22118%22 cy=%22316%22 r=%224.2%22/><circle cx=%22906%22 cy=%22378%22 r=%224.2%22/><circle cx=%22283%22 cy=%22865%22 r=%224.2%22/><circle cx=%22414%22 cy=%2284%22 r=%224.2%22/><circle cx=%22845%22 cy=%22749%22 r=%224.2%22/><circle cx=%2277%22 cy=%22550%22 r=%224.2%22/><circle cx=%22779%22 cy=%22177%22 r=%224.3%22/><circle cx=%22513%22 cy=%22927%22 r=%224.3%22/><circle cx=%22202%22 cy=%22193%22 r=%224.3%22/><circle cx=%22927%22 cy=%22525%22 r=%224.3%22/><circle cx=%22168%22 cy=%22771%22 r=%224.3%22/><circle cx=%22562%22 cy=%2275%22 r=%224.3%22/><circle cx=%22741%22 cy=%22856%22 r=%224.3%22/><circle cx=%2281%22 cy=%22401%22 r=%224.3%22/><circle cx=%22876%22 cy=%22290%22 r=%224.3%22/><circle cx=%22364%22 cy=%22909%22 r=%224.3%22/><circle cx=%22324%22 cy=%22106%22 r=%224.3%22/><circle cx=%22897%22 cy=%22672%22 r=%224.3%22/><circle cx=%2291%22 cy=%22642%22 r=%224.3%22/><circle cx=%22706%22 cy=%22119%22 r=%224.3%22/><circle cx=%22606%22 cy=%22921%22 r=%224.3%22/><circle cx=%22138%22 cy=%22261%22 r=%224.3%22/><circle cx=%22929%22 cy=%22431%22 r=%224.3%22/><circle cx=%22230%22 cy=%22841%22 r=%224.3%22/><circle cx=%22469%22 cy=%2266%22 r=%224.3%22/><circle cx=%22817%22 cy=%22800%22 r=%224.3%22/><circle cx=%2264%22 cy=%22493%22 r=%224.3%22/><circle cx=%22827%22 cy=%22210%22 r=%224.3%22/><circle cx=%22454%22 cy=%22935%22 r=%224.3%22/><circle cx=%22239%22 cy=%22148%22 r=%224.3%22/><circle cx=%22930%22 cy=%22584%22 r=%224.3%22/><circle cx=%22126%22 cy=%22729%22 r=%224.3%22/><circle cx=%22621%22 cy=%2278%22 r=%224.4%22/><circle cx=%22696%22 cy=%22894%22 r=%224.4%22/><circle cx=%2289%22 cy=%22342%22 r=%224.4%22/><circle cx=%22910%22 cy=%22339%22 r=%224.4%22/><circle cx=%22306%22 cy=%22897%22 r=%224.4%22/><circle cx=%22375%22 cy=%2276%22 r=%224.4%22/><circle cx=%22879%22 cy=%22728%22 r=%224.4%22/><circle cx=%2266%22 cy=%22588%22 r=%224.4%22/><circle cx=%22761%22 cy=%22142%22 r=%224.4%22/><circle cx=%22550%22 cy=%22941%22 r=%224.4%22/><circle cx=%22165%22 cy=%22208%22 r=%224.4%22/><circle cx=%22945%22 cy=%22489%22 r=%224.4%22/><circle cx=%22179%22 cy=%22809%22 r=%224.4%22/><circle cx=%22528%22 cy=%2255%22 r=%224.4%22/><circle cx=%22780%22 cy=%22847%22 r=%224.4%22/><circle cx=%2258%22 cy=%22433%22 r=%224.4%22/><circle cx=%22871%22 cy=%22251%22 r=%224.4%22/><circle cx=%22395%22 cy=%22935%22 r=%224.4%22/><circle cx=%22284%22 cy=%22108%22 r=%224.4%22/><circle cx=%22925%22 cy=%22643%22 r=%224.4%22/><circle cx=%2289%22 cy=%22681%22 r=%224.4%22/><circle cx=%22680%22 cy=%2288%22 r=%224.4%22/><circle cx=%22645%22 cy=%22926%22 r=%224.4%22/><circle cx=%22105%22 cy=%22284%22 r=%224.4%22/><circle cx=%22938%22 cy=%22392%22 r=%224.4%22/><circle cx=%22250%22 cy=%22875%22 r=%224.4%22/><circle cx=%22431%22 cy=%2254%22 r=%224.5%22/><circle cx=%22853%22 cy=%22783%22 r=%224.5%22/><circle cx=%2248%22 cy=%22530%22 r=%224.5%22/><circle cx=%22813%22 cy=%22172%22 r=%224.5%22/><circle cx=%22490%22 cy=%22954%22 r=%224.5%22/><circle cx=%22201%22 cy=%22159%22 r=%224.5%22/><circle cx=%22952%22 cy=%22549%22 r=%224.5%22/><circle cx=%22133%22 cy=%22769%22 r=%224.5%22/><circle cx=%22589%22 cy=%2253%22 r=%224.5%22/><circle cx=%22736%22 cy=%22890%22 r=%224.5%22/><circle cx=%2262%22 cy=%22372%22 r=%224.5%22/><circle cx=%22910%22 cy=%22298%22 r=%224.5%22/><circle cx=%22334%22 cy=%22926%22 r=%224.5%22/><circle cx=%22334%22 cy=%2273%22 r=%224.5%22/><circle cx=%22911%22 cy=%22703%22 r=%224.5%22/><circle cx=%2259%22 cy=%22628%22 r=%224.5%22/><circle cx=%22739%22 cy=%22108%22 r=%224.5%22/><circle cx=%22589%22 cy=%22951%22 r=%224.5%22/><circle cx=%22129%22 cy=%22227%22 r=%224.5%22/><circle cx=%22958%22 cy=%22451%22 r=%224.5%22/><circle cx=%22195%22 cy=%22846%22 r=%224.5%22/><circle cx=%22491%22 cy=%2239%22 r=%224.5%22/><circle cx=%22819%22 cy=%22834%22 r=%224.5%22/><circle cx=%2239%22 cy=%22469%22 r=%224.5%22/><circle cx=%22862%22 cy=%22211%22 r=%224.5%22/><circle cx=%22428%22 cy=%22958%22 r=%224.5%22/><circle cx=%22243%22 cy=%22114%22 r=%224.6%22/><circle cx=%22951%22 cy=%22612%22 r=%224.6%22/><circle cx=%2292%22 cy=%22722%22 r=%224.6%22/><circle cx=%22651%22 cy=%2260%22 r=%224.6%22/><circle cx=%22686%22 cy=%22927%22 r=%224.6%22/><circle cx=%2274%22 cy=%22311%22 r=%224.6%22/><circle cx=%22942%22 cy=%22352%22 r=%224.6%22/><circle cx=%22274%22 cy=%22909%22 r=%224.6%22/><circle cx=%22391%22 cy=%2245%22 r=%224.6%22/><circle cx=%22888%22 cy=%22761%22 r=%224.6%22/><circle cx=%2237%22 cy=%22569%22 r=%224.6%22/><circle cx=%22795%22 cy=%22136%22 r=%224.6%22/><circle cx=%22529%22 cy=%22968%22 r=%224.6%22/></g></svg>");
+}
+
+/* THE FIVE BUTTONS in the appearance menu. They are the typeface circles in
+   everything but their contents: same size, same ring, same filled state. */
+.bgs{ display:grid; grid-template-columns:repeat(5, 1fr); align-items:start; gap:.6rem; }
+.bg-swatch{
+  width:100%; aspect-ratio:1; border-radius:50%; padding:0; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--cream); color:var(--muted); border:1px solid var(--line);
+  transition:transform .12s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.bg-swatch svg{ width:68%; height:68%; display:block; }
+@media (hover: hover){ .bg-swatch:hover{ transform:scale(1.14); border-color:var(--accent); color:var(--accent); } }
+.bg-swatch.active{ background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
+.bg-swatch:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+
+/* Someone who has asked their computer for less movement and less clutter
+   gets the plain page, whatever is saved. */
+@media (prefers-reduced-transparency: reduce){
+  body.pg::before{ display:none; }
+}
+
+/* =========================================================================
+   9  RESPONSIVE — LAST IN THE FILE ON PURPOSE
    ========================================================================= */
 @media (max-width:860px){
   .tb-inner{ padding:.5rem 1rem; gap:.6rem; flex-wrap:wrap; }
   .tb-home span:not(.tb-home-ico){ display:none; }      /* the house alone */
   .tb-menu{ display:inline-flex; }
-  /* the five page links drop below the bar and open with the menu button */
+  /* the six page links drop below the bar and open with the menu button */
   .tb-nav{
     order:5; flex-basis:100%; display:none;
     flex-direction:column; align-items:stretch; gap:.1rem;
@@ -355,12 +576,14 @@ body.pg{
   .tb-nav.open{ display:flex; }
   .tb-nav a{ padding:.5rem .6rem; }
   .pg-main{ padding:2rem 1.1rem 0; }
-  .dash-grid{ grid-template-columns:minmax(0,1fr); }
   .bio-top{ flex-direction:column; gap:1.1rem; }
   .bio-photo{ width:8rem; }
 }
 
 @media (max-width:560px){
+  .quote-card{ padding:1.4rem 1.2rem 1.1rem 3.3rem; }
+  .quote-card blockquote{ font-size:1.08rem; }
+  .quote-mark{ font-size:3.4rem; top:.95rem; left:.9rem; }
   .tb-name{ font-size:.94rem; }
   .pg-head h1{ font-size:1.55rem; }
   .post-list li{ flex-direction:column; gap:.2rem; }

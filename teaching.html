@@ -257,14 +257,14 @@
       <!-- CURRENT SEMESTER — a one-line status; update it each semester.
            Once a semester you taught ends, move that course into the table
            below. -->
-      <section>
+      <section data-tags="course">
         <h2 id="current-semester" class="section-title">Current Semester</h2>
         <div class="item">
           <p>I am not teaching any course this semester.</p>
         </div>
       </section>
 
-      <section>
+      <section data-tags="course">
         <h2 id="past-courses" class="section-title">Courses Taught in the Past</h2>
         <div class="item">
           <p>Any course I teach will be added to this table once the semester is complete.</p>
@@ -282,7 +282,7 @@
            copy from a <p class="subhead"> line down to its closing </table>
            or </div> and edit the copy.
            =================================================================== -->
-      <section>
+      <section data-tags="teaching">
         <h2 id="other-experience" class="section-title">Other Teaching Experience</h2>
 
         <p class="subhead">Teaching Assistant &mdash; IIT Bombay</p>
@@ -312,6 +312,7 @@
          date lives in exactly one place for all 8 pages. With JavaScript off
          the line stays hidden rather than showing a stale date. -->
     <footer>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
@@ -326,7 +327,8 @@
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

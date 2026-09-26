@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
+<!-- Re-applies the visitor's saved colour, typeface, background and light/dark
+     choice before the page paints. These pages deliberately do NOT take the five
      styles: those belong to the pages with a sidebar. Nothing to edit. -->
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),b=localStorage.getItem("site-bg");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(b){d.setAttribute("data-bg",b);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Important Announcements — Deep H. Makadiya</title>
 
 <meta name="description" content="Announcements from Deep H. Makadiya — office hours, seminars, deadlines and course notices.">
@@ -43,52 +43,64 @@
      the whole line down into the folded list rather than deleting it. -->
 <main class="pg-main pg-plain" id="main" tabindex="-1">
   <div class="pg-wrap">
-      <p class="pg-back"><a href="noticeboard.html">&#8592; Back to the Noticeboard</a></p>
+      <p class="pg-back">&#8592; Back to the <a href="index.html">Home page</a> or the <a href="noticeboard.html">Noticeboard</a></p>
 
       <div class="pg-head">
-        <p class="pg-kicker">Announcements</p>
+        <p class="pg-kicker">Things to Note</p>
         <h1>Important Announcements</h1>
-        <p class="pg-lede">Office hours, seminars, deadlines and course notices &mdash; whatever is worth
-        flagging at the moment, newest first.</p>
+        <p class="pg-lede">A place to keep track of important dates, notices, and academic activities.</p>
       </div>
 
-      <section class="pg-section">
+      <section class="pg-section" data-tags="announcement">
+        <p class="pg-empty">There are no active announcements at this time.</p>
+        <!-- WHEN THERE IS SOMETHING TO ANNOUNCE: delete the line above and take
+             the list below out of this comment. The four entries in it are only
+             examples of the kinds of thing that belong here; keep the newest at
+             the top, and write the date as 25 Jul 2026.
         <ul class="pg-news">
-          <li><span class="pg-when">[Month Year]</span><span>[Office hours for the semester, or a change to them.]</span></li>
-          <li><span class="pg-when">[Month Year]</span><span>[A seminar you are organising, with date and venue.]</span></li>
-          <li><span class="pg-when">[Month Year]</span><span>[A deadline or call for participation worth flagging.]</span></li>
-          <li><span class="pg-when">[Month Year]</span><span>[A course announcement, once you are teaching one.]</span></li>
+          <li><span class="pg-when">[25 Jul 2026]</span><span>[Office hours for the semester, or a change to them.]</span></li>
+          <li><span class="pg-when">[25 Jul 2026]</span><span>[A seminar you are organising, with date and venue.]</span></li>
+          <li><span class="pg-when">[25 Jul 2026]</span><span>[A deadline or call for participation worth flagging.]</span></li>
+          <li><span class="pg-when">[25 Jul 2026]</span><span>[A course announcement, once you are teaching one.]</span></li>
         </ul>
-        <p class="pg-note">Only the announcements that still apply are listed above; the rest are kept, not deleted.</p>
-        <p><button type="button" class="pg-toggle" aria-expanded="false" aria-controls="past-announcements">Show past announcements</button></p>
+        -->
+        <p class="pg-rule" aria-hidden="true"></p>
+        <p class="pg-open"><button type="button" class="pg-toggle" aria-expanded="false" aria-controls="past-announcements">Show past announcements<span class="caret" aria-hidden="true">&rsaquo;</span></button></p>
         <div class="pg-fold" id="past-announcements" hidden>
+          <p class="pg-note">A record of past announcements, kept here for reference rather than deleted.</p>
+          <p class="pg-empty">Any past announcements will be displayed here.</p>
+          <!-- An announcement that has run its course moves down here rather
+               than being deleted. Delete the line above and take this list out
+               of the comment once there is one.
           <ul class="pg-news">
-            <li><span class="pg-when">[Month Year]</span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]</span></li>
-            <li><span class="pg-when">[Month Year]</span><span>[Another one. Keep them newest first, as in the list above.]</span></li>
+            <li><span class="pg-when">[25 Jul 2026]</span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]</span></li>
+            <li><span class="pg-when">[25 Jul 2026]</span><span>[Another one. Keep them newest first, as in the list above.]</span></li>
           </ul>
+          -->
         </div>
       </section>
   </div>
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-links">
-      <a href="index.html">Home</a>
-      <a href="academics.html">Academics</a>
-      <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
-      <a href="professional-activities.html">Professional Activities</a>
-      <span class="pg-foot-sep" aria-hidden="true">|</span>
-      <a href="noticeboard.html">Noticeboard</a>
-      <a href="bio.html">Bio</a>
-      <a href="gallery.html">Photos</a>
-      <a href="news.html">News</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="useful-links.html">Links</a>
-    </p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
+<!-- THE SEARCH SHEET. The same on every page; pages.js fills it. It opens
+     from a magnifier where there is one, and from the "/" key anywhere. -->
+<div class="pg-search" id="searchPanel" hidden>
+  <div class="pg-search-box">
+    <label class="pg-search-field">
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
+      <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
+    </label>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <ul class="pg-results" id="searchResults"></ul>
+  </div>
+</div>
 <script src="script.js"></script>
+<script src="pages.js"></script>
 </body>
 </html>

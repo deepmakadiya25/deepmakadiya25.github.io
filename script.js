@@ -13,17 +13,18 @@
      6  Typeface picker       sets data-font on <html>
      7  Style picker          sets data-style (and data-panel) on <html>
      8  Light / dark mode     Light, Dark or Auto; sets data-mode on <html>
-     9  "Last updated"        writes LAST_UPDATED into every footer
-    10  Gallery lightbox      gallery.html
-    11  More / Less blocks    Miscellaneous > Some Useful Links
-    12  Language bubbles      Miscellaneous, touch screens only
-    13  Rotating news cards   home page
-    14  Abstract toggles      Research
-    15  Scrollspy             marks the tab of the section you are reading
-    16  Page name in the bar  phones: the page's name appears beside yours
+     9  Background picker     sets data-bg on <html>; second set of pages only
+    10  "Last updated"        writes LAST_UPDATED into every footer
+    11  Gallery lightbox      gallery.html
+    12  More / Less blocks    Useful Links
+    13  Language bubbles      Biography, touch screens only
+    14  Rotating news cards   home page
+    15  Abstract toggles      Research
+    16  Scrollspy             marks the tab of the section you are reading
+    17  Page name in the bar  phones: the page's name appears beside yours
                               once the in-page tab bar reaches the top
 
-   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 8). Each picker writes one
+   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 9). Each picker writes one
    attribute on the <html> element and saves the choice in the visitor's
    browser (localStorage). styles.css does all the actual re-colouring and
    re-shaping from those attributes:
@@ -32,6 +33,7 @@
      data-font="bitter"     typeface pair          key "site-font"
      data-style="midnight"  layout style           key "site-style"
      data-mode="dark"       dark mode              key "site-mode"
+     data-bg="roots"        background drawing     key "site-bg"
      data-appearance="open" panel left open        key "site-appearance"
 
    The four axes are independent — any colour works with any typeface, any
@@ -47,7 +49,7 @@
 
 /* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
    Shown as "Last updated: ..." in the footer of every page. */
-var LAST_UPDATED = "25 September 2026";
+var LAST_UPDATED = "26 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");
@@ -207,6 +209,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   markFont();
+
+  // BACKGROUND PICKER (the five circles under "Background"). Clicking one
+  // sets data-bg="..." on <html>; section 8 of pages.css draws the chosen
+  // drawing on a single layer fixed behind the page. THE BUTTONS ONLY EXIST
+  // ON THE SECOND SET OF PAGES, and the stylesheet only draws anything on
+  // those pages, so the sidebar pages are unaffected either way — but the
+  // choice is stored for the whole site, so a reader who picks one keeps it
+  // as they move about. "none" is the plain page and is the default.
+  // Adding a sixth drawing is one button here-and-there plus one rule in
+  // pages.css; this block needs no change.
+  var BG_KEY = "site-bg";
+  var bgSwatches = document.querySelectorAll("[data-set-bg]");
+
+  function currentBg() {
+    return document.documentElement.getAttribute("data-bg") || "none";
+  }
+  function markBg() {
+    var now = currentBg();
+    for (var i = 0; i < bgSwatches.length; i++) {
+      var on = bgSwatches[i].getAttribute("data-set-bg") === now;
+      bgSwatches[i].classList.toggle("active", on);
+      bgSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+  for (var bz = 0; bz < bgSwatches.length; bz++) {
+    bgSwatches[bz].addEventListener("click", function () {
+      var picked = this.getAttribute("data-set-bg");
+      document.documentElement.setAttribute("data-bg", picked);
+      try { localStorage.setItem(BG_KEY, picked); } catch (e) {}
+      markBg();
+    });
+  }
+  markBg();
 
   // STYLE PICKER (the "1 2 3 4 5" circles). Clicking one sets data-style on
   // <html>; the STYLES section of styles.css re-shapes the site to match.
@@ -454,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // "MORE / LESS" LINK BLOCKS (Miscellaneous > Some Useful Links).
+  // "MORE / LESS" LINK BLOCKS (useful-links.html).
   // Each ".links-block" shows its first three ".item" links; anything beyond
   // that is hidden behind a "More" button added here, which turns into "Less"
   // once expanded. The arrow is the same glyph in both states, turned down or
@@ -500,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })(linkBlocks[b]);
   }
 
-  // SPOKEN LANGUAGE BUBBLES (Miscellaneous). With a mouse or a keyboard the
+  // SPOKEN LANGUAGE BUBBLES (bio.html). With a mouse or a keyboard the
   // bubble appears on its own, from CSS. This is only for touch screens,
   // where a tap has to open and close it. Tapping a second chip closes the
   // first, and a tap anywhere else, or Escape, closes whichever is open.
@@ -542,6 +577,9 @@ document.addEventListener("DOMContentLoaded", function () {
     (function (box) {
       var items = box.querySelectorAll(".carousel-item");
       if (items.length === 0) return;
+      // one item is not a carousel: show it and leave it there — no dots, and
+      // no rotating from an item to itself every five seconds.
+      if (items.length === 1) { items[0].classList.add("is-current"); return; }
 
       var dots = document.createElement("div");
       dots.className = "carousel-dots";
@@ -602,16 +640,21 @@ document.addEventListener("DOMContentLoaded", function () {
       var isOpen = this.getAttribute("aria-expanded") === "true";
       this.setAttribute("aria-expanded", isOpen ? "false" : "true");
       panel.hidden = isOpen;
-      this.textContent = this.textContent.replace(isOpen ? /^Hide/ : /^Show/,
-                                                  isOpen ? "Show" : "Hide");
+      // only the first text node: replacing textContent would take the
+      // caret <span> with it
+      var word = this.firstChild;
+      if (word && word.nodeType === 3) {
+        word.nodeValue = word.nodeValue.replace(isOpen ? /^Hide/ : /^Show/,
+                                                isOpen ? "Show" : "Hide");
+      }
     });
   }
 
   // ABSTRACTS — each "Abstract" button opens the panel whose id matches its
   // aria-controls. Works for any number of buttons; no edits when you add a
   // paper.
-  // ":not(.links-more)" keeps the Miscellaneous "More" button out of this —
-  // it shares the .pub-toggle look but has no abstract panel to open.
+  // ":not(.links-more)" keeps the "More" buttons on the Useful Links page out
+  // of this — they share the .pub-toggle look but open no abstract panel.
   var absButtons = document.querySelectorAll(".pub-toggle:not(.links-more)");
   for (var a = 0; a < absButtons.length; a++) {
     absButtons[a].addEventListener("click", function () {

@@ -260,7 +260,7 @@
       <!-- ACADEMIC POSITIONS — every post held, the current one first and the
            rest newest first under it. To add one, copy a whole
            <div class="item"> block and put it in its place by date. -->
-      <section>
+      <section data-tags="position">
         <h2 id="positions" class="section-title">Academic Positions</h2>
         <div class="item">
           <h3>Post-doctoral Fellow</h3>
@@ -279,7 +279,7 @@
         </div>
       </section>
 
-      <section>
+      <section data-tags="education">
         <h2 id="education" class="section-title">Education</h2>
         <div class="item">
           <h3>Ph.D. in Mathematics</h3>
@@ -298,7 +298,7 @@
 
       <!-- AWARDS, GRANTS AND OTHER ACADEMIC ACHIEVEMENTS — plain bullet lists
            with no numbering, so order is entirely up to you. -->
-      <section>
+      <section data-tags="award">
         <h2 id="achievements" class="section-title">Awards, Grants and Other Academic Achievements</h2>
 
         <p class="subhead">Honours, Awards and Grants</p>
@@ -324,6 +324,7 @@
          date lives in exactly one place for all 8 pages. With JavaScript off
          the line stays hidden rather than showing a stale date. -->
     <footer>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
@@ -338,7 +339,8 @@
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Every page of the site is searched.</p>
+    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
