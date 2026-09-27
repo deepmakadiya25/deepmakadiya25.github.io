@@ -1,398 +1,376 @@
-NOTE FOR ANYONE (OR ANY AI) EDITING THIS SITE
-Deep H. Makadiya - deepmakadiya25.github.io
-Last revised: 22 September 2026
+==============================================================================
+  NOTES ON THIS WEBSITE
+  Deep H. Makadiya  ·  https://deepmakadiya25.github.io
+  Rewritten 27 September 2026. Keep this file with the site.
+==============================================================================
 
-WHAT THIS SITE IS
-  Plain static HTML/CSS/JS served by GitHub Pages from the repository root.
-  No build step, no framework, no package manager. Edit a file, commit, done.
+  CONTENTS
+    1  The short version
+    2  The pages
+    3  The files
+    4  Every time you change anything
+    5  How to add the usual things
+    6  How the moving parts work
+    7  House rules: wording, dates, names
+    8  What is still a placeholder
+    9  Planned, not done yet
+   10  Decided and closed
+   11  Checks worth running
 
-TWO SETS OF PAGES
-  The site is in two halves, which look different on purpose.
 
-  SET A - the main pages, with the sidebar down the left:
-    index.html, academics.html, research.html, teaching.html,
-    professional-activities.html
-  They offer all four appearance controls: light/dark, colour, typeface,
-  style. The sidebar also carries a "More to Explore" button, which is
-  the way through to:
+==============================================================================
+  1  THE SHORT VERSION
+==============================================================================
 
-  SET B - the second set, with a bar across the top and no sidebar:
-    noticeboard.html (the Noticeboard), bio.html, gallery.html, news.html,
-    blogs.html, useful-links.html, and announcements.html.
-    The first six are the six links IN the bar. Announcements is built exactly
-    like them and carries the same bar, but is deliberately NOT one of its
-    links: it is reached from the Noticeboard, the home page and the Site Map.
-  Each opens with a small line above the title (the "kicker"), the title, and
-  then a hairline: the Set B pages carry NO tagline under the title, and the
-  line does the separating instead. The Set C pages still have their tagline
-  and no line.
-  ON A NARROW SCREEN (860px and below) those six pages move their title INTO
-  the top bar, in place of "Deep H. Makadiya", and take the kicker, the title
-  AND the hairline off the screen, so the page starts straight away. The title is only
-  hidden from sight, never removed: screen readers, search engines and the
-  site's own search still read it. Each page carries its own title in the bar
-  as <span class="tb-page-name">, just before the name; the switch itself is
-  in the RESPONSIVE section of pages.css. A new Set B page needs that span
-  too, or its bar will go on saying his name on a phone.
+  Plain HTML, CSS and JavaScript. No framework, no build step, nothing to
+  compile. Edit a file, put it in the repository, and it is live.
 
-  SET C - no bar at all: navigation.html (the Site Map) and 404.html. They
-  use the same design, only with a plain "back to the home page" link where
-  the bar would be, and they do not load pages.js.
-  They use the same colours, typefaces and dark mode, but NOT the five
-  styles: those are built around a sidebar these pages do not have. Their
-  layout lives in pages.css and their top bar in pages.js.
+  Everything a visitor reads lives in the .html files. The look lives in
+  styles.css and pages.css. The behaviour lives in script.js and pages.js.
 
-  THE @ MENU in the top bar holds eight links, in this order: Email, Google
-  Scholar, ORCID, GitHub, LinkedIn, X, Instagram, Facebook. Each carries that
-  service's own mark, drawn as a single filled path; the little arrow after
-  the name is the same on all of them. The block is IDENTICAL on all eleven
-  pages that have the bar, so a change to one has to be copied to the rest.
+  Opened straight from a folder the site works, except the search: a browser
+  will not let one local file read another, and the search says so plainly.
+  Everything else can be checked by double-clicking a file.
 
-WHAT WE CALL THE PAGES
-  Set A   the main pages, with the sidebar:
-          Home, Academics, Research, Teaching, Professional Activities.
-  Set B   the second set, with the bar across the top:
-          Noticeboard, Bio, Photos, News, Blogs, Links - and Announcements,
-          which has the bar but no link in it.
-          (The Noticeboard's file is still called noticeboard.html, so that no
-          link to it ever breaks. Everywhere a visitor reads it, it says
-          Noticeboard.)
-  Set C   the pages with no bar at all:
-          Site Map (navigation.html) and Error 404.
-  Set D   the file Google asked for - google6f4968af0aa3ceef.html. Never edit
-          it, never link to it; it only proves the site is yours.
-  Blog pages    one per post, in blogs/. Built like Set B.
-  Course pages  one per course, for later. Not written yet.
 
-FILES
-  *.html              one file per page. All the text lives here.
-  blogs/*.html        one file per blog post (Set B design).
-  styles.css          ALL styling of Set A, plus the ten colour schemes,
-                      five typeface pairs, five styles and dark mode that
-                      BOTH sets draw from.
-  pages.css           the layout of Set B only (every class starts "pg-"
-                      or "tb-", so the two can never collide).
-  script.js           behaviour shared by both sets: the appearance
-                      controls, the gallery lightbox, the "last updated"
-                      line. Numbered map of its blocks at the top.
-  quotes.js           366 quotes, one per day, read by the Noticeboard only
-  pages.js            the top bar of Set B: its menus, the search, and the
-                      category buttons on the Blogs page.
-  note.txt            this file.
-  robots.txt, sitemap.xml, 404.html, icon.svg, favicon.ico,
-  apple-touch-icon.png, Deep_CV.pdf, photo.jpg, gallery/, slides/
-  google6f4968af0aa3ceef.html   <- Google Search Console. NEVER DELETE.
+==============================================================================
+  2  THE PAGES
+==============================================================================
 
-  Every file already carries comments saying what to edit and how. Read the
-  comment above a block before changing it.
+  The site has two halves, and both share the same colours and typefaces.
 
-HOW THE CUSTOMISATION WORKS  (read this before touching CSS or JS)
-  The sidebar "Appearance" panel offers four INDEPENDENT axes. Each one is a
-  single attribute written on the <html> element and remembered in the
-  visitor's browser (localStorage):
+  THE FIRST HALF is the curriculum vitae, with a sidebar down the left:
 
-    attribute              values                                    storage key
-    data-theme    cream gold mocha graphite teal emerald sage
-                  dusk indigo plum                                   site-theme
-    data-font     classic clean readable bold fancy                 site-font
-    data-style    card classic midnight grove contrast               site-style
-    data-mode     light | dark | auto  (auto = follow the device)      site-mode
-    data-appearance  open  (absent = closed)                  site-appearance
+    index.html                    Home
+    academics.html                Academics
+    research.html                 Research
+    teaching.html                 Teaching
+    professional-activities.html  Professional Activities
 
-  The five typeface pairs, in picker order, are named for how they read
-  rather than for their fonts. Each sets a face for headings and one for
-  everything else:
-    1 Classic  - Playfair Display over Lora (the pair the site opens with)
-    2 Readable - Source Serif over Nunito Sans
-    3 Sturdy   - Bitter, one slab serif for everything
-    4 Bold     - Archivo over Atkinson Hyperlegible, for visibility
-    5 Fancy    - three faces, not two: Rouge Script for your name and the
-                 title at the top of a page, Englebert for every other
-                 heading, and IBM Plex Sans KR for the text. Both scripts
-                 come in one weight, so this pair sets
-                 font-synthesis-weight:none (which stops the browser faking a
-                 bold script) and its own heading sizes
-  The name is what the circle shows on hover. Change a pair in the TYPEFACES
-  section of styles.css, and add its families to the <link> in EVERY page's
-  <head> or it will quietly fall back to Georgia.
+  These five offer all four appearance controls, including Layout, and the
+  sidebar carries a "More to Explore" button that leads to the other half.
 
-  The five styles, in picker order: 1 Classic, 2 Midnight, 3 Parchment,
-  4 Sticker, 5 Cards. Those are the names and the order a visitor sees; the
-  values stored in data-style never changed, so "grove" is still Parchment,
-  "contrast" is still Sticker and "card" is still Cards in the CSS. The
-  order lives in the HTML of every page with a sidebar - the CSS blocks stay
-  in the order they were written, because the cascade depends on it. Sticker is the bold one - thick
-  outlines and a hard accent shadow under anything you can click; its whole
-  look is tuned by two variables, --sticker-drop and --sticker-shadow.
+  THE SECOND HALF is everything around the CV, with a top bar and no sidebar:
 
-  The ten colours are named after their accent alone (Terracotta, Mocha,
-  Gold, Sage, Emerald, Teal, Blue, Indigo, Plum, Graphite) and sit in the
-  sidebar in palette order: warm, green, blue, plum, then the neutral grey.
-  Their data-theme values are unchanged too - Terracotta is still "cream"
-  and Blue is still "dusk".
+    noticeboard.html              Noticeboard (what has changed lately)
+    bio.html                      Biography
+    gallery.html                  Photos
+    news.html                     News & Updates
+    blogs.html                    Blogs (the list)
+    useful-links.html             Useful Links
+    announcements.html            Important Announcements
 
-  Plus one attribute the site sets for itself, never the visitor:
-    data-panel="dark"  goes on automatically alongside data-style when the
-                       style is midnight, grove or contrast. It is what gives
-                       those three a dark navigation panel. The list lives in
-                       DARK_PANEL_STYLES in script.js and must match the
-                       [data-panel="dark"] rules in styles.css.
+  The first six are the six links in the bar. Announcements is built exactly
+  like them and carries the same bar, but is deliberately not one of its
+  links: it is reached from the Noticeboard, the home page and the Site Guide.
 
-  How a change actually happens:
-    1. A button in the sidebar carries data-set-theme / data-set-font /
-       data-set-style. script.js writes the matching attribute on <html> and
-       saves the value.
-    2. styles.css re-states its CSS custom properties under that attribute,
-       e.g. [data-theme="teal"]{ --accent: ...; }. Nothing is hard-coded to a
-       colour anywhere else, so one attribute recolours the whole site.
-    3. A tiny inline <script> in EVERY page's <head> re-reads localStorage and
-       re-applies the attributes BEFORE the page paints, so there is no flash
-       of the wrong theme.
+  These pages carry NO tagline under the title. A hairline separates the head
+  of the page from the first section instead.
 
-  All 4 axes combine freely: any colour x any typeface x any style x light or
-  dark must look right. If you add or change one, check the others still work.
+  TWO PAGES CARRY NO BAR AT ALL:
 
-THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
-  * 404.html is the ONE page written with plain relative links, so it still
-    works when you open it straight from the folder. A one-line script in its
-    head adds <base href="/"> only when the browser is on the live site and
-    the address sits below the root, which is the only case a plain link would
-    resolve wrongly. Do not "tidy" either of those away.
-  * Adding a new page: copy an existing page as the starting point. It must
-    keep (a) the inline <head> script, (b) the Google Fonts <link>s, (c) the
-    whole sidebar block including the Appearance panel, (d) styles.css and
-    script.js. Miss the <head> script and the visitor's saved choices are
-    ignored on that page only - a confusing bug to chase. Add the new page to
-    sitemap.xml too.
-  * WHENEVER A PAGE CHANGES, move its <lastmod> in sitemap.xml to that day.
-    That file tells search engines which pages are worth re-reading, and a
-    date left behind makes it say the opposite of the truth. The four blog
-    posts are deliberately absent from it until they are written.
-  * THE TWO ACCENTS WERE DARKENED on 27 Sep 2026 - Terracotta from #a5501f to
-    #9e4c1d and Sage from #5c7a52 to #59754f - so that links inside the tinted
-    boxes clear 4.5:1, the contrast a reader with weak sight needs. Each accent
-    is written in TWO places: the [data-theme] block in styles.css and the
-    little swatch button in the Appearance panel of every page. Change one and
-    change the other, and check the new colour against both the page and the
-    boxes before settling on it.
-  * THE PHONE TOP BAR, when a style paints it dark. Midnight, Grove and
-    Contrast set data-panel="dark", and everything on that bar must then take
-    its colours from the --side-* variables, not the ordinary ones. The
-    magnifier was missed when those rules were written and stayed the dark
-    writing colour on a dark bar, all but invisible; it now uses --side-ink,
-    with --side-accent for hover and focus. Anything else added to that bar
-    needs the same pair of rules.
-  * THE PAGE'S NAME IN THE PHONE TOP BAR appears once the in-page tab bar has
-    risen to its resting place. script.js asks the tab bar itself where that is
-    (its computed "top"), because the Card style parks it lower than the others
-    to let the rounded bar float clear. Do not go back to assuming the height
-    of the top bar: under Card the test could then never come true, and the
-    name never appeared.
-  * Adding a colour scheme: add the [data-theme="..."] block in styles.css
-    (light) AND its twin under the dark-mode section, then one more button in
-    the sidebar of EVERY page. script.js needs no change.
-  * Adding a typeface pair: add the font to the Google Fonts <link> on every
-    page, add [data-font="..."] in styles.css, add one button per page.
-  * Adding a style: add [data-style="..."] rules, one button per page, and if
-    it wants a dark panel add its name to DARK_PANEL_STYLES in script.js.
-  * Contrast: keep normal text at 4.5:1 or better against its background, in
-    BOTH light and dark, for every scheme. The muted grey (--muted) is the one
-    that usually fails - check it if you change it.
-  * The RESPONSIVE section is the LAST thing in styles.css on purpose. Do not
-    add rules after it; a later rule of equal weight would beat the media
-    queries and break the phone layout.
-  * script.js finds its elements with querySelectorAll, so adding one more
-    publication, photo, link, news card or tab is an HTML edit ONLY. If an AI
-    proposes editing script.js to add a list item, it has misread the code.
-  * Do not introduce a build step, a framework, or npm. The site must stay
-    openable by double-clicking an .html file.
+    navigation.html               The Site Guide
+    404.html                      Error 404
 
-HOW THE TWO SETS ARE REACHED FROM EACH OTHER
-  * From Set A: the "More to Explore" button under the five menu links goes
-    to noticeboard.html, which links on to the rest. The home page also links
-    straight to blogs.html, gallery.html and news.html from the "Jump to"
-    bar, the photo, and the two "See all ..." links.
-  * From Set B: the house at the top left of every page goes back to
-    index.html, and the footer repeats the links.
-  * Your name is a link home in both halves: in the sidebar, and in the phone
-    top bar of the main pages. On a phone that bar also picks up the name of
-    the page you are on, in smaller letters after a divider, as soon as the
-    in-page tab bar reaches the top of the screen (block 16 of script.js).
-    The home page has no tab bar, so it never shows one.
-  * THE NOTICEBOARD (noticeboard.html) opens the second set. It says why these
-    pages exist, then the announcements that still apply, the newest news and
-    the newest posts - each a short list with a link to the full page. The
-    announcements live in full on announcements.html; the News page carries
-    only news now, and starts straight into its list without a heading of its
-    own, since the page is already called News & Updates.
-  * ONLY SET C AND THE BLOG POSTS carry a small line above the title. Set B
-    pages start with the title itself.
-  * THE TWO SET C PAGES are deliberately plain.
-      - navigation.html holds five things and nothing else: a panel saying
-        what the site is, one section called Site Map (three lists), and the
-        "Did you know?", "Like the design?" and "Found a bug?" panels. Each fact there is its own
-        paragraph inside the panel; add or drop one and the box re-arranges itself.
-        The "Found a bug?" panel carries the same email address as the home
-        page; change one and change the other.
-      - 404.html holds one section with three buttons - Home, Noticeboard,
-        Site Map - and no lists.
-  * ANNOUNCEMENTS has two sections of its own: Current Announcements and Past
-    Announcements. An announcement that has run its course moves from the
-    first into the second rather than being deleted - that is what happened to
-    the "welcome, it may still have a few bugs" notice, which ran from 6 Sep
-    2026 to 27 Sep 2026.
-    A PAST ANNOUNCEMENT CARRIES TWO DATES: the day it went up and, under it in
-    a quieter tone, the day it came down. Both sit in the date column, the
-    second inside <span class="pg-until"> - see section 7 of pages.css. On a
-    phone the two run side by side instead of stacking. THE CURRENT ONES ARE ALSO WRITTEN on the Noticeboard and in
-    the home page's announcements card, so a new announcement wants adding in
-    all three. If both sections ever empty out, the stand-in lines to put back
-    are "There are no current announcements at this time." and "Any past
-    announcements will be displayed here." 
-    The past list carries class "fold-list": script.js then shows its first
-    three entries and hides the rest behind a More / Less button, the same one
-    the Useful Links page uses. Three entries or fewer and there is no button
-    at all, so the list needs no attention as it grows.
-  * navigation.html is the SITE MAP - the file keeps its old name so no link
-    to it ever breaks, but everywhere a visitor can read it, it is called
-    "Site Map". It lists every page of both sets and carries the "Did you
-    know?" note that used to sit on the home page. The home page's "Jump to"
-    bar links to it, along with five other places.
-  * QUOTE OF THE DAY opens the Noticeboard. The words live in quotes.js - one
-    line for every day of the year, keyed "MM-DD", 29 February included - and
-    that file is loaded by the Noticeboard alone. To change a day, edit its one
-    line there; the page itself only holds the frame. Block 6 of pages.js picks
-    today's line out. If the date has no line the panel simply does not appear.
-  * THE @ BUTTON in the second set's top bar holds "Find me online": LinkedIn,
-    GitHub, Google Scholar and ORCID, each with a small mark on the left and
-    an arrow on the right to say the link leaves the site. X and Facebook are
-    written out directly below them but commented out, waiting for their
-    addresses; the comment above them says what to do. The same list is
-    repeated in every page of the second set, so a change there is a change in
-    ten files.
-  * THE FOOT of every page carries one line - "Can't find what you're looking
-    for? Try the Site Map." - in place of the row of links it used to hold. The
-    Site Map itself is the one page without it.
-  * THE SEARCH keeps only the innermost block of text: a list item that holds
-    paragraphs is their container, not a line of its own, so a passage is never
-    listed twice. A line break counts as a space, or the words on either side
-    of it run together in the result.
-  * TAGS. Every section of every page may carry data-tags="..." in its opening
-    <section> tag - publication, talk, news, photo, award and so on, comma
-    separated for more than one. The search reads them, offers them as the row
-    of small ovals under the box, and filters by them. Tagging a NEW section is
-    one attribute in the HTML and nothing else; the page's own tag (research,
-    biography, blog...) comes from the PAGES list in pages.js.
-  * DATES are written the same way everywhere they appear: 25 Jul 2026 - day,
-    short month, year. A date not yet known is written [dd Mmm yyyy], which
-    cannot be mistaken for a real one - that is what the four blog posts and
-    the Blogs list carry at the moment. Where a day is not known yet an entry carries the month
-    and the year alone. The places that hold one are the News page, the
-    Announcements page (and its commented-out examples), the two cards on the
-    home page, the Latest news and Latest posts lists on the Noticeboard, and
-    the Blogs list. A blog post itself carries two: "Posted on" and "Last
-    updated on", under its title. The date column is set in small capitals by
-    styles.css; that is styling, not the date itself.
-  * THE NEWS PAGE, like the Blogs page, has a row of tag buttons above its
-    list. Each item carries data-cats with its own tags, space separated - an
-    item may hold several (a pre-synopsis seminar is both a milestone and a
-    talk) - and each button carries data-filter with one tag, or "all". The
-    tags in use are preprint, publication, talk, conference, position and
-    milestone. Each item also SHOWS its tags, as small chips at the end of the
-    line, drawn by the same rules as the tags on the Blogs page - so a tag must
-    be written twice for a new item: once in data-cats, and once as a chip.
-    The counts in brackets are typed into the buttons, so update them when the
-    list grows. Block 7 of pages.js does the filtering for both pages.
-  * SEARCH is on every page now: the button under "More to Explore" in the
-    sidebar (a magnifier in the top bar on a phone), and the magnifier in the
-    second set's top bar. All of them open the same panel, drawn by
-    styles.css and filled by pages.js, which EVERY page now loads - the three
-    plain pages included, so that the / key works there too. It reads the pages
-    listed in PAGES near the top of the search block in pages.js.
-    A result shows the trail it came from (page, then section, then
-    sub-section) and carries ?at= and ?find= in its link: the last block of
-    pages.js reads those when the page opens, scrolls to that exact line and
-    lights up the word, then tidies the address bar. The two places that count
-    blocks - the search and the finder - share the BLOCKS selector at the top
-    of the search block; if you ever change it, change it once.
-    Pressing / opens the search anywhere; typing # in it lists the tags.
-    IT ONLY WORKS ON THE LIVE SITE (or any real server): a browser will not
-    let one local file read another, so a page opened straight from a folder
-    finds nothing and says so in the box. Nothing is broken when that
-    happens. THERE IS NO INDEX FILE TO REBUILD -
-    it fetches the pages themselves the first time it is used - but a NEW
-    page has to be added to that list by hand, or it will not be searched.
-  * Blog posts sit one folder down, so their links begin "../". Everything
-    else on them is the same as the other Set B pages.
+  They still load pages.js, which is what lets the / key open the search.
 
-  404.html is built from the Set B design too, and lists every page of both
-  sets. It is written differently from every other page on purpose: plain
-  relative links, a one-line script that sets <base href="/"> only on the
-  live site, and a fallback on each stylesheet and script, so the file also
-  works when it is opened straight from a folder. Do not "tidy" that away.
+  BLOG POSTS live one folder down, in blogs/. They carry no bar either, on
+  purpose: a piece should be read without anything else asking for attention.
 
-ROUTINE EDITS
-  Intro / About Me        index.html, the "About Me" section
-  A publication           research.html, "LIST OF PUBLICATIONS" comment.
-                          Every numbered list on the site runs NEWEST first,
-                          with the highest number at the top: publications,
-                          the research overview, talks, seminars and the
-                          conference list
-  News                    index.html (the two cards) AND news.html - keep
-                          the two in step
-  A blog post             copy a file in blogs/, then copy one <li> in
-                          blogs.html and point it at the new file
-  Photos                  gallery.html, plus the image files in gallery/.
-                          Six sections, in this order: Profile Pictures,
-                          General Photos, Evolution, B.Sc., M.Sc., Ph.D.
-                          Journey - 56 photographs in all. A section with
-                          fewer than three photos is padded out with dashed
-                          [Add a photo here] tiles, so no section ever looks
-                          half-built. Each section has its own prefix and the
-                          numbers count up in TENS (profile-010, profile-020,
-                          bsc-010, ...) so that a photo can be slipped in
-                          between two existing ones later as, say, bsc-015,
-                          without renaming anything else.
-                          FILE EXTENSIONS ARE PART OF THE NAME: some are .jpg,
-                          some .JPG, some .jpeg. The live site
-                          is case-sensitive, so "gallery/msc-010.JPG" has to
-                          be written exactly that way.
-                          Every photograph is at most 1400 pixels on its long
-                          side, and every tile loads only when it is scrolled
-                          to (loading="lazy"), so a page of 56 photographs
-                          opens as quickly as a page of six.
-                          THE CAPTIONS ARE ALL PLACEHOLDERS for now -
-                          "[Caption will be added soon]". The "alt" text wants
-                          writing at the same time as the caption.
-  The biography           bio.html - now written, in four sections: In brief,
-                          Early years, A Road from "Mr." to "Dr.", and Life
-                          after Ph.D. It opens with the photo
-                          and the name, drawn like the home page's but in a
-                          DOTTED frame and with the home page's own line under
-                          the name; then a box of facts - official name (which
-                          links to the blog post "About My Name"), hometown,
-                          where he lives, languages, programming, hobbies -
-                          built from the SAME three classes as "Get in Touch"
-                          on the home page (.card-panel, .contact-line,
-                          .contact-icon in styles.css), so the two boxes
-                          cannot drift apart, but filled with the Noticeboard
-                          quote card's paper colour. Add a fact by copying a
-                          whole line. The Miscellaneous page is gone, and the
-                          Spoken Languages, Hobbies & Interests and Technical
-                          Skills sections have all been folded into the box of
-                          facts - the last of them as the "Programming skills"
-                          line. The step-by-step chain in "A Road from Mr. to
-                          Dr." is a <blockquote>; section 2 of pages.css
-                          styles it.
-  A useful link           useful-links.html - paste another <div class="item">
-                          into the right group
-  The Noticeboard         noticeboard.html repeats the announcements, the
-                          newest few news items and the newest posts; refresh
-                          it when they change
-  The "Last updated" date LAST_UPDATED at the top of script.js
+  AND ONE FILE THAT IS NOT A PAGE:
 
-  LIGHT / DARK is now three choices, not a switch: Light, Dark and Auto,
-  where Auto follows the reader's own device. It is stored as "light",
-  "dark" or "auto" under site-mode, and the small script in every page's
-  <head> reads it before the page paints. Change that script on one page and
-  you must change it on all of them.
+    google6f4968af0aa3ceef.html   proves the site is yours to Google.
+                                  Never edit it, never link to it, never
+                                  delete it.
+
+
+==============================================================================
+  3  THE FILES
+==============================================================================
+
+  *.html            one file per page. All the text lives here.
+  blogs/*.html      one file per blog post.
+
+  styles.css        the whole look of the first half, plus the ten colour
+                    schemes, five typefaces, five layouts and dark mode,
+                    which the second half uses too.
+  pages.css         what the second half does differently: its top bar, its
+                    page heads, the blog pages and the two round buttons on
+                    a post.
+
+  script.js         shared by every page: the appearance controls, the photo
+                    lightbox, the tabs, the "More" blocks, the rotating news
+                    cards and the "Last updated" line. LAST_UPDATED is the
+                    one line you normally change, at the top.
+  pages.js          the top bar, the search, the filter buttons on the Blogs
+                    and News pages, and the two buttons on a blog post.
+  quotes.js         one quotation for every day of the year, keyed "MM-DD",
+                    29 February included. Shown on the Noticeboard.
+
+  gallery/          56 photographs.
+  slides/           talk slides and posters, linked from News and from
+                    Professional Activities.
+  Deep_CV.pdf       the CV. A new one replaces it under the same name.
+  photo.jpg         the portrait used on the home page and in link previews.
+
+  sitemap.xml       tells search engines which pages are worth re-reading.
+  robots.txt        points them at the sitemap.
+  favicon.ico, icon.svg, apple-touch-icon.png    the little tab icons.
+
+  note.txt          this file.
+
+
+==============================================================================
+  4  EVERY TIME YOU CHANGE ANYTHING
+==============================================================================
+
+  1. Update LAST_UPDATED at the top of script.js. It writes the date into
+     the footer of every page.
+
+  2. Move that page's <lastmod> in sitemap.xml to the same day.
+
+  3. If you added a NEW page, add it to the PAGES list near the top of the
+     search block in pages.js, or the search will never read it. Add it to
+     the Site Guide (navigation.html) and to 404.html as well.
+
+  4. If you touched the appearance panel, the top bar, or the <head> script
+     that restores the reader's colour and theme, make the same change on
+     EVERY page. They are repeated in each file on purpose, so that a page
+     works on its own.
+
+
+==============================================================================
+  5  HOW TO ADD THE USUAL THINGS
+==============================================================================
+
+  A PUBLICATION OR PREPRINT
+    research.html, under "List of Publications". Copy the <li> above and
+    change it. The list runs newest first and the numbers rise DOWN the page,
+    so renumber the ones above it. If the paper has an abstract, give the
+    abstract panel a fresh id and point the button at it.
+
+  A NEWS ITEM
+    news.html, at the top of the list. Give it data-cats with its tags
+    (preprint, publication, talk, conference, position, milestone) and repeat
+    each tag as a small chip at the end of the line. Update the counts in
+    brackets on the filter buttons above the list.
+    A big item also belongs on the home page (index.html, the Latest News
+    card) and on the Noticeboard.
+
+  AN ANNOUNCEMENT
+    announcements.html. A live one goes at the top of "Current
+    Announcements". When it has run its course, move it into "Past
+    Announcements" and give it a second date: the day it came down.
+    Commented-out examples sit in the file. Copy one and uncomment it.
+    The Noticeboard and the home page each show the latest one.
+
+  A TALK OR A CONFERENCE
+    professional-activities.html. Copy the entry above and keep the same
+    order of lines. The role markers are the shaded tags: Attended only,
+    Attended online, Presented, Organised, chaired a session.
+
+  A COURSE, OR A TEACHING-ASSISTANT ROW
+    teaching.html. One row per course.
+
+  A PHOTOGRAPH
+    gallery.html, in one of the six sections: Profile Pictures, General
+    Photos, Evolution, B.Sc., M.Sc., Ph.D. Journey. Put the file in gallery/
+    and keep the file name exactly as it is on disk, including the case of
+    the extension (.jpg and .JPG are different files to a web server).
+    File names are numbered in tens, so a photograph can be slipped between
+    two others without renaming anything.
+
+  A BLOG POST
+    Copy a file in blogs/, then copy one <li> in blogs.html and point it at
+    the new file. Add the post to the PAGES list in pages.js, and update the
+    two counts on the Blogs filter buttons: "All", and the post's own tag.
+    Inside a post, <h2> starts a section and <h3> a point inside one. That is
+    all the contents button needs.
+
+  A LINK ON THE USEFUL LINKS PAGE
+    useful-links.html. Copy a link and its one-line description. The first
+    three in a section are shown and the rest are folded away behind "More",
+    which appears by itself once there are four.
+
+
+==============================================================================
+  6  HOW THE MOVING PARTS WORK
+==============================================================================
+
+  APPEARANCE
+    Four controls, in this order: Theme, Colour, Typeface, Layout.
+    Theme     Light, Dark, or the same as your device.
+    Colour    Terracotta, Mocha, Gold, Sage, Emerald, Teal, Blue, Indigo,
+              Plum, Graphite.
+    Typeface  Classic, Readable, Sturdy, Bold, Fancy.
+    Layout    Classic, Midnight, Parchment, Sticker, Cards. FIRST HALF ONLY:
+              the five layouts are built around a sidebar.
+    The choice is kept in the browser under site-mode, site-theme, site-font
+    and site-style, and a short script in every page's <head> puts it back
+    before the page paints. The stored words are not the words on screen:
+    dusk is Blue, grove is Parchment, contrast is Sticker, card is Cards,
+    cream is Terracotta.
+
+  SEARCH
+    On every page. The button under "More to Explore" in the sidebar, the
+    magnifier in the top bar, and the / key anywhere.
+    There is NO index file to rebuild: the first time the search is used it
+    fetches the pages themselves, which takes a moment and then is instant.
+    A result shows where it came from (page, then section, then sub-section)
+    and jumps to that exact line with the word lit up.
+    NINE FILTERS sit under the box and are always on show. They are fixed and
+    written out once, in SCOPES at the top of the search block in pages.js:
+    Only this page, Publications & Preprints, Teaching, Talks, Conferences,
+    News, Blogs, Content of Blogs, Everything but the blog. The first one is
+    not a fixed page but whichever page is being read. Two filters at once
+    mean either. A filter chosen with an empty box simply lists what is in it.
+    A heading can answer to other names: data-also="contact, email, address"
+    on a heading is why "contact" finds "Get in Touch". Those names are
+    searched and never shown. About 110 are in place.
+    Accents, full stops and hyphens are ignored on both sides, so "poincare"
+    finds "Poincaré" and "phd" finds "Ph.D.".
+    The quotation of the day is put on the Noticeboard by quotes.js after the
+    page loads, so the search cannot see it. That is expected.
+
+  THE TAG BUTTONS on the Blogs page and the News page
+    Each item carries data-cats, each button carries data-filter, and the
+    counts in brackets are typed in by hand. Block 7 of pages.js does the
+    filtering for both pages.
+
+  THE TWO BUTTONS ON A BLOG POST
+    Bottom right, in a small capsule: back to the top on the left, the
+    contents on the right. The left one appears only once the reader is
+    500px down. The right one is always there and opens a panel listing the
+    piece's own headings, built from them every time the page opens.
+    Both are the top bar's own button and menu components, so they match the
+    profile and appearance menus in every colour and in dark mode.
+
+  THE QUOTE OF THE DAY
+    Opens the Noticeboard. The words live in quotes.js, one line per day.
+
+  THE PHOTO LIGHTBOX
+    Click a photograph to open it large; arrow keys move, Escape closes.
+
+  THE "MORE" BLOCKS
+    Useful Links and the past announcements. script.js adds the button by
+    itself once a list is long enough, and flips the word between More and
+    Less.
+
+
+==============================================================================
+  7  HOUSE RULES: WORDING, DATES, NAMES
+==============================================================================
+
+  DATES are written the same way everywhere a visitor sees one:
+      25 Jul 2026     day, short month, year.
+  A date not yet known is written [dd Mmm yyyy], which cannot be mistaken for
+  a real one. Where only the month is known, the month and year alone.
+
+  THE PAGE NAMES a visitor reads are: Home, Academics, Research, Teaching,
+  Professional Activities, Noticeboard, Biography, Photos, News & Updates,
+  Blogs, Useful Links, Important Announcements, The Site Guide.
+  One file name does not match its page: navigation.html is the Site Guide.
+  The file keeps its old name so that no link anyone has saved ever breaks.
+
+  THE FOOT of every page carries one line: "Can't find what you're looking
+  for? Try the Site Guide." The Site Guide itself is the only page without it.
+
+  THE EMAIL ADDRESS appears on the home page and in the Site Guide's "Found a
+  bug?" panel. Change one and change the other.
+
+  CLASS NAMES in the second half all begin pg- or tb-. The appearance panel
+  is the exception: it borrows the first half's own controls so that the two
+  halves cannot drift apart.
+
+  ON A PHONE (860px and below) the first half's pages move their title into
+  the top bar as the page scrolls, and the second half's pages put the page
+  name in place of the site name.
+
+
+==============================================================================
+  8  WHAT IS STILL A PLACEHOLDER
+==============================================================================
+
+  * The four blog posts. Each holds two lines of filler, a summary of
+    [A sentence or two on what this piece is about.] on the Blogs page, and
+    dates written [dd Mmm yyyy] with [n] min read.
+  * The captions under all 56 photographs, which read "Caption will be added
+    soon", and their alt text.
+  * "Like the design?" in the Site Guide mentions a GitHub repository that
+    has no link on it yet, because the template repository does not exist.
+
+  Anything in square brackets on the live site is a placeholder. Searching
+  the files for "[" finds them all.
+
+
+==============================================================================
+  9  PLANNED, NOT DONE YET
+==============================================================================
+
+  TEACHING BECOMES TEACHING AND SUPERVISION
+    Rename the page (and its sidebar link, its title, its <h1> and the Site
+    Guide entry) to "Teaching and Supervision", or "Teaching and Mentoring",
+    once there are students to list. Add a section listing them: name, level,
+    years, and the topic. Keep the file name teaching.html.
+
+  PROFESSIONAL SERVICE
+    professional-activities.html already holds a finished "Professional
+    Service" section, commented out, with the steps for turning it back on
+    written above it. Uncomment it once there is something real to put in it
+    (refereeing, reviewing, organising, committee work).
+
+  A PAGE PER COURSE
+    A course/ folder, one page per course taught, linked from Teaching.
+    Nothing is built yet.
+
+  THE BLOG POSTS THEMSELVES
+    Write the four pieces, then replace their summaries and both dates, and
+    the reading time.
+
+  PHOTO CAPTIONS
+    One line per photograph, and alt text describing each one for a reader
+    who cannot see it.
+
+  SMALLER THINGS
+    * Give "my GitHub repository" a link once the template repository exists.
+    * Decide whether the B.Sc. should be described as an Honours degree.
+    * Click through the X, Instagram and Facebook links once, to be sure the
+      addresses are still right.
+    * A contents list inside the body of a long post was designed and set
+      aside. The buttons at the corner of a post do the same job for now.
+
+
+==============================================================================
+ 10  DECIDED AND CLOSED
+==============================================================================
+
+  Do not reopen these without a reason:
+
+  * The alternate home page was cancelled and deleted.
+  * The "Background Image" appearance option was designed and dropped.
+  * The five layouts and the ten colours are settled. Do not restyle them.
+  * The blog posts carry no top bar, on purpose.
+  * Tag-based search filtering (the old "#" mechanism) was replaced by the
+    nine fixed filters. Do not bring back data-tags.
+
+
+==============================================================================
+ 11  CHECKS WORTH RUNNING
+==============================================================================
+
+  After any change:
+    * Open the page and read it. Check every link you touched.
+    * Check it at a phone's width as well as a laptop's.
+
+  After a big change:
+    * All five layouts and both light and dark, on a first-half page and a
+      second-half page.
+    * Text contrast of at least 4.5:1 in every colour scheme. Measure it
+      properly: the colours are mixed with color-mix(), so a value read from
+      the stylesheet is not the colour on screen.
+    * The search: open it, type two words, pick a result, and check it lands
+      on the right line with the word lit up.
+    * On a blog post: scroll down, check the arrow appears, open the contents
+      and jump to a section.
+    * Tag balance, duplicate ids and broken links across every page.
+

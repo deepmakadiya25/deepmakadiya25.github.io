@@ -3,20 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour scheme AND light/dark choice
-     before the page paints, so the default colours never flash first. If
-     they have never used the dark switch, their device's own light/dark
-     setting is followed. Must stay here, above the stylesheet.
-     Nothing to edit. -->
+<!-- Restores the visitor's saved colours and light/dark choice before the page
+     paints, so nothing flashes. Must stay above the stylesheet. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font"),y=localStorage.getItem("site-style"),a=localStorage.getItem("site-appearance");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(y){d.setAttribute("data-style",y);if(y==="contrast"||y==="midnight"||y==="grove"){d.setAttribute("data-panel","dark");}}if(a==="open"){d.setAttribute("data-appearance","open");}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Professional Activities — Deep H. Makadiya</title>
 
-<!-- SEARCH RESULTS AND LINK PREVIEWS
-     "description" is the grey line Google shows under the page title; the
-     og:/twitter: lines are what chat apps read when the link is pasted.
-     IF THE SITE ADDRESS EVER CHANGES, update canonical, og:url and og:image
-     on EVERY page. They all begin https://deepmakadiya25.github.io
-     =================================================================== -->
+<!-- Search results and link previews. If the site address ever changes, update
+     canonical, og:url and og:image on EVERY page. -->
 <meta name="description" content="Talks, conference and workshop participation, and professional service of Deep H. Makadiya, Post-doctoral Fellow in Mathematics at Bar-Ilan University.">
 <link rel="canonical" href="https://deepmakadiya25.github.io/professional-activities.html">
 <meta property="og:type" content="article">
@@ -29,20 +22,13 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- All five typeface pairs the sidebar offers. A family listed here but
-     never chosen costs one line of CSS and nothing else: the browser only
-     downloads a font file once something on the page is actually drawn in
-     it. Remove a family here and its circle falls back to Georgia. -->
+<!-- Fonts for the five typeface choices. Remove a family here and its circle
+     falls back to Georgia. -->
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bitter:ital,wght@0,400;0,600;0,700;1,400&amp;family=Englebert&amp;family=IBM+Plex+Sans+KR:wght@400;600;700&amp;family=Lora:ital,wght@0,400;0,600;1,400&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Playfair+Display:wght@600;700;800&amp;family=Rouge+Script&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
-<!-- Tells the browser the site has a light and a dark version, so its own
-     scrollbars and form controls match the page. -->
 <meta name="color-scheme" content="light dark">
 
-<!-- ICONS — the small square shown on browser tabs, bookmarks, search
-     results and phone home screens. icon.svg is what current browsers use,
-     favicon.ico covers older ones, apple-touch-icon.png is for iOS. All
-     three sit in the site's top folder; the paths start with "/" so they
-     work from any page, including those in blogs/. -->
+<!-- Tab, bookmark and phone icons. The paths start with "/" so they also work
+     from pages inside blogs/. -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -51,18 +37,14 @@
      (SL<sub>n</sub>). research.html does load it — don't remove it there. -->
 </head>
 <body>
-<!-- Invisible until someone navigating by keyboard presses Tab, when it
-     appears in the top-left corner. It jumps past the sidebar straight to
-     the page's text. Must stay the first thing inside <body>. -->
+<!-- Keyboard skip link. Must stay the first thing inside <body>. -->
 <a class="skip-link" href="#main">Skip to content</a>
 
 <div class="layout">
 
   <aside class="sidebar" id="sidebar">
     <img class="avatar" src="photo.jpg" alt="">
-    <!-- Not an <h1>: every page already has one (its title), and search
-         engines expect exactly one. It is a link home, like the name at the
-         top of the pages in the second set. Styled by ".sidebar-name". -->
+    <!-- Deliberately not an <h1>: the page title is the only one. It links home. -->
     <a class="sidebar-name" href="index.html">Deep H. Makadiya</a>
     <nav aria-label="Main">
       <a href="index.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M10 19.8v-5.4h4v5.4"/></svg></span>Home</a>
@@ -72,31 +54,22 @@
       <a href="professional-activities.html" class="active"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M9 2.6 12 6.4l3-3.8"/><rect x="4.4" y="6.4" width="15.2" height="15" rx="1.8"/><path d="M8 11.4h8M8 15h5.4"/></svg></span>Professional Activities</a>
     </nav>
 
-    <!-- A way through to the second set of pages — Noticeboard, Bio, Photos,
-         News and Blogs — which have a design of their own and no sidebar.
-         It lands on noticeboard.html, which links on to the rest. -->
     <a class="more-pages" href="noticeboard.html">
       <span>More to Explore</span>
       <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4.5 12h14M13.5 6.6 18.9 12l-5.4 5.4"/></svg></span>
     </a>
-    <!-- SEARCH — the same panel the second set of pages uses, opened from
-         here. pages.js does the work: it reads every page of the site the
-         first time the box is used, so there is no index file to rebuild. -->
+    <!-- Search button. pages.js reads the site itself the first time the box is
+         used, so there is no index file to rebuild. -->
     <button type="button" class="more-pages search-btn js-search" id="searchButton"
             aria-controls="searchPanel" aria-expanded="false">
       <span>Search</span>
       <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
     </button>
 
-    <!-- APPEARANCE — light/dark, then colour, typeface and style. The whole
-         block is repeated on all six main pages, and the first three of its
-         four controls appear again in the top bar of the second set of
-         pages, so any change here has to be made in all of those copies.
-         =================================================================== -->
+    <!-- APPEARANCE — light/dark, colour, typeface and style. This block is repeated
+         on all six main pages, and three of its controls appear again in the top bar
+         of the second set. Change one, change all. -->
     <div class="theme-picker">
-      <!-- The panel starts closed. The button carries aria-expanded and
-           aria-controls so a screen reader announces the state; script.js
-           flips both and un-hides the body below. -->
       <div class="appearance-head">
         <button type="button" class="appearance-title" id="appearanceToggle"
                 aria-expanded="false" aria-controls="appearancePanel">
@@ -111,14 +84,8 @@
         </button>
       </div>
       <div class="appearance-body" id="appearancePanel">
-      <!-- LIGHT / DARK MODE — three choices rather than a switch: Light,
-           Dark, or Auto, which follows the light/dark setting of the
-           visitor's phone or laptop and changes with it. Auto is what
-           everyone gets until they pick one of the other two. The choice is
-           remembered in the browser and re-applied by the small script in
-           every page's <head>, so nothing flashes on load. -->
       <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Theme</p>
         <div class="modes" role="group" aria-label="Light or dark mode">
           <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
             <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
@@ -129,14 +96,9 @@
         </div>
       </div>
 
-      <!-- COLOUR PICKER — clicking a circle re-colours the whole site, and the
-           choice is remembered in the visitor's browser. Each circle's LEFT
-           half is that scheme's accent (--sw-a), its RIGHT half the paper
-           colour (--sw-b); "title" is the hover tooltip. They appear in the
-           order listed, five per row — warm first, then green, then blue,
-           then plum, with the neutral grey last. Change it everywhere if you
-           add, remove or re-order a circle. The colours themselves live in
-           styles.css under "COLOUR SCHEMES". -->
+      <!-- COLOUR PICKER — each circle's left half is the accent (--sw-a), its right
+           half the paper colour (--sw-b); "title" is the tooltip. The colours live in
+           styles.css under "COLOUR SCHEMES". Add, remove or re-order on every page. -->
       <div class="appearance-group">
       <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.4c-4.8 0-8.6 3.6-8.6 8.3 0 4.5 3.5 8 8 8 1.3 0 2.2-.8 2.2-1.9 0-.6-.2-1-.6-1.4-.3-.4-.5-.8-.5-1.3 0-1 .9-1.8 2-1.8h1.5c2.6 0 4.6-2 4.6-4.5 0-3-3.7-5.4-8.6-5.4z"/><circle cx="7.6" cy="11.6" r="1" fill="currentColor" stroke="none"/><circle cx="10.4" cy="7.9" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="8.3" r="1" fill="currentColor" stroke="none"/></svg></span>Colour</p>
       <div class="swatches">
@@ -173,10 +135,8 @@
       </div>
       </div>
 
-      <!-- TYPEFACE — five pairs. "--fs" is the face the circle's own A is
-           drawn in, so each one previews itself; "title" is the hover
-           tooltip. The pairs live in styles.css under "TYPEFACES", and the
-           families are fetched by the <link> in this page's <head>. -->
+      <!-- TYPEFACE — the pairs live in styles.css under "TYPEFACES"; the font files
+           are fetched by the <link> in this page's <head>. -->
       <div class="appearance-group">
       <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="1.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="1.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><rect x="18.8" y="18.8" width="3.4" height="3.4" fill="currentColor" stroke="none"/><path d="M7.4 3.5h9.2M7.4 20.5h9.2M3.5 7.4v9.2M20.5 7.4v9.2"/><path d="M8.3 17.4 12 6.9l3.7 10.5M9.7 14.1h4.6"/></svg></span>Typeface</p>
       <div class="fonts">
@@ -198,13 +158,10 @@
       </div>
       </div>
 
-      <!-- STYLE — the shape of the whole site, in picker order:
-           1 Classic, 2 Midnight, 3 Parchment, 4 Sticker, 5 Cards.
-           Colour, typeface and light/dark are untouched by it, so every
-           combination works. The rules live in the "STYLES" section of
-           styles.css; "title" is the hover tooltip. -->
+      <!-- LAYOUT — Classic, Midnight, Parchment, Sticker, Cards, in picker order. The
+           rules live in the "STYLES" section of styles.css. -->
       <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="2.4"/><path d="M3.2 9.6h17.6M9.6 9.6v11.2"/></svg></span>Style</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="2.4"/><path d="M3.2 9.6h17.6M9.6 9.6v11.2"/></svg></span>Layout</p>
         <div class="styles">
           <button type="button" class="style-swatch" data-set-style="classic"
                   title="Classic" aria-label="Classic style">1</button>
@@ -223,14 +180,10 @@
     </div>
   </aside>
   <div class="overlay" id="overlay"></div>
-  <!-- TOP BAR — phones and tablets only; hidden on laptops, where the
-       sidebar is already on screen. Holds the menu button and your name.
-       =================================================================== -->
+  <!-- TOP BAR — phones and tablets only. Holds the menu button and your name. -->
   <header class="topbar">
     <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     <a class="topbar-title" href="index.html">Deep H. Makadiya</a>
-    <!-- Filled by script.js with the name of this page, and shown only once
-         the in-page tab bar has reached the top of the screen. -->
     <span class="topbar-page" id="topbarPage" aria-hidden="true"></span>
     <button type="button" class="topbar-search js-search" id="searchButtonTop"
             aria-controls="searchPanel" aria-expanded="false" aria-label="Search the site" title="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></button>
@@ -240,7 +193,7 @@
     <div class="wrap">
 
       <div class="page-header">
-        <h1>Professional Activities</h1>
+        <h1 data-also="talks, conferences, seminars, service, activities, workshops">Professional Activities</h1>
         <p class="page-desc">Talks I have given, the conferences and workshops I have taken part in, and my service to the profession.</p>
       </div>
 
@@ -256,41 +209,30 @@
         <div class="tabs-fade right" aria-hidden="true" hidden></div>
       </div>
 
-      <!-- NUMBERING ON THIS PAGE runs NEWEST FIRST: the entry at the top of a
-           list carries the highest number and they count down, the same way as
-           the publication list on research.html. TO ADD AN ENTRY, copy a whole
-           <li>...</li>, paste it at the TOP of that list, and give it
-           (current top + 1).
-           Each list numbers independently.
-           Anything still in square brackets is a placeholder for you to fill
-           in or delete.
-           =================================================================== -->
+      <!-- NUMBERING ON THIS PAGE runs NEWEST FIRST: the top entry carries the highest
+           number and they count down. TO ADD AN ENTRY: copy a whole <li>...</li> to the
+           TOP of that list and give it (current top + 1). Each list numbers
+           independently. Anything in square brackets is a placeholder. -->
 
-      <!-- TALKS — three subsections, sorted by where the talk was given:
-           conference/workshop, department seminar or colloquium, and reading or
-           learning seminars. Whether a talk was invited, contributed or a poster
-           is written into the entry itself, not made into its own subsection.
-           Slides live in the "slides" folder beside this file and open in a new
-           tab, the same way the CV link does on the Home page. A talk with no
-           slides simply has an unlinked title.
-           Each subsection is a <p class="subhead"> line plus its own
-           <ul class="plain">; copy that pair to add a fourth.
-           =================================================================== -->
-      <section data-tags="talk">
-        <h2 id="talks" class="section-title">Talks</h2>
+      <!-- TALKS — three subsections, by where the talk was given. Slides live in the
+           "slides" folder and open in a new tab; a talk with no slides has an unlinked
+           title. Each subsection is a <p class="subhead"> line plus its own
+           <ul class="plain">; copy that pair to add a fourth. -->
+      <section>
+        <h2 id="talks" class="section-title" data-also="presentations, lectures, seminars, speaking, invited talk">Talks</h2>
 
-        <!-- Format: "title (linked to slides)", kind of talk, "conference
-             (linked to its webpage)", venue, date. -->
-        <p class="subhead">Conference &amp; Workshop Talks</p>
+        <!-- Format: title (linked to slides), kind of talk, conference (linked to its
+             webpage), venue, date. -->
+        <p class="subhead" data-also="invited talks, contributed talks, conference talk">Conference &amp; Workshop Talks</p>
         <ul class="plain">
           <li><span class="item-num">3.</span><span>&ldquo;<a href="slides/2026-tbilisi-agmt.pdf" target="_blank" rel="noopener">Automorphisms of Twisted Chevalley Groups</a>,&rdquo; invited talk, &ldquo;<a href="https://web.stevens.edu/algebraic/Georgia2026/" target="_blank" rel="noopener">Algebraic Geometry and Model Theory of Groups and Rings IV</a>,&rdquo; Tbilisi, Georgia, 27 August 2026.</span></li>
           <li><span class="item-num">2.</span><span>&ldquo;<a href="slides/2025-imsc-poster.pdf" target="_blank" rel="noopener">On Normal Subgroups of Twisted Chevalley Groups over Commutative Rings</a>,&rdquo; poster presentation, &ldquo;<a href="https://www.imsc.res.in/~svis/knrfest/" target="_blank" rel="noopener">Representations of Groups and Algebras</a>,&rdquo; IMSc, Chennai, 3&ndash;5 February 2025.</span></li>
           <li><span class="item-num">1.</span><span>&ldquo;<a href="slides/2023-iitb-groups-and-representations.pdf" target="_blank" rel="noopener">Automorphisms of Chevalley Groups</a>,&rdquo; contributed talk, &ldquo;<a href="https://sites.google.com/view/conf-groups-representations/home" target="_blank" rel="noopener">Groups and Representations</a>,&rdquo; IIT Bombay, Mumbai, 5 July 2023.</span></li>
         </ul>
 
-        <!-- Format: [Invited] Seminar/Colloquium on "title (linked to slides)",
-             venue, date. Leave the word "Invited" off when it does not apply. -->
-        <p class="subhead">Seminar &amp; Colloquium Talks</p>
+        <!-- Format: [Invited] Seminar/Colloquium on "title (linked to slides)", venue,
+             date. Leave the word "Invited" off when it does not apply. -->
+        <p class="subhead" data-also="seminars, colloquium, department seminar">Seminar &amp; Colloquium Talks</p>
         <ul class="plain">
           <li><span class="item-num">3.</span><span>Seminar on &ldquo;<a href="slides/2026-seminar-decomposition-BIU.pdf" target="_blank" rel="noopener">Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)</a>,&rdquo; Bar-Ilan University, 29 April 2026.</span></li>
           <li><span class="item-num">2.</span><span>Seminar on &ldquo;<a href="slides/2025-seminar-decomposition-IITB.pdf" target="_blank" rel="noopener">Triangular and Unitriangular Factorizations of SL<sub>n</sub>(R) and SU<sub>n</sub>(R)</a>,&rdquo; IIT Bombay, 22 August 2025.</span></li>
@@ -298,8 +240,8 @@
         </ul>
 
         <!-- Reading and learning seminars: series and student seminars in one
-             date-ordered list, worded as on the older Google Site. -->
-        <p class="subhead">Reading &amp; Learning Seminars</p>
+             date-ordered list. -->
+        <p class="subhead" data-also="reading seminar, learning seminar, study group">Reading &amp; Learning Seminars</p>
         <ul class="plain">
           <li><span class="item-num">7.</span><span>Seminars based on the book &ldquo;Spherical functions on a group of p-adic type&rdquo; by I. G. Macdonald, 2025.</span></li>
           <li><span class="item-num">6.</span><span>Seminars based on the book &ldquo;Nilpotent Orbits of Lie algebras&rdquo; by D. H. Collingwood and W. M. McGovern, 2024.</span></li>
@@ -311,18 +253,12 @@
         </ul>
       </section>
 
-      <!-- CONFERENCE & WORKSHOP PARTICIPATION — one entry per event, whether
-           or not you spoke, oldest first. Format: event name (linked to its
-           webpage) held at venue, then the dates, then your role in a small
-           shaded box at the very end:
-             <span class="role">Attended only</span> / <span class="role">Presented</span>
-           Add other roles the same way as they come up, e.g.
-             <span class="role">Organised; chaired a session</span>
-           Events where you gave a talk also appear in the Talks section — that
-           repetition is normal and saves re-filing entries later.
-           =================================================================== -->
-      <section data-tags="conference">
-        <h2 id="conferences" class="section-title">Conference &amp; Workshop Participation</h2>
+      <!-- CONFERENCE & WORKSHOP PARTICIPATION — one entry per event, whether or not you
+           spoke, oldest first. Format: event name (linked) held at venue, the dates,
+           then your role in a <span class="role"> box at the end. Events with a talk
+           also appear under Talks; that repetition is normal. -->
+      <section>
+        <h2 id="conferences" class="section-title" data-also="conferences, workshops, attended, schools, meetings, events">Conference &amp; Workshop Participation</h2>
 
         <p class="pub-meta">*This list covers every conference, workshop and summer school I have
         taken part in, along with my role in each one: attended, presented a talk, organised, or
@@ -341,31 +277,18 @@
         </ul>
       </section>
 
-      <!-- ===================================================================
-           PROFESSIONAL SERVICE — HIDDEN FOR NOW, because there is nothing to
-           put in it yet. The whole section below sits inside one comment, so
-           the page shows two tabs instead of three.
-
-           TO TURN IT BACK ON:
-             1. Below this note, delete the marker line that begins
-                "START of the hidden section", together with the comment
-                opener at the start of it.
-             2. At the end of the section, delete the line that begins
-                "END of the hidden section", together with the comment closer
-                at the end of it.
-             3. Near the top of this page, in the page-tabs list, the
-                Professional Service tab is commented out. Remove the comment
-                markers around it so the tab comes back.
-             4. Fill in at least one subsection and DELETE the subsections you
-                have nothing for. An empty heading looks worse than none.
-
-           NOTE WHEN EDITING ANY COMMENT: never type a comment closer inside
-           one. It ends the comment on the spot and everything after it shows
-           up on the live page.
-           =================================================================== -->
+      <!-- PROFESSIONAL SERVICE — HIDDEN FOR NOW. The whole section below sits inside
+           one comment, so the page shows two tabs instead of three.
+           TO TURN IT BACK ON: delete the "START of the hidden section" marker with the
+           comment opener before it, delete the "END of the hidden section" marker with
+           the comment closer after it, un-comment the Professional Service tab in the
+           page-tabs list above, then fill in at least one subsection and delete the
+           ones you have nothing for.
+           NEVER type a comment closer inside a comment: it ends the comment there and
+           everything after it shows up on the live page. -->
 
       <!-- START of the hidden section
-      <section data-tags="service">
+      <section>
         <h2 id="service" class="section-title">Professional Service</h2>
 
         <p class="subhead">Editorial Work</p>
@@ -398,27 +321,25 @@
 
 
     </div>
-    <!-- Left empty on purpose: script.js fills it from LAST_UPDATED, so the
-         date lives in exactly one place for all 8 pages. With JavaScript off
-         the line stays hidden rather than showing a stale date. -->
+    <!-- Left empty on purpose: script.js fills it from LAST_UPDATED, so the date
+         lives in one place for all 8 pages. -->
     <footer>
-      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+      <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
       <p>&copy; 2026 Deep H. Makadiya</p>
       <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
     </footer>
   </main>
 
 </div>
-<!-- The search panel itself. It is the last thing in the page so it can sit
-     over everything else; styles.css draws it, pages.js fills it. -->
+<!-- Search panel. Must stay last in the page so it can sit over everything else. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

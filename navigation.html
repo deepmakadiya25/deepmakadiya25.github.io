@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Puts back the visitor's saved colour, typeface and light or dark choice
+     before the page appears. These pages do not take the five styles, which
+     belong to the pages with a sidebar. Nothing to edit here. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
-<title>Site Map — Deep H. Makadiya</title>
+<title>The Site Guide — Deep H. Makadiya</title>
 
 <meta name="description" content="Every page on the site of Deep H. Makadiya, in one list.">
 <link rel="canonical" href="https://deepmakadiya25.github.io/navigation.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Deep H. Makadiya">
-<meta property="og:title" content="Site Map — Deep H. Makadiya">
+<meta property="og:title" content="The Site Guide — Deep H. Makadiya">
 <meta property="og:description" content="Every page on the site of Deep H. Makadiya, in one list.">
 <meta property="og:url" content="https://deepmakadiya25.github.io/navigation.html">
 <meta property="og:image" content="https://deepmakadiya25.github.io/photo.jpg">
@@ -26,8 +26,8 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+<!-- styles.css holds the colours, the typefaces and dark mode. pages.css holds
+     what this second set of pages does differently. -->
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pages.css">
 </head>
@@ -37,17 +37,21 @@
 <main class="pg-main pg-plain" id="main" tabindex="-1">
   <div class="pg-wrap">
 
-      <div class="pg-head">
-        <p class="pg-kicker">Site map</p>
-        <h1>Everything on this site</h1>
-        <p class="pg-lede">A guide to what is here and how to find your way around it.</p>
+      <!-- Back line. The second half appears only when the reader came from
+           another page of this site; the script at the foot of this file fills in
+           its address. -->
+      <p class="pg-back">
+        &#8592; Back to the <a href="index.html">home page</a><span id="navFrom" hidden>, or the <a href="index.html" id="navFromLink">last page</a></span>.
+      </p>
+
+      <div class="pg-head nav-head">
+        <p class="pg-kicker">The Site Guide</p>
+        <h1 data-also="site guide, guide, site map, sitemap, index, contents, navigation, all pages">Everything on this site</h1>
       </div>
 
-      <!-- WHAT THIS SITE IS. Ordinary prose in a panel — rewrite it whenever
-           you like; nothing else depends on it. -->
-      <div class="news-card news-jump news-tip nav-intro">
-        <p class="news-jump-label">What is this site?</p>
-        <div class="news-tip-text">
+      <!-- An ordinary section. Rewrite this prose whenever you like. -->
+      <section class="pg-section">
+        <h2 data-also="about the site, purpose, why">What is this site?</h2>
           <p>This is the academic website of <strong>Deep H. Makadiya</strong>.</p>
           <p>The site is divided into two main parts. The first highlights my academic profile and
           professional background, including my education, positions, research interests, publications,
@@ -59,13 +63,12 @@
           <p>Together, these two parts provide both a structured account of my academic work and a broader
           perspective on the person behind it. They also share the same look and rhythm, and each is always
           just a click away from the other.</p>
-        </div>
-      </div>
+      </section>
 
-      <section class="pg-section" data-tags="site map">
-        <h2>Site Map</h2>
+      <section class="pg-section">
+        <h2 data-also="sitemap, index, contents, all pages, navigation">Site Map</h2>
 
-        <h3 class="nav-group">The first part &mdash; my curriculum vitae</h3>
+        <h3 class="nav-group" data-also="cv, academic pages, curriculum vitae">The first part &mdash; my curriculum vitae</h3>
         <ul class="nav-extras">
           <li><a href="index.html">Home</a> &mdash; who I am, how to reach me, where to find me online.</li>
           <li><a href="academics.html">Academics</a> &mdash; degrees, positions, awards and grants.</li>
@@ -74,7 +77,7 @@
           <li><a href="professional-activities.html">Professional Activities</a> &mdash; talks, conferences, workshops and academic services.</li>
         </ul>
 
-        <h3 class="nav-group">The second part &mdash; everything around it</h3>
+        <h3 class="nav-group" data-also="personal pages, extras, other">The second part &mdash; everything around it</h3>
         <ul class="nav-extras">
           <li><a href="noticeboard.html">Noticeboard</a> &mdash; an overview of what has changed lately.</li>
           <li><a href="bio.html">Biography</a> &mdash; the longer story about me.</li>
@@ -85,33 +88,33 @@
           <li><a href="useful-links.html">Useful Links</a> &mdash; a collection of resources I find handy.</li>
         </ul>
 
-        <h3 class="nav-group">And also</h3>
+        <h3 class="nav-group" data-also="other pages, extras, more">And also</h3>
         <ul class="nav-extras">
-          <li>Site Map &mdash; this page.</li>
+          <li>The Site Guide &mdash; this page.</li>
           <li><a href="Deep_CV.pdf" target="_blank" rel="noopener">My CV (PDF)</a> &mdash; a comprehensive record of my academic and professional background.</li>
         </ul>
       </section>
 
-      <!-- "Did you know?" — three things about the site itself. Each panel is
-           one fact; add or remove a panel and the row re-arranges itself. -->
+      <!-- "Did you know?" panels: three facts about the site. Add or remove a
+           panel and the row re-arranges itself. -->
       <div class="news-card news-jump news-tip news-tip-multi nav-tip">
-        <p class="news-jump-label">Did you know?</p>
+        <p class="news-jump-label" data-also="tips, hints, features, shortcuts, help">Did you know?</p>
         <p class="news-tip-text">You can customize the site&rsquo;s appearance using the
         <span class="ui-name"><span class="ui-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 8h9M18.5 8H20M4 16h3.5M13 16h7"/><circle cx="15.5" cy="8" r="2.1"/><circle cx="10" cy="16" r="2.1"/></svg></span> Appearance</span> button, at the bottom of the side menu or
         on the right of the top menu. It lets you change the colour, the typeface and the theme (light or
         dark), as well as the overall layout on the main pages. The site remembers your preferences.</p>
         <p class="news-tip-text">You can also reach the <a href="gallery.html">photo gallery</a> by clicking
         the photograph on the home page.</p>
-        <p class="news-tip-text">Pressing the <kbd>/</kbd> key on any page opens the search. Typing
-        <kbd>#</kbd> in the search brings up the available tags&mdash;publication, talk, news, photo, and
-        the rest&mdash;so you can narrow the search to a particular type of content.</p>
+        <p class="news-tip-text">Pressing the <kbd>/</kbd> key on any page opens the search. Under the box
+        sits a row of filters&mdash;publications, teaching, talks, conferences, news, the blogs&mdash;and
+        choosing one narrows the search to that part of the site. Choose one while the box is still empty
+        and it simply lists everything filed there; choose two and you get everything from either.</p>
       </div>
 
-      <!-- LIKE THE DESIGN? Ordinary prose in a panel, like the two above it.
-           The GitHub sentence has no link on it yet; put one on the words
-           "my GitHub repository" once the template repository exists. -->
+      <!-- Like the design? The GitHub sentence has no link yet. Put one on the
+           words "my GitHub repository" once the template repository exists. -->
       <div class="news-card news-jump news-tip nav-tip">
-        <p class="news-jump-label">Like the design?</p>
+        <p class="news-jump-label" data-also="template, source, github, reuse, copy">Like the design?</p>
         <div class="news-tip-text">
           <p>This website was designed by Deep Makadiya, with the help of Claude AI, which also wrote much
           of the code.</p>
@@ -121,15 +124,14 @@
         </div>
       </div>
 
-      <!-- FOUND A BUG? The address is the same one as on the home page; if you
-           ever change it there, change it here too. -->
+      <!-- Found a bug? This email address also appears on the home page. If you
+           change it there, change it here too. -->
       <div class="news-card news-jump news-tip nav-tip">
-        <p class="news-jump-label">Found a bug?</p>
+        <p class="news-jump-label" data-also="bug, report, problem, feedback, error, broken">Found a bug?</p>
         <div class="news-tip-text">
-          <p>A link that leads nowhere, a page that refuses to open, a line that has clearly gone wrong &mdash;
-          if something here is broken, I would far rather hear about it than not. Write to me at
-          <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>, tell me what you were
-          doing at the time, and I will put it right.</p>
+          <p>If you come across anything that seems broken or out of place&mdash;a link that leads nowhere,
+          a page that refuses to open, or a line that has clearly gone wrong&mdash;please let me know at
+          <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>.</p>
         </div>
       </div>
   </div>
@@ -139,20 +141,38 @@
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
-<!-- THE SEARCH SHEET. The same on every page; pages.js fills it. It opens
-     from a magnifier where there is one, and from the "/" key anywhere. -->
+<!-- The search sheet, the same on every page. pages.js fills it. The "/" key
+     opens it, as does a magnifier where the page has one. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
 <script src="script.js"></script>
 <script src="pages.js"></script>
+<script>
+  /* The "page you came from" half of the back line at the top. A browser only
+     says where a reader came from when it will, and we use it only when it was
+     a page of this same site - never a search engine, never another website.
+     Nothing here is needed for the rest of the page to work. */
+  (function () {
+    var wrap = document.getElementById("navFrom");
+    var link = document.getElementById("navFromLink");
+    if (!wrap || !link || !document.referrer) return;
+    try {
+      var from = new URL(document.referrer, location.href);
+      if (from.origin !== location.origin) return;          // somewhere else entirely
+      if (from.pathname === location.pathname) return;      // this very page
+      link.href = from.href;
+      wrap.hidden = false;
+    } catch (e) { /* an address we cannot read: leave the line as it stands */ }
+  }());
+</script>
 </body>
 </html>

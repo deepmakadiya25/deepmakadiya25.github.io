@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Restores the saved colour, typeface and light/dark choice before the page
+     paints. These pages do not use the five styles. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Biography — Deep H. Makadiya</title>
 
@@ -26,32 +25,24 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pages.css">
 </head>
 <body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- THE TOP BAR — the same on every page of this set; only the page that
-     carries aria-current="page" changes. The house on the left goes back to
-     the pages with a sidebar; the name goes to the Noticeboard. The three
-     round buttons on the right open the profile links, the appearance
-     controls and the search. If you add a page here, add it to the list in
-     pages.js too, so the search reads it.
-     ===================================================================== -->
+<!-- TOP BAR. The same on every page of this set; only the link carrying
+     aria-current="page" changes. If you add a page here, add it to the list in
+     pages.js too, or the search will not find it. -->
 <header class="tb">
   <div class="tb-inner">
     <a class="tb-home" href="index.html">
       <span class="tb-home-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M14.2 14.6H9.8m1.7-1.8-1.8 1.8 1.8 1.8"/></svg></span><span>Back to Home</span>
     </a>
     <span class="tb-div" aria-hidden="true"></span>
-    <!-- On a narrow screen the six page links hide behind the menu button, so
-         the bar stops saying which page you are on. This span says it instead:
-         the stylesheet shows it and hides the name below 860px, and does the
-         opposite above it. It comes FIRST so that one plain CSS rule
-         (".tb-page-name + .tb-name") can hide the name when it is showing. -->
+    <!-- Shows the page name on narrow screens, where the links hide behind the
+         menu button. Keep it FIRST: the CSS hides the name next to it. -->
     <span class="tb-page-name">Biography</span>
     <a class="tb-name" href="noticeboard.html">Deep H. Makadiya</a>
     <nav class="tb-nav" id="pageNav" aria-label="Second set of pages">
@@ -82,12 +73,11 @@
       </ul>
       </div>
 
-      <!-- APPEARANCE — the same three controls as the sidebar pages, minus
-           the five styles, which this set does not use. The markup matches
-           the sidebar's exactly so script.js drives both. -->
+      <!-- APPEARANCE. Keep this markup the same as on the sidebar pages, so
+           script.js can drive both. -->
       <div class="tb-pop tb-pop-wide" id="appearancePanel" hidden>
         <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Theme</p>
         <div class="modes" role="group" aria-label="Light or dark mode">
         <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
         <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
@@ -157,15 +147,16 @@
   </div>
 </header>
 
-<!-- SEARCH — reads every page of the site the first time it is used. -->
+<!-- SEARCH. pages.js fills it. It opens from the magnifier and from the
+           "/" key. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
@@ -174,12 +165,11 @@
   <div class="pg-wrap">
       <div class="pg-head">
         <p class="pg-kicker">About me</p>
-        <h1>Biography</h1>
+        <h1 data-also="bio, about me, life, story, personal, background">Biography</h1>
       </div>
 
-      <!-- THE PHOTO AND THE NAME. This is the home page's hero repeated here,
-           with one difference: the outer frame is dotted rather than solid.
-           The line under the name is the home page's, word for word. -->
+      <!-- PHOTO AND NAME, repeated from the home page. Keep the line under the
+           name word for word the same as the home page's. -->
       <div class="bio-hero">
         <div class="bio-hero-frame">
           <img src="photo.jpg" alt="Deep H. Makadiya">
@@ -190,12 +180,9 @@
         </div>
       </div>
 
-      <!-- THE FACTS. The same panel as "Get in Touch" on the home page, down
-           to the class names, so the two boxes are the same box. One line per
-           fact: a small icon, then the label and the fact itself inside one
-           <span>, so a long line wraps under the text and not under the icon.
-           To add a fact, copy a whole line and swap the paths inside its
-           <svg> for another icon drawn on the same 24x24 grid. -->
+      <!-- THE FACTS. The same panel as "Get in Touch" on the home page, class
+           names included. TO ADD A FACT: copy a whole line and swap the paths
+           in its <svg> for another icon drawn on the same 24x24 grid. -->
       <div class="card-panel bio-panel">
           <p class="contact-line"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.8" y="4.8" width="18.4" height="14.4" rx="2.4"/><circle cx="8.8" cy="10.4" r="2.2"/><path d="M5.2 16.4a3.8 3.8 0 0 1 7.2 0"/><path d="M14.8 9.6h4.2M14.8 13h4.2"/></svg></span><span><strong>Official name:</strong> Makadiya Deepkumar Hasamukhbhai (see <a href="blogs/about-my-name.html">more</a>)</span></p>
           <p class="contact-line"><span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M10 19.8v-5.4h4v5.4"/></svg></span><span><strong>Hometown:</strong> Rajkot, Gujarat, India</span></p>
@@ -206,10 +193,9 @@
       </div>
 
       <!-- TO WRITE THIS PAGE: replace each dashed box below with ordinary
-           paragraphs. The headings are only a suggestion &mdash; rename them,
-           add one, or drop one; the page does not depend on them. -->
-      <section class="pg-section" data-tags="biography">
-        <h2>In brief</h2>
+           paragraphs. Rename, add or drop the headings as you like. -->
+      <section class="pg-section">
+        <h2 data-also="summary, short bio, about, profile">In brief</h2>
         <p>I earned my B.Sc. in Mathematics from the Maharaja Sayajirao University of Baroda in 2017,
         followed by an M.Sc. from the Indian Institute of Technology Bombay in 2019. In January 2020 I
         returned to IIT Bombay to pursue a Ph.D. under the supervision of Prof. Shripad M. Garge. I
@@ -226,8 +212,8 @@
         over local rings and ultimately over general commutative rings.</p>
       </section>
 
-      <section class="pg-section" data-tags="biography">
-        <h2>Early years</h2>
+      <section class="pg-section">
+        <h2 data-also="childhood, school, village, family, growing up">Early years</h2>
         <p>I was born and brought up in a small village in Gujarat, India &mdash; Jam Timbadi, in Upleta
         Taluka of Rajkot District.</p>
         <p>I completed my early education, from Standards 1 to 7, at the local village school, Shree Jam
@@ -246,8 +232,8 @@
         <p>Fun fact: I eventually did become a doctor&hellip; just a Doctor of Philosophy. ☺️</p>
       </section>
 
-      <section class="pg-section" data-tags="biography">
-        <h2>A Road from &ldquo;Mr.&rdquo; to &ldquo;Dr.&rdquo;</h2>
+      <section class="pg-section">
+        <h2 data-also="education journey, how i became a mathematician, phd journey, studies">A Road from &ldquo;Mr.&rdquo; to &ldquo;Dr.&rdquo;</h2>
         <p>My initial plan was quite straightforward: complete a B.Sc. and an M.Sc. in Mathematics,
         followed by a B.Ed. &mdash; the qualification I would need to become a high-school mathematics
         teacher.</p>
@@ -275,8 +261,8 @@
         <a href="blogs/how-i-ended-up-in-mathematics.html">How I Ended Up in Mathematics</a>.</p>
       </section>
 
-      <section class="pg-section" data-tags="biography">
-        <h2>Life after Ph.D.</h2>
+      <section class="pg-section">
+        <h2 data-also="postdoc, bar-ilan, current work, now, after phd">Life after Ph.D.</h2>
         <p>In October 2025 I joined Bar-Ilan University as a postdoctoral fellow working with Prof. Elena
         I. Bunina &mdash; a position I still hold today. The backstory of how I landed this position is
         actually pretty incredible.</p>
@@ -308,7 +294,7 @@
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>

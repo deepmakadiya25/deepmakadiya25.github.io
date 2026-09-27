@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Restores the saved colour, typeface and light/dark choice before the page
+     paints. These pages do not use the five styles. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Useful Links — Deep H. Makadiya</title>
 
@@ -26,32 +25,24 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pages.css">
 </head>
 <body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- THE TOP BAR — the same on every page of this set; only the page that
-     carries aria-current="page" changes. The house on the left goes back to
-     the pages with a sidebar; the name goes to the Noticeboard. The three
-     round buttons on the right open the profile links, the appearance
-     controls and the search. If you add a page here, add it to the list in
-     pages.js too, so the search reads it.
-     ===================================================================== -->
+<!-- TOP BAR. The same on every page of this set; only the link carrying
+     aria-current="page" changes. If you add a page here, add it to the list in
+     pages.js too, or the search will not find it. -->
 <header class="tb">
   <div class="tb-inner">
     <a class="tb-home" href="index.html">
       <span class="tb-home-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M14.2 14.6H9.8m1.7-1.8-1.8 1.8 1.8 1.8"/></svg></span><span>Back to Home</span>
     </a>
     <span class="tb-div" aria-hidden="true"></span>
-    <!-- On a narrow screen the six page links hide behind the menu button, so
-         the bar stops saying which page you are on. This span says it instead:
-         the stylesheet shows it and hides the name below 860px, and does the
-         opposite above it. It comes FIRST so that one plain CSS rule
-         (".tb-page-name + .tb-name") can hide the name when it is showing. -->
+    <!-- Shows the page name on narrow screens, where the links hide behind the
+         menu button. Keep it FIRST: the CSS hides the name next to it. -->
     <span class="tb-page-name">Useful Links</span>
     <a class="tb-name" href="noticeboard.html">Deep H. Makadiya</a>
     <nav class="tb-nav" id="pageNav" aria-label="Second set of pages">
@@ -82,12 +73,11 @@
       </ul>
       </div>
 
-      <!-- APPEARANCE — the same three controls as the sidebar pages, minus
-           the five styles, which this set does not use. The markup matches
-           the sidebar's exactly so script.js drives both. -->
+      <!-- APPEARANCE. Keep this markup the same as on the sidebar pages, so
+           script.js can drive both. -->
       <div class="tb-pop tb-pop-wide" id="appearancePanel" hidden>
         <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Theme</p>
         <div class="modes" role="group" aria-label="Light or dark mode">
         <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
         <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
@@ -157,15 +147,16 @@
   </div>
 </header>
 
-<!-- SEARCH — reads every page of the site the first time it is used. -->
+<!-- SEARCH. pages.js fills it. It opens from the magnifier and from the
+           "/" key. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
@@ -174,181 +165,181 @@
   <div class="pg-wrap">
       <div class="pg-head">
         <p class="pg-kicker">Resources</p>
-        <h1>Useful Links</h1>
+        <h1 data-also="links, resources, bookmarks, tools, websites">Useful Links</h1>
       </div>
 
-      <section class="pg-section" data-tags="link">
-        <h2>Literature &amp; Search</h2>
+      <section class="pg-section">
+        <h2 data-also="papers, search engines, databases, literature, find papers">Literature &amp; Search</h2>
 
         <div class="links-block">
           <div class="item">
-            <h3><a href="https://arxiv.org" target="_blank" rel="noopener">arXiv</a></h3>
+            <h3 data-also="preprints, eprints, papers"><a href="https://arxiv.org" target="_blank" rel="noopener">arXiv</a></h3>
             <p>Preprints, for everything.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.researchgate.net" target="_blank" rel="noopener">ResearchGate</a></h3>
+            <h3 data-also="profile, papers, network"><a href="https://www.researchgate.net" target="_blank" rel="noopener">ResearchGate</a></h3>
             <p>A repository and network for researchers.</p>
           </div>
           <div class="item">
-            <h3><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a></h3>
+            <h3 data-also="citations, profile, papers"><a href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a></h3>
             <p>Citation counts and a quick way to find who has cited what.</p>
           </div>
           <div class="item">
-            <h3><a href="https://mathscinet.ams.org/mathscinet/publications-search" target="_blank" rel="noopener">MathSciNet</a></h3>
+            <h3 data-also="reviews, ams, mathematical reviews"><a href="https://mathscinet.ams.org/mathscinet/publications-search" target="_blank" rel="noopener">MathSciNet</a></h3>
             <p>Reviews and citation data &mdash; subscription only.</p>
           </div>
           <div class="item">
-            <h3><a href="https://zbmath.org" target="_blank" rel="noopener">zbMATH Open</a></h3>
+            <h3 data-also="zentralblatt, reviews, database"><a href="https://zbmath.org" target="_blank" rel="noopener">zbMATH Open</a></h3>
             <p>Reviews and citation data &mdash; open to everyone.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a></h3>
+            <h3 data-also="papers, citations, search"><a href="https://www.semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a></h3>
             <p>Paper search with citation context.</p>
           </div>
           <div class="item">
-            <h3><a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a></h3>
+            <h3 data-also="papers, metadata, open data"><a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a></h3>
             <p>An open catalogue of papers, authors and institutions.</p>
           </div>
         </div>
       </section>
 
-      <section class="pg-section" data-tags="link">
-        <h2>News, Conferences &amp; Schools</h2>
+      <section class="pg-section">
+        <h2 data-also="conferences, schools, events, announcements, workshops">News, Conferences &amp; Schools</h2>
 
         <div class="links-block">
           <div class="item">
-            <h3><a href="https://www.advgrouptheory.com/GTNews.html" target="_blank" rel="noopener">Group Theory News</a></h3>
+            <h3 data-also="news, group theory, announcements"><a href="https://www.advgrouptheory.com/GTNews.html" target="_blank" rel="noopener">Group Theory News</a></h3>
             <p>A running calendar of group theory conferences and workshops around the world.</p>
           </div>
           <div class="item">
-            <h3><a href="https://representationtheory.ca/" target="_blank" rel="noopener">RepresentationTheory.ca</a></h3>
+            <h3 data-also="representation theory, conferences, listings"><a href="https://representationtheory.ca/" target="_blank" rel="noopener">RepresentationTheory.ca</a></h3>
             <p>Upcoming conferences and meetings in representation theory.</p>
           </div>
           <div class="item">
-            <h3><a href="https://mathmeetings.net/gr-ra" target="_blank" rel="noopener">Mathematics Meetings &mdash; groups and algebras</a></h3>
+            <h3 data-also="conferences, meetings, algebra, calendar"><a href="https://mathmeetings.net/gr-ra" target="_blank" rel="noopener">Mathematics Meetings &mdash; groups and algebras</a></h3>
             <p>Conferences, workshops and summer schools; the site covers every area, and this link is
             filtered to group theory and algebra.</p>
           </div>
           <div class="item">
-            <h3><a href="https://web.math.ucsb.edu/~jon.mccammond/geogrouptheory/index.html" target="_blank" rel="noopener">The Geometric Group Theory Page</a></h3>
+            <h3 data-also="ggt, geometric group theory, resources"><a href="https://web.math.ucsb.edu/~jon.mccammond/geogrouptheory/index.html" target="_blank" rel="noopener">The Geometric Group Theory Page</a></h3>
             <p>A directory for geometric group theory and low-dimensional topology &mdash; people,
             organizations, conferences, journals and problem lists.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.atmschools.org" target="_blank" rel="noopener">ATM Schools (NCM)</a></h3>
+            <h3 data-also="ncm, atm, schools, india, training"><a href="https://www.atmschools.org" target="_blank" rel="noopener">ATM Schools (NCM)</a></h3>
             <p>The National Centre for Mathematics&rsquo; annual schools and workshops in India.</p>
           </div>
           <div class="item">
-            <h3><a href="https://icts.res.in/" target="_blank" rel="noopener">ICTS, Bengaluru</a></h3>
+            <h3 data-also="icts, bengaluru, programmes, india"><a href="https://icts.res.in/" target="_blank" rel="noopener">ICTS, Bengaluru</a></h3>
             <p>Programmes, schools and discussion meetings at the International Centre for Theoretical
             Sciences, often several months long.</p>
           </div>
         </div>
       </section>
 
-      <section class="pg-section" data-tags="link">
-        <h2>Useful Tools</h2>
+      <section class="pg-section">
+        <h2 data-also="tools, calculators, software, computation">Useful Tools</h2>
 
         <div class="links-block">
           <div class="item">
-            <h3><a href="https://matrixcalc.org/" target="_blank" rel="noopener">Matrix calculator</a></h3>
+            <h3 data-also="matrix, linear algebra, calculator"><a href="https://matrixcalc.org/" target="_blank" rel="noopener">Matrix calculator</a></h3>
             <p>A handy way to check a matrix computation &mdash; and it accepts variable entries, not just
             numbers.</p>
           </div>
           <div class="item">
-            <h3><a href="https://billcookmath.com/sage/Lie_algebra/root_demo_prelim.html" target="_blank" rel="noopener">Simple Lie Algebra Roots &amp; Weights</a></h3>
-            <p>Give it a type \(X_N\) and a highest weight; it returns the Cartan matrix, the Dynkin diagram
+            <h3 data-also="root system, weights, lie algebra, dynkin"><a href="https://billcookmath.com/sage/Lie_algebra/root_demo_prelim.html" target="_blank" rel="noopener">Simple Lie Algebra Roots &amp; Weights</a></h3>
+            <p>Give it a type <i>X</i><sub>N</sub> and a highest weight; it returns the Cartan matrix, the Dynkin diagram
             and the weights.</p>
           </div>
           <div class="item">
-            <h3><a href="https://q.uiver.app" target="_blank" rel="noopener">quiver</a></h3>
+            <h3 data-also="commutative diagrams, tikz, drawing"><a href="https://q.uiver.app" target="_blank" rel="noopener">quiver</a></h3>
             <p>A commutative diagram editor that exports <code>tikz-cd</code>.</p>
           </div>
           <div class="item">
-            <h3><a href="https://detexify.kirelabs.org/#/" target="_blank" rel="noopener">Detexify</a></h3>
+            <h3 data-also="latex symbols, symbol finder, handwriting"><a href="https://detexify.kirelabs.org/#/" target="_blank" rel="noopener">Detexify</a></h3>
             <p>Draw a symbol with the mouse and it tells you the LaTeX command.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.wolframalpha.com" target="_blank" rel="noopener">WolframAlpha</a></h3>
+            <h3 data-also="calculator, computation, wolfram"><a href="https://www.wolframalpha.com" target="_blank" rel="noopener">WolframAlpha</a></h3>
             <p>Quick symbolic and numerical answers.</p>
           </div>
           <div class="item">
-            <h3><a href="https://sagecell.sagemath.org/" target="_blank" rel="noopener">SageMathCell</a></h3>
+            <h3 data-also="sage, computation, online"><a href="https://sagecell.sagemath.org/" target="_blank" rel="noopener">SageMathCell</a></h3>
             <p>Run Sage in the browser, with nothing to install.</p>
           </div>
           <div class="item">
-            <h3><a href="https://magma.maths.usyd.edu.au/calc/" target="_blank" rel="noopener">Magma Calculator</a></h3>
+            <h3 data-also="magma, computer algebra, online"><a href="https://magma.maths.usyd.edu.au/calc/" target="_blank" rel="noopener">Magma Calculator</a></h3>
             <p>Magma in the browser, no licence needed &mdash; sixty seconds per run.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.gap-system.org" target="_blank" rel="noopener">GAP</a></h3>
+            <h3 data-also="computer algebra, groups, software"><a href="https://www.gap-system.org" target="_blank" rel="noopener">GAP</a></h3>
             <p>Computational discrete algebra, with large libraries of groups and character tables.</p>
           </div>
         </div>
       </section>
 
-      <section class="pg-section" data-tags="link">
-        <h2>Reference, Databases &amp; History</h2>
+      <section class="pg-section">
+        <h2 data-also="reference, encyclopedia, history, databases, lookup">Reference, Databases &amp; History</h2>
 
         <div class="links-block">
           <div class="item">
-            <h3><a href="https://mathworld.wolfram.com" target="_blank" rel="noopener">MathWorld</a></h3>
+            <h3 data-also="encyclopedia, wolfram, reference"><a href="https://mathworld.wolfram.com" target="_blank" rel="noopener">MathWorld</a></h3>
             <p>A broad encyclopedia of mathematical definitions and identities.</p>
           </div>
           <div class="item">
-            <h3><a href="https://stacks.math.columbia.edu" target="_blank" rel="noopener">The Stacks Project</a></h3>
+            <h3 data-also="algebraic geometry, stacks, reference"><a href="https://stacks.math.columbia.edu" target="_blank" rel="noopener">The Stacks Project</a></h3>
             <p>An open, fully cross-referenced textbook on algebraic geometry.</p>
           </div>
           <div class="item">
-            <h3><a href="https://ncatlab.org/nlab/show/HomePage" target="_blank" rel="noopener">nLab</a></h3>
+            <h3 data-also="category theory, wiki, reference"><a href="https://ncatlab.org/nlab/show/HomePage" target="_blank" rel="noopener">nLab</a></h3>
             <p>A collaborative wiki on mathematics, written from a category-theoretic point of view.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.lmfdb.org" target="_blank" rel="noopener">LMFDB</a></h3>
+            <h3 data-also="l-functions, modular forms, database"><a href="https://www.lmfdb.org" target="_blank" rel="noopener">LMFDB</a></h3>
             <p>Databases of L-functions, modular forms and abstract groups &mdash; twisted Chevalley groups
             among them.</p>
           </div>
           <div class="item">
-            <h3><a href="https://brauer.maths.qmul.ac.uk/Atlas/v3/" target="_blank" rel="noopener">ATLAS of Finite Group Representations</a></h3>
+            <h3 data-also="atlas, finite groups, representations"><a href="https://brauer.maths.qmul.ac.uk/Atlas/v3/" target="_blank" rel="noopener">ATLAS of Finite Group Representations</a></h3>
             <p>Representations, generators and maximal subgroups for the finite simple groups.</p>
           </div>
           <div class="item">
-            <h3><a href="https://mathshistory.st-andrews.ac.uk" target="_blank" rel="noopener">MacTutor History of Mathematics</a></h3>
+            <h3 data-also="history, biographies, mathematicians"><a href="https://mathshistory.st-andrews.ac.uk" target="_blank" rel="noopener">MacTutor History of Mathematics</a></h3>
             <p>Biographies of mathematicians, kept at St Andrews.</p>
           </div>
           <div class="item">
-            <h3><a href="https://fabpedigree.com/james/gmat200.htm" target="_blank" rel="noopener">The 200 Greatest Mathematicians</a></h3>
+            <h3 data-also="history, list, mathematicians"><a href="https://fabpedigree.com/james/gmat200.htm" target="_blank" rel="noopener">The 200 Greatest Mathematicians</a></h3>
             <p>One writer&rsquo;s ranked list, argued at length.</p>
           </div>
           <div class="item">
-            <h3><a href="https://bhavana.org.in" target="_blank" rel="noopener">Bh&#257;van&#257;</a></h3>
+            <h3 data-also="magazine, india, mathematics magazine"><a href="https://bhavana.org.in" target="_blank" rel="noopener">Bh&#257;van&#257;</a></h3>
             <p>A quarterly magazine on mathematics and the people who do it, published from India.</p>
           </div>
         </div>
       </section>
 
-      <section class="pg-section" data-tags="link">
-        <h2>Community &amp; Blogs</h2>
+      <section class="pg-section">
+        <h2 data-also="blogs, forums, community, questions, discussion">Community &amp; Blogs</h2>
 
         <div class="links-block">
           <div class="item">
-            <h3><a href="https://terrytao.wordpress.com/" target="_blank" rel="noopener">Terence Tao&rsquo;s blog, <em>What&rsquo;s new</em></a></h3>
+            <h3 data-also="tao, blog, what is new"><a href="https://terrytao.wordpress.com/" target="_blank" rel="noopener">Terence Tao&rsquo;s blog, <em>What&rsquo;s new</em></a></h3>
             <p>Expository notes, lecture material and research updates across a wide sweep of mathematics.</p>
           </div>
           <div class="item">
-            <h3><a href="https://cameroncounts.wordpress.com" target="_blank" rel="noopener">Peter Cameron&rsquo;s blog</a></h3>
+            <h3 data-also="cameron, blog, group theory"><a href="https://cameroncounts.wordpress.com" target="_blank" rel="noopener">Peter Cameron&rsquo;s blog</a></h3>
             <p>A group theorist writing regularly about groups, conferences and the life of the subject.</p>
           </div>
           <div class="item">
-            <h3><a href="https://mathoverflow.net" target="_blank" rel="noopener">MathOverflow</a></h3>
+            <h3 data-also="questions, answers, forum, research level"><a href="https://mathoverflow.net" target="_blank" rel="noopener">MathOverflow</a></h3>
             <p>Research-level questions and answers.</p>
           </div>
           <div class="item">
-            <h3><a href="https://math.stackexchange.com" target="_blank" rel="noopener">Mathematics Stack Exchange</a></h3>
+            <h3 data-also="questions, answers, forum, help"><a href="https://math.stackexchange.com" target="_blank" rel="noopener">Mathematics Stack Exchange</a></h3>
             <p>The same format, pitched below research level.</p>
           </div>
           <div class="item">
-            <h3><a href="https://www.quora.com" target="_blank" rel="noopener">Quora</a></h3>
+            <h3 data-also="questions, answers, forum"><a href="https://www.quora.com" target="_blank" rel="noopener">Quora</a></h3>
             <p>General-purpose question and answer site.</p>
           </div>
         </div>
@@ -357,7 +348,7 @@
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>

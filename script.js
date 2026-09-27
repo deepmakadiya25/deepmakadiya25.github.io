@@ -1,52 +1,44 @@
 /* =========================================================================
    Deep H. Makadiya — academic site. One script, shared by every page.
 
-   WHAT IS IN HERE, in the order it appears. Each block below carries its
-   own note explaining what it does and what (if anything) you must edit
-   when you add content.
+   The blocks in here, in order:
 
-     1  LAST_UPDATED          the one line you normally change (just below)
-     2  Mobile sidebar        the menu button, overlay and Escape key
+     1  LAST_UPDATED          the date shown in every footer
+     2  Mobile sidebar        menu button, overlay, Escape key
      3  Section tabs          the scrolling tab row, fades and arrows
-     4  Colour picker         sets data-theme on <html>
-     5  Appearance panel      opens/closes the four pickers, remembers it
-     6  Typeface picker       sets data-font on <html>
-     7  Style picker          sets data-style (and data-panel) on <html>
-     8  Light / dark mode     Light, Dark or Auto; sets data-mode on <html>
-     9  "Last updated"        writes LAST_UPDATED into every footer
+     4  Colour picker         sets data-theme
+     5  Appearance panel      opens the four pickers, remembers it
+     6  Typeface picker       sets data-font
+     7  Style picker          sets data-style and data-panel
+     8  Light / dark mode     sets data-mode
+     9  "Last updated"        writes the date into every footer
     10  Gallery lightbox      gallery.html
     11  More / Less blocks    Useful Links
     12  Language bubbles      Biography, touch screens only
     13  Rotating news cards   home page
     14  Abstract toggles      Research
-    15  Scrollspy             marks the tab of the section you are reading
-    16  Page name in the bar  phones: the page's name appears beside yours
-                              once the in-page tab bar reaches the top
+    15  Scrollspy             marks the tab you are reading
+    16  Page name in the bar  phones only
 
-   HOW THE APPEARANCE CONTROLS WORK (blocks 4 to 8). Each picker writes one
-   attribute on the <html> element and saves the choice in the visitor's
-   browser (localStorage). styles.css does all the actual re-colouring and
-   re-shaping from those attributes:
+   Each picker sets one attribute on <html> and saves the choice in the
+   visitor's browser. styles.css does the re-colouring and re-shaping:
 
-     data-theme="sage"      colour scheme          key "site-theme"
-     data-font="bitter"     typeface pair          key "site-font"
-     data-style="midnight"  layout style           key "site-style"
-     data-mode="dark"       dark mode              key "site-mode"
-     data-appearance="open" panel left open        key "site-appearance"
+     data-theme       colour scheme    key "site-theme"
+     data-font        typeface pair    key "site-font"
+     data-style       layout style     key "site-style"
+     data-mode        dark mode        key "site-mode"
+     data-appearance  panel left open  key "site-appearance"
 
-   The four axes are independent — any colour works with any typeface, any
-   style, in light or dark. A small script in every page's <head> re-applies
-   the saved attributes BEFORE the page paints, so nothing flickers. If you
-   ever add a page, copy that <head> script across too or the visitor's
-   choices will be ignored on it.
+   RULE: every page needs the small script in its <head> that re-applies
+   these before the page paints. A new page without it will ignore the
+   visitor's choices.
 
-   Nearly every block finds its own elements with querySelectorAll, so
-   adding one more publication, photo, link, news card or tab is an HTML
-   edit only — this file needs no change.
+   Blocks find their own elements, so adding a publication, photo, link,
+   news card or tab is an HTML edit only.
    ========================================================================= */
 
-/* THE ONE LINE TO CHANGE WHEN YOU UPDATE THE SITE.
-   Shown as "Last updated: ..." in the footer of every page. */
+/* 1  LAST_UPDATED. Change this on every update. It is shown as
+   "Last updated: ..." in the footer of every page. */
 var LAST_UPDATED = "27 September 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -69,18 +61,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (toggle) toggle.setAttribute("aria-expanded", "false");
   }
 
-  // Escape closes the slide-in menu, as people expect it to.
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeMenu();
   });
 
-  // The button opens the menu and, while it is open, closes it again.
   if (toggle) toggle.addEventListener("click", function () {
     if (sidebar.classList.contains("open")) { closeMenu(); } else { openMenu(); }
   });
   if (overlay) overlay.addEventListener("click", closeMenu);
 
-  // Close the menu automatically if someone taps a page link inside it.
+  // tapping a page link inside the menu closes it
   if (sidebar) {
     var links = sidebar.querySelectorAll("a");
     for (var i = 0; i < links.length; i++) {
@@ -88,9 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // In-page section tabs: one scrollable line, with fade hints and arrows
-  // that appear only when the tabs overflow. Runs for every
-  // ".page-tabs-wrap" on the page — no edits needed when you add a tab.
+  // SECTION TABS. One scrolling line per ".page-tabs-wrap", with fades and
+  // arrows that show only when the tabs overflow.
   var tabWraps = document.querySelectorAll(".page-tabs-wrap");
   tabWraps.forEach(function (wrap) {
     var tabs = wrap.querySelector(".page-tabs");
@@ -121,17 +110,13 @@ document.addEventListener("DOMContentLoaded", function () {
     tabs.addEventListener("scroll", update);
     window.addEventListener("resize", update);
     update();
-    // Measure again once the web font has swapped in: the row is wider in Lora
-    // than in the fallback, so a first measurement can miss the overflow and
-    // leave the arrows and fades hidden when they are actually needed.
+    // GOTCHA: measure again once the web font loads. The row is wider in Lora
+    // than in the fallback, so the first measurement can miss the overflow.
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
   });
 
-  // COLOUR PICKER (the circles in the sidebar). Clicking one sets
-  // data-theme="..." on <html>; styles.css re-states its colour variables
-  // per scheme, so the page recolours at once. The choice is saved in the
-  // browser and re-applied by the small script in each page's <head>.
-  // Works with whatever circles it finds — adding a scheme is HTML + CSS only.
+  // COLOUR PICKER (the circles in the sidebar). Clicking one sets data-theme
+  // on <html> and saves the choice. Adding a scheme is HTML and CSS only.
   var STORE_KEY = "site-theme";
   var swatches = document.querySelectorAll("[data-set-theme]");
 
@@ -156,13 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   markActive();
 
-  // APPEARANCE PANEL. The row in the sidebar opens and closes the four
-  // controls beneath it, and the state is remembered: open it once and it
-  // stays open as you move around the site and after a refresh. The panel
-  // is shown by data-appearance="open" on <html>, which the script in each
-  // page's <head> sets before the page paints, so an open panel never
-  // flickers shut on load. This code only keeps the button in step and
-  // writes the choice down.
+  // APPEARANCE PANEL. The sidebar row opens and closes the four pickers, and
+  // the state is remembered. The <head> script sets data-appearance before
+  // the page paints, so an open panel never flickers shut. This only keeps
+  // the button in step and saves the choice.
   var APPEARANCE_KEY = "site-appearance";
   var appearanceToggle = document.getElementById("appearanceToggle");
   if (appearanceToggle) {
@@ -179,11 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // TYPEFACE PICKER (the five "A" circles). Clicking one sets
-  // data-font="..." on <html>; styles.css names a heading face and a body
-  // face per pair, so the whole site re-sets at once. The choice is saved in
-  // the browser and re-applied by the small script in each page's <head>.
-  // Works with whatever circles it finds — adding a pair is HTML + CSS only.
+  // TYPEFACE PICKER (the five "A" circles). Clicking one sets data-font on
+  // <html> and saves the choice. Adding a pair is HTML and CSS only.
   var FONT_KEY = "site-font";
   var fontSwatches = document.querySelectorAll("[data-set-font]");
 
@@ -209,10 +188,8 @@ document.addEventListener("DOMContentLoaded", function () {
   markFont();
 
   // STYLE PICKER (the "1 2 3 4 5" circles). Clicking one sets data-style on
-  // <html>; the STYLES section of styles.css re-shapes the site to match.
-  // Classic (circle 2) is the plain site with no [data-style] rules of its
-  // own, so nothing breaks if the attribute is missing or holds a name this
-  // version of the stylesheet does not know.
+  // <html>, and styles.css re-shapes the site. Classic has no rules of its
+  // own, so a missing or unknown name is harmless.
   var STYLE_KEY = "site-style";
   var styleSwatches = document.querySelectorAll("[data-set-style]");
 
@@ -227,10 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
       styleSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
     }
   }
-  // These three put a dark navigation panel against the light page. They
-  // share every rule under [data-panel="dark"] in styles.css, so the
-  // attribute goes on alongside data-style. Add a style to this list and it
-  // inherits the whole dark panel for free.
+  // RULE: styles named here also get data-panel="dark", which is how they
+  // share the dark navigation panel in styles.css. Keep this list in step
+  // with the styles that want that panel.
   var DARK_PANEL_STYLES = ["contrast", "midnight", "grove"];
 
   function applyStyle(picked) {
@@ -254,16 +230,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   markStyle();
 
-  // LIGHT / DARK MODE (the three buttons: Light, Dark, Auto). Dark sets
-  // data-mode="dark" on <html>; styles.css carries a dark version of every
-  // colour scheme, so the whole site flips at once and the chosen colour is
-  // kept. Auto — what everyone gets until they choose otherwise — follows the
-  // light/dark setting of their phone or laptop and changes with it while the
-  // page is open. The choice is saved in the browser and re-applied by the
-  // small script in every page's <head>. The same three buttons appear in the
-  // sidebar of the main pages and in the appearance menu of the second set,
-  // and this one block drives both: it works with whatever buttons carrying
-  // data-set-mode it finds, or with none at all.
+  // THEME (Light, Dark, Auto). Dark sets data-mode on <html>;
+  // every colour scheme has a dark version, so the chosen colour is kept.
+  // Auto is the default and follows the phone or laptop setting, changing
+  // with it while the page is open. This one block drives the buttons in the
+  // sidebar and the ones in the second set's appearance menu.
   var MODE_KEY = "site-mode";
   var modeButtons = document.querySelectorAll("[data-set-mode]");
   var systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
@@ -300,13 +271,9 @@ document.addEventListener("DOMContentLoaded", function () {
     else if (systemDark.addListener) { systemDark.addListener(followSystem); }   // older Safari
   }
 
-  // THE PAGE NAME IN THE PHONE TOP BAR. While the page header is still on
-  // screen the bar carries only the site name. Once the in-page tab bar has
-  // risen to the top — the moment the header has gone by — the name of the
-  // page appears beside it, in smaller letters. Pages without a tab bar (the
-  // home page) never show it. The name is taken from whichever menu link is
-  // marked as the current one, so nothing here needs editing when a page is
-  // renamed.
+  // THE PAGE NAME IN THE PHONE TOP BAR. Once the in-page tab bar reaches the
+  // top, the page's name appears beside the site name. Pages with no tab bar
+  // never show it. The name comes from the current menu link.
   var topbar = document.querySelector(".topbar");
   var topbarPage = document.getElementById("topbarPage");
   var tabsWrap = document.querySelector(".page-tabs-wrap");
@@ -318,12 +285,9 @@ document.addEventListener("DOMContentLoaded", function () {
       var v = getComputedStyle(document.documentElement).getPropertyValue("--topbar-h");
       return parseFloat(v) || 52;
     };
-    // WHERE THE TAB BAR COMES TO REST. Most styles park it right under the
-    // top bar, but the "card" style leaves a gap so the rounded bar can float
-    // clear of it. Asking the element itself where it stops — its own "top" —
-    // covers every style, this one included; before, the height of the top bar
-    // was assumed, and under "card" the test could never come true, so the
-    // page's name never appeared there.
+    // GOTCHA: ask the element where it comes to rest instead of assuming the
+    // top bar's height. The "card" style leaves a gap, and the assumption
+    // meant the page name never appeared under that style.
     var restTop = function () {
       var t = parseFloat(getComputedStyle(tabsWrap).top);
       return isNaN(t) ? barHeight() : t;
@@ -344,8 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
     checkTabs();
   }
 
-  // "LAST UPDATED" — written into every page's footer from LAST_UPDATED at
-  // the top of this file. The line stays hidden if no date is set.
+  // "LAST UPDATED" in every footer, from LAST_UPDATED at the top of this
+  // file. The line stays hidden if no date is set.
   var stamp = document.getElementById("lastUpdated");
   var stampLine = document.getElementById("lastUpdatedLine");
   if (stamp && stampLine && LAST_UPDATED) {
@@ -353,10 +317,9 @@ document.addEventListener("DOMContentLoaded", function () {
     stampLine.hidden = false;
   }
 
-  // GALLERY LIGHTBOX (gallery.html). Clicking a ".gallery-item" tile opens the
-  // photo full size with its figcaption underneath. Clicking anywhere outside
-  // the photo, or pressing Escape, closes it again. The markup is built here,
-  // so a new photo tile needs nothing beyond its <figure> in the HTML.
+  // GALLERY LIGHTBOX (gallery.html). A ".gallery-item" tile opens the photo
+  // full size with its caption. A click outside the photo, or Escape, closes
+  // it. A new photo needs only its <figure> in the HTML.
   var tiles = document.querySelectorAll(".gallery-item");
   if (tiles.length) {
     var box = document.createElement("div");
@@ -397,9 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (var t = 0; t < tiles.length; t++) {
       (function (fig) {
-        // Wrap the caption text so styles.css can clamp it to three lines
-        // without a fourth bleeding into the padding. Plain text in the HTML;
-        // the span is added here.
+        // Wrap the caption text so styles.css can clamp it to three lines.
         var cap = fig.querySelector("figcaption");
         if (cap && !cap.querySelector(".cap-text")) {
           var span = document.createElement("span");
@@ -416,11 +377,9 @@ document.addEventListener("DOMContentLoaded", function () {
       })(tiles[t]);
     }
 
-    // ON TOUCH SCREENS there is no hover, so the caption is shown for whichever
-    // tile you have scrolled to — the one nearest the middle of the screen —
-    // the way a video list on a tablet plays the item you have scrolled onto.
-    // A finger resting on a tile marks that one instead. With a mouse this is
-    // all skipped and :hover in styles.css does the work.
+    // On touch screens there is no hover, so the caption is shown for the tile
+    // nearest the middle of the screen, or the one being touched. With a mouse
+    // this is skipped and :hover in styles.css does the work.
     if (window.matchMedia && window.matchMedia("(hover: none)").matches) {
       var activeTile = null;
       function setActive(fig) {
@@ -455,7 +414,6 @@ document.addEventListener("DOMContentLoaded", function () {
       pickNearest();
     }
 
-    // Anywhere that is not the photo itself closes the lightbox.
     box.addEventListener("click", function (e) {
       if (e.target !== boxImg) closeBox();
     });
@@ -465,13 +423,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // "MORE / LESS" BLOCKS (useful-links.html, and the past announcements).
-  // Each ".links-block" shows its first three ".item" links, and each
-  // ".fold-list" the first three of its own rows; anything beyond that is
-  // hidden behind a "More" button added here, which turns into "Less" once
-  // expanded. The arrow is the same glyph in both states, turned down or up
-  // by styles.css, so the two can never differ in size. A block with three
-  // items or fewer gets no button at all, so adding one is just pasting
-  // another ".item" (or another row) into the HTML and nothing else.
+  // Each block shows its first three items and hides the rest behind a
+  // "More" button added here. A block of three or fewer gets no button, so
+  // adding an item is an HTML edit only.
   var VISIBLE_LINKS = 3;
   var linkBlocks = document.querySelectorAll(".links-block, .fold-list");
   for (var b = 0; b < linkBlocks.length; b++) {
@@ -495,8 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.className = "pub-toggle links-more";
       btn.setAttribute("aria-expanded", "false");
       label("More");
-      // a <button> may not live inside a <ul>, so a list's button goes just
-      // after the list rather than inside it
+      // a <button> may not sit inside a <ul>, so a list's button goes after it
       (isList ? block.parentNode : block).appendChild(btn);
 
       btn.addEventListener("click", function () {
@@ -504,8 +457,8 @@ document.addEventListener("DOMContentLoaded", function () {
         setExtras(isOpen);
         btn.setAttribute("aria-expanded", isOpen ? "false" : "true");
         label(isOpen ? "More" : "Less");
-        // Lay out any maths in the links that were hidden, the first time they
-        // are actually shown — measuring it while hidden can come out wrong.
+        // Lay out the maths the first time it is really shown: measuring it
+        // while hidden comes out wrong.
         if (!isOpen && !block.dataset.typeset &&
             window.MathJax && window.MathJax.typesetPromise) {
           block.dataset.typeset = "1";
@@ -515,50 +468,18 @@ document.addEventListener("DOMContentLoaded", function () {
     })(linkBlocks[b]);
   }
 
-  // SPOKEN LANGUAGE BUBBLES (bio.html). With a mouse or a keyboard the
-  // bubble appears on its own, from CSS. This is only for touch screens,
-  // where a tap has to open and close it. Tapping a second chip closes the
-  // first, and a tap anywhere else, or Escape, closes whichever is open.
-  var langChips = document.querySelectorAll(".lang-chip");
-  if (langChips.length) {
-    var closeLangs = function (except) {
-      for (var i = 0; i < langChips.length; i++) {
-        if (langChips[i] !== except) langChips[i].setAttribute("aria-expanded", "false");
-      }
-    };
-    for (var L = 0; L < langChips.length; L++) {
-      langChips[L].addEventListener("click", function (e) {
-        e.stopPropagation();
-        var open = this.getAttribute("aria-expanded") === "true";
-        closeLangs(this);
-        this.setAttribute("aria-expanded", open ? "false" : "true");
-      });
-    }
-    document.addEventListener("click", function () { closeLangs(null); });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeLangs(null);
-    });
-  }
-
-  // ROTATING NEWS CARDS (home page). Any ".carousel" shows one
-  // ".carousel-item" at a time and moves to the next every five seconds. The
-  // row of dots is built here from however many items are present, so adding
-  // or removing an item in the HTML needs no change in this file.
-  //   - rotation pauses while the pointer is over the card, or while the
-  //     keyboard focus is inside it, and picks up again afterwards;
-  //   - clicking a dot stops the rotation for good, on the assumption that
-  //     the visitor now wants to read at their own pace;
-  //   - a visitor whose system asks for reduced motion never gets rotation at
-  //     all, only the dots.
-  // Change the 5000 below to speed it up or slow it down (milliseconds).
+  // ROTATING NEWS CARDS (home page). A ".carousel" shows one item at a time
+  // and moves on every five seconds. The dots are built from the items found,
+  // so adding one is an HTML edit only. Rotation pauses on hover or focus,
+  // stops for good once a dot is clicked, and never starts for a visitor who
+  // asks for reduced motion. Change CAROUSEL_MS to alter the speed.
   var CAROUSEL_MS = 5000;
   var carousels = document.querySelectorAll("[data-carousel]");
   for (var c = 0; c < carousels.length; c++) {
     (function (box) {
       var items = box.querySelectorAll(".carousel-item");
       if (items.length === 0) return;
-      // one item is not a carousel: show it and leave it there — no dots, and
-      // no rotating from an item to itself every five seconds.
+      // one item is not a carousel: show it, with no dots and no rotation
       if (items.length === 1) { items[0].classList.add("is-current"); return; }
 
       var dots = document.createElement("div");
@@ -597,7 +518,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       show(0);
 
-      // Only rotate on its own when the visitor has not asked for less motion.
       var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!calm) {
         box.addEventListener("mouseenter", function () { paused = true; });
@@ -609,32 +529,9 @@ document.addEventListener("DOMContentLoaded", function () {
     })(carousels[c]);
   }
 
-  // FOLD-AWAY LISTS — a ".pg-toggle" button shows and hides the block named
-  // in its aria-controls (the past announcements, for one). The wording
-  // flips between "Show" and "Hide" on its own.
-  var folds = document.querySelectorAll(".pg-toggle[aria-controls]");
-  for (var g = 0; g < folds.length; g++) {
-    folds[g].addEventListener("click", function () {
-      var panel = document.getElementById(this.getAttribute("aria-controls"));
-      if (!panel) return;
-      var isOpen = this.getAttribute("aria-expanded") === "true";
-      this.setAttribute("aria-expanded", isOpen ? "false" : "true");
-      panel.hidden = isOpen;
-      // only the first text node: replacing textContent would take the
-      // caret <span> with it
-      var word = this.firstChild;
-      if (word && word.nodeType === 3) {
-        word.nodeValue = word.nodeValue.replace(isOpen ? /^Hide/ : /^Show/,
-                                                isOpen ? "Show" : "Hide");
-      }
-    });
-  }
-
-  // ABSTRACTS — each "Abstract" button opens the panel whose id matches its
-  // aria-controls. Works for any number of buttons; no edits when you add a
-  // paper.
-  // ":not(.links-more)" keeps the "More" buttons on the Useful Links page out
-  // of this — they share the .pub-toggle look but open no abstract panel.
+  // ABSTRACTS. Each "Abstract" button opens the panel named in its
+  // aria-controls, so adding a paper needs no edit here. ":not(.links-more)"
+  // leaves out the Useful Links "More" buttons, which look the same.
   var absButtons = document.querySelectorAll(".pub-toggle:not(.links-more)");
   for (var a = 0; a < absButtons.length; a++) {
     absButtons[a].addEventListener("click", function () {
@@ -644,8 +541,8 @@ document.addEventListener("DOMContentLoaded", function () {
       this.setAttribute("aria-expanded", isOpen ? "false" : "true");
       panel.hidden = isOpen;
 
-      // The maths inside an abstract is laid out the first time the panel is
-      // actually shown — measuring it while hidden can come out wrong.
+      // Lay out the maths the first time the panel is really shown: measuring
+      // it while hidden comes out wrong.
       if (!isOpen && !panel.dataset.typeset &&
           window.MathJax && window.MathJax.typesetPromise) {
         panel.dataset.typeset = "1";
@@ -655,12 +552,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // -----------------------------------------------------------------------
-  // SECTION HIGHLIGHTING ("scrollspy")
-  // As you scroll an inner page, the tab for the section you are currently
-  // reading is marked with the "current" class (styled in styles.css). The
-  // section a tab points at is found from its own href — so adding, renaming
-  // or re-ordering tabs needs no change here. On narrow screens, where the
-  // tab row scrolls sideways, the highlighted tab is nudged into view.
+  // SCROLLSPY. As you scroll, the tab for the section you are reading gets
+  // the "current" class. Each tab's section comes from its own href, so
+  // adding or renaming tabs needs no change here. On narrow screens the
+  // highlighted tab is nudged into view.
   // -----------------------------------------------------------------------
   tabWraps.forEach(function (wrap) {
     var tabs = wrap.querySelector(".page-tabs");
@@ -683,11 +578,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!active) return;
       active.link.classList.add("current");
 
-      // Keep the highlighted tab visible when the row is scrollable. The
-      // arrows and the fades sit ON TOP of the row's own left and right
-      // padding, so a tab parked any closer than that padding ends up behind
-      // one of them. Measuring the padding rather than assuming a number also
-      // keeps this right at the widths where styles.css changes it.
+      // Keep the highlighted tab in view. The arrows and fades sit over the
+      // row's padding, so measure that padding and scroll clear of it.
       if (tabs.scrollWidth > tabs.clientWidth + 1) {
         var t = active.link;
         var pad = window.getComputedStyle(tabs);
@@ -698,18 +590,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (left < tabs.scrollLeft + padLeft) {
           tabs.scrollTo({ left: Math.max(0, left - padLeft), behavior: "smooth" });
         } else if (right > tabs.scrollLeft + tabs.clientWidth - padRight) {
-          // For the last tab this lands exactly at the end of the row, which
-          // is also what hides the right-hand arrow and fade.
           tabs.scrollTo({ left: right - tabs.clientWidth + padRight, behavior: "smooth" });
         }
       }
     }
 
     function spy() {
-      // Where a heading comes to rest when you click its tab — that is its
-      // CSS "scroll-margin-top", which already clears the frozen tab bar.
-      // Measuring from the same line means a tab lights up the instant you
-      // click it, instead of staying one section behind.
+      // A heading comes to rest at its CSS "scroll-margin-top", which clears
+      // the frozen tab bar. Measuring from that same line makes the tab light
+      // up as soon as it is clicked.
       var landing = parseFloat(getComputedStyle(links[0].target).scrollMarginTop);
       if (!landing || isNaN(landing)) landing = wrap.getBoundingClientRect().bottom + 12;
       var line = landing + 6;
@@ -717,9 +606,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (var i = 0; i < links.length; i++) {
         if (links[i].target.getBoundingClientRect().top <= line) found = links[i];
       }
-      // Above the first heading nothing is marked at all — the highlight
-      // only appears once you have actually scrolled into a section. At the
-      // very bottom of the page, always mark the last one.
+      // Nothing is marked above the first heading. At the very bottom of the
+      // page, always mark the last one.
       var atBottom = (window.innerHeight + window.pageYOffset) >=
                      (document.documentElement.scrollHeight - 2);
       if (atBottom) found = links[links.length - 1];

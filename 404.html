@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Puts back the visitor's saved colour, typeface and light or dark choice
+     before the page appears. These pages do not take the five styles, which
+     belong to the pages with a sidebar. Nothing to edit here. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
+<!-- A 404 page can be reached from any address, so this script points the
+     page at the site root. It skips that when the file is opened locally, where
+     it would break the links. Keep it and the onerror fallbacks below. -->
 <script>(function(){try{if(location.protocol!=="file:"&&location.pathname.replace(/[^/]*$/,"")!=="/"){document.write('<base href="/">');}}catch(e){}})();</script>
 <title>Page not found — Deep H. Makadiya</title>
 
@@ -27,8 +30,8 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+<!-- styles.css holds the colours, the typefaces and dark mode. pages.css holds
+     what this second set of pages does differently. -->
 <link rel="stylesheet" href="styles.css" onerror="this.onerror=null;this.href='/styles.css';">
 <link rel="stylesheet" href="pages.css" onerror="this.onerror=null;this.href='/pages.css';">
 </head>
@@ -50,27 +53,27 @@
         <p class="pg-choices">
           <a class="pg-choice" href="index.html">Home Page</a>
           <a class="pg-choice" href="noticeboard.html">Noticeboard</a>
-          <a class="pg-choice" href="navigation.html">Site Map</a>
+          <a class="pg-choice" href="navigation.html">The Site Guide</a>
         </p>
       </section>
   </div>
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
-<!-- THE SEARCH SHEET. The same on every page; pages.js fills it. It opens
-     from a magnifier where there is one, and from the "/" key anywhere. -->
+<!-- The search sheet, the same on every page. pages.js fills it. The "/" key
+     opens it, as does a magnifier where the page has one. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>

@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Restores the saved colour, typeface and light/dark choice before the page
+     paints. These pages do not use the five styles. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>News &amp; Updates — Deep H. Makadiya</title>
 
@@ -26,32 +25,24 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pages.css">
 </head>
 <body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- THE TOP BAR — the same on every page of this set; only the page that
-     carries aria-current="page" changes. The house on the left goes back to
-     the pages with a sidebar; the name goes to the Noticeboard. The three
-     round buttons on the right open the profile links, the appearance
-     controls and the search. If you add a page here, add it to the list in
-     pages.js too, so the search reads it.
-     ===================================================================== -->
+<!-- TOP BAR. The same on every page of this set; only the link carrying
+     aria-current="page" changes. If you add a page here, add it to the list in
+     pages.js too, or the search will not find it. -->
 <header class="tb">
   <div class="tb-inner">
     <a class="tb-home" href="index.html">
       <span class="tb-home-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M14.2 14.6H9.8m1.7-1.8-1.8 1.8 1.8 1.8"/></svg></span><span>Back to Home</span>
     </a>
     <span class="tb-div" aria-hidden="true"></span>
-    <!-- On a narrow screen the six page links hide behind the menu button, so
-         the bar stops saying which page you are on. This span says it instead:
-         the stylesheet shows it and hides the name below 860px, and does the
-         opposite above it. It comes FIRST so that one plain CSS rule
-         (".tb-page-name + .tb-name") can hide the name when it is showing. -->
+    <!-- Shows the page name on narrow screens, where the links hide behind the
+         menu button. Keep it FIRST: the CSS hides the name next to it. -->
     <span class="tb-page-name">News &amp; Updates</span>
     <a class="tb-name" href="noticeboard.html">Deep H. Makadiya</a>
     <nav class="tb-nav" id="pageNav" aria-label="Second set of pages">
@@ -82,12 +73,11 @@
       </ul>
       </div>
 
-      <!-- APPEARANCE — the same three controls as the sidebar pages, minus
-           the five styles, which this set does not use. The markup matches
-           the sidebar's exactly so script.js drives both. -->
+      <!-- APPEARANCE. Keep this markup the same as on the sidebar pages, so
+           script.js can drive both. -->
       <div class="tb-pop tb-pop-wide" id="appearancePanel" hidden>
         <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Theme</p>
         <div class="modes" role="group" aria-label="Light or dark mode">
         <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
         <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
@@ -157,15 +147,16 @@
   </div>
 </header>
 
-<!-- SEARCH — reads every page of the site the first time it is used. -->
+<!-- SEARCH. pages.js fills it. It opens from the magnifier and from the
+           "/" key. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
@@ -174,12 +165,12 @@
   <div class="pg-wrap">
       <div class="pg-head">
         <p class="pg-kicker">Highlights</p>
-        <h1>News &amp; Updates</h1>
+        <h1 data-also="news, updates, recent, what is new, timeline, milestones">News &amp; Updates</h1>
       </div>
 
-      <!-- THE TAG BUTTONS. Each one matches a word in an item's data-cats;
-           an item may carry several, separated by spaces. Adding a tag means
-           adding the word to the items and one button here. -->
+      <!-- TAG BUTTONS. Each matches a word in an item's data-cats, and an item
+           may carry several, separated by spaces. A new tag needs the word on
+           the items and one button here. -->
       <div class="blog-filters">
         <button type="button" class="blog-filter" data-filter="all" aria-pressed="true">All <span class="blog-count">(28)</span></button>
         <button type="button" class="blog-filter" data-filter="preprint" aria-pressed="false">Preprints <span class="blog-count">(6)</span></button>
@@ -190,7 +181,7 @@
         <button type="button" class="blog-filter" data-filter="milestone" aria-pressed="false">Milestones <span class="blog-count">(6)</span></button>
       </div>
 
-      <section class="pg-section" data-tags="news">
+      <section class="pg-section">
         <ul class="pg-news">
           <li data-cats="preprint"><span class="pg-when">2 Sep 2026</span><span>Preprint with Elena I. Bunina: &ldquo;<a href="https://doi.org/10.48550/arXiv.2609.02617" target="_blank" rel="noopener">Automorphisms of twisted Chevalley groups of type <sup>2</sup>A<sub>3</sub> and <sup>2</sup>A<sub>4</sub> over local rings</a>.&rdquo;<span class="post-tags"><span class="post-tag">Preprint</span></span></span></li>
           <li data-cats="talk conference"><span class="pg-when">27 Aug 2026</span><span>Invited talk, &ldquo;<a href="slides/2026-tbilisi-agmt.pdf" target="_blank" rel="noopener">Automorphisms of Twisted Chevalley Groups</a>,&rdquo; at the international workshop &ldquo;Algebraic Geometry and Model Theory of Groups and Rings IV,&rdquo; Tbilisi, Georgia (24&ndash;29 August).<span class="post-tags"><span class="post-tag">Talk</span><span class="post-tag">Conference</span></span></span></li>
@@ -226,7 +217,7 @@
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>

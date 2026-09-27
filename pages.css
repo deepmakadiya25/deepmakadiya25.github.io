@@ -1,28 +1,25 @@
 /* =========================================================================
    Deep H. Makadiya — THE SECOND SET OF PAGES
-   Noticeboard, Bio, Photos, News & Updates, Blogs, Useful Links, and every
-   blog post.
+   Noticeboard, Bio, Photos, News & Updates, Blogs, Useful Links, blog posts.
 
-   These pages have a design of their own: no sidebar, a bar across the top
-   instead, and one narrow column of text under it. They are loaded AFTER
-   styles.css, which they use only for its colours, its typefaces and its
-   dark mode — everything a visitor can switch except the five styles, which
-   belong to the sidebar pages and are deliberately not applied here.
+   No sidebar: a bar across the top and one narrow column under it. Loaded
+   AFTER styles.css, using only its colours, typefaces and dark mode. The five
+   styles belong to the sidebar pages and are deliberately not applied here.
 
-   WHAT IS IN THIS FILE, IN ORDER
-     1  THE PAGE           body, the column, headings, the footer
-     2  THE TOP BAR        the bar, its links, and the three tool buttons
-     3  THE THREE MENUS    links, appearance, search
-     4  DASHBOARD          the panels on the landing page
-     5  BIO                the life page, its timeline and its placeholders
-     6  BLOGS              the list of posts, its filters, and a post page
-     7  PHOTOS AND NEWS    the few extras those two pages need
-     8  RESPONSIVE         phones and tablets — LAST, on purpose
+   CONTENTS
+     1  THE PAGE
+     2  THE TOP BAR
+     3  THE THREE MENUS
+     4  DASHBOARD
+     5  BIO
+     6  BLOGS
+     7  PHOTOS AND NEWS
+     8  RESPONSIVE (last, on purpose)
 
-   EVERY CLASS HERE BEGINS "pg-" OR "tb-" so nothing can collide with the
-   sidebar pages. The controls inside the appearance menu are the exception:
-   they reuse the sidebar's own classes (.modes, .swatches, .fonts), so
-   script.js drives both sets with one piece of code.
+   RULE: every class here must begin "pg-" or "tb-" so it cannot collide with
+   the sidebar pages. The one exception is the appearance menu, which reuses
+   the sidebar's .modes, .swatches and .fonts so script.js drives both sets
+   with one piece of code.
    ========================================================================= */
 
 /* =========================================================================
@@ -35,25 +32,27 @@ body.pg{
   padding:0; margin:0;
 }
 
-/* The single column everything sits in. Narrower than the sidebar pages'
-   column: with no sidebar beside it, a wide measure would be tiring. */
+/* The single column. Narrower than the sidebar pages' column: with no
+   sidebar beside it, a wide measure would be tiring to read. */
 .pg-main{ display:block; padding:2.6rem 1.5rem 0; min-width:0; }
-/* Two pages carry no bar at all — the site map and the 404 — so their text
-   starts a little further down, where the bar would otherwise have been. */
+/* The Site Guide and the 404 carry no bar, so their text starts lower down. */
 .pg-main.pg-plain{ padding-top:3.4rem; }
 .pg-wrap{ max-width:46rem; margin:0 auto; min-width:0; }
 
-/* The head of a page: a small accent label, the title, one line beneath. */
 .pg-head{ margin:0 0 1.8rem; }
-/* THE LINE UNDER THE TITLE. The six pages with the top bar carry no tagline,
-   so a hairline does the separating instead: it closes the head of the page
-   and opens the first section. The three plain pages (Site Map,
-   Announcements, 404) still have their tagline and are left alone — which is
-   what ":not(.pg-plain)" is picking out, since those three and only those
-   three carry that class on <main>. */
+/* The pages with the top bar carry no tagline, so a hairline separates the
+   head of the page from the first section instead. ":not(.pg-plain)" picks
+   them out, because only the site map and 404 carry .pg-plain on <main>. */
 .pg-main:not(.pg-plain) .pg-head{ margin:0 0 2rem; }
 .pg-main:not(.pg-plain) .pg-head h1{ margin:0 0 1.15rem; }
 .pg-main:not(.pg-plain) .pg-head::after{
+  content:""; display:block; height:1px; background:var(--rule-2);
+}
+/* The Site Guide has no bar, so the rule above skips it, but it wants the same
+   hairline. That is all "nav-head" does. The 404 keeps its tagline. */
+.pg-main.pg-plain .nav-head{ margin:0 0 2rem; }
+.pg-main.pg-plain .nav-head h1{ margin:0 0 1.15rem; }
+.pg-main.pg-plain .nav-head::after{
   content:""; display:block; height:1px; background:var(--rule-2);
 }
 .pg-kicker{
@@ -63,52 +62,45 @@ body.pg{
 }
 .pg-head h1{
   margin:0 0 .6rem; font-family:var(--font-head); font-weight:800;
-  font-size:clamp(1.7rem, 6vw, 2.35rem); line-height:1.15; color:var(--ink);
+  font-size:clamp(1.65rem, 5.6vw, 2.15rem); line-height:1.15; color:var(--ink);
 }
 .pg-lede{ margin:0; font-size:1.02rem; color:var(--muted); }
 
-/* A section and its heading. The heading carries a hairline above it rather
-   than a box around it — the whole page is built from rules, not panels. */
-/* An element the scripts hide carries the "hidden" attribute, and the browser
-   turns that into display:none — but only at the weakest strength, so any
-   rule here that sets a display wins and the element stays on screen. That is
-   what happened to the News filters: the items were marked hidden and went on
-   showing. This settles it once for the whole site. */
+/* GOTCHA: the "hidden" attribute only hides at the weakest strength, so any
+   rule here that sets a display would override it and the element would stay
+   on screen. This settles it once for the whole site. */
 [hidden]{ display:none !important; }
 
 .pg-section{ margin:0 0 2rem; }
 .pg-section > h2{
   margin:0 0 .9rem; padding-top:.9rem;
   border-top:1px solid var(--rule-2);
-  font-family:var(--font-head); font-weight:700; font-size:1.18rem; color:var(--ink);
+  font-family:var(--font-head); font-weight:700; font-size:1.32rem; color:var(--ink);
 }
 .pg-section > h2:first-child{ padding-top:0; border-top:0; }
-.pg-section > h3{ margin:1.6rem 0 .5rem; font-family:var(--font-head); font-size:1.02rem; }
+.pg-section > h3{ margin:1.6rem 0 .5rem; font-family:var(--font-head); font-size:1.1rem; }
 .pg-section p{ margin:0 0 1rem; }
 .pg-section p:last-child{ margin-bottom:0; }
 
-/* A line set apart inside a section &mdash; the step-by-step chain on the
-   Biography uses it. The same rule as a blog post's blockquote, without the
-   italics, which would fight the bold inside it. The inner "p" rule is there
-   because ".pg-section p" would otherwise put a gap under the last line. */
+/* A line set apart inside a section. No italics, which would fight the bold
+   inside it. The inner "p" rule stops ".pg-section p" adding a gap at the end. */
 .pg-section blockquote{
   margin:1.4rem 0; padding:.3rem 0 .3rem 1.1rem;
   border-left:2px solid var(--accent); color:var(--muted);
 }
 .pg-section blockquote p{ margin:0; }
 
-/* A line of small print under a list or a section. */
+/* small print under a list or a section */
 .pg-note{ margin:.8rem 0 0; font-size:.86rem; color:var(--muted); font-style:italic; }
 
-/* The short list under "And also" on the navigation page. */
+/* the "And also" list on the navigation page */
 .nav-extras{ list-style:none; margin:0; padding:0; }
 .nav-extras li{ padding:.45rem 0; border-top:1px solid var(--rule-3); font-size:.94rem; }
 .nav-extras li:first-child{ border-top:0; }
 .nav-extras a{ color:var(--accent); text-decoration:none; }
 @media (hover: hover){ .nav-extras a:hover{ text-decoration:underline; } }
 
-/* The three ways on from the 404 page. Same box and the same fill on hover as
-   the buttons in the sidebar, so it is plainly the site's own. */
+/* the three ways on from the 404 page, drawn like the sidebar's buttons */
 .pg-choices{ display:flex; flex-wrap:wrap; gap:.7rem; margin:0; }
 .pg-choice{
   display:inline-flex; align-items:center; justify-content:center;
@@ -119,19 +111,14 @@ body.pg{
 @media (hover: hover){ .pg-choice:hover{ background:var(--accent); color:var(--on-accent); } }
 .pg-choice:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
-/* The sub-headings inside the site map's one section. */
+/* sub-headings inside the Site Guide's sections */
 .nav-group{ margin:1.6rem 0 .5rem; font-size:1rem; }
 .nav-group:first-of-type{ margin-top:.2rem; }
-
-/* "What is this site?" sits at the top of the site map, drawn like the
-   "Did you know?" panel at the foot of it so the two frame the page. */
-.nav-intro{ margin-bottom:2.4rem; }
-/* A tip box holding several panels rather than one: each takes its own line,
-   which reads better than three narrow columns of unequal text. */
+/* a tip box holding several panels: each takes its own line */
 .news-tip-multi .news-tip-text{ flex:1 1 100%; }
 .ui-ico{ display:inline-block; width:1em; height:1em; vertical-align:-.12em; }
 .ui-ico svg{ display:block; width:100%; height:100%; }
-/* several paragraphs inside one panel, rather than a single block of text */
+/* several paragraphs inside one panel */
 .news-tip-text p{ margin:0 0 .65rem; }
 .news-tip-text p:last-child{ margin:0; }
 .news-tip-text kbd{
@@ -139,15 +126,11 @@ body.pg{
   border:1px solid var(--line); border-radius:4px; padding:0 .3em;
 }
 
-/* "Did you know?" moved here from the home page. It keeps the shape it had
-   there — the label centred across the top, one panel of text underneath —
-   so the two sites still feel like one. */
+/* "Did you know?", keeping the shape it had on the home page */
 .nav-tip{ margin-top:2.4rem; }
 
-/* The two ways out of a page: a quiet link back, and the footer. */
 .pg-back{ margin:0 0 1.6rem; font-size:.88rem; }
-/* underlined, like any other link in the writing, so the two of them read as
-   links and not as part of the sentence */
+/* underlined, so it reads as a link and not as part of the sentence */
 .pg-back a{ color:var(--accent); text-decoration:underline;
             text-decoration-color:var(--accent-soft); text-underline-offset:2px; }
 @media (hover: hover){ .pg-back a:hover{ text-decoration-color:var(--accent); } }
@@ -160,8 +143,7 @@ body.pg{
 .pg-foot p{ margin:0 0 .35rem; }
 .pg-foot p:last-child{ margin:0; }
 .pg-foot a{ color:var(--muted); }
-/* One line where the row of links used to be: the way on for a reader who has
-   not found what they came for. */
+/* the way on for a reader who has not found what they came for */
 .pg-foot .pg-foot-find{ margin-bottom:.6rem; }
 .pg-foot .pg-foot-find a{ color:var(--accent); text-decoration:underline;
                           text-decoration-color:var(--accent-soft); text-underline-offset:2px; }
@@ -169,11 +151,6 @@ body.pg{
 
 /* =========================================================================
    2  THE TOP BAR
-   It stays at the top of the window as the page scrolls. Left to right:
-   a house icon and "Back to Home" (the sidebar site), a divider, the name
-   (which leads to the Noticeboard), then the six page links; and at the far
-   right the round tool buttons — find me online, appearance, search, and on a
-   phone the page menu as well.
    ========================================================================= */
 .tb{
   position:sticky; top:0; z-index:60;
@@ -201,9 +178,9 @@ body.pg{
   color:var(--ink); text-decoration:none; white-space:nowrap;
 }
 /* The page's own name, shown in the bar INSTEAD of his on a narrow screen —
-   see the RESPONSIVE section at the foot of this file. It is a plain span and
-   not a link: it names the page you are already on. It may shrink and end in
-   an ellipsis rather than push the tool buttons off a small screen. */
+   see the RESPONSIVE section at the end. A plain span, not a link, since it
+   names the page you are already on. It may shrink to an ellipsis rather than
+   push the tool buttons off a small screen. */
 .tb-page-name{
   display:none; min-width:0; font-family:var(--font-head); font-weight:700;
   font-size:1rem; color:var(--ink); white-space:nowrap;
@@ -237,7 +214,7 @@ body.pg{
 .tb-menu{ display:none; }
 
 /* =========================================================================
-   3  THE THREE MENUS that drop out of the tool buttons
+   3  THE THREE MENUS
    ========================================================================= */
 .tb-pop{
   position:absolute; top:calc(100% + .55rem); right:0; z-index:70;
@@ -259,14 +236,14 @@ body.pg{
 @media (hover: hover){ .tb-links a:hover{ background:color-mix(in srgb, var(--accent) 12%, transparent); color:var(--accent); } }
 .tb-links .tb-link-ico{ width:15px; height:15px; line-height:0; flex:none; color:var(--accent); }
 .tb-links .tb-link-ico svg{ display:block; width:100%; height:100%; }
-/* the name takes the middle, which pushes the little arrow to the right edge */
+/* the name takes the middle, pushing the little arrow to the right edge */
 .tb-links .tb-link-name{ flex:1 1 auto; min-width:0; }
 .tb-links .tb-link-out{ width:12px; height:12px; line-height:0; flex:none; opacity:.5; }
 .tb-links .tb-link-out svg{ display:block; width:100%; height:100%; }
 @media (hover: hover){ .tb-links a:hover .tb-link-out{ opacity:1; } }
 
-/* the appearance menu reuses the sidebar's own controls, so it needs only
-   its own spacing and its small labels */
+/* the appearance menu reuses the sidebar's controls, so it needs only its
+   own spacing and labels */
 .tb-pop .appearance-group{ margin:0 0 1rem; }
 .tb-pop .appearance-group:last-child{ margin-bottom:0; }
 .tb-pop .theme-picker-label{ margin:0 0 .5rem; }
@@ -274,11 +251,8 @@ body.pg{
 /* =========================================================================
    4  THE NOTICEBOARD
    ========================================================================= */
-/* THE QUOTE OF THE DAY. A panel of its own, set apart from every list on the
-   site: the words in the heading face at reading size, an oversized opening
-   quotation mark bled into the top-left corner behind them, and the name
-   underneath after a short rule. The whole block leans on the accent colour,
-   so it takes on each colour scheme without any rule of its own per scheme. */
+/* THE QUOTE OF THE DAY. The whole block leans on the accent colour, so it
+   takes on each colour scheme without needing a rule per scheme. */
 .quote-card{
   position:relative;
   margin:0; padding:1.8rem 1.9rem 1.4rem 5rem;
@@ -286,8 +260,7 @@ body.pg{
   background:color-mix(in srgb, var(--accent) 4%, var(--cream));
 }
 .quote-card[hidden]{ display:none; }
-/* the opening mark stands in the margin the padding above leaves for it, at
-   the height of the first line — a pull-quote, not a watermark */
+/* the opening mark stands in the margin the padding above leaves for it */
 .quote-mark{
   position:absolute; top:1.15rem; left:1.15rem;
   font-family:var(--font-head); font-size:4.6rem; line-height:.78;
@@ -304,19 +277,16 @@ body.pg{
   margin-top:1.1rem; font-size:.9rem;
 }
 .quote-rule{ width:2.2rem; height:1px; background:var(--accent); flex:none; }
-/* the name carries the accent, pulled a little way towards the page's ink so
-   that it clears 4.5:1 on the tinted panel in every colour scheme */
+/* the accent is pulled towards the page's ink so the name clears 4.5:1 on
+   the tinted panel in every colour scheme */
 .quote-card cite{
   font-style:normal; font-weight:600;
   color:color-mix(in srgb, var(--accent) 86%, var(--ink));
 }
-/* the date sits at the far end, quiet, so the panel says which day it belongs
-   to without competing with the words */
 .quote-when{
   margin-left:auto; font-size:.76rem; letter-spacing:.06em;
-  /* a shade darker than the usual muted grey: the panel is tinted with the
-     accent, which costs a little contrast, and this has to clear 4.5:1 in all
-     ten colour schemes */
+  /* a shade darker than the usual muted grey: the tinted panel costs a little
+     contrast, and this has to clear 4.5:1 in all ten colour schemes */
   text-transform:uppercase; color:color-mix(in srgb, var(--ink) 34%, var(--muted));
 }
 
@@ -326,36 +296,14 @@ body.pg{
 .dash-list li:first-child{ border-top:0; padding-top:0; }
 .dash-list .pg-when{ flex:none; width:6.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
 .dash-more{ display:inline-block; margin-top:.9rem; font-size:.86rem; color:var(--accent); text-decoration:none; }
-.dash-photos + .dash-more{ margin-top:1.5rem; }
 @media (hover: hover){ .dash-more:hover{ text-decoration:underline; } }
-
-/* the strip of three photographs at the foot of the page */
-.dash-photos{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.7rem; }
-.dash-photo{
-  position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden;
-  border:1px solid var(--line); background:var(--cream-2);
-  display:flex; align-items:center; justify-content:center;
-  font-size:.76rem; color:var(--muted); text-align:center; padding:.4rem;
-}
-/* The photograph fills its square and is cropped to it, whatever shape the
-   file happens to be. It is taken out of the flow so that its own proportions
-   cannot stretch the tile: the tile stays square, the picture gives way. */
-.dash-photo img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; object-position:center; display:block;
-  transition:opacity .15s ease;
-}
-@media (hover: hover){ a.dash-photo:hover img{ opacity:.82; } }
-a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* =========================================================================
    5  BIO
    ========================================================================= */
-/* THE PHOTO AND THE NAME at the head of the Biography. Deliberately the same
-   shape as the home page's hero (.hero-split in styles.css) so the two pages
-   introduce him the same way; the one difference is the frame, which is
-   DOTTED here and solid there. The photo does not shrink ("flex:none") and
-   the name column takes whatever is left. */
+/* THE PHOTO AND THE NAME. Deliberately the same shape as the home page's
+   hero (.hero-split in styles.css); the one difference is that the frame is
+   dotted here and solid there. */
 .bio-hero{ display:flex; align-items:center; gap:2rem; margin:1rem 0 1.8rem; }
 .bio-hero-frame{
   flex:none; padding:9px;
@@ -369,40 +317,23 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
 .bio-hero-name{ margin:0; font-family:var(--font-head); font-weight:800;
                 line-height:1.12; font-size:clamp(1.55rem, 5.6vw, 2.3rem); }
 /* the same line as under the name on the home page (.hero-text .eyebrow in
-   styles.css), repeated here because that rule is tied to the home page's
-   own markup */
+   styles.css), repeated because that rule is tied to the home page's markup */
 .bio-hero-sub{
   margin:.5rem 0 0; font-family:var(--font-body);
   text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
   color:var(--accent);
 }
 
-/* The facts box under it borrows three classes from the home page's "Get in
-   Touch" panel — .card-panel, .contact-line and .contact-icon, all in
-   styles.css — so that the two boxes cannot drift apart. This is the only
-   place in this file that leans on a sidebar-page class on purpose. */
+/* The facts box borrows .card-panel, .contact-line and .contact-icon from
+   styles.css so it cannot drift from the home page's "Get in Touch" panel.
+   This is the only place in this file that leans on a sidebar class. */
 .bio-panel{ margin:0 0 2.2rem;
   /* the one thing it does not take from "Get in Touch": the paper colour is
-     the Noticeboard quote card's instead, a wash of the accent over the page */
+     the Noticeboard quote card's instead */
   background:color-mix(in srgb, var(--accent) 4%, var(--cream)); }
 
-/* the dated column down the left of the life story */
-.bio-line{ list-style:none; margin:0; padding:0; }
-.bio-line li{ display:flex; gap:1rem; padding:.85rem 0; border-top:1px solid var(--rule-3); }
-.bio-line li:first-child{ border-top:0; }
-.bio-line .pg-when{ flex:none; width:6.4rem; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.15rem; }
-.bio-line b{ display:block; font-weight:600; }
-.bio-line span.bio-where{ display:block; font-size:.88rem; color:var(--muted); }
-
-/* the paragraphs Deep has still to write */
-.pg-placeholder{
-  margin:0 0 1rem; padding:.9rem 1rem;
-  border:1px dashed color-mix(in srgb, var(--ink) 26%, transparent);
-  border-radius:10px; color:var(--muted); font-size:.92rem;
-}
-
 /* =========================================================================
-   6  BLOGS — the list of posts and a post itself
+   6  BLOGS
    ========================================================================= */
 /* the row of categories above the list */
 .blog-filters{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 1.4rem; }
@@ -418,8 +349,7 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
 .blog-filter:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 .blog-count{ opacity:.7; font-size:.76rem; }
 
-/* one line per post: title and tags on the left, date and length on the
-   right. This is the shape Deep asked for, after neeldhara.com. */
+/* one line per post: title and tags on the left, date and length on the right */
 .post-list{ list-style:none; margin:0; padding:0; }
 .post-list li{
   display:flex; align-items:baseline; gap:1rem;
@@ -452,27 +382,82 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
   margin:1.4rem 0; padding:.2rem 0 .2rem 1.1rem;
   border-left:2px solid var(--accent); color:var(--muted); font-style:italic;
 }
-.post-nav{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.4rem; padding-top:1.2rem; border-top:1px solid var(--rule-2); font-size:.9rem; }
-.post-nav a{ color:var(--accent); text-decoration:none; }
-@media (hover: hover){ .post-nav a:hover{ text-decoration:underline; } }
+/* THE LINE OF LINKS on a blog post, used twice: above the title and under
+   the last paragraph. Blog posts carry no top bar, so this line is the whole
+   of their navigation. "is-top" and "is-foot" only set spacing and hairline. */
+.post-line{ display:flex; flex-wrap:wrap; align-items:center; gap:.55rem;
+  font-size:.9rem; color:var(--muted); }
+.post-line a{ color:var(--accent); text-decoration:none; }
+@media (hover: hover){ .post-line a:hover{ text-decoration:underline; } }
+.post-line.is-top{ margin:0 0 1.6rem; }
+.post-line.is-foot{ margin-top:2.4rem; padding-top:1.2rem; border-top:1px solid var(--rule-2); }
+
+/* <h2> starts a section, <h3> a point inside it. Both are listed by the
+   contents button, so both leave room above so a heading jumped to is not
+   pressed against the top of the screen. */
+.post-body h3{ margin:1.5rem 0 .5rem; font-family:var(--font-head); font-size:1.1rem; }
+.post-body h2, .post-body h3{ scroll-margin-top:1.2rem; }
+
+/* THE DOCK at the corner of a blog post. It reuses the top bar's round
+   buttons, and the contents panel is literally a .tb-pop, so it matches the
+   menus in every colour scheme and in dark mode. */
+.post-tools{
+  position:fixed; z-index:60;
+  right:max(1.25rem, env(safe-area-inset-right));
+  bottom:calc(1.25rem + env(safe-area-inset-bottom));
+}
+.post-dock{
+  display:flex; align-items:center; gap:.2rem;
+  padding:.3rem; border-radius:999px;
+  background:var(--cream-2); border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(var(--shadow-rgb), .16);
+}
+/* back to the top on the left, the contents on the right */
+.post-dock-div{ width:1px; height:18px; background:var(--rule-2); }
+/* the top button appears only once the reader is a fair way down, so the
+   dock is one button wide to begin with */
+#postTop{ display:none; }
+#postTop.is-on{ display:inline-flex; }
+#postTop:not(.is-on) + .post-dock-div{ display:none; }
+
+/* the contents panel opens upwards out of the dock */
+.post-pop{
+  top:auto; bottom:calc(100% + .55rem); right:0;
+  width:min(17rem, calc(100vw - 2.6rem));
+  max-height:min(58vh, 22rem); overflow:auto;
+}
+/* the heading takes the accent colour, like the small line above a page title */
+.post-pop .theme-picker-label{ margin:0 0 .45rem; padding:0 .5rem; color:var(--accent); }
+.post-toc-list li.is-sub a{ padding-left:1.45rem; font-size:.84rem; }
+.post-toc-none{ margin:0; padding:.1rem .5rem .2rem; font-size:.86rem; color:var(--muted); }
+
+/* the dock floats over the foot of the page, so the footer is given room to
+   sit clear of it */
+.post-tools ~ .pg-foot{ padding-bottom:5rem; }
+
+/* a finger needs a bigger target than a mouse pointer */
+@media (hover: none){
+  .post-dock .tb-btn{ width:40px; height:40px; }
+  .post-dock .tb-btn svg{ width:21px; height:21px; }
+}
 
 /* =========================================================================
-   7  PHOTOS AND NEWS — the few things those pages add
+   7  PHOTOS AND NEWS
    ========================================================================= */
 /* The photo grid and its lightbox are the sidebar pages' own (.gallery-grid,
-   .gallery-item), so they need nothing here beyond a little more room. */
+.gallery-item),
+so they need nothing here beyond a little more room. */
 .pg-section .gallery-grid{ margin-top:.2rem; }
 
-/* the dated list on News & Updates, and the block of past announcements */
+/* the dated list on News & Updates, and the past announcements */
 .pg-news{ list-style:none; margin:0; padding:0; }
 .pg-news li{ display:flex; gap:1rem; padding:.85rem 0; border-top:1px solid var(--rule-3); }
 .pg-news li:first-child{ border-top:0; }
 /* wide enough for a day as well as a month, without wrapping */
 .pg-news .pg-when{ flex:none; width:7.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
-/* THE SECOND DATE on a past announcement: the day it came down, under the day
-   it went up. It sits inside the same date cell, so the two read as one range
-   and the row's shape does not change. Quieter than the first, and not in
-   capitals, so the eye takes the top line first. */
+/* THE SECOND DATE on a past announcement: the day it came down. It sits in
+   the same date cell so the two read as one range and the row does not change
+   shape. Quieter and not in capitals, so the eye takes the top line first. */
 .pg-when .pg-until{
   display:block; margin-top:.15rem;
   font-size:.92em; letter-spacing:.04em; text-transform:none;
@@ -480,46 +465,15 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
 }
 @media (max-width:560px){ .pg-when .pg-until{ display:inline; margin:0 0 0 .3rem; } }
 
-/* The line that opens a folded block — drawn like the "Abstract" line on the
-   Research page: quiet, underlined, with a caret that turns as it opens.
-   script.js flips the wording between "Show" and "Hide". */
-/* ".pg-section p" above sets the spacing of every paragraph in a section, so
-   these two name the section as well in order to outrank it. */
-.pg-section .pg-open, p.pg-open{ margin:2.2rem 0 0; }
-/* the hairline that closes the list of live announcements off from the line
-   that opens the past ones */
-/* the line that stands in for a list with nothing in it yet: plain running
-   text, not a dated entry, because it is not an entry */
-.pg-section .pg-empty, p.pg-empty{ margin:.2rem 0 0; }
-.pg-section .pg-rule, p.pg-rule{ margin:1.6rem 0 0; height:1px; background:var(--rule-3); }
-.pg-toggle{
-  font:inherit; font-size:.85rem; color:var(--accent);
-  background:none; border:0; padding:0;
-  cursor:pointer; text-decoration:underline;
-  text-decoration-color:var(--accent-soft); text-underline-offset:2px;
-}
-@media (hover: hover){ .pg-toggle:hover{ text-decoration-color:var(--accent); } }
-.pg-toggle .caret{
-  display:inline-block; font-size:.7em; margin-left:.3rem;
-  transition:transform .18s ease; text-decoration:none;
-}
-.pg-toggle[aria-expanded="true"] .caret{ transform:rotate(90deg); }
-.pg-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-.pg-fold[hidden]{ display:none; }
-.pg-fold{ margin-top:1rem; }
 
 /* =========================================================================
    8  RESPONSIVE — LAST IN THE FILE ON PURPOSE
    ========================================================================= */
 @media (max-width:860px){
-  /* THE NAME IN THE BAR BECOMES THE PAGE'S NAME. Below this width the six
-     page links are behind the menu button, so the bar no longer says where
-     you are; the page's title says it instead. The title at the top of the
-     page would then be saying the same thing twice, so it is taken OFF THE
-     SCREEN but left in the page — screen readers, search engines and the
-     site's own search still read it — and the hairline under it opens the
-     page instead. Only the pages that carry a .tb-page-name are affected,
-     which is the six pages of the second set and nothing else. */
+  /* THE BAR SHOWS THE PAGE'S NAME instead of his, because the page links are
+     behind the menu button here. The title at the top of the page is then
+     moved off screen, not deleted, so search and screen readers still read
+     it. Only pages carrying a .tb-page-name are affected. */
   .tb-page-name{ display:block; }
   .tb-page-name + .tb-name{ display:none; }
   .pg-main:not(.pg-plain) .pg-head > h1,
@@ -527,18 +481,17 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
     position:absolute; width:1px; height:1px; margin:-1px; padding:0;
     overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
   }
-  /* and no hairline either: with the title gone from the page there is
-     nothing above the line for it to separate, so the page simply starts. */
+  /* no hairline either: with the title gone there is nothing above the line
+     for it to separate */
   .pg-main:not(.pg-plain) .pg-head::after{ display:none; }
   .pg-main:not(.pg-plain) .pg-head{ margin:0; }
-  /* the Biography's photo keeps its distance from the hairline on a wide
-     screen; with no hairline here, that extra room is not wanted */
+  /* with no hairline here, the Biography photo does not need the extra room */
   .bio-hero{ margin-top:0; }
 
   .tb-inner{ padding:.5rem 1rem; gap:.6rem; flex-wrap:wrap; }
   .tb-home span:not(.tb-home-ico){ display:none; }      /* the house alone */
   .tb-menu{ display:inline-flex; }
-  /* the six page links drop below the bar and open with the menu button */
+  /* the page links drop below the bar and open with the menu button */
   .tb-nav{
     order:5; flex-basis:100%; display:none;
     flex-direction:column; align-items:stretch; gap:.1rem;
@@ -557,10 +510,10 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
   .pg-head h1{ font-size:1.55rem; }
   .post-list li{ flex-direction:column; gap:.2rem; }
   .post-when{ text-align:left; }
-  .pg-news li, .dash-list li, .bio-line li{ flex-direction:column; gap:.15rem; }
-  .pg-news .pg-when, .dash-list .pg-when, .bio-line .pg-when{ width:auto; padding-top:0; }
-  .dash-photos{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-  /* Once the name drops below the photo, both go to the middle of the page —
-     the same thing the home page's hero does at this width. */
+  .pg-news li, .dash-list li{ flex-direction:column; gap:.15rem; }
+  .pg-news .pg-when, .dash-list .pg-when{ width:auto; padding-top:0; }
+  /* Once the name drops below the photo,
+both go to the middle of the page,
+the same as the home page's hero at this width. */
   .bio-hero{ flex-direction:column; align-items:center; gap:1.2rem; text-align:center; }
 }

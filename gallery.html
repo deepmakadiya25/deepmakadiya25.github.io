@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Re-applies the visitor's saved colour, typeface and light/dark choice
-     before the page paints. These pages deliberately do NOT take the five
-     styles: those belong to the pages with a sidebar. Nothing to edit. -->
+<!-- Restores the saved colour, typeface and light/dark choice before the page
+     paints. These pages do not use the five styles. Nothing to edit. -->
 <script>(function(){try{var d=document.documentElement,t=localStorage.getItem("site-theme"),m=localStorage.getItem("site-mode"),f=localStorage.getItem("site-font");if(t){d.setAttribute("data-theme",t);}if(f){d.setAttribute("data-font",f);}if(!m||m==="auto"){m=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}if(m==="dark"){d.setAttribute("data-mode","dark");}}catch(e){}})();</script>
 <title>Photo Gallery — Deep H. Makadiya</title>
 
@@ -26,32 +25,24 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- styles.css for the colours, the typefaces and dark mode; pages.css for
-     everything this second set of pages does differently. -->
+
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="pages.css">
 </head>
 <body class="pg">
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- THE TOP BAR — the same on every page of this set; only the page that
-     carries aria-current="page" changes. The house on the left goes back to
-     the pages with a sidebar; the name goes to the Noticeboard. The three
-     round buttons on the right open the profile links, the appearance
-     controls and the search. If you add a page here, add it to the list in
-     pages.js too, so the search reads it.
-     ===================================================================== -->
+<!-- TOP BAR. The same on every page of this set; only the link carrying
+     aria-current="page" changes. If you add a page here, add it to the list in
+     pages.js too, or the search will not find it. -->
 <header class="tb">
   <div class="tb-inner">
     <a class="tb-home" href="index.html">
       <span class="tb-home-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3.6 10.6 12 3.8l8.4 6.8"/><path d="M5.6 9.6v9.2a1 1 0 0 0 1 1h10.8a1 1 0 0 0 1-1V9.6"/><path d="M14.2 14.6H9.8m1.7-1.8-1.8 1.8 1.8 1.8"/></svg></span><span>Back to Home</span>
     </a>
     <span class="tb-div" aria-hidden="true"></span>
-    <!-- On a narrow screen the six page links hide behind the menu button, so
-         the bar stops saying which page you are on. This span says it instead:
-         the stylesheet shows it and hides the name below 860px, and does the
-         opposite above it. It comes FIRST so that one plain CSS rule
-         (".tb-page-name + .tb-name") can hide the name when it is showing. -->
+    <!-- Shows the page name on narrow screens, where the links hide behind the
+         menu button. Keep it FIRST: the CSS hides the name next to it. -->
     <span class="tb-page-name">Photo Gallery</span>
     <a class="tb-name" href="noticeboard.html">Deep H. Makadiya</a>
     <nav class="tb-nav" id="pageNav" aria-label="Second set of pages">
@@ -82,12 +73,11 @@
       </ul>
       </div>
 
-      <!-- APPEARANCE — the same three controls as the sidebar pages, minus
-           the five styles, which this set does not use. The markup matches
-           the sidebar's exactly so script.js drives both. -->
+      <!-- APPEARANCE. Keep this markup the same as on the sidebar pages, so
+           script.js can drive both. -->
       <div class="tb-pop tb-pop-wide" id="appearancePanel" hidden>
         <div class="appearance-group">
-        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Light / Dark Mode</p>
+        <p class="theme-picker-label"><span class="label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor" stroke="none"/></svg></span>Theme</p>
         <div class="modes" role="group" aria-label="Light or dark mode">
         <button type="button" class="mode-opt" data-set-mode="light" aria-pressed="false" title="Light mode" aria-label="Light mode">
         <span class="mode-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.9v2.5M12 19.6v2.5M1.9 12h2.5M19.6 12h2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg></span>Light</button>
@@ -157,15 +147,16 @@
   </div>
 </header>
 
-<!-- SEARCH — reads every page of the site the first time it is used. -->
+<!-- SEARCH. pages.js fills it. It opens from the magnifier and from the
+           "/" key. -->
 <div class="pg-search" id="searchPanel" hidden>
   <div class="pg-search-box">
     <label class="pg-search-field">
       <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
       <input type="search" id="searchField" placeholder="Search the site" aria-label="Search the site" autocomplete="off">
     </label>
-    <p class="pg-search-hint" id="searchHint">Type a word or two. Press # to pick a tag.</p>
-    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by tag" hidden></div>
+    <p class="pg-search-hint" id="searchHint">Type a word or two, or pick a filter.</p>
+    <div class="pg-tags" id="searchTags" role="group" aria-label="Narrow the search by filter" hidden></div>
     <ul class="pg-results" id="searchResults"></ul>
   </div>
 </div>
@@ -174,34 +165,18 @@
   <div class="pg-wrap">
       <div class="pg-head">
         <p class="pg-kicker">Collection of photos</p>
-        <h1>Photo Gallery</h1>
+        <h1 data-also="photos, pictures, images, album, gallery">Photo Gallery</h1>
       </div>
 
-      <!-- TO ADD PHOTOS:
-             1. Put the image file in the "gallery" folder beside this file.
-             2. Copy a whole <figure> below, change the file name in "src",
-                write the caption, and put it where it belongs in its section.
-           Add or remove tiles freely &mdash; the grid reflows, and script.js
-           wires up the large view with no further markup. A section with
-           fewer than three photos is padded out with dashed placeholders.
+      <!-- TO ADD A PHOTO: put the image in the "gallery" folder, copy a whole
+           <figure> below into the right section, change "src", and write the
+           caption and the "alt". Numbers go up in TENS (bsc-010, bsc-020) so a
+           photo can be slipped in later, and the extension must match the file
+           exactly, capitals included, or the photo will not show on the live
+           site. Every caption below is still a placeholder. -->
 
-           ABOUT THE FILE NAMES: each section has its own prefix and the
-           numbers go up in TENS (profile-010, profile-020, bsc-010, ...) on
-           purpose, so a photo can be slipped in between two existing ones
-           later &mdash; the new one becomes bsc-015 and nothing else has to be
-           renamed. The extensions are whatever the files came with, capital
-           letters and all, so "gallery/msc-010.JPG" must be written exactly
-           that way or the picture will not show on the live site.
-
-           EVERY CAPTION BELOW IS A PLACEHOLDER. Replace
-           "[Caption will be added soon]" with the real caption, and while you
-           are there put a short description of the photograph in its "alt",
-           which is what a blind reader hears and what shows if the file is
-           ever missing.
-           =============================================================== -->
-
-      <section class="pg-section" data-tags="photo">
-        <h2 id="profile-pictures">Profile Pictures</h2>
+      <section class="pg-section">
+        <h2 id="profile-pictures" data-also="profile photos, portraits, headshot, avatar">Profile Pictures</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/profile-010.JPG" alt="A profile photograph" loading="lazy" decoding="async">
@@ -222,8 +197,8 @@
         </div>
       </section>
 
-      <section class="pg-section" data-tags="photo">
-        <h2 id="general-photos">General Photos</h2>
+      <section class="pg-section">
+        <h2 id="general-photos" data-also="other photos, miscellaneous pictures">General Photos</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/general-010.jpg" alt="A photograph" loading="lazy" decoding="async">
@@ -244,8 +219,8 @@
         </div>
       </section>
 
-      <section class="pg-section" data-tags="photo">
-        <h2 id="evolution">Evolution</h2>
+      <section class="pg-section">
+        <h2 id="evolution" data-also="growing up, childhood photos, over the years, younger">Evolution</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/evolution-010.jpg" alt="Deep, growing up" loading="lazy" decoding="async">
@@ -294,8 +269,8 @@
         </div>
       </section>
 
-      <section class="pg-section" data-tags="photo">
-        <h2 id="bsc">B.Sc.</h2>
+      <section class="pg-section">
+        <h2 id="bsc" data-also="bachelors, undergraduate photos, baroda">B.Sc.</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/bsc-010.jpg" alt="A photograph from the B.Sc. years" loading="lazy" decoding="async">
@@ -336,8 +311,8 @@
         </div>
       </section>
 
-      <section class="pg-section" data-tags="photo">
-        <h2 id="msc">M.Sc.</h2>
+      <section class="pg-section">
+        <h2 id="msc" data-also="masters photos, iit bombay">M.Sc.</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/msc-010.JPG" alt="A photograph from the M.Sc. years" loading="lazy" decoding="async">
@@ -390,8 +365,8 @@
         </div>
       </section>
 
-      <section class="pg-section" data-tags="photo">
-        <h2 id="phd-journey">Ph.D. Journey</h2>
+      <section class="pg-section">
+        <h2 id="phd-journey" data-also="phd photos, doctorate, iit bombay, research years">Ph.D. Journey</h2>
         <div class="gallery-grid">
           <figure class="gallery-item">
             <img src="gallery/phd-010.jpg" alt="A photograph from the Ph.D. years" loading="lazy" decoding="async">
@@ -463,7 +438,7 @@
 </main>
 
   <footer class="pg-foot">
-    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Map</a>.</p>
+    <p class="pg-foot-find">Can&rsquo;t find what you&rsquo;re looking for? Try the <a href="navigation.html">Site Guide</a>.</p>
     <p>&copy; 2026 Deep H. Makadiya</p>
     <p class="updated" id="lastUpdatedLine" hidden>Last updated: <span id="lastUpdated"></span></p>
   </footer>
