@@ -164,6 +164,30 @@ THINGS THAT WILL BREAK THE SITE IF YOU GET THEM WRONG
     script.js. Miss the <head> script and the visitor's saved choices are
     ignored on that page only - a confusing bug to chase. Add the new page to
     sitemap.xml too.
+  * WHENEVER A PAGE CHANGES, move its <lastmod> in sitemap.xml to that day.
+    That file tells search engines which pages are worth re-reading, and a
+    date left behind makes it say the opposite of the truth. The four blog
+    posts are deliberately absent from it until they are written.
+  * THE TWO ACCENTS WERE DARKENED on 27 Sep 2026 - Terracotta from #a5501f to
+    #9e4c1d and Sage from #5c7a52 to #59754f - so that links inside the tinted
+    boxes clear 4.5:1, the contrast a reader with weak sight needs. Each accent
+    is written in TWO places: the [data-theme] block in styles.css and the
+    little swatch button in the Appearance panel of every page. Change one and
+    change the other, and check the new colour against both the page and the
+    boxes before settling on it.
+  * THE PHONE TOP BAR, when a style paints it dark. Midnight, Grove and
+    Contrast set data-panel="dark", and everything on that bar must then take
+    its colours from the --side-* variables, not the ordinary ones. The
+    magnifier was missed when those rules were written and stayed the dark
+    writing colour on a dark bar, all but invisible; it now uses --side-ink,
+    with --side-accent for hover and focus. Anything else added to that bar
+    needs the same pair of rules.
+  * THE PAGE'S NAME IN THE PHONE TOP BAR appears once the in-page tab bar has
+    risen to its resting place. script.js asks the tab bar itself where that is
+    (its computed "top"), because the Card style parks it lower than the others
+    to let the rounded bar float clear. Do not go back to assuming the height
+    of the top bar: under Card the test could then never come true, and the
+    name never appeared.
   * Adding a colour scheme: add the [data-theme="..."] block in styles.css
     (light) AND its twin under the dark-mode section, then one more button in
     the sidebar of EVERY page. script.js needs no change.
@@ -260,7 +284,9 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
     one attribute in the HTML and nothing else; the page's own tag (research,
     biography, blog...) comes from the PAGES list in pages.js.
   * DATES are written the same way everywhere they appear: 25 Jul 2026 - day,
-    short month, year. Where a day is not known yet an entry carries the month
+    short month, year. A date not yet known is written [dd Mmm yyyy], which
+    cannot be mistaken for a real one - that is what the four blog posts and
+    the Blogs list carry at the moment. Where a day is not known yet an entry carries the month
     and the year alone. The places that hold one are the News page, the
     Announcements page (and its commented-out examples), the two cards on the
     home page, the Latest news and Latest posts lists on the Noticeboard, and
@@ -328,7 +354,7 @@ ROUTINE EDITS
                           between two existing ones later as, say, bsc-015,
                           without renaming anything else.
                           FILE EXTENSIONS ARE PART OF THE NAME: some are .jpg,
-                          some .JPG, some .jpeg, two are .PNG. The live site
+                          some .JPG, some .jpeg. The live site
                           is case-sensitive, so "gallery/msc-010.JPG" has to
                           be written exactly that way.
                           Every photograph is at most 1400 pixels on its long
@@ -345,7 +371,7 @@ ROUTINE EDITS
                           DOTTED frame and with the home page's own line under
                           the name; then a box of facts - official name (which
                           links to the blog post "About My Name"), hometown,
-                          where he lives, nationality, languages, hobbies -
+                          where he lives, languages, programming, hobbies -
                           built from the SAME three classes as "Get in Touch"
                           on the home page (.card-panel, .contact-line,
                           .contact-icon in styles.css), so the two boxes

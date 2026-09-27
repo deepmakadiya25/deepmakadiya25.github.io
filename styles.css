@@ -46,7 +46,7 @@
   --line:#e6dcc8;            
   --cream:#f6f0e2;           
   --cream-2:#efe6d2;         /* sidebar background, cards, tinted tags */
-  --accent:#a5501f;          /* accent colour — links, headings, numbers, buttons */
+  --accent:#9e4c1d;          /* accent colour — links, headings, numbers, buttons */
   --accent-soft:#d8b79a;     /* paler accent, used for link underlines */
   --photo-bg:#ece2cc;        /* backdrop behind the photos while they load */
   --nav-hover:#e6dac0;       /* sidebar nav link hover / active fill */
@@ -992,7 +992,7 @@ mark.find-hit.gone{ background:transparent; }
 /* ---- Sage ---- */
 [data-theme="sage"]{
   --ink:#2f3a2f; --muted:#667161; --line:#dde5d6;
-  --cream:#fbfaf5; --cream-2:#eef2e6; --accent:#5c7a52;
+  --cream:#fbfaf5; --cream-2:#eef2e6; --accent:#59754f;
   --accent-soft:#c3d3b8; --photo-bg:#e2e9d9; --nav-hover:#e3ead8;
   --placeholder-bg:#f6f9f1; --shadow-rgb:47,58,47;
 }
@@ -1729,6 +1729,16 @@ body, .sidebar, .sidebar nav a, .page-tabs-wrap, .page-tabs a, .card-panel,
 [data-panel="dark"] .topbar-title{ color:var(--side-ink); }
 [data-panel="dark"] .topbar-page{ color:var(--side-muted); }
 [data-panel="dark"] .menu-toggle{ background:var(--side-accent); color:var(--side-bg); }
+/* The magnifier at the other end of the bar was missed when these three
+   styles turned the bar dark: it stayed "--ink", which is the DARK writing
+   colour, so on the dark bar it all but disappeared. It takes the same
+   colours as the title beside it, and the accent these styles use on a dark
+   ground for its hover and its focus ring. */
+[data-panel="dark"] .topbar-search{ color:var(--side-ink); }
+@media (hover: hover){
+  [data-panel="dark"] .topbar-search:hover{ color:var(--side-accent); }
+}
+[data-panel="dark"] .topbar-search:focus-visible{ outline-color:var(--side-accent); }
 
 /* ---- the appearance panel, now sitting on a dark ground ---- */
 [data-panel="dark"] .theme-picker{ border-top-color:var(--side-line); }

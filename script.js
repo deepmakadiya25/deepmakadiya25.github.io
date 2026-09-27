@@ -318,10 +318,20 @@ document.addEventListener("DOMContentLoaded", function () {
       var v = getComputedStyle(document.documentElement).getPropertyValue("--topbar-h");
       return parseFloat(v) || 52;
     };
+    // WHERE THE TAB BAR COMES TO REST. Most styles park it right under the
+    // top bar, but the "card" style leaves a gap so the rounded bar can float
+    // clear of it. Asking the element itself where it stops — its own "top" —
+    // covers every style, this one included; before, the height of the top bar
+    // was assumed, and under "card" the test could never come true, so the
+    // page's name never appeared there.
+    var restTop = function () {
+      var t = parseFloat(getComputedStyle(tabsWrap).top);
+      return isNaN(t) ? barHeight() : t;
+    };
     var ticking2 = false;
     var checkTabs = function () {
       // one pixel of tolerance: the sticky bar settles exactly on the line
-      var stuck = tabsWrap.getBoundingClientRect().top <= barHeight() + 1;
+      var stuck = tabsWrap.getBoundingClientRect().top <= restTop() + 1;
       topbar.classList.toggle("with-page", stuck && !!topbarPage.textContent);
       ticking2 = false;
     };
