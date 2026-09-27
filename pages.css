@@ -87,6 +87,16 @@ body.pg{
 .pg-section p{ margin:0 0 1rem; }
 .pg-section p:last-child{ margin-bottom:0; }
 
+/* A line set apart inside a section &mdash; the step-by-step chain on the
+   Biography uses it. The same rule as a blog post's blockquote, without the
+   italics, which would fight the bold inside it. The inner "p" rule is there
+   because ".pg-section p" would otherwise put a gap under the last line. */
+.pg-section blockquote{
+  margin:1.4rem 0; padding:.3rem 0 .3rem 1.1rem;
+  border-left:2px solid var(--accent); color:var(--muted);
+}
+.pg-section blockquote p{ margin:0; }
+
 /* A line of small print under a list or a section. */
 .pg-note{ margin:.8rem 0 0; font-size:.86rem; color:var(--muted); font-style:italic; }
 
@@ -459,6 +469,17 @@ a.dash-photo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px;
 .pg-news li:first-child{ border-top:0; }
 /* wide enough for a day as well as a month, without wrapping */
 .pg-news .pg-when{ flex:none; width:7.6rem; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); padding-top:.2rem; }
+/* THE SECOND DATE on a past announcement: the day it came down, under the day
+   it went up. It sits inside the same date cell, so the two read as one range
+   and the row's shape does not change. Quieter than the first, and not in
+   capitals, so the eye takes the top line first. */
+.pg-when .pg-until{
+  display:block; margin-top:.15rem;
+  font-size:.92em; letter-spacing:.04em; text-transform:none;
+  color:color-mix(in srgb, var(--accent) 55%, var(--muted));
+}
+@media (max-width:560px){ .pg-when .pg-until{ display:inline; margin:0 0 0 .3rem; } }
+
 /* The line that opens a folded block — drawn like the "Abstract" line on the
    Research page: quiet, underlined, with a caret that turns as it opens.
    script.js flips the wording between "Show" and "Hide". */

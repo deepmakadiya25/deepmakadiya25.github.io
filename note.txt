@@ -42,6 +42,12 @@ TWO SETS OF PAGES
   styles: those are built around a sidebar these pages do not have. Their
   layout lives in pages.css and their top bar in pages.js.
 
+  THE @ MENU in the top bar holds eight links, in this order: Email, Google
+  Scholar, ORCID, GitHub, LinkedIn, X, Instagram, Facebook. Each carries that
+  service's own mark, drawn as a single filled path; the little arrow after
+  the name is the same on all of them. The block is IDENTICAL on all eleven
+  pages that have the bar, so a change to one has to be copied to the rest.
+
 WHAT WE CALL THE PAGES
   Set A   the main pages, with the sidebar:
           Home, Academics, Research, Teaching, Professional Activities.
@@ -208,13 +214,17 @@ HOW THE TWO SETS ARE REACHED FROM EACH OTHER
         Site Map - and no lists.
   * ANNOUNCEMENTS has two sections of its own: Current Announcements and Past
     Announcements. An announcement that has run its course moves from the
-    first into the second rather than being deleted. Each section carries a
-    stand-in line while it is empty - "There are no current announcements at
-    this time." and "Any past announcements will be displayed here." - with
-    the real list kept just below it inside an HTML comment. THE FIRST OF
-    THOSE LINES IS ALSO WRITTEN on the Noticeboard and in the home page's
-    announcements card; when a real announcement goes up, all three want
-    changing.
+    first into the second rather than being deleted - that is what happened to
+    the "welcome, it may still have a few bugs" notice, which ran from 6 Sep
+    2026 to 27 Sep 2026.
+    A PAST ANNOUNCEMENT CARRIES TWO DATES: the day it went up and, under it in
+    a quieter tone, the day it came down. Both sit in the date column, the
+    second inside <span class="pg-until"> - see section 7 of pages.css. On a
+    phone the two run side by side instead of stacking. THE CURRENT ONES ARE ALSO WRITTEN on the Noticeboard and in
+    the home page's announcements card, so a new announcement wants adding in
+    all three. If both sections ever empty out, the stand-in lines to put back
+    are "There are no current announcements at this time." and "Any past
+    announcements will be displayed here." 
     The past list carries class "fold-list": script.js then shows its first
     three entries and hides the rest behind a More / Less button, the same one
     the Useful Links page uses. Three entries or fewer and there is no button
@@ -307,17 +317,30 @@ ROUTINE EDITS
   A blog post             copy a file in blogs/, then copy one <li> in
                           blogs.html and point it at the new file
   Photos                  gallery.html, plus the image files in gallery/.
-                          Six sections, in this order: Profile Pics, General
-                          Photos, Evolution, B.Sc., M.Sc., Ph.D. Journey. A
-                          section with fewer than three photos is padded out
-                          with dashed [Add a photo here] tiles, so no section
-                          ever looks half-built. File names count up in TENS
-                          (profile-10, profile-20, evolution-10, evolution-20,
-                          ...) so that a photo can be slipped in between two
-                          existing ones later as, say, evolution-15, without
-                          renaming anything else.
-  The biography           bio.html - replace the dashed boxes that are left
-                          with ordinary paragraphs. It opens with the photo
+                          Six sections, in this order: Profile Pictures,
+                          General Photos, Evolution, B.Sc., M.Sc., Ph.D.
+                          Journey - 56 photographs in all. A section with
+                          fewer than three photos is padded out with dashed
+                          [Add a photo here] tiles, so no section ever looks
+                          half-built. Each section has its own prefix and the
+                          numbers count up in TENS (profile-010, profile-020,
+                          bsc-010, ...) so that a photo can be slipped in
+                          between two existing ones later as, say, bsc-015,
+                          without renaming anything else.
+                          FILE EXTENSIONS ARE PART OF THE NAME: some are .jpg,
+                          some .JPG, some .jpeg, two are .PNG. The live site
+                          is case-sensitive, so "gallery/msc-010.JPG" has to
+                          be written exactly that way.
+                          Every photograph is at most 1400 pixels on its long
+                          side, and every tile loads only when it is scrolled
+                          to (loading="lazy"), so a page of 56 photographs
+                          opens as quickly as a page of six.
+                          THE CAPTIONS ARE ALL PLACEHOLDERS for now -
+                          "[Caption will be added soon]". The "alt" text wants
+                          writing at the same time as the caption.
+  The biography           bio.html - now written, in four sections: In brief,
+                          Early years, A Road from "Mr." to "Dr.", and Life
+                          after Ph.D. It opens with the photo
                           and the name, drawn like the home page's but in a
                           DOTTED frame and with the home page's own line under
                           the name; then a box of facts - official name (which
@@ -328,10 +351,13 @@ ROUTINE EDITS
                           .contact-icon in styles.css), so the two boxes
                           cannot drift apart, but filled with the Noticeboard
                           quote card's paper colour. Add a fact by copying a
-                          whole line. Technical Skills lives at the foot of
-                          the page; the Miscellaneous page is gone, and the
-                          Spoken Languages and Hobbies & Interests sections
-                          have both been folded into the box of facts.
+                          whole line. The Miscellaneous page is gone, and the
+                          Spoken Languages, Hobbies & Interests and Technical
+                          Skills sections have all been folded into the box of
+                          facts - the last of them as the "Programming skills"
+                          line. The step-by-step chain in "A Road from Mr. to
+                          Dr." is a <blockquote>; section 2 of pages.css
+                          styles it.
   A useful link           useful-links.html - paste another <div class="item">
                           into the right group
   The Noticeboard         noticeboard.html repeats the announcements, the
