@@ -212,16 +212,25 @@
     cream is Terracotta.
 
   SEARCH
-    On every page. The button under "More to Explore" in the sidebar, the
-    magnifier in the top bar, and the / key anywhere.
+    On every page. The round button fixed in the top right corner of a
+    first-half page on a laptop (drawn like the button on a blog post, so
+    change one, change the other), the magnifier in the top bar on a phone
+    or tablet (960px and below), and the / key anywhere.
     There is NO index file to rebuild: the first time the search is used it
     fetches the pages themselves, which takes a moment and then is instant.
     A result shows where it came from (page, then section, then sub-section)
     and jumps to that exact line with the word lit up.
-    NINE FILTERS sit under the box and are always on show. They are fixed and
-    written out once, in SCOPES at the top of the search block in pages.js:
-    Only this page, Publications & Preprints, Teaching, Talks, Conferences,
-    News, Blogs, Content of Blogs, Everything but the blog. The first one is
+    NINE FILTERS sit under the box. They are fixed and written out once, in
+    SCOPES at the top of the search block in pages.js: Only this page,
+    Publications & Preprints, Teaching, Talks, Conferences, News, Blogs,
+    Content of Blogs, Everything but the blog.
+    They open FOLDED to one line: as many as fit on the first line, then a
+    small round button (›) that shows the rest and turns into ‹ to fold them
+    again. How many fit is measured, so it changes with the screen width. The
+    row folds again every time the search is opened. Folding never switches
+    a filter off: when a switched-on filter is folded away, the round button
+    is lit like a switched-on filter to say so. If all nine fit on one line,
+    the button does not appear. The first one is
     not a fixed page but whichever page is being read. Two filters at once
     mean either. A filter chosen with an empty box simply lists what is in it.
     A heading can answer to other names: data-also="contact, email, address"

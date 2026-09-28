@@ -697,8 +697,8 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 }
 @media (hover: hover){ .pg-search input::-webkit-search-cancel-button:hover{ opacity:1; } }
 .pg-search-hint{ margin:.7rem 0 0; font-size:.8rem; color:var(--muted); }
-/* ---- the nine filters under the search box. They are always on show and
-   are listed in SCOPES in pages.js. ---- */
+/* ---- the nine filters under the search box, listed in SCOPES in pages.js.
+   They open folded to one line. ---- */
 .pg-tags{ display:flex; flex-wrap:wrap; gap:.35rem; margin:.7rem 0 0; }
 .pg-tags[hidden]{ display:none; }
 .pg-tag{
@@ -711,6 +711,24 @@ footer .updated{ font-size:.74rem; margin-top:.35rem; opacity:.85; }
 @media (hover: hover){ .pg-tag:hover{ border-color:var(--accent); color:var(--accent); } }
 .pg-tag.on{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
 .pg-tag:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.pg-tag[hidden]{ display:none; }
+/* the round button at the end of the row: folds the filters to one line (›)
+   or shows them all (‹). pages.js sets its size to match a filter's height
+   and appears only when the filters need more than one line. */
+.pg-tags-fold{
+  flex:none; padding:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:none; color:var(--muted);
+  border:1px solid var(--line); border-radius:50%;
+  transition:color .15s ease, border-color .15s ease;
+}
+.pg-tags-fold[hidden]{ display:none; }
+.pg-tags-fold svg{ display:block; width:12px; height:12px; transition:transform .15s ease; }
+.pg-tags-fold[aria-expanded="true"] svg{ transform:scaleX(-1); }
+@media (hover: hover){ .pg-tags-fold:hover{ border-color:var(--accent); color:var(--accent); } }
+/* lit like a switched-on filter when one of the folded-away filters is on */
+.pg-tags-fold.on{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+.pg-tags-fold:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 .pg-results{ list-style:none; margin:.9rem 0 0; padding:0; }
 /* the field and the chips stay put; only the results scroll, so a long list of
@@ -747,19 +765,45 @@ mark.find-hit.lit{ background:color-mix(in srgb, var(--accent) 52%, transparent)
 mark.find-hit.gone{ background:transparent; }
 @media (prefers-reduced-motion: reduce){ mark.find-hit{ transition:none; } }
 
-/* ---- The search button under "More to Explore", drawn by the ".more-pages"
-   rules; these lines cover only what a <button> needs. ---- */
-.search-btn{ width:100%; margin-top:.5rem; cursor:pointer; }
+/* ---- The search button in the top right corner, laptops only. It copies the
+   round button in the corner of a blog post (.post-dock and .tb-btn in
+   pages.css), so change one, change the other. ---- */
+.corner-search{
+  position:fixed; z-index:60; display:flex;
+  top:1.25rem; right:max(1.25rem, env(safe-area-inset-right));
+  padding:.3rem; border-radius:999px;
+  background:var(--cream-2); border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(var(--shadow-rgb), .16);
+}
+.corner-search-btn{
+  width:34px; height:34px; padding:0; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:none; border:1px solid transparent; border-radius:50%;
+  color:var(--ink);
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+.corner-search-btn svg{ display:block; width:19px; height:19px; }
+@media (hover: hover){ .corner-search-btn:hover{ color:var(--accent); border-color:var(--accent); } }
+.corner-search-btn[aria-expanded="true"]{ color:var(--accent); border-color:var(--accent); }
+.corner-search-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+@media (hover: none){
+  .corner-search-btn{ width:40px; height:40px; }
+  .corner-search-btn svg{ width:21px; height:21px; }
+}
 
 /* ---- The magnifier in the phone top bar, at the opposite end from the menu
    button. Hidden on laptops. ---- */
 .topbar-search{
   margin-left:auto; width:38px; height:38px; padding:0; cursor:pointer;
   display:none; align-items:center; justify-content:center;
-  background:none; border:0; color:var(--ink);
+  background:none; border:1px solid transparent; border-radius:50%; color:var(--ink);
+  transition:color .18s ease, border-color .18s ease;
 }
 .topbar-search svg{ display:block; width:20px; height:20px; }
 @media (hover: hover){ .topbar-search:hover{ color:var(--accent); } }
+/* while the search is open it wears the circle, like the round buttons in the
+   top bar of the other pages */
+.topbar-search[aria-expanded="true"]{ color:var(--accent); border-color:var(--accent); }
 .topbar-search:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* =========================================================================
@@ -1494,6 +1538,7 @@ which reads better small. ":root[...]" so these sizes also
   [data-panel="dark"] .topbar-search:hover{ color:var(--side-accent); }
 }
 [data-panel="dark"] .topbar-search:focus-visible{ outline-color:var(--side-accent); }
+[data-panel="dark"] .topbar-search[aria-expanded="true"]{ color:var(--side-accent); border-color:var(--side-accent); }
 
 /* ---- the appearance panel, now sitting on a dark ground ---- */
 [data-panel="dark"] .theme-picker{ border-top-color:var(--side-line); }
@@ -1752,10 +1797,10 @@ each its own little sticker.
 /* ---- Tablets and phones: sidebar becomes a slide-in panel ---- */
 @media (max-width:960px){
   :root{ --topbar-h:52px; }
-  /* the magnifier moves to the top bar and the sidebar button steps aside, so the
+  /* the magnifier moves to the top bar and the corner button steps aside, so the
      same panel is never offered twice */
   .topbar-search{ display:inline-flex; }
-  .search-btn{ display:none; }
+  .corner-search{ display:none; }
 
   .layout{ grid-template-columns:minmax(0,1fr); }
 

@@ -66,7 +66,9 @@
   document.addEventListener("click", function (e) {
     for (var i = 0; i < toolButtons.length; i++) {
       var panel = panelOf(toolButtons[i]);
-      if (!panel || panel.hidden) continue;
+      // GOTCHA: two buttons share the search panel, so ask the button, not the
+      // panel, whether it is open; otherwise the second one is never told.
+      if (!panel || toolButtons[i].getAttribute("aria-expanded") !== "true") continue;
       if (toolButtons[i].contains(e.target)) continue;
       // The search panel covers the whole window, so "outside" means outside
       // the box in the middle: the dimmed area closes it, the box does not.
@@ -363,8 +365,57 @@
               SCOPES[i].id + '" aria-pressed="' + (on ? "true" : "false") + '">' +
               esc(SCOPES[i].label) + "</button>";
     }
+    html += '<button type="button" class="pg-tags-fold" hidden aria-expanded="' + (folded ? "false" : "true") +
+            '" aria-label="' + (folded ? "Show all filters" : "Show fewer filters") + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" ' +
+            'stroke-linejoin="round" focusable="false" aria-hidden="true"><path d="M9.5 5.8 15.7 12l-6.2 6.2"/></svg></button>';
     tagRow.innerHTML = html;
     tagRow.hidden = false;
+    fitChips();
+  }
+
+  /* ---- folding the chips to one line ----------------------------------
+     Folded, the row keeps only the chips that fit on its first line, with
+     the round button at the end of it; open, it shows them all. How many fit
+     depends on the width of the screen, so it is measured, not counted.
+     Folding never switches a chip off. */
+  var folded = true;
+  function fitChips() {
+    if (!tagRow) return;
+    var chips = tagRow.querySelectorAll(".pg-tag");
+    var btn = tagRow.querySelector(".pg-tags-fold");
+    if (!chips.length || !btn) return;
+    for (var i = 0; i < chips.length; i++) chips[i].hidden = false;
+    btn.hidden = true;
+    if (!tagRow.offsetParent) return;          // the sheet is shut: nothing to measure
+    var top = chips[0].offsetTop;
+    if (chips[chips.length - 1].offsetTop === top) return;   // all on one line already
+    var size = chips[0].offsetHeight + "px";
+    btn.style.width = size; btn.style.height = size;
+    btn.hidden = false;
+    btn.setAttribute("aria-expanded", folded ? "false" : "true");
+    btn.setAttribute("aria-label", folded ? "Show all filters" : "Show fewer filters");
+    btn.title = folded ? "Show all filters" : "Show fewer filters";
+    btn.classList.remove("on");
+    if (!folded) return;
+    for (var j = chips.length - 1; j > 0 && btn.offsetTop !== top; j--) chips[j].hidden = true;
+    // a chip that is switched on but folded away lights the button instead
+    if (tagRow.querySelector(".pg-tag.on[hidden]")) {
+      btn.classList.add("on");
+      btn.setAttribute("aria-label", "Show all filters (a hidden filter is switched on)");
+      btn.title = "Show all filters (a hidden filter is switched on)";
+    }
+  }
+  if (tagRow) {
+    window.addEventListener("resize", fitChips);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitChips);
+  }
+  // the row opens folded every time: fold it again whenever the sheet shuts
+  if (tagRow && searchPanel && window.MutationObserver) {
+    new MutationObserver(function () {
+      if (searchPanel.hidden) folded = true;
+      fitChips();
+    }).observe(searchPanel, { attributes: true, attributeFilter: ["hidden"] });
   }
 
   function scopeById(id) {
@@ -533,6 +584,13 @@
   /* ---- picking a chip -------------------------------------------------- */
   if (tagRow) {
     tagRow.addEventListener("click", function (e) {
+      var fold = e.target.closest(".pg-tags-fold");
+      if (fold) {
+        e.stopPropagation();
+        folded = !folded;
+        fitChips();
+        return;
+      }
       var btn = e.target.closest(".pg-tag");
       if (!btn) return;
       // GOTCHA: the row is redrawn below, taking this button out of the page.

@@ -104,13 +104,6 @@
       <span>More to Explore</span>
       <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4.5 12h14M13.5 6.6 18.9 12l-5.4 5.4"/></svg></span>
     </a>
-    <!-- Search button. pages.js reads the site itself the first time the box is
-         used, so there is no index file to rebuild. -->
-    <button type="button" class="more-pages search-btn js-search" id="searchButton"
-            aria-controls="searchPanel" aria-expanded="false">
-      <span>Search</span>
-      <span class="more-pages-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></span>
-    </button>
 
     <!-- APPEARANCE — light/dark, colour, typeface and style. This block is repeated
          on all six main pages, and three of its controls appear again in the top bar
@@ -234,6 +227,14 @@
     <button type="button" class="topbar-search js-search" id="searchButtonTop"
             aria-controls="searchPanel" aria-expanded="false" aria-label="Search the site" title="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></button>
   </header>
+
+  <!-- SEARCH BUTTON — laptops only, fixed in the top right corner, drawn like the
+       button in the corner of a blog post. On phones and tablets the magnifier in
+       the top bar takes its place. -->
+  <div class="corner-search">
+    <button type="button" class="corner-search-btn js-search" id="searchButton"
+            aria-controls="searchPanel" aria-expanded="false" aria-label="Search the site" title="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" focusable="false"><circle cx="10.8" cy="10.8" r="6.4"/><path d="M15.6 15.6 20.4 20.4"/></svg></button>
+  </div>
 
   <main id="main" tabindex="-1">
     <div class="wrap">
