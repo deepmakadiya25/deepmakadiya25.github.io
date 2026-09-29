@@ -191,7 +191,8 @@
     the new file. Add the post to the PAGES list in pages.js, and update the
     two counts on the Blogs filter buttons: "All", and the post's own tag.
     Inside a post, <h2> starts a section and <h3> a point inside one. That is
-    all the contents button needs.
+    all the contents button needs. The first letter of the first paragraph is
+    drawn large by pages.css (a drop cap); nothing to do by hand.
 
   A LINK ON THE USEFUL LINKS PAGE
     useful-links.html. Copy a link and its one-line description. The first
@@ -312,9 +313,10 @@
   8  WHAT IS STILL A PLACEHOLDER
 ==============================================================================
 
-  * The four blog posts. Each holds two lines of filler, a summary of
+  * The four blog posts. Each holds one line of filler, a summary of
     [A sentence or two on what this piece is about.] on the Blogs page, and
-    dates written [dd Mmm yyyy] with [n] min read.
+    dates written [dd Mmm yyyy] with [n] min read. On the Noticeboard their
+    date reads "Coming Soon" instead; put the real date there too.
   * The captions under the 37 photographs in B.Sc., M.Sc. and Ph.D. Journey,
     which read "Caption will be added soon", and the alt text of all 56.
     (Profile Pictures, General Photos and Evolution got captions 29 Sep 2026.)

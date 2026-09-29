@@ -395,6 +395,15 @@ body.pg{
 .post-meta{ margin:0; font-size:.84rem; color:var(--muted); display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
 .post-body{ font-size:1.02rem; }
 .post-body p{ margin:0 0 1.15rem; }
+/* the opening letter of a piece, dropped across two lines in the heading
+   typeface and the accent colour, as in a magazine. "flow-root" keeps a short
+   first paragraph tall enough to hold it. */
+.post-body > p:first-of-type{ display:flow-root; }
+.post-body > p:first-of-type::first-letter{
+  float:left; margin:.08em .1em 0 0;
+  font-family:var(--font-head); font-weight:700;
+  font-size:3.6em; line-height:.82; color:var(--accent);
+}
 .post-body h2{ margin:2rem 0 .7rem; font-family:var(--font-head); font-size:1.24rem; }
 .post-body blockquote{
   margin:1.4rem 0; padding:.2rem 0 .2rem 1.1rem;
