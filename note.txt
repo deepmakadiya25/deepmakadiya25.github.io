@@ -151,16 +151,22 @@
 
   A NEWS ITEM
     news.html, at the top of the list. Give it data-cats with its tags
-    (preprint, publication, talk, conference, position, milestone) and repeat
-    each tag as a small chip at the end of the line. Update the counts in
+    (preprint, publication, talk, conference, position, milestone, life) and
+    repeat each tag as a small chip at the end of the line. Update the counts in
     brackets on the filter buttons above the list.
     A big item also belongs on the home page (index.html, the Latest News
     card) and on the Noticeboard.
 
   AN ANNOUNCEMENT
-    announcements.html. A live one goes at the top of "Current
+    announcements.html. A live one goes at the top of "Active
     Announcements". When it has run its course, move it into "Past
     Announcements" and give it a second date: the day it came down.
+    Give it data-cats with its tags (for now just "general"; an item may
+    carry several) and repeat each tag as a chip at the end of the line, as on
+    the News page. The tag buttons sit inside "Past Announcements" only, so
+    they filter the past ones and leave the live ones alone; when you add a
+    tag or a past item, add its button and update the counts by hand. The
+    Noticeboard's copy of a live announcement carries the same chips.
     Commented-out examples sit in the file. Copy one and uncomment it.
     The Noticeboard and the home page each show the latest one.
 
@@ -241,10 +247,16 @@
     The quotation of the day is put on the Noticeboard by quotes.js after the
     page loads, so the search cannot see it. That is expected.
 
-  THE TAG BUTTONS on the Blogs page and the News page
+  THE TAG BUTTONS on the Blogs, News and Important Announcements pages
     Each item carries data-cats, each button carries data-filter, and the
     counts in brackets are typed in by hand. Block 7 of pages.js does the
-    filtering for both pages.
+    filtering. A row of buttons works only on the items in its own section
+    (on Blogs and News that is the whole page; on Announcements, the past
+    ones), and a "More" list in that section counts again after each pick.
+    Once a row needs more than two lines it folds to two, with a round
+    button (›) at the end of the second line that shows the rest and turns
+    into ‹. The button is lit when the tag switched on is folded away.
+    The Noticeboard's Latest News lines carry the same chips as News.
 
   THE TWO BUTTONS ON A BLOG POST
     Bottom right, in a small capsule: back to the top on the left, the
@@ -303,8 +315,9 @@
   * The four blog posts. Each holds two lines of filler, a summary of
     [A sentence or two on what this piece is about.] on the Blogs page, and
     dates written [dd Mmm yyyy] with [n] min read.
-  * The captions under all 56 photographs, which read "Caption will be added
-    soon", and their alt text.
+  * The captions under the 37 photographs in B.Sc., M.Sc. and Ph.D. Journey,
+    which read "Caption will be added soon", and the alt text of all 56.
+    (Profile Pictures, General Photos and Evolution got captions 29 Sep 2026.)
   * "Like the design?" in the Site Guide mentions a GitHub repository that
     has no link on it yet, because the template repository does not exist.
 

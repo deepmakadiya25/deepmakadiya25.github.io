@@ -160,18 +160,19 @@
       </div>
 
       <section class="pg-section">
-        <h2 id="current-announcements" data-also="active, live, now, present">Current Announcements</h2>
+        <h2 id="current-announcements" data-also="current, live, now, present">Active Announcements</h2>
         <ul class="pg-news">
-          <li><span class="pg-when">6 Sep 2026</span><span>Some parts of this website are still a work in progress.</span></li>
+          <li data-cats="general"><span class="pg-when">6 Sep 2026</span><span>Some parts of this website are still a work in progress.<span class="post-tags"><span class="post-tag">General</span></span></span></li>
         </ul>
         <!-- WHEN THERE IS SOMETHING TO ANNOUNCE: delete the line above and take the
              list below out of this comment. The entries are only examples. Keep
-             the newest at the top and write the date as 25 Jul 2026.
+             the newest at the top and write the date as 25 Jul 2026. Tags go in
+             data-cats and again as chips, as on the News page.
         <ul class="pg-news">
-          <li><span class="pg-when">[25 Jul 2026]</span><span>[Office hours for the semester, or a change to them.]</span></li>
-          <li><span class="pg-when">[25 Jul 2026]</span><span>[A seminar you are organising, with date and venue.]</span></li>
-          <li><span class="pg-when">[25 Jul 2026]</span><span>[A deadline or call for participation worth flagging.]</span></li>
-          <li><span class="pg-when">[25 Jul 2026]</span><span>[A course announcement, once you are teaching one.]</span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]</span><span>[Office hours for the semester, or a change to them.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]</span><span>[A seminar you are organising, with date and venue.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]</span><span>[A deadline or call for participation worth flagging.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]</span><span>[A course announcement, once you are teaching one.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
         </ul>
         -->
       </section>
@@ -179,8 +180,17 @@
       <section class="pg-section">
         <h2 id="past-announcements" data-also="old, archive, previous, expired, history">Past Announcements</h2>
         <p class="section-note">A record of past announcements, kept here for reference rather than deleted.</p>
+        <!-- TAG BUTTONS for the past announcements only: they sit inside this
+             section, so they leave the live ones above alone. Each matches a
+             word in an item's data-cats (an item may carry several, separated
+             by spaces, each repeated as a chip at the end of its line). A new
+             tag needs one button here; update the counts by hand. -->
+        <div class="blog-filters">
+          <button type="button" class="blog-filter" data-filter="all" aria-pressed="true">All <span class="blog-count">(1)</span></button>
+          <button type="button" class="blog-filter" data-filter="general" aria-pressed="false">General <span class="blog-count">(1)</span></button>
+        </div>
         <ul class="pg-news fold-list">
-          <li><span class="pg-when">6 Sep 2026<span class="pg-until">&ndash; 27 Sep 2026</span></span><span>This new version of my website is now live &mdash; do look around. It may still have a few bugs in it; if you come across one, please let me know at <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>.</span></li>
+          <li data-cats="general"><span class="pg-when">6 Sep 2026<span class="pg-until">&ndash; 27 Sep 2026</span></span><span>This new version of my website is now live &mdash; do look around. It may still have a few bugs in it; if you come across one, please let me know at <a href="mailto:deepmakadia25.dm@gmail.com">deepmakadia25.dm@gmail.com</a>.<span class="post-tags"><span class="post-tag">General</span></span></span></li>
         </ul>
         <!-- A past announcement moves down here instead of being deleted. Take one
              line out of this comment when you need it, and give it a second date
@@ -189,8 +199,8 @@
              the rest behind a More button, so nothing here changes as the list
              grows.
         <ul class="pg-news fold-list">
-          <li><span class="pg-when">[25 Jul 2026]<span class="pg-until">&ndash; [25 Aug 2026]</span></span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]</span></li>
-          <li><span class="pg-when">[25 Jul 2026]<span class="pg-until">&ndash; [25 Aug 2026]</span></span><span>[Another one. Keep them newest first, as in the list above.]</span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]<span class="pg-until">&ndash; [25 Aug 2026]</span></span><span>[An announcement that has since passed &mdash; a finished semester, a deadline gone by, a seminar already held.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
+          <li data-cats="general"><span class="pg-when">[25 Jul 2026]<span class="pg-until">&ndash; [25 Aug 2026]</span></span><span>[Another one. Keep them newest first, as in the list above.]<span class="post-tags"><span class="post-tag">General</span></span></span></li>
         </ul>
         -->
       </section>

@@ -11,7 +11,7 @@
      4  SEARCH               reads the other pages and jumps to the line
      5  THE PAGE NAME        fills the phone bar as the title scrolls away
      6  QUOTE OF THE DAY     the Noticeboard's line for today, from quotes.js
-     7  TAG FILTERS          the tag buttons on the Blogs and News pages
+     7  TAG FILTERS          the tag buttons on the Blogs, News and Announcements pages
      8  A POST'S TWO BUTTONS  back to the top, and the contents of the piece
 
    RULE: the one list to keep up to date is PAGES, in block 4. It names the
@@ -748,13 +748,13 @@
   }
 
   /* -----------------------------------------------------------------------
-     7  TAG FILTERS (the Blogs page and the News page). Each button carries
+     7  TAG FILTERS (the Blogs, News and Announcements pages). Each button carries
      data-filter with one tag or "all"; each item carries data-cats with its
      own tags, space separated. Adding an item, or a tag, is an HTML edit
      only.
      -------------------------------------------------------------------- */
-  var filters = document.querySelectorAll("[data-filter]");
-  // any list whose items carry data-cats: the Blogs posts and the News events
+  // any list whose items carry data-cats: the Blogs posts, the News events and
+  // the announcements
   var posts = document.querySelectorAll("li[data-cats]");
 
   // An item with no tags shown gets them drawn from the very words the filter
@@ -776,22 +776,88 @@
     body.appendChild(document.createTextNode(" "));
     body.appendChild(strip);
   }
-  if (filters.length && posts.length) {
-    var show = function (cat) {
-      for (var i = 0; i < posts.length; i++) {
-        var cats = " " + (posts[i].getAttribute("data-cats") || "") + " ";
-        posts[i].hidden = !(cat === "all" || cats.indexOf(" " + cat + " ") > -1);
+  // Each row of buttons works on the list items in its OWN section: the row
+  // on the News and Blogs pages sits above everything, so it works on the
+  // whole page; the one under "Past Announcements" sits inside that section,
+  // so it leaves the live announcements above it alone.
+  var FOLD_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
+                 'stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">' +
+                 '<path d="M9.5 5.8 15.7 12l-6.2 6.2"/></svg>';
+  var filterRows = document.querySelectorAll(".blog-filters");
+  var rowFits = [];
+  for (var fr = 0; fr < filterRows.length; fr++) {
+    (function (row) {
+      var scope = row.parentNode;
+      var items = scope.querySelectorAll("li[data-cats]");
+      var buttons = row.querySelectorAll("[data-filter]");
+      if (!buttons.length || !items.length) return;
+
+      function show(cat) {
+        for (var i = 0; i < items.length; i++) {
+          var cats = " " + (items[i].getAttribute("data-cats") || "") + " ";
+          items[i].classList.toggle("filtered-out", !(cat === "all" || cats.indexOf(" " + cat + " ") > -1));
+        }
+        for (var f = 0; f < buttons.length; f++) {
+          var on = buttons[f].getAttribute("data-filter") === cat;
+          buttons[f].classList.toggle("active", on);
+          buttons[f].setAttribute("aria-pressed", on ? "true" : "false");
+        }
+        // a list that folds behind "More" (script.js) counts again what is left
+        var lists = scope.querySelectorAll(".fold-list");
+        for (var l = 0; l < lists.length; l++) { if (lists[l].refold) lists[l].refold(); }
+        fit();
       }
-      for (var f = 0; f < filters.length; f++) {
-        var on = filters[f].getAttribute("data-filter") === cat;
-        filters[f].classList.toggle("active", on);
-        filters[f].setAttribute("aria-pressed", on ? "true" : "false");
+
+      /* FOLDING THE ROW. Once the buttons need more than two lines, the row
+         keeps only what fits on two, with a round button (›) at the end of the
+         second line; open, it shows them all and the button turns to ‹. The
+         button is lit when the tag switched on is one of those folded away.
+         How many fit is measured, so it follows the width of the screen. */
+      var folded = true;
+      var fold = document.createElement("button");
+      fold.type = "button";
+      fold.className = "blog-filters-fold";
+      fold.innerHTML = FOLD_SVG;
+      fold.hidden = true;
+      row.appendChild(fold);
+
+      function fit() {
+        var i, tops = [];
+        for (i = 0; i < buttons.length; i++) buttons[i].hidden = false;
+        fold.hidden = true;
+        fold.classList.remove("on");
+        if (!row.offsetParent) return;
+        for (i = 0; i < buttons.length; i++) {
+          if (tops.indexOf(buttons[i].offsetTop) === -1) tops.push(buttons[i].offsetTop);
+        }
+        if (tops.length <= 2) return;               // two lines or fewer: nothing to fold
+        var size = buttons[0].offsetHeight + "px";
+        fold.style.width = size; fold.style.height = size;
+        fold.hidden = false;
+        var label = folded ? "Show all tags" : "Show fewer tags";
+        fold.setAttribute("aria-expanded", folded ? "false" : "true");
+        if (!folded) { fold.setAttribute("aria-label", label); fold.title = label; return; }
+        var second = tops.sort(function (a, b) { return a - b; })[1];
+        for (i = buttons.length - 1; i > 0 && fold.offsetTop > second; i--) buttons[i].hidden = true;
+        if (row.querySelector("[data-filter].active[hidden]")) {
+          fold.classList.add("on");
+          label = "Show all tags (the one switched on is folded away)";
+        }
+        fold.setAttribute("aria-label", label); fold.title = label;
       }
-    };
-    for (var fb = 0; fb < filters.length; fb++) {
-      filters[fb].addEventListener("click", function () { show(this.getAttribute("data-filter")); });
-    }
-    show("all");
+
+      fold.addEventListener("click", function () { folded = !folded; fit(); });
+      for (var fb = 0; fb < buttons.length; fb++) {
+        buttons[fb].addEventListener("click", function () { show(this.getAttribute("data-filter")); });
+      }
+      rowFits.push(fit);
+      show("all");
+    })(filterRows[fr]);
+  }
+  if (rowFits.length) {
+    var refitRows = function () { for (var r = 0; r < rowFits.length; r++) rowFits[r](); };
+    window.addEventListener("resize", refitRows);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refitRows);
   }
 
   /* -----------------------------------------------------------------------
