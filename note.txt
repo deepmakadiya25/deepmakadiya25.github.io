@@ -252,7 +252,7 @@
     counts in brackets are typed in by hand. Block 7 of pages.js does the
     filtering. A row of buttons works only on the items in its own section
     (on Blogs and News that is the whole page; on Announcements, the past
-    ones), and a "More" list in that section counts again after each pick.
+    ones, which are all shown: that list has no More button).
     Once a row needs more than two lines it folds to two, with a round
     button (›) at the end of the second line that shows the rest and turns
     into ‹. The button is lit when the tag switched on is folded away.
@@ -273,7 +273,7 @@
     Click a photograph to open it large; arrow keys move, Escape closes.
 
   THE "MORE" BLOCKS
-    Useful Links and the past announcements. script.js adds the button by
+    Useful Links only. script.js adds the button by
     itself once a list is long enough, and flips the word between More and
     Less.
 

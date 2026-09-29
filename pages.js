@@ -802,9 +802,6 @@
           buttons[f].classList.toggle("active", on);
           buttons[f].setAttribute("aria-pressed", on ? "true" : "false");
         }
-        // a list that folds behind "More" (script.js) counts again what is left
-        var lists = scope.querySelectorAll(".fold-list");
-        for (var l = 0; l < lists.length; l++) { if (lists[l].refold) lists[l].refold(); }
         fit();
       }
 

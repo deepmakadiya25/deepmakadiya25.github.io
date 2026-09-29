@@ -441,56 +441,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // "MORE / LESS" BLOCKS (useful-links.html, and the past announcements).
-  // Each block shows its first three items and hides the rest behind a
-  // "More" button added here. A block of three or fewer gets no button, so
-  // adding an item is an HTML edit only.
+  // "MORE / LESS" BLOCKS (useful-links.html). Each block shows its first three
+  // links and hides the rest behind a "More" button added here. A block of
+  // three or fewer gets no button, so adding a link is an HTML edit only.
   var VISIBLE_LINKS = 3;
-  var linkBlocks = document.querySelectorAll(".links-block, .fold-list");
+  var linkBlocks = document.querySelectorAll(".links-block");
   for (var b = 0; b < linkBlocks.length; b++) {
     (function (block) {
-      // a list folds its own rows; a links block folds the ".item" links in it
-      var isList = block.classList.contains("fold-list");
-      var items = isList ? block.children : block.querySelectorAll(".item");
-      // A list can be narrowed by tag buttons (pages.js), so it may grow past
-      // three or shrink back as tags are picked: it keeps its button and asks
-      // block.refold() to count again. A links block never changes.
-      if (!isList && items.length <= VISIBLE_LINKS) return;
+      var items = block.querySelectorAll(".item");
+      if (items.length <= VISIBLE_LINKS) return;
 
-      var isOpen = false;
-      function refold() {
-        var seen = 0;
-        for (var k = 0; k < items.length; k++) {
-          // rows a tag button has taken out are hidden by pages.css already
-          if (items[k].classList.contains("filtered-out")) { items[k].hidden = false; continue; }
-          seen++;
-          items[k].hidden = !isOpen && seen > VISIBLE_LINKS;
-        }
-        btn.hidden = seen <= VISIBLE_LINKS;
-        block.classList.toggle("has-more", !btn.hidden);   // lets styles.css tighten the gap above
+      function setExtras(hide) {
+        for (var k = VISIBLE_LINKS; k < items.length; k++) { items[k].hidden = hide; }
       }
       function label(text) {
         btn.innerHTML = text + ' <span class="caret" aria-hidden="true">&#9656;</span>';
       }
 
+      setExtras(true);
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "pub-toggle links-more";
       btn.setAttribute("aria-expanded", "false");
       label("More");
-      // a <button> may not sit inside a <ul>, so a list's button goes after it
-      (isList ? block.parentNode : block).appendChild(btn);
-      block.refold = refold;
-      refold();
+      block.appendChild(btn);
 
       btn.addEventListener("click", function () {
-        isOpen = !isOpen;
-        refold();
-        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        label(isOpen ? "Less" : "More");
+        var isOpen = btn.getAttribute("aria-expanded") === "true";
+        setExtras(isOpen);
+        btn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+        label(isOpen ? "More" : "Less");
         // Lay out the maths the first time it is really shown: measuring it
         // while hidden comes out wrong.
-        if (isOpen && !block.dataset.typeset &&
+        if (!isOpen && !block.dataset.typeset &&
             window.MathJax && window.MathJax.typesetPromise) {
           block.dataset.typeset = "1";
           window.MathJax.typesetPromise([block]);
