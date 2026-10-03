@@ -425,6 +425,92 @@ body.pg{
 .post-body h3{ margin:1.5rem 0 .5rem; font-family:var(--font-head); font-size:1.1rem; }
 .post-body h2, .post-body h3{ scroll-margin-top:1.2rem; }
 
+/* ---- pieces a post can use for itself. "About My Name" uses all of them;
+   any other post may too. ---- */
+/* a picture in a post, with a line of caption under it */
+.post-figure{ margin:1.4rem 0 1.5rem; text-align:center; }
+.post-figure figcaption{ margin-top:.5rem; font-size:.86rem; font-style:italic; color:var(--muted); }
+/* the diya: red clay painted in gold, with a flame that flickers gently
+   (and stays still for readers who have asked for less motion) */
+.diya{ display:block; width:min(15rem, 72%); height:auto; margin:0 auto; overflow:visible; }
+@media (prefers-reduced-motion: no-preference){
+  .diya-flame{ transform-box:view-box; transform-origin:120px 126px; animation:diya-flicker 2.6s ease-in-out infinite; }
+  .diya-glow{ transform-box:view-box; transform-origin:120px 78px; animation:diya-glow 2.6s ease-in-out infinite; }
+}
+@keyframes diya-flicker{
+  0%, 100%{ transform:scale(1, 1) rotate(0deg); }
+  20%{ transform:scale(.97, 1.04) rotate(-2deg); }
+  45%{ transform:scale(1.02, .96) rotate(1.5deg); }
+  70%{ transform:scale(.98, 1.03) rotate(-1deg); }
+}
+@keyframes diya-glow{
+  0%, 100%{ opacity:1; transform:scale(1); }
+  45%{ opacity:.75; transform:scale(.94); }
+}
+
+/* the three parts of a name, side by side; one above another on a phone */
+.name-parts{
+  display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.6rem;
+  margin:0 0 1.2rem;
+}
+.name-part{
+  display:flex; flex-direction:column; gap:.15rem;
+  padding:.8rem .9rem; border:1px solid var(--line); border-radius:12px;
+  background:var(--cream-2);
+}
+.name-part-word{ font-family:var(--font-head); font-weight:700; font-size:1.12rem; color:var(--ink); overflow-wrap:anywhere; }
+.name-part-label{ font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.name-part-note{ font-size:.84rem; color:var(--muted); }
+
+/* the official name turning into the everyday one, with a small label under each */
+.name-shift{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.5rem 1.1rem;
+  margin:0 0 1.2rem; padding:.9rem 1rem;
+  border:1px solid var(--line); border-radius:12px; background:var(--cream-2); text-align:center;
+}
+.name-shift-side{ display:flex; flex-direction:column; align-items:center; gap:.2rem; }
+.name-shift-name{ font-family:var(--font-head); font-size:1.05rem; font-weight:700; color:var(--ink); }
+.name-shift-side.is-short .name-shift-name{ font-size:1.18rem; color:var(--accent); }
+.name-shift-label{ font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.name-shift-arrow{ font-size:1.2rem; color:var(--accent); }
+
+/* how to say each name: its syllables in a row of boxes */
+.say{ margin:0 0 1.2rem; }
+.say-word{ padding:.8rem 0; border-top:1px solid var(--rule-3); }
+.say-word:first-child{ border-top:0; padding-top:.2rem; }
+.say-word-name{ display:block; margin-bottom:.45rem; font-family:var(--font-head); font-weight:700; }
+/* one row per name, however narrow the screen: the boxes shrink to fit */
+.say-syls{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0, 7.6rem); gap:.4rem; list-style:none; margin:0; padding:0; }
+.say-syls li{
+  display:flex; flex-direction:column; align-items:center;
+  padding:.45rem .4rem;
+  border:1px solid var(--line); border-radius:10px; background:var(--cream-2); text-align:center;
+}
+.say-syl{ font-family:var(--font-head); font-size:1.08rem; font-weight:700; color:var(--accent); }
+.say-gu{ font-family:"Noto Serif Gujarati", var(--font-body); font-size:1.02rem; line-height:1.5; color:var(--ink); }
+/* the sounds worth listening for: the sound on the left, the note beside it */
+.say-notes{ margin:0 0 1.2rem; }
+.say-notes > div{ display:grid; grid-template-columns:5.2rem minmax(0, 1fr); gap:.2rem 1rem; padding:.6rem 0; border-top:1px solid var(--rule-3); }
+.say-notes > div:first-child{ border-top:0; }
+.say-notes dt{ font-family:var(--font-head); font-weight:700; font-size:1.1rem; color:var(--accent); }
+.say-notes dd{ margin:0; }
+/* the name in its own scripts */
+.name-scripts{ margin:0 0 1.2rem; border-left:3px solid var(--accent); padding:.2rem 0 .2rem 1rem; }
+.post-body .name-scripts p{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.2rem 1rem; margin:.35rem 0; }
+.name-scripts-label{ flex:none; width:6.8rem; white-space:nowrap; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.name-scripts-text{ font-size:1.3rem; line-height:1.6; color:var(--ink); }
+.name-scripts-text[lang="gu"]{ font-family:"Noto Serif Gujarati", var(--font-body); }
+.name-scripts-text[lang="hi"]{ font-family:"Noto Serif Devanagari", var(--font-body); }
+
+@media (max-width:640px){
+  .name-parts{ grid-template-columns:minmax(0, 1fr); }
+  .say-syls{ gap:.3rem; }
+  .say-notes > div{ grid-template-columns:3.6rem minmax(0, 1fr); gap:.2rem .7rem; }
+  .name-shift{ flex-direction:column; }
+  .name-shift-arrow{ transform:rotate(90deg); }
+  .name-scripts-label{ width:auto; }
+}
+
 /* THE DOCK at the corner of a blog post. It reuses the top bar's round
    buttons, and the contents panel is literally a .tb-pop, so it matches the
    menus in every colour scheme and in dark mode. */
