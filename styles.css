@@ -278,14 +278,11 @@ main{ padding:3.2rem 2.6rem; min-width:0; }
   border-radius:22px;
   box-shadow:0 14px 26px rgba(var(--shadow-rgb),.14);
 }
-.hero-photo-frame a{ display:block; }
 .home-photo{
   display:block; width:clamp(140px, 40vw, 190px); height:clamp(140px, 40vw, 190px);
   border-radius:15px; object-fit:cover;
   background:var(--photo-bg);
-  transition:opacity .15s ease;
 }
-@media (hover: hover){ .hero-photo-frame a:hover .home-photo{ opacity:.82; } }
 .hero-text .eyebrow{
   text-transform:uppercase; letter-spacing:.16em; font-size:.72rem;
   color:var(--accent); margin:.5rem 0 0; font-family:var(--font-body);
@@ -1592,8 +1589,7 @@ which reads better small. ":root[...]" so these sizes also
 [data-style="midnight"] .hero-photo-frame::after{ inset:2px; background:var(--cream); }
 /* The photo has to sit ABOVE both layers: "::after" comes last, so without this
    it would paint over the picture. */
-[data-style="midnight"] .hero-photo-frame a{ position:relative; z-index:1; }
-[data-style="midnight"] .home-photo{ border-radius:0; clip-path:var(--octagon); }
+[data-style="midnight"] .home-photo{ position:relative; z-index:1; border-radius:0; clip-path:var(--octagon); }
 /* Midnight takes the rule weights and the tab bar exactly as Classic and
    Parchment have them. */
 

@@ -315,7 +315,12 @@ body.pg{
 .bio-hero-frame img{
   display:block; width:clamp(118px, 32vw, 166px); height:clamp(118px, 32vw, 166px);
   border-radius:15px; object-fit:cover; background:var(--photo-bg);
+  transition:opacity .15s ease;
 }
+/* the photo is the way into the photo gallery */
+.bio-hero-frame a{ display:block; border-radius:15px; }
+@media (hover: hover){ .bio-hero-frame a:hover img{ opacity:.82; } }
+.bio-hero-frame a:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
 .bio-hero-name{ margin:0; font-family:var(--font-head); font-weight:800;
                 line-height:1.12; font-size:clamp(1.55rem, 5.6vw, 2.3rem); }
 /* the same line as under the name on the home page (.hero-text .eyebrow in

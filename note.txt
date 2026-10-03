@@ -60,9 +60,12 @@
     useful-links.html             Useful Links
     announcements.html            Important Announcements
 
-  The first six are the six links in the bar. Announcements is built exactly
-  like them and carries the same bar, but is deliberately not one of its
-  links: it is reached from the Noticeboard, the home page and the Site Guide.
+  Noticeboard, Biography, News & Updates, Blogs and Useful Links are the five
+  links in the bar. Photos and Announcements are built exactly like them and
+  carry the same bar, but are deliberately not among its links. Photos is
+  reached only by clicking the photograph on the Biography page (and from the
+  Site Guide's list). Announcements is reached from the Noticeboard, the home
+  page and the Site Guide.
 
   These pages carry NO tagline under the title. A hairline separates the head
   of the page from the first section instead.
@@ -107,7 +110,7 @@
   quotes.js         one quotation for every day of the year, keyed "MM-DD",
                     29 February included. Shown on the Noticeboard.
 
-  gallery/          56 photographs.
+  gallery/          19 photographs.
   slides/           talk slides and posters, linked from News and from
                     Professional Activities.
   Deep_CV.pdf       the CV. A new one replaces it under the same name.
@@ -179,8 +182,8 @@
     teaching.html. One row per course.
 
   A PHOTOGRAPH
-    gallery.html, in one of the six sections: Profile Pictures, General
-    Photos, Evolution, B.Sc., M.Sc., Ph.D. Journey. Put the file in gallery/
+    gallery.html, in one of the three sections: Profile Pictures, General
+    Photos, Evolution. Put the file in gallery/
     and keep the file name exactly as it is on disk, including the case of
     the extension (.jpg and .JPG are different files to a web server).
     File names are numbered in tens, so a photograph can be slipped between
@@ -322,9 +325,9 @@
     with [n] min read. On the Noticeboard their date reads "Coming Soon"
     instead; put the real date there too. When one is written, move it to
     the top of both lists and add it to sitemap.xml.
-  * The captions under the 37 photographs in B.Sc., M.Sc. and Ph.D. Journey,
-    which read "Caption will be added soon", and the alt text of all 56.
-    (Profile Pictures, General Photos and Evolution got captions 29 Sep 2026.)
+  * The alt text of the 19 photographs (their captions were written
+    29 Sep 2026). The B.Sc., M.Sc. and Ph.D. Journey sections and their 37
+    photographs were removed on 3 Oct 2026.
   * "Like the design?" in the Site Guide mentions a GitHub repository that
     has no link on it yet, because the template repository does not exist.
 
@@ -356,9 +359,8 @@
     Write the other three pieces, then replace their summaries and both dates, and
     the reading time.
 
-  PHOTO CAPTIONS
-    One line per photograph, and alt text describing each one for a reader
-    who cannot see it.
+  PHOTO ALT TEXT
+    Alt text describing each photograph for a reader who cannot see it.
 
   SMALLER THINGS
     * Give "my GitHub repository" a link once the template repository exists.
