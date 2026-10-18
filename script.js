@@ -39,7 +39,7 @@
 
 /* 1  LAST_UPDATED. Change this on every update. It is shown as
    "Last updated: ..." in the footer of every page. */
-var LAST_UPDATED = "3 October 2026";
+var LAST_UPDATED = "18 October 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
   var sidebar = document.getElementById("sidebar");
