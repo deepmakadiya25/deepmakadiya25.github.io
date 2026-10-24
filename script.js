@@ -1,311 +1,26 @@
-/* =========================================================================
-   Deep H. Makadiya — academic site. One script, shared by every page.
+/* Shared content helpers. Navigation, light/dark mode and the compact header
+   live in simple.js. Search, filters and page tools live in pages.js.
+   Only features used by the current pages are initialized here. */
 
-   The blocks in here, in order:
-
-     1  LAST_UPDATED          the date shown in every footer
-     2  Mobile sidebar        menu button, overlay, Escape key
-     3  Section tabs          the scrolling tab row, fades and arrows
-     4  Colour picker         sets data-theme
-     5  Appearance panel      opens the four pickers, remembers it
-     6  Typeface picker       sets data-font
-     7  Style picker          sets data-style and data-panel
-     8  Light / dark mode     sets data-mode
-     9  "Last updated"        writes the date into every footer
-    10  Gallery lightbox      gallery.html
-    11  More / Less blocks    Useful Links
-    12  Language bubbles      Biography, touch screens only
-    13  Rotating news cards   home page
-    14  Abstract toggles      Research
-    15  Scrollspy             marks the tab you are reading
-    16  Page name in the bar  phones only
-
-   Each picker sets one attribute on <html> and saves the choice in the
-   visitor's browser. styles.css does the re-colouring and re-shaping:
-
-     data-theme       colour scheme    key "site-theme"
-     data-font        typeface pair    key "site-font"
-     data-style       layout style     key "site-style"
-     data-mode        dark mode        key "site-mode"
-     data-appearance  panel left open  key "site-appearance"
-
-   RULE: every page needs the small script in its <head> that re-applies
-   these before the page paints. A new page without it will ignore the
-   visitor's choices.
-
-   Blocks find their own elements, so adding a publication, photo, link,
-   news card or tab is an HTML edit only.
-   ========================================================================= */
-
-/* 1  LAST_UPDATED. Change this on every update. It is shown as
-   "Last updated: ..." in the footer of every page. */
-var LAST_UPDATED = "18 October 2026";
+/* EDIT: Change this date after every update, using day Month year.
+   It fills every footer. Also update edited pages' lastmod dates in sitemap.xml. */
+var LAST_UPDATED = "25 October 2026";
 
 document.addEventListener("DOMContentLoaded", function () {
-  var sidebar = document.getElementById("sidebar");
-  var toggle = document.getElementById("menuToggle");
-  var overlay = document.getElementById("overlay");
-
-  function openMenu() {
-    if (!sidebar) return;
-    sidebar.classList.add("open");
-    if (overlay) overlay.classList.add("open");
-    document.body.classList.add("menu-open");   // stops the page behind scrolling
-    if (toggle) toggle.setAttribute("aria-expanded", "true");
-  }
-  function closeMenu() {
-    if (!sidebar) return;                       // a page without a sidebar (a blog post)
-    sidebar.classList.remove("open");
-    if (overlay) overlay.classList.remove("open");
-    document.body.classList.remove("menu-open");
-    if (toggle) toggle.setAttribute("aria-expanded", "false");
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeMenu();
-  });
-
-  if (toggle) toggle.addEventListener("click", function () {
-    if (sidebar.classList.contains("open")) { closeMenu(); } else { openMenu(); }
-  });
-  if (overlay) overlay.addEventListener("click", closeMenu);
-
-  // tapping a page link inside the menu closes it
-  if (sidebar) {
-    var links = sidebar.querySelectorAll("a");
-    for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener("click", closeMenu);
-    }
-  }
-
-  // SECTION TABS. One scrolling line per ".page-tabs-wrap", with fades and
-  // arrows that show only when the tabs overflow.
-  var tabWraps = document.querySelectorAll(".page-tabs-wrap");
-  tabWraps.forEach(function (wrap) {
-    var tabs = wrap.querySelector(".page-tabs");
-    var leftArrow = wrap.querySelector(".tabs-arrow.left");
-    var rightArrow = wrap.querySelector(".tabs-arrow.right");
-    var leftFade = wrap.querySelector(".tabs-fade.left");
-    var rightFade = wrap.querySelector(".tabs-fade.right");
-    if (!tabs) return;
-
-    function update() {
-      var hasOverflow = tabs.scrollWidth > tabs.clientWidth + 1;
-      var atStart = tabs.scrollLeft <= 0;
-      var atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 1;
-
-      if (leftArrow) leftArrow.hidden = !hasOverflow || atStart;
-      if (rightArrow) rightArrow.hidden = !hasOverflow || atEnd;
-      if (leftFade) leftFade.hidden = !hasOverflow || atStart;
-      if (rightFade) rightFade.hidden = !hasOverflow || atEnd;
-    }
-
-    if (leftArrow) leftArrow.addEventListener("click", function () {
-      tabs.scrollBy({ left: -160, behavior: "smooth" });
+  // Wait for MathJax startup, and mark a panel complete only after success.
+  // This leaves a failed or interrupted layout eligible for another attempt.
+  function renderMath(panel) {
+    if (panel.dataset.typeset || !window.MathJax || !window.MathJax.typesetPromise) return;
+    panel.dataset.typeset = "pending";
+    var ready = window.MathJax.startup && window.MathJax.startup.promise;
+    Promise.resolve(ready).then(function () {
+      return window.MathJax.typesetPromise([panel]);
+    }).then(function () {
+      panel.dataset.typeset = "1";
+    }).catch(function (error) {
+      delete panel.dataset.typeset;
+      console.warn("Mathematical notation could not be laid out.", error);
     });
-    if (rightArrow) rightArrow.addEventListener("click", function () {
-      tabs.scrollBy({ left: 160, behavior: "smooth" });
-    });
-
-    tabs.addEventListener("scroll", update);
-    window.addEventListener("resize", update);
-    update();
-    // GOTCHA: measure again once the web font loads. The row is wider in Lora
-    // than in the fallback, so the first measurement can miss the overflow.
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
-  });
-
-  // COLOUR PICKER (the circles in the sidebar). Clicking one sets data-theme
-  // on <html> and saves the choice. Adding a scheme is HTML and CSS only.
-  var STORE_KEY = "site-theme";
-  var swatches = document.querySelectorAll("[data-set-theme]");
-
-  function currentTheme() {
-    return document.documentElement.getAttribute("data-theme") || "cream";
-  }
-  function markActive() {
-    var now = currentTheme();
-    for (var i = 0; i < swatches.length; i++) {
-      var on = swatches[i].getAttribute("data-set-theme") === now;
-      swatches[i].classList.toggle("active", on);
-      swatches[i].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-  for (var s = 0; s < swatches.length; s++) {
-    swatches[s].addEventListener("click", function () {
-      var picked = this.getAttribute("data-set-theme");
-      document.documentElement.setAttribute("data-theme", picked);
-      try { localStorage.setItem(STORE_KEY, picked); } catch (e) {}
-      markActive();
-    });
-  }
-  markActive();
-
-  // APPEARANCE PANEL. The sidebar row opens and closes the four pickers, and
-  // the state is remembered. The <head> script sets data-appearance before
-  // the page paints, so an open panel never flickers shut. This only keeps
-  // the button in step and saves the choice.
-  var APPEARANCE_KEY = "site-appearance";
-  var appearanceToggle = document.getElementById("appearanceToggle");
-  if (appearanceToggle) {
-    var setAppearance = function (open) {
-      if (open) { document.documentElement.setAttribute("data-appearance", "open"); }
-      else { document.documentElement.removeAttribute("data-appearance"); }
-      appearanceToggle.setAttribute("aria-expanded", open ? "true" : "false");
-    };
-    setAppearance(document.documentElement.getAttribute("data-appearance") === "open");
-    appearanceToggle.addEventListener("click", function () {
-      var open = this.getAttribute("aria-expanded") !== "true";
-      setAppearance(open);
-      try { localStorage.setItem(APPEARANCE_KEY, open ? "open" : "shut"); } catch (e) {}
-    });
-  }
-
-  // TYPEFACE PICKER (the five "A" circles). Clicking one sets data-font on
-  // <html> and saves the choice. Adding a pair is HTML and CSS only.
-  var FONT_KEY = "site-font";
-  var fontSwatches = document.querySelectorAll("[data-set-font]");
-
-  function currentFont() {
-    return document.documentElement.getAttribute("data-font") || "classic";
-  }
-  function markFont() {
-    var now = currentFont();
-    for (var i = 0; i < fontSwatches.length; i++) {
-      var on = fontSwatches[i].getAttribute("data-set-font") === now;
-      fontSwatches[i].classList.toggle("active", on);
-      fontSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-  for (var fz = 0; fz < fontSwatches.length; fz++) {
-    fontSwatches[fz].addEventListener("click", function () {
-      var picked = this.getAttribute("data-set-font");
-      document.documentElement.setAttribute("data-font", picked);
-      try { localStorage.setItem(FONT_KEY, picked); } catch (e) {}
-      markFont();
-    });
-  }
-  markFont();
-
-  // STYLE PICKER (the "1 2 3 4 5" circles). Clicking one sets data-style on
-  // <html>, and styles.css re-shapes the site. Classic has no rules of its
-  // own, so a missing or unknown name is harmless.
-  var STYLE_KEY = "site-style";
-  var styleSwatches = document.querySelectorAll("[data-set-style]");
-
-  function currentStyle() {
-    return document.documentElement.getAttribute("data-style") || "classic";
-  }
-  function markStyle() {
-    var now = currentStyle();
-    for (var i = 0; i < styleSwatches.length; i++) {
-      var on = styleSwatches[i].getAttribute("data-set-style") === now;
-      styleSwatches[i].classList.toggle("active", on);
-      styleSwatches[i].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-  // RULE: styles named here also get data-panel="dark", which is how they
-  // share the dark navigation panel in styles.css. Keep this list in step
-  // with the styles that want that panel.
-  var DARK_PANEL_STYLES = ["contrast", "midnight", "grove"];
-
-  function applyStyle(picked) {
-    var d = document.documentElement;
-    d.setAttribute("data-style", picked);
-    var dark = false;
-    for (var i = 0; i < DARK_PANEL_STYLES.length; i++) {
-      if (DARK_PANEL_STYLES[i] === picked) { dark = true; }
-    }
-    if (dark) { d.setAttribute("data-panel", "dark"); }
-    else { d.removeAttribute("data-panel"); }
-  }
-
-  for (var sy = 0; sy < styleSwatches.length; sy++) {
-    styleSwatches[sy].addEventListener("click", function () {
-      var picked = this.getAttribute("data-set-style");
-      applyStyle(picked);
-      try { localStorage.setItem(STYLE_KEY, picked); } catch (e) {}
-      markStyle();
-    });
-  }
-  markStyle();
-
-  // THEME (Light, Dark, Auto). Dark sets data-mode on <html>;
-  // every colour scheme has a dark version, so the chosen colour is kept.
-  // Auto is the default and follows the phone or laptop setting, changing
-  // with it while the page is open. This one block drives the buttons in the
-  // sidebar and the ones in the second set's appearance menu.
-  var MODE_KEY = "site-mode";
-  var modeButtons = document.querySelectorAll("[data-set-mode]");
-  var systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-
-  function storedMode() {
-    var v = null;
-    try { v = localStorage.getItem(MODE_KEY); } catch (e) {}
-    return (v === "light" || v === "dark") ? v : "auto";
-  }
-  function paint(choice) {
-    var dark = choice === "dark" || (choice === "auto" && systemDark && systemDark.matches);
-    if (dark) { document.documentElement.setAttribute("data-mode", "dark"); }
-    else { document.documentElement.removeAttribute("data-mode"); }
-    for (var i = 0; i < modeButtons.length; i++) {
-      var on = modeButtons[i].getAttribute("data-set-mode") === choice;
-      modeButtons[i].classList.toggle("active", on);
-      modeButtons[i].setAttribute("aria-pressed", on ? "true" : "false");
-    }
-  }
-
-  paint(storedMode());
-
-  for (var mb = 0; mb < modeButtons.length; mb++) {
-    modeButtons[mb].addEventListener("click", function () {
-      var picked = this.getAttribute("data-set-mode");
-      paint(picked);
-      try { localStorage.setItem(MODE_KEY, picked); } catch (e) {}
-    });
-  }
-
-  if (systemDark) {
-    var followSystem = function () { if (storedMode() === "auto") paint("auto"); };
-    if (systemDark.addEventListener) { systemDark.addEventListener("change", followSystem); }
-    else if (systemDark.addListener) { systemDark.addListener(followSystem); }   // older Safari
-  }
-
-  // THE PAGE NAME IN THE PHONE TOP BAR. Once the in-page tab bar reaches the
-  // top, the page's name appears beside the site name. Pages with no tab bar
-  // never show it. The name comes from the current menu link.
-  var topbar = document.querySelector(".topbar");
-  var topbarPage = document.getElementById("topbarPage");
-  var tabsWrap = document.querySelector(".page-tabs-wrap");
-  if (topbar && topbarPage && tabsWrap) {
-    var here = document.querySelector(".sidebar nav a.active");
-    topbarPage.textContent = here ? here.textContent.trim() : "";
-
-    var barHeight = function () {
-      var v = getComputedStyle(document.documentElement).getPropertyValue("--topbar-h");
-      return parseFloat(v) || 52;
-    };
-    // GOTCHA: ask the element where it comes to rest instead of assuming the
-    // top bar's height. The "card" style leaves a gap, and the assumption
-    // meant the page name never appeared under that style.
-    var restTop = function () {
-      var t = parseFloat(getComputedStyle(tabsWrap).top);
-      return isNaN(t) ? barHeight() : t;
-    };
-    var ticking2 = false;
-    var checkTabs = function () {
-      // one pixel of tolerance: the sticky bar settles exactly on the line
-      var stuck = tabsWrap.getBoundingClientRect().top <= restTop() + 1;
-      topbar.classList.toggle("with-page", stuck && !!topbarPage.textContent);
-      ticking2 = false;
-    };
-    window.addEventListener("scroll", function () {
-      if (ticking2) return;
-      ticking2 = true;
-      window.requestAnimationFrame(checkTabs);
-    }, { passive: true });
-    window.addEventListener("resize", checkTabs);
-    checkTabs();
   }
 
   // "LAST UPDATED" in every footer, from LAST_UPDATED at the top of this
@@ -355,7 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
       box.hidden = true;
       boxImg.removeAttribute("src");
       document.body.classList.remove("lightbox-open");
-      if (lastFocused && lastFocused.focus) lastFocused.focus();
+      // The modal observer must clear background inertness before focus returns.
+      window.requestAnimationFrame(function () {
+        if (lastFocused && lastFocused.isConnected && lastFocused.focus) lastFocused.focus();
+      });
     }
 
     for (var t = 0; t < tiles.length; t++) {
@@ -444,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // "MORE / LESS" BLOCKS (useful-links.html). Each block shows its first three
   // links and hides the rest behind a "More" button added here. A block of
   // three or fewer gets no button, so adding a link is an HTML edit only.
+  // EDIT: Useful Links shows this many .item entries before More; the button is automatic.
   var VISIBLE_LINKS = 3;
   var linkBlocks = document.querySelectorAll(".links-block");
   for (var b = 0; b < linkBlocks.length; b++) {
@@ -473,74 +192,9 @@ document.addEventListener("DOMContentLoaded", function () {
         label(isOpen ? "More" : "Less");
         // Lay out the maths the first time it is really shown: measuring it
         // while hidden comes out wrong.
-        if (!isOpen && !block.dataset.typeset &&
-            window.MathJax && window.MathJax.typesetPromise) {
-          block.dataset.typeset = "1";
-          window.MathJax.typesetPromise([block]);
-        }
+        if (!isOpen) renderMath(block);
       });
     })(linkBlocks[b]);
-  }
-
-  // ROTATING NEWS CARDS (home page). A ".carousel" shows one item at a time
-  // and moves on every five seconds. The dots are built from the items found,
-  // so adding one is an HTML edit only. Rotation pauses on hover or focus,
-  // stops for good once a dot is clicked, and never starts for a visitor who
-  // asks for reduced motion. Change CAROUSEL_MS to alter the speed.
-  var CAROUSEL_MS = 5000;
-  var carousels = document.querySelectorAll("[data-carousel]");
-  for (var c = 0; c < carousels.length; c++) {
-    (function (box) {
-      var items = box.querySelectorAll(".carousel-item");
-      if (items.length === 0) return;
-      // one item is not a carousel: show it, with no dots and no rotation
-      if (items.length === 1) { items[0].classList.add("is-current"); return; }
-
-      var dots = document.createElement("div");
-      dots.className = "carousel-dots";
-      box.appendChild(dots);
-
-      var index = 0, timer = null, paused = false, stopped = false;
-      var buttons = [];
-
-      function show(n) {
-        index = (n + items.length) % items.length;
-        for (var i = 0; i < items.length; i++) {
-          items[i].classList.toggle("is-current", i === index);
-          buttons[i].setAttribute("aria-selected", i === index ? "true" : "false");
-        }
-      }
-      function tick() { if (!paused && !stopped) show(index + 1); }
-      function start() {
-        if (timer || stopped || items.length < 2) return;
-        timer = window.setInterval(tick, CAROUSEL_MS);
-      }
-      function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
-
-      for (var i = 0; i < items.length; i++) {
-        (function (n) {
-          var b = document.createElement("button");
-          b.type = "button";
-          b.className = "carousel-dot";
-          b.setAttribute("aria-label", "Item " + (n + 1) + " of " + items.length);
-          b.setAttribute("aria-selected", "false");
-          b.addEventListener("click", function () { stopped = true; stop(); show(n); });
-          dots.appendChild(b);
-          buttons.push(b);
-        })(i);
-      }
-
-      show(0);
-
-      var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!calm) {
-        box.addEventListener("mouseenter", function () { paused = true; });
-        box.addEventListener("mouseleave", function () { paused = false; });
-        box.addEventListener("focusin", function () { paused = true; });
-        box.addEventListener("focusout", function () { paused = false; });
-        start();
-      }
-    })(carousels[c]);
   }
 
   // ABSTRACTS. Each "Abstract" button opens the panel named in its
@@ -557,85 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Lay out the maths the first time the panel is really shown: measuring
       // it while hidden comes out wrong.
-      if (!isOpen && !panel.dataset.typeset &&
-          window.MathJax && window.MathJax.typesetPromise) {
-        panel.dataset.typeset = "1";
-        window.MathJax.typesetPromise([panel]);
-      }
+      if (!isOpen) renderMath(panel);
     });
   }
 
-  // -----------------------------------------------------------------------
-  // SCROLLSPY. As you scroll, the tab for the section you are reading gets
-  // the "current" class. Each tab's section comes from its own href, so
-  // adding or renaming tabs needs no change here. On narrow screens the
-  // highlighted tab is nudged into view.
-  // -----------------------------------------------------------------------
-  tabWraps.forEach(function (wrap) {
-    var tabs = wrap.querySelector(".page-tabs");
-    if (!tabs) return;
-
-    var links = [];
-    var anchors = tabs.querySelectorAll('a[href^="#"]');
-    for (var i = 0; i < anchors.length; i++) {
-      var target = document.getElementById(anchors[i].getAttribute("href").slice(1));
-      if (target) links.push({ link: anchors[i], target: target });
-    }
-    if (links.length === 0) return;
-
-    var active = null;
-
-    function setCurrent(entry) {
-      if (entry === active) return;
-      if (active) active.link.classList.remove("current");
-      active = entry;
-      if (!active) return;
-      active.link.classList.add("current");
-
-      // Keep the highlighted tab in view. The arrows and fades sit over the
-      // row's padding, so measure that padding and scroll clear of it.
-      if (tabs.scrollWidth > tabs.clientWidth + 1) {
-        var t = active.link;
-        var pad = window.getComputedStyle(tabs);
-        var padLeft = parseFloat(pad.paddingLeft) || 0;
-        var padRight = parseFloat(pad.paddingRight) || 0;
-        var left = t.offsetLeft - tabs.offsetLeft;
-        var right = left + t.offsetWidth;
-        if (left < tabs.scrollLeft + padLeft) {
-          tabs.scrollTo({ left: Math.max(0, left - padLeft), behavior: "smooth" });
-        } else if (right > tabs.scrollLeft + tabs.clientWidth - padRight) {
-          tabs.scrollTo({ left: right - tabs.clientWidth + padRight, behavior: "smooth" });
-        }
-      }
-    }
-
-    function spy() {
-      // A heading comes to rest at its CSS "scroll-margin-top", which clears
-      // the frozen tab bar. Measuring from that same line makes the tab light
-      // up as soon as it is clicked.
-      var landing = parseFloat(getComputedStyle(links[0].target).scrollMarginTop);
-      if (!landing || isNaN(landing)) landing = wrap.getBoundingClientRect().bottom + 12;
-      var line = landing + 6;
-      var found = null;
-      for (var i = 0; i < links.length; i++) {
-        if (links[i].target.getBoundingClientRect().top <= line) found = links[i];
-      }
-      // Nothing is marked above the first heading. At the very bottom of the
-      // page, always mark the last one.
-      var atBottom = (window.innerHeight + window.pageYOffset) >=
-                     (document.documentElement.scrollHeight - 2);
-      if (atBottom) found = links[links.length - 1];
-      setCurrent(found);
-    }
-
-    var ticking = false;
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () { spy(); ticking = false; });
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    spy();
-  });
 });

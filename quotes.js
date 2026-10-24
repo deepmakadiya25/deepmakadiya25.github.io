@@ -1,7 +1,7 @@
 /* =========================================================================
    Deep H. Makadiya — A QUOTE FOR EVERY DAY OF THE YEAR.
 
-   One line per day, keyed by month and day: "MM-DD". The Noticeboard reads
+   One line per day, keyed by month and day: "MM-DD". The homepage reads
    today's date and shows the line that matches; 29 February has its own, so
    a leap year is covered.
 
@@ -14,7 +14,7 @@
    rather than ones traced to a page in a book. Correct any that you know
    better — this file is yours to edit.
 
-   Only this file is loaded for the quote, and only by the Noticeboard.
+   Only this file is loaded for the quote, and only by the homepage.
    ========================================================================= */
 var QUOTES = {
 

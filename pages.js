@@ -1,22 +1,7 @@
-/* =========================================================================
-   Deep H. Makadiya — the SECOND SET of pages
-   (Noticeboard, Bio, Photos, News & Updates, Blogs and every blog post).
-
-   These pages also load script.js, which carries the pickers and the
-   "last updated" line. This file adds what the top bar needs:
-
-     1  WHERE AM I           the path back to the site root
-     2  THE THREE MENUS      links, appearance, search — one open at a time
-     3  THE PAGE MENU        the six links on a phone
-     4  SEARCH               reads the other pages and jumps to the line
-     5  THE PAGE NAME        fills the phone bar as the title scrolls away
-     6  QUOTE OF THE DAY     the Noticeboard's line for today, from quotes.js
-     7  TAG FILTERS          the tag buttons on the Blogs, News and Announcements pages
-     8  A POST'S TWO BUTTONS  back to the top, and the contents of the piece
-
-   RULE: the one list to keep up to date is PAGES, in block 4. It names the
-   pages the search reads.
-   ========================================================================= */
+/* Site search, tag filters, daily quotation and the page-section tools.
+   EDIT: New pages go in PAGES below and in sitemap.xml. Existing content is
+   indexed from its HTML automatically; papers and news do not need JS entries.
+   Navigation and the mobile sidebar are controlled only by simple.js. */
 (function () {
   "use strict";
 
@@ -24,7 +9,7 @@
      1  WHERE AM I. A blog post lives one folder down, so links and fetched
      files need "../" in front of them there.
      -------------------------------------------------------------------- */
-  var ROOT = /\/blogs\//.test(location.pathname) ? "../" : "";
+  var ROOT = document.querySelector('main[data-page="404"]') ? "" : (/\/blogs\//.test(location.pathname) ? "../" : "");
 
   /* -----------------------------------------------------------------------
      2  THE THREE MENUS. Each tool button owns the panel named in its
@@ -42,6 +27,7 @@
     if (!panel) return;
     btn.setAttribute("aria-expanded", open ? "true" : "false");
     panel.hidden = !open;
+    if (!open && panel.contains(document.activeElement)) btn.focus();
     if (open) {
       var field = panel.querySelector("input");
       if (field) { field.focus(); field.select(); }
@@ -99,7 +85,7 @@
   }
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { closeAll(null); closeSearch(); closeMenu(); }
+    if (e.key === "Escape") { closeAll(null); closeSearch(); }
     // "/" opens the search, as on most sites
     if (e.key === "/" && !/^(INPUT|TEXTAREA)$/.test((e.target.tagName || ""))) {
       e.preventDefault();
@@ -112,25 +98,6 @@
     searchPanel.addEventListener("click", function (e) {
       var box = searchPanel.querySelector(".pg-search-box");
       if (box && !box.contains(e.target)) searchPanel.hidden = true;
-    });
-  }
-
-  /* -----------------------------------------------------------------------
-     3  THE PAGE MENU. On a phone the six page links stay hidden until the
-     menu button is pressed.
-     -------------------------------------------------------------------- */
-  var menuButton = document.getElementById("pageMenuButton");
-  var pageNav = document.getElementById("pageNav");
-
-  function closeMenu() {
-    if (menuButton && pageNav) { pageNav.classList.remove("open"); menuButton.setAttribute("aria-expanded", "false"); }
-  }
-  if (menuButton && pageNav) {
-    menuButton.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var open = !pageNav.classList.contains("open");
-      pageNav.classList.toggle("open", open);
-      menuButton.setAttribute("aria-expanded", open ? "true" : "false");
     });
   }
 
@@ -164,20 +131,21 @@
   // furniture, not writing.
   var SKIP = "footer, .pg-foot, .skip-link, nav, script, style, template";
 
+  /* EDIT: Add a new page once here (path from the site root and its name).
+     Also add its navigation link copies and a sitemap.xml entry. The rest of
+     search, including blog-only filters, is derived from these page files. */
   var PAGES = [
     { file: "index.html",                    name: "Home" },
     { file: "academics.html",                name: "Academics" },
     { file: "research.html",                 name: "Research" },
     { file: "teaching.html",                 name: "Teaching" },
     { file: "professional-activities.html",  name: "Professional Activities" },
-    { file: "noticeboard.html",              name: "Noticeboard" },
     { file: "bio.html",                      name: "Biography" },
-    { file: "gallery.html",                  name: "Photos" },
+    { file: "gallery.html",                  name: "Photo Gallery" },
     { file: "news.html",                     name: "News & Updates" },
     { file: "announcements.html",            name: "Important Announcements" },
     { file: "blogs.html",                    name: "Blogs" },
     { file: "useful-links.html",             name: "Useful Links" },
-    { file: "navigation.html",               name: "The Site Guide" },
     { file: "blogs/opportunities-in-higher-mathematics-in-india.html", name: "Opportunities in Higher Mathematics in India" },
     { file: "blogs/about-my-name.html",      name: "About My Name" },
     { file: "blogs/how-i-ended-up-in-mathematics.html", name: "How I Ended Up in Mathematics" },
@@ -188,15 +156,15 @@
   // Everywhere else the trail stops at the section.
   var DEEP = ["academics.html", "research.html", "teaching.html", "professional-activities.html"];
 
-  var POSTS = ["blogs/opportunities-in-higher-mathematics-in-india.html",
-               "blogs/about-my-name.html",
-               "blogs/how-i-ended-up-in-mathematics.html",
-               "blogs/life-beyond-mathematics.html"];
+  // A new blog post needs only its PAGES entry; derive the post-only scopes.
+  var POSTS = PAGES.filter(function (p) { return p.file.indexOf("blogs/") === 0; })
+                   .map(function (p) { return p.file; });
 
   /* WHICH PAGE IS BEING READ, named as the list above names it. A page that
      is not in the list, such as the 404, leaves this empty, and the
      "Only this page" chip is then left out. */
   var HERE = (function () {
+    if (document.querySelector('main[data-page="404"]')) return "";
     var path = location.pathname;
     if (/\/$/.test(path)) path += "index.html";
     for (var i = 0; i < PAGES.length; i++) {
@@ -225,9 +193,9 @@
   var results = document.getElementById("searchResults");
   var hint = document.getElementById("searchHint");
   var tagRow = document.getElementById("searchTags");
+  var loadPromise = null; // Share the pending request with every search caller.
   var corpus = null;      // filled in on first use
   var groups = null;      // the items, so words can match across one
-  var loading = false;
   var chosen = [];        // the chips currently switched on
   var offline = false;    // opened from a folder: nothing could be read
   var IDLE_HINT = "Type a word or two, or pick a filter.";
@@ -240,7 +208,7 @@
     s = (s || "").toLowerCase();
     if (s.normalize) s = s.normalize("NFD").replace(/[̀-ͯ]/g, "");
     return s.replace(/[.'’ʼ`]/g, "")
-            .replace(/[^a-z0-9]+/g, " ")
+            .replace(/[^\p{L}\p{M}\p{N}]+/gu, " ")
             .replace(/\s+/g, " ").trim();
   }
   function hasWord(hay, w) { return (" " + hay + " ").indexOf(" " + w + " ") > -1; }
@@ -263,6 +231,12 @@
     var brs = copy.querySelectorAll("br");
     for (var b = 0; b < brs.length; b++) {
       brs[b].parentNode.replaceChild(doc.createTextNode(" "), brs[b]);
+    }
+    // Preserve the visual separation between dates, prose and category tags.
+    var labels = copy.querySelectorAll(".pg-when, .post-tags, .post-tag");
+    for (var n = 0; n < labels.length; n++) {
+      labels[n].parentNode.insertBefore(doc.createTextNode(" "), labels[n]);
+      labels[n].parentNode.insertBefore(doc.createTextNode(" "), labels[n].nextSibling);
     }
     return (copy.textContent || "").replace(/\s+/g, " ").trim();
   }
@@ -319,8 +293,8 @@
   }
 
   function load() {
-    if (corpus || loading) return Promise.resolve();
-    loading = true;
+    if (corpus) return Promise.resolve();
+    if (loadPromise) return loadPromise;
     if (hint) hint.textContent = "Reading the site…";
     var jobs = PAGES.map(function (p) {
       return fetch(ROOT + p.file)
@@ -328,7 +302,7 @@
         .then(function (html) { return html ? linesOf(html, p) : []; })
         .catch(function () { return []; });
     });
-    return Promise.all(jobs).then(function (all) {
+    loadPromise = Promise.all(jobs).then(function (all) {
       corpus = [];
       var read = 0;
       for (var i = 0; i < all.length; i++) {
@@ -343,7 +317,6 @@
         g.hay += " " + c.hay;
         if (c.at === c.group) g.head = e;
       }
-      loading = false;
       offline = !read;
       if (hint) {
         // Opened straight from a folder, a browser will not let one local file
@@ -352,6 +325,7 @@
           : "Search works on the live site. Opened straight from a folder, the browser will not let one page read another.";
       }
     });
+    return loadPromise;
   }
 
   /* ---- the chips ------------------------------------------------------ */
@@ -458,18 +432,44 @@
     return s;
   }
 
-  function mark(text, words) {
-    // the words are folded and the line is not, so match in a way that
-    // ignores accents and full stops here too
-    var out = text, i, w, re;
-    for (i = 0; i < words.length; i++) {
-      w = words[i].replace(/[.*+?^${}()|[\]\\]/g, "\\$&").split("").join("[\\u0300-\\u036f.'’]*");
-      try {
-        re = new RegExp("(" + w + ")", "ig");
-        out = out.replace(re, "\u0001$1\u0002");
-      } catch (e) {}
+  // Match in an accent-free projection, retaining offsets into the original text.
+  // Both result snippets and landing highlights use this same matcher.
+  function matchText(text, word) {
+    var plain = "", starts = [], ends = [];
+    for (var i = 0; i < text.length;) {
+      var ch = String.fromCodePoint(text.codePointAt(i));
+      var clean = ch.normalize ? ch.normalize("NFD").replace(/[\u0300-\u036f]/g, "") : ch;
+      if (!clean && ends.length) ends[ends.length - 1] = i + ch.length;
+      for (var j = 0; j < clean.length; j++) { starts.push(i); ends.push(i + ch.length); }
+      plain += clean;
+      i += ch.length;
     }
-    return esc(out).replace(/\u0001/g, "<mark>").replace(/\u0002/g, "</mark>");
+    var pattern = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+                      .split("").join("[.'’ʼ`]*");
+    var re = new RegExp(pattern, "ig"), found, ranges = [];
+    while ((found = re.exec(plain))) {
+      if (!found[0].length) break;
+      ranges.push({ start: starts[found.index], end: ends[found.index + found[0].length - 1] });
+    }
+    return ranges;
+  }
+
+  function mark(text, words) {
+    var ranges = [];
+    words.forEach(function (word) { ranges = ranges.concat(matchText(text, word)); });
+    ranges.sort(function (a, b) { return a.start - b.start || b.end - a.end; });
+    var merged = [];
+    ranges.forEach(function (range) {
+      var last = merged[merged.length - 1];
+      if (last && range.start <= last.end) last.end = Math.max(last.end, range.end);
+      else merged.push({ start: range.start, end: range.end });
+    });
+    var out = "", offset = 0;
+    merged.forEach(function (range) {
+      out += esc(text.slice(offset, range.start)) + "<mark>" + esc(text.slice(range.start, range.end)) + "</mark>";
+      offset = range.end;
+    });
+    return out + esc(text.slice(offset));
   }
 
   /* ---- and the results themselves ------------------------------------- */
@@ -638,14 +638,9 @@
      and lights up the words in it.
      -------------------------------------------------------------------- */
   (function () {
-    var qs = location.search;
-    if (!qs || qs.indexOf("at=") === -1) return;
-    var at = null, find = "";
-    qs.replace(/^\?/, "").split("&").forEach(function (bit) {
-      var kv = bit.split("=");
-      if (kv[0] === "at") at = parseInt(decodeURIComponent(kv[1] || ""), 10);
-      if (kv[0] === "find") find = decodeURIComponent((kv[1] || "").replace(/\+/g, " "));
-    });
+    var params = new URLSearchParams(location.search);
+    if (!params.has("at")) return;
+    var at = parseInt(params.get("at"), 10), find = params.get("find") || "";
     // the SAME list the search counted, or the number would point elsewhere
     var root = contentRoot(document);
     if (!root || at === null || isNaN(at)) return;
@@ -653,40 +648,64 @@
     var target = blocks[at];
     if (!target) return;
 
-    // Light up the first word inside that line. It arrives folded, so match
-    // it in a way that ignores accents and full stops, or "poincare" would
-    // never find "Poincaré".
-    var word = (find.split(/\s+/)[0] || "");
     var lit = null;
-    if (word) {
-      var loose = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-                                 .split("").join("[\u0300-\u036f.'\u2019]*"), "i");
-      var walk = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null);
-      var node;
-      while ((node = walk.nextNode())) {
-        var m = loose.exec(node.nodeValue);
-        var i = m ? m.index : -1;
-        if (i === -1) continue;
-        word = m[0];
-        var after = node.splitText(i);
-        after.splitText(word.length);
-        lit = document.createElement("mark");
-        lit.className = "find-hit";
-        lit.appendChild(after.cloneNode(true));
-        after.parentNode.replaceChild(lit, after);
-        break;
+    function land() {
+      // Reveal the existing content before trying to scroll to it.
+      var abstract = target.closest(".pub-abstract");
+      if (abstract && abstract.hidden) {
+        var owner = document.querySelector('button[aria-controls="' + abstract.id + '"]');
+        if (owner) owner.click();
+        else abstract.hidden = false;
       }
+      var linkBlock = target.closest(".links-block");
+      if (linkBlock && target.closest(".item[hidden]")) {
+        var more = linkBlock.querySelector('.links-more[aria-expanded="false"]');
+        if (more) more.click();
+      }
+      var photo = target.closest(".gallery-item");
+      if (photo) photo.classList.add("is-active");
+      var word = fold(find).split(/\s+/)[0] || "";
+      if (word) {
+        var walk = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null), node;
+        while ((node = walk.nextNode())) {
+          if (node.parentElement.closest('mjx-container, script, style, [aria-hidden="true"]')) continue;
+          var matches = matchText(node.nodeValue, word), match = matches[0];
+          if (!match) continue;
+          // Never insert markup into source TeX delimiters.
+          var math = /\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|\$\$[\s\S]*?\$\$|\$[^$\n]+\$/g;
+          var part, insideMath = false;
+          while ((part = math.exec(node.nodeValue))) {
+            if (match.start >= part.index && match.start < part.index + part[0].length) insideMath = true;
+          }
+          if (insideMath) continue;
+          var after = node.splitText(match.start);
+          after.splitText(match.end - match.start);
+          lit = document.createElement("mark");
+          lit.className = "find-hit";
+          lit.appendChild(after.cloneNode(true));
+          after.parentNode.replaceChild(lit, after);
+          break;
+        }
+      }
+      window.requestAnimationFrame(function () {
+        var to = photo || lit || target;
+        var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        to.scrollIntoView({ block: "center", behavior: calm ? "auto" : "smooth" });
+        var focusTarget = photo || target;
+        if (!focusTarget.hasAttribute("tabindex")) focusTarget.setAttribute("tabindex", "-1");
+        focusTarget.focus({ preventScroll: true });
+        if (lit) { lit.classList.add("lit"); armTheFade(lit); }
+      });
     }
-    var to = lit || target;
-    // let the page settle (fonts, sticky bars) before scrolling to it
-    window.setTimeout(function () {
-      to.scrollIntoView({ block: "center", behavior: "smooth" });
-      if (lit) {
-        lit.classList.add("lit");
-        window.setTimeout(function () { lit.classList.remove("lit"); }, 2200);
-        armTheFade(lit);
-      }
-    }, 120);
+    function readyToLand() {
+      var waits = [];
+      if (document.fonts) waits.push(document.fonts.ready);
+      if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) waits.push(window.MathJax.startup.promise);
+      Promise.all(waits).then(land, land);
+    }
+    // script.js first creates any More/Less controls needed to reveal the match.
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", readyToLand, { once: true });
+    else readyToLand();
 
     // THE HIGHLIGHT DOES NOT STAY. It goes after six seconds, or at once if
     // the reader clicks, taps or presses a key. It fades first, then the
@@ -791,6 +810,15 @@
       var items = scope.querySelectorAll("li[data-cats]");
       var buttons = row.querySelectorAll("[data-filter]");
       if (!buttons.length || !items.length) return;
+      // EDIT: data-cats on each item drives these existing counts automatically.
+      for (var bc = 0; bc < buttons.length; bc++) {
+        var category = buttons[bc].getAttribute("data-filter");
+        var count = Array.prototype.filter.call(items, function (item) {
+          return category === "all" || (" " + item.getAttribute("data-cats") + " ").indexOf(" " + category + " ") > -1;
+        }).length;
+        var countLabel = buttons[bc].querySelector(".blog-count");
+        if (countLabel) countLabel.textContent = "(" + count + ")";
+      }
 
       function show(cat) {
         for (var i = 0; i < items.length; i++) {
@@ -857,8 +885,71 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(refitRows);
   }
 
+  /* EDIT: Blog Last Page buttons are optional return controls, not a fixed
+     destination. Keep their hidden attributes in the HTML. Show them only
+     when a previous page is known and browser Back can return there. */
+  (function () {
+    var buttons = document.querySelectorAll("button[data-last-page]");
+    if (!buttons.length) return;
+    var separators = document.querySelectorAll("[data-last-page-separator]");
+    var available = false;
+
+    function previousUrl() {
+      // Where supported, the navigation history gives the actual preceding
+      // entry, including after reload or Back/Forward restoration.
+      var navigation = window.navigation;
+      if (navigation && navigation.currentEntry && typeof navigation.entries === "function") {
+        var entries = navigation.entries();
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].key === navigation.currentEntry.key) {
+            if (i === 0) return "";
+            if (entries[i - 1].url) return entries[i - 1].url;
+            break;
+          }
+        }
+      }
+      // With no readable history, use a genuine navigation referrer only.
+      // A reload/Back restoration can have a stale referrer, so hide then.
+      var timing = window.performance && performance.getEntriesByType ? performance.getEntriesByType("navigation")[0] : null;
+      if (history.length <= 1 || (timing && timing.type !== "navigate")) return "";
+      return document.referrer;
+    }
+
+    function pagePath(url) {
+      return url.pathname.replace(/index\.html$/, "").replace(/\/$/, "");
+    }
+
+    function refreshReturn() {
+      available = false;
+      try {
+        var previous = previousUrl();
+        if (previous && history.length > 1) {
+          var from = new URL(previous, location.href);
+          var home = new URL(ROOT + "index.html", document.baseURI);
+          var blogs = new URL(ROOT + "blogs.html", document.baseURI);
+          var current = new URL(location.href);
+          var excluded = from.origin === home.origin &&
+            (pagePath(from) === pagePath(home) || pagePath(from) === pagePath(blogs) || pagePath(from) === pagePath(current));
+          available = /^(https?:|file:)$/.test(from.protocol) && !excluded;
+        }
+      } catch (e) { /* An unavailable or invalid origin simply hides the option. */ }
+      for (var i = 0; i < buttons.length; i++) buttons[i].hidden = !available;
+      for (var j = 0; j < separators.length; j++) separators[j].hidden = !available;
+    }
+
+    for (var i = 0; i < buttons.length; i++) buttons[i].addEventListener("click", function () {
+      refreshReturn();
+      if (available) history.back();
+    });
+    window.addEventListener("pageshow", refreshReturn);
+    window.addEventListener("popstate", refreshReturn);
+    window.addEventListener("hashchange", refreshReturn);
+    if (window.navigation) window.navigation.addEventListener("currententrychange", refreshReturn);
+    refreshReturn();
+  }());
+
   /* -----------------------------------------------------------------------
-     8  A POST'S TWO BUTTONS (blog posts only), in <div class="post-tools">
+     8  PAGE TOOLS (shared by regular pages and blog posts), in <div class="post-tools">
      at the foot of each post. The first returns to the top and appears once
      the reader is 500px down. The second opens the contents: it is an
      ordinary .tb-btn with aria-controls, so block 2 above already opens and
@@ -868,16 +959,24 @@
      -------------------------------------------------------------------- */
   (function () {
     var tools = document.querySelector("[data-post-tools]");
-    if (!tools) return;                       // every page that is not a post
+    if (!tools) return;                       // pages without the shared dock
+
+    function scrollBehavior() {
+      return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    }
 
     /* ---- back to the top ---- */
     var up = document.getElementById("postTop");
     if (up) {
-      var look = function () { up.classList.toggle("is-on", window.scrollY > 500); };
+      var look = function () {
+        var visible = window.scrollY > 500;
+        up.classList.toggle("is-on", visible);
+        if (tools.classList.contains("scroll-tools")) tools.hidden = !visible;
+      };
       window.addEventListener("scroll", look, { passive: true });
       look();
       up.addEventListener("click", function () {
-        try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+        try { window.scrollTo({ top: 0, behavior: scrollBehavior() }); }
         catch (e) { window.scrollTo(0, 0); }  // an older browser: no gliding
         var main = document.getElementById("main");
         if (main) main.focus({ preventScroll: true });
@@ -887,17 +986,28 @@
     /* ---- the contents ---- */
     var btn = document.getElementById("postTocBtn");
     var panel = document.getElementById("postTocPanel");
-    var body = document.querySelector(".post-body");
+    var body = document.querySelector(".post-body") || document.querySelector("main");
     if (!btn || !panel) return;
 
     var list = panel.querySelector(".post-toc-list");
+    var isPost = body && body.classList.contains("post-body");
+    // The regular-page menu follows its visible title automatically.
+    // Home uses its navigation name; individual pieces retain "Contents".
+    if (!isPost) {
+      var label = panel.querySelector(".theme-picker-label");
+      var title = document.querySelector("main h1");
+      if (label && title) {
+        label.textContent = document.querySelector(".home-main") ? "Home" : title.textContent.trim();
+        label.classList.add("post-toc-title");
+      }
+    }
     var heads = body ? body.querySelectorAll("h2, h3") : [];
 
     if (!heads.length) {
       if (list) list.parentNode.removeChild(list);
       var none = document.createElement("p");
       none.className = "post-toc-none";
-      none.textContent = "This piece has no sections yet.";
+      none.textContent = body && body.classList.contains("post-body") ? "This piece has no sections yet." : "This page has no separate sections.";
       panel.appendChild(none);
       return;
     }
@@ -909,6 +1019,9 @@
         while (document.getElementById(slug)) { slug += "-x"; }
         h.id = slug;
       }
+      // Preserve subsection IDs for existing links, but list only main
+      // sections on regular pages. Blog contents retain both levels.
+      if (!isPost && h.tagName !== "H2") continue;
       var li = document.createElement("li");
       if (h.tagName === "H3") li.className = "is-sub";
       var a = document.createElement("a");
@@ -927,10 +1040,13 @@
       panel.hidden = true;
       btn.setAttribute("aria-expanded", "false");
       if (!target) return;
-      try { target.scrollIntoView({ behavior: "smooth", block: "start" }); }
+      try { target.scrollIntoView({ behavior: scrollBehavior(), block: "start" }); }
       catch (e2) { target.scrollIntoView(); }
       // the address now points at that section, so the reader can copy a link
-      if (history.replaceState) history.replaceState(null, "", a.getAttribute("href"));
+      // Keep the missing URL on 404 pages, whose <base> points at the root.
+      if (history.replaceState) history.replaceState(null, "", location.pathname + location.search + a.getAttribute("href"));
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
     });
   }());
 

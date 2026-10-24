@@ -1,30 +1,8 @@
-/* =========================================================================
-   Deep H. Makadiya — THE SECOND SET OF PAGES
-   Noticeboard, Bio, Photos, News & Updates, Blogs, Useful Links, blog posts.
+/* Shared page components: reading column, top bar, popovers, headings,
+   biography, posts, news, tags and responsive layout. Load after styles.css;
+   simple.css contains the final site-wide refinements and mobile sidebar.
+   Keep palette/typeface variables in styles.css rather than hard-coding colours. */
 
-   No sidebar: a bar across the top and one narrow column under it. Loaded
-   AFTER styles.css, using only its colours, typefaces and dark mode. The five
-   styles belong to the sidebar pages and are deliberately not applied here.
-
-   CONTENTS
-     1  THE PAGE
-     2  THE TOP BAR
-     3  THE THREE MENUS
-     4  DASHBOARD
-     5  BIO
-     6  BLOGS
-     7  PHOTOS AND NEWS
-     8  RESPONSIVE (last, on purpose)
-
-   RULE: every class here must begin "pg-" or "tb-" so it cannot collide with
-   the sidebar pages. The one exception is the appearance menu, which reuses
-   the sidebar's .modes, .swatches and .fonts so script.js drives both sets
-   with one piece of code.
-   ========================================================================= */
-
-/* =========================================================================
-   1  THE PAGE
-   ========================================================================= */
 body.pg{
   background:var(--cream);
   color:var(--ink);
@@ -35,14 +13,12 @@ body.pg{
 /* The single column. Narrower than the sidebar pages' column: with no
    sidebar beside it, a wide measure would be tiring to read. */
 .pg-main{ display:block; padding:2.6rem 1.5rem 0; min-width:0; }
-/* The Site Guide and the 404 carry no bar, so their text starts lower down. */
+/* Long-form posts and the error page retain their existing extra top spacing. */
 .pg-main.pg-plain{ padding-top:3.4rem; }
 .pg-wrap{ max-width:46rem; margin:0 auto; min-width:0; }
 
 .pg-head{ margin:0 0 1.8rem; }
-/* The pages with the top bar carry no tagline, so a hairline separates the
-   head of the page from the first section instead. ":not(.pg-plain)" picks
-   them out, because only the site map and 404 carry .pg-plain on <main>. */
+/* Page headings use a title, a lede and the existing separating hairline. */
 .pg-main:not(.pg-plain) .pg-head{ margin:0 0 2rem; }
 .pg-main:not(.pg-plain) .pg-head h1{ margin:0 0 1.15rem; }
 .pg-main:not(.pg-plain) .pg-head::after{
@@ -178,15 +154,6 @@ body.pg{
 .tb-name{
   flex:none; font-family:var(--font-head); font-weight:700; font-size:1rem;
   color:var(--ink); text-decoration:none; white-space:nowrap;
-}
-/* The page's own name, shown in the bar INSTEAD of his on a narrow screen —
-   see the RESPONSIVE section at the end. A plain span, not a link, since it
-   names the page you are already on. It may shrink to an ellipsis rather than
-   push the tool buttons off a small screen. */
-.tb-page-name{
-  display:none; min-width:0; font-family:var(--font-head); font-weight:700;
-  font-size:1rem; color:var(--ink); white-space:nowrap;
-  overflow:hidden; text-overflow:ellipsis;
 }
 @media (hover: hover){ .tb-name:hover{ color:var(--accent); } }
 
@@ -588,22 +555,8 @@ so they need nothing here beyond a little more room. */
    8  RESPONSIVE — LAST IN THE FILE ON PURPOSE
    ========================================================================= */
 @media (max-width:860px){
-  /* THE BAR SHOWS THE PAGE'S NAME instead of his, because the page links are
-     behind the menu button here. The title at the top of the page is then
-     moved off screen, not deleted, so search and screen readers still read
-     it. Only pages carrying a .tb-page-name are affected. */
-  .tb-page-name{ display:block; }
-  .tb-page-name + .tb-name{ display:none; }
-  .pg-main:not(.pg-plain) .pg-head > h1,
-  .pg-main:not(.pg-plain) .pg-head > .pg-kicker{
-    position:absolute; width:1px; height:1px; margin:-1px; padding:0;
-    overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
-  }
-  /* no hairline either: with the title gone there is nothing above the line
-     for it to separate */
-  .pg-main:not(.pg-plain) .pg-head::after{ display:none; }
-  .pg-main:not(.pg-plain) .pg-head{ margin:0; }
-  /* with no hairline here, the Biography photo does not need the extra room */
+  /* Mobile titles remain in the content; simple.js condenses the brand on scroll. */
+  /* Preserve the compact Biography hero spacing on narrow screens. */
   .bio-hero{ margin-top:0; }
 
   .tb-inner{ padding:.5rem 1rem; gap:.6rem; flex-wrap:wrap; }
