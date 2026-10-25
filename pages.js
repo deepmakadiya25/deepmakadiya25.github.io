@@ -25,12 +25,21 @@
   function setOpen(btn, open) {
     var panel = panelOf(btn);
     if (!panel) return;
+    var isSearch = panel.classList.contains("pg-search");
+    var returnFocus = panel.contains(document.activeElement);
+    if (isSearch && open && panel.hidden) {
+      panel.dataset.returnScrollX = String(window.scrollX);
+      panel.dataset.returnScrollY = String(window.scrollY);
+      btn.classList.remove("search-return-focus");
+    }
     btn.setAttribute("aria-expanded", open ? "true" : "false");
     panel.hidden = !open;
-    if (!open && panel.contains(document.activeElement)) btn.focus();
+    // Search restores focus after simple.js has removed the background's inert
+    // state. Focusing a hidden/inert owner here can move the page or fail.
+    if (!open && returnFocus && !isSearch) btn.focus({ preventScroll: true });
     if (open) {
       var field = panel.querySelector("input");
-      if (field) { field.focus(); field.select(); }
+      if (field) { field.focus({ preventScroll: true }); field.select(); }
     }
   }
 
@@ -41,6 +50,12 @@
   }
 
   for (var t = 0; t < toolButtons.length; t++) {
+    toolButtons[t].addEventListener("pointerdown", function (e) {
+      var panel = panelOf(this);
+      // Opening search goes straight to its input. Avoid the browser's
+      // intervening focus/scroll to the sticky header button itself.
+      if (panel && panel.classList.contains("pg-search") && panel.hidden) e.preventDefault();
+    });
     toolButtons[t].addEventListener("click", function (e) {
       e.stopPropagation();
       var open = this.getAttribute("aria-expanded") !== "true";
@@ -146,6 +161,7 @@
     { file: "announcements.html",            name: "Important Announcements" },
     { file: "blogs.html",                    name: "Blogs" },
     { file: "useful-links.html",             name: "Useful Links" },
+    { file: "site-guide.html",               name: "Site Guide" },
     { file: "blogs/opportunities-in-higher-mathematics-in-india.html", name: "Opportunities in Higher Mathematics in India" },
     { file: "blogs/about-my-name.html",      name: "About My Name" },
     { file: "blogs/how-i-ended-up-in-mathematics.html", name: "How I Ended Up in Mathematics" },
@@ -583,12 +599,23 @@
 
   /* ---- picking a chip -------------------------------------------------- */
   if (tagRow) {
+    // A pointer press on the fold arrow must not transfer focus away from the
+    // input and dismiss a touch keyboard. Keyboard activation keeps the arrow
+    // focusable; other empty areas retain their normal behaviour.
+    var keepFieldFocus = false;
+    tagRow.addEventListener("pointerdown", function (e) {
+      keepFieldFocus = !!e.target.closest(".pg-tags-fold") && document.activeElement === field;
+      if (keepFieldFocus) e.preventDefault();
+    });
+    tagRow.addEventListener("pointercancel", function () { keepFieldFocus = false; });
     tagRow.addEventListener("click", function (e) {
       var fold = e.target.closest(".pg-tags-fold");
       if (fold) {
         e.stopPropagation();
         folded = !folded;
         fitChips();
+        if (keepFieldFocus) field.focus({ preventScroll: true });
+        keepFieldFocus = false;
         return;
       }
       var btn = e.target.closest(".pg-tag");
@@ -600,7 +627,7 @@
       var id = btn.getAttribute("data-tag");
       var i = chosen.indexOf(id);
       if (i > -1) { chosen.splice(i, 1); } else { chosen.push(id); }
-      field.focus();
+      field.focus({ preventScroll: true });
       run();
     });
   }
@@ -624,9 +651,10 @@
       if (e.key === "ArrowDown") { e.preventDefault(); movePick(1); }
       else if (e.key === "ArrowUp") { e.preventDefault(); movePick(-1); }
       else if (e.key === "Enter") {
+        e.preventDefault(); // Open only a result explicitly selected with an arrow key.
         var links = results ? results.querySelectorAll("a") : [];
-        var go = links[selected > -1 ? selected : 0];
-        if (go) { e.preventDefault(); go.click(); }
+        var go = selected > -1 ? links[selected] : null;
+        if (go) go.click();
       }
     });
   }
@@ -1012,6 +1040,7 @@
       return;
     }
 
+    var tocEntries = [];
     for (var i = 0; i < heads.length; i++) {
       var h = heads[i], text = (h.textContent || "").trim();
       if (!h.id) {
@@ -1029,7 +1058,37 @@
       a.textContent = text;
       li.appendChild(a);
       list.appendChild(li);
+      tocEntries.push({ heading: h, link: a });
     }
+
+    // Mark the section at the reading position without changing the address.
+    // Regular pages track main headings; blog posts also track subsections.
+    function markCurrentSection() {
+      if (!tocEntries.length) return;
+      var bar = document.querySelector("header.tb");
+      var readingLine = (bar ? bar.getBoundingClientRect().bottom : 0) + 24;
+      var visible = tocEntries.filter(function (entry) { return entry.heading.getClientRects().length; });
+      if (!visible.length) return;
+      var current = visible[0];
+      for (var j = 0; j < visible.length; j++) {
+        if (visible[j].heading.getBoundingClientRect().top <= readingLine) current = visible[j];
+      }
+      if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = visible[visible.length - 1];
+      tocEntries.forEach(function (entry) {
+        if (entry === current) entry.link.setAttribute("aria-current", "location");
+        else entry.link.removeAttribute("aria-current");
+      });
+    }
+    var tocFrame = 0;
+    function scheduleCurrentSection() {
+      if (tocFrame) return;
+      tocFrame = requestAnimationFrame(function () { tocFrame = 0; markCurrentSection(); });
+    }
+    window.addEventListener("scroll", scheduleCurrentSection, { passive: true });
+    window.addEventListener("resize", scheduleCurrentSection);
+    if (window.ResizeObserver && body) new ResizeObserver(scheduleCurrentSection).observe(body);
+    if (document.fonts) document.fonts.ready.then(scheduleCurrentSection);
+    markCurrentSection();
 
     // picking a line closes the panel and goes to that heading
     list.addEventListener("click", function (e) {

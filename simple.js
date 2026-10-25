@@ -104,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heading) new ResizeObserver(scheduleBrand).observe(heading);
   if (document.fonts) document.fonts.ready.then(scheduleBrand);
   updateBrand();
+  // DM remains a Home link; the adjacent page title is a separate top action.
+  const pageTop = brand.querySelector('[data-page-top]');
+  if (pageTop) pageTop.addEventListener('click', () => {
+    closeNav();
+    window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    const main = document.getElementById('main');
+    if (main) main.focus({preventScroll:true});
+  });
 
   // Keep the error page's skip link on its document despite its root-relative base.
   const errorMain = document.querySelector('main[data-page="404"]');
@@ -119,8 +127,31 @@ document.addEventListener('DOMContentLoaded', () => {
     searchWasOpen = searchIsOpen;
     if (searchIsOpen) closeNav();
     refreshInert();
-    if (search.hidden) searchButton.focus();
+    if (search.hidden) {
+      document.querySelectorAll('[aria-controls="searchPanel"][aria-expanded]').forEach(button => button.setAttribute('aria-expanded', 'false'));
+      searchButton.classList.add('search-return-focus');
+      searchButton.focus({preventScroll:true});
+      const x = Number(search.dataset.returnScrollX);
+      const y = Number(search.dataset.returnScrollY);
+      const restorePosition = () => {
+        if (!search.hidden || document.activeElement !== searchButton || !Number.isFinite(x) || !Number.isFinite(y)) return;
+        const previous = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(x, y);
+        document.documentElement.style.scrollBehavior = previous;
+      };
+      restorePosition();
+      // A second frame covers delayed focus/viewport adjustments on dismissal.
+      requestAnimationFrame(restorePosition);
+    }
   }).observe(search, {attributes:true, attributeFilter:['hidden']});
+  // Dismissal clears the old open/focus circle. A deliberate new keyboard or
+  // pointer interaction restores the normal visible focus and hover styles.
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Tab') searchButton.classList.remove('search-return-focus');
+  }, true);
+  searchButton.addEventListener('pointerdown', () => searchButton.classList.remove('search-return-focus'));
+  searchButton.addEventListener('blur', () => searchButton.classList.remove('search-return-focus'));
   if (lightbox) new MutationObserver(() => {
     if (!lightbox.hidden) closeNav();
     refreshInert();

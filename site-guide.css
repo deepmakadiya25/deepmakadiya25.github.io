@@ -1,0 +1,39 @@
+/* Site Guide only. Colours and type use the existing site tokens.
+   EDIT: Grouped links and wording are in site-guide.html. Motion lives in
+   site-guide.js; keep the shared stylesheets and navigation unchanged. */
+#site-guide-content{--sg-paper:var(--cream);--sg-menu:var(--cream-2);--sg-ink:var(--ink);--sg-muted:var(--muted);--sg-line:var(--line);--sg-accent:var(--accent);--sg-soft:var(--accent-soft);--sg-head:var(--font-head);--sg-body:var(--font-body);--sg-drawing:#352c25;--sg-skin:#e4b18d}
+#site-guide-content .sg-welcome,#site-guide-content .sg-category{padding:0;border:0}
+#site-guide-content .sg-welcome{display:flex;align-items:center;gap:2rem;margin-bottom:2.4rem}
+#site-guide-content .sg-welcome>div:last-child{min-width:0;flex:1}
+#site-guide-content .sg-dialogue{position:relative;background:var(--sg-menu);border:1px solid var(--sg-line);border-radius:10px;padding:1.2rem 1.4rem;transform-origin:left center}
+#site-guide-content .sg-dialogue:before{content:"";position:absolute;left:-9px;top:calc(50% - 10px);width:16px;height:16px;background:var(--sg-menu);border-left:1px solid var(--sg-line);border-bottom:1px solid var(--sg-line);transform:rotate(45deg)}
+#site-guide-content .sg-welcome p{margin-bottom:.7rem}
+#site-guide-content .sg-welcome p:last-child{margin:0}
+#site-guide-content .sg-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;align-items:start}
+#site-guide-content .sg-category-column{display:flex;flex-direction:column;gap:1.2rem;min-width:0}
+#site-guide-content .sg-category{min-width:0;padding:1.2rem;background:var(--cream-2);border:1px solid var(--line);border-radius:8px}
+#site-guide-content .sg-category h3{display:flex;align-items:flex-start;gap:.5rem;font-size:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--line);margin:0 0 .85rem}
+#site-guide-content .sg-category h3 svg{width:18px;height:18px;margin-top:3px;color:var(--sg-accent)}
+#site-guide-content .sg-category ul{list-style:none;padding:0;margin:0}
+#site-guide-content .sg-category li{position:relative;padding:0 0 .7rem;margin:0;line-height:1.7}
+#site-guide-content .sg-category li+li{padding-top:.7rem;border-top:1px solid var(--line)}
+#site-guide-content .sg-category li:last-child{padding-bottom:0}
+#site-guide-content .sg-category li>a{font-size:.9rem;font-weight:600}
+#site-guide-content .sg-category li>p{font-size:.82rem;color:var(--sg-muted);margin:.2rem 0 0}
+#site-guide-content .sg-feature{margin-bottom:1.65rem}
+#site-guide-content .sg-feature:last-child{margin-bottom:0}
+#site-guide-content h3{font-family:var(--sg-body);font-weight:600;font-size:1.06rem;line-height:1.45;margin:0 0 .55rem;color:var(--sg-ink)}
+#site-guide-content .sg-feature p{margin-bottom:.65rem}
+#site-guide-content .sg-small{font-size:.85rem;color:var(--sg-muted)}
+#site-guide-content kbd{font:inherit;font-size:.9em;background:var(--sg-menu);border:1px solid var(--sg-line);padding:1px 6px;border-radius:3px;white-space:nowrap;color:var(--sg-ink)}
+/* The portrait itself is the replay control; keep its hit area generous. */
+#site-guide-content .sg-cartoon{appearance:none;display:block;width:154px;height:168px;position:relative;flex:0 0 154px;padding:0;background:transparent;border:0;border-radius:12px;cursor:pointer}
+#site-guide-content .sg-portrait{display:block;width:100%;height:100%;overflow:visible}
+#site-guide-content .sg-arm{transform-box:view-box;transform-origin:142px 142px;transform:rotate(8deg)}
+#site-guide-content .sg-face{transform-box:view-box;transform-origin:84px 113px;transform:rotate(-2deg)}
+#site-guide-content .sg-eye{transform-box:fill-box;transform-origin:center}
+#site-guide-content .sg-cartoon:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+#site-guide-content .sg-cartoon:disabled{cursor:default;opacity:1}
+@media(max-width:680px){#site-guide-content .sg-categories{grid-template-columns:1fr;gap:1.2rem}#site-guide-content .sg-category h3{font-size:1.02rem}#site-guide-content .sg-category li>a{font-size:.95rem}#site-guide-content .sg-category li>p{font-size:.87rem}}
+@media(max-width:560px){#site-guide-content .sg-welcome{flex-direction:column;align-items:flex-start;gap:1.1rem}#site-guide-content .sg-cartoon{width:140px;flex-basis:auto;height:153px;margin-left:.4rem}#site-guide-content .sg-greeting{width:100%}#site-guide-content .sg-dialogue{padding:1.1rem 1.2rem;transform-origin:left top}#site-guide-content .sg-dialogue:before{left:55px;top:-9px;border-bottom:0;border-top:1px solid var(--sg-line)}}
+@media(prefers-reduced-motion:reduce){#site-guide-content .sg-arm,#site-guide-content .sg-face,#site-guide-content .sg-eye,#site-guide-content .sg-dialogue{animation:none!important;transition:none!important}}

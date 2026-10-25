@@ -234,3 +234,23 @@ button,input,select{font-family:inherit}
 /* Subsection headings use the already loaded Lora face, slightly lighter than
    the Playfair Display section headings. Preserve their sizes and spacing. */
 .pg-main h3{font-family:var(--font-body);font-weight:600}
+
+/* Footer help uses the same accent and hover colours as other site links. */
+.site-guide-help a{color:var(--accent)}
+
+/* Separate compact-brand actions keep the existing spacing and typography. */
+.tb-name a{font:inherit;color:inherit;text-decoration:none;min-width:0}
+.tb-name .tb-brand-title{appearance:none;border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit;min-width:0;cursor:pointer}
+.tb-name a:focus-visible,.tb-name button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+@media(hover:hover){.tb-name:hover{color:var(--ink)}.tb-name a:hover,.tb-name .tb-brand-title:hover{color:var(--accent)}}
+@media(max-width:1100px){.tb-name{overflow:visible}}
+
+/* The 404 search action keeps the existing destination-button style. */
+.error-search{display:inline-flex;align-items:center;gap:.5rem;background:transparent;font-family:inherit;font-size:.92rem;font-weight:600;line-height:inherit;cursor:pointer}
+.error-search svg{width:1em;height:1em;flex:none}
+
+/* Reading-position feedback does not change the size of the contents menu. */
+.post-toc-list a[aria-current="location"]{background:var(--nav-hover);color:var(--tab-ink-active);font-weight:600}
+
+/* Suppress only the stale search-return circle, until the next interaction. */
+#searchButton.search-return-focus:not([aria-expanded="true"]){outline:none;border-color:transparent;color:var(--ink)}
